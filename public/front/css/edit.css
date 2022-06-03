@@ -1,0 +1,30 @@
+.div_phan_trang
+{
+    width:100%;
+    text-align:center;
+    height:50px;
+}
+.div_trang
+{
+    width:80px !important;
+    padding:10px 13px;
+    text-align:center;
+    background: #002147;
+    margin:2px;
+
+}
+.div_trang a
+{
+    color: white;
+    text-decoration:none;
+}
+
+.pagination-active-a {
+    background: #fdc800;
+}
+
+#view-order {
+    background-image: url('../img/background.jpg');
+    background-size: cover;
+}
+
