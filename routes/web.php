@@ -262,7 +262,7 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     //end user
 
     //teacher (doanh)
-
+    //helo
     Route::get('/teacher','TeacherController@index')->name('route_BackEnd_teacher_list');
     Route::get('/teacher/add','UserController@formAdd')->name('route_BackEnd_user_add');
 
