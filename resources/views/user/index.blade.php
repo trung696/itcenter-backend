@@ -71,11 +71,13 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
+                            <!-- <input type="text" name="search_ten_nguoi_dung" class="form-control" placeholder="Tên người dùng"
+                                   value="@isset($extParams['search_ten_nguoi_dung']){{$extParams['search_ten_nguoi_dung']}}@endisset"> -->
                             <input type="text" name="search_ten_nguoi_dung" class="form-control" placeholder="Tên người dùng"
-                                   value="@isset($extParams['search_ten_nguoi_dung']){{$extParams['search_ten_nguoi_dung']}}@endisset">
+                                   value="">       
                         </div>
                     </div>
-                    {{--                    @endif--}}
+          
                     <div class="clearfix"></div>
                     <div class="col-xs-12" style="text-align:center;">
                         <div class="form-group">
@@ -84,8 +86,9 @@
                             </button>
                             <a href="{{ url('/user') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_NguoiDung_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
+                            <a href="{{route('route_BackEnd_user_add')}}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                                 Add new</a>
+
                         </div>
                     </div>
                 </div>
@@ -132,16 +135,12 @@
                 </div>
             @endif
         </div>
-        @if(count($list)<=0)
-            <p class="alert alert-warning">
-                Không có dữ liệu phù hợp
-            </p>
-        @endif
+        
         <div class="box-body table-responsive no-padding">
-            <form action="" method="post">
+            <form action="{{route('route_BackEnd_user_delete_checkbox')}}" method="get">
                 @csrf
                 <span class="pull-right">Tổng số bản ghi tìm thấy: <span
-                        style="font-size: 15px;font-weight: bold;">{{ $list->count() }}</span></span>
+                        style="font-size: 15px;font-weight: bold;"></span></span>
                 <div class="clearfix"></div>
                 <div class="double-scroll">
                     <table class="table table-bordered">
@@ -150,36 +149,47 @@
                                 #ID
                             </th>
                             <th class="text-center">Tên người dùng</th>
-                            <th class="text-center">
-                                Email
-                            </th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Địa chỉ</th>
+                            <th class="text-center">Số điện thoại</th>
                             <th class="text-center">Quyền</th>
                             <th class="text-center">Trạng thái</th>
+                            <th class="text-center">Hành động</th>
+
                         </tr>
 
-                        @foreach($list as  $item)
-
+                        @foreach($listUser as  $userItem)
+                            @php 
+                             $roleOfUser = $userItem->roles
+                            @endphp
                             <tr>
-                                {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
-                                <td class="text-center">{{$item->id}}</td>
-                                <td class="text-center"><a style="color:#333333;font-weight: bold;" href="{{ route('route_BackEnd_NguoiDung_Detail',['id'=> $item->id ]) }}" style="white-space:unset;text-align: justify;"> {{$item->name}} <i class="fa fa-edit"></i></a></td>
-                                <td class="text-center">{{$item->email}}</td>
+                                <td><input type="checkbox" name="idUser[]" class="chk_hv" id="" value="{{$userItem->id}}"> </td>
+                                <td class="text-center"><a style="color:#333333;font-weight: bold;" href="{{ route('route_BackEnd_NguoiDung_Detail',['id'=> $userItem->id ]) }}" style="white-space:unset;text-align: justify;"> {{$userItem->name}} <i class="fa fa-edit"></i></a></td>
+                                <td class="text-center">{{$userItem->email}}</td>
+                                <td class="text-center">{{$userItem->address}}</td>
+                                <td class="text-center">{{$userItem->phone}}</td>
                                 <td class="text-center">
-                                    {{ $quyens[$item->level]  }}
+                                    @foreach($roleOfUser as $role)
+                                     {{$role->name}} @if(count($roleOfUser) > 1)  - @endif    
+                                    @endforeach
                                 </td>
                                 <td width="50px" class="text-center" style="background-color:
-                                @if($item->status == 0)
+                                @if($userItem->status == 0)
                                     red
                                 @else
                                     green
                                 @endif;
                                     color: white">
-                                    @if($item->status == 0)
-                                        Khóa
+                                    @if($userItem->status == 0)
+                                       Chưa kích hoạt
                                     @else
-                                        Mở
+                                        Kích hoạt
                                     @endif
 
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{route('route_BackEnd_user_edit',['id'=>$userItem->id])}}" title="Sửa"><i class="fa fa-edit"></i></a>
+                                    <a class="delete_user" data-url="{{route('route_BackEnd_user_delete',['id'=>$userItem->id])}}" title="Xoa"><i class="fas fa-remove"></i></a>
                                 </td>
 
                             </tr>
@@ -187,15 +197,65 @@
 
                     </table>
                 </div>
+                <input  class="btn btn-danger btn-sm" placeholder="Xoas" type=submit> 
             </form>
         </div>
         <br>
         <div class="text-center">
-            {{  $list->appends($extParams)->links() }}
         </div>
         <index-cs ref="index_cs"></index-cs>
     </section>
 
+@endsection
+@section('script')
+<script>
+    function actionDelete(event){
+    event.preventDefault();
+    // lấy url : http://127.0.0.1:8000/admin/products/delete/16
+    let urlRequest = $(this).data('url');
+    //khi ấn vào thẻ
+    let that = $(this);
+    Swal.fire({
+        title: 'Bạn có chắc chắn xóa?',
+        text: "Bạn sẽ không thể hoàn tác lại điều này!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đồng ý!'
+    }).then((result) => {
+    if (result.value) {
+        //gọi ajax
+        $.ajax({
+            //cấu hình của ajax gồm
+            type: 'GET',
+            url: urlRequest,
+
+            success: function(data){
+                console.log(data);
+                if(data.code == 200){
+                    that.parent().parent().remove();
+                    Swal.fire(
+                        'Xóa!',
+                        'Đã xóa thành công',
+                        'success'
+                      )
+                }
+              },
+              error: function(){
+
+              }
+        })
+
+    }
+    })
+}
+
+$(function(){
+    $(document).on('click','.delete_user',actionDelete);
+})
+</script>
+<script src="{{ asset('js/sweetAlert.js') }} "></script>
 @endsection
 
 
