@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session as FacadesSession;
 use Session;
 
 class LoginController extends Controller
 {
     public function getLogin() {
+        // echo bcrypt(123456789);
         return view('auth/login');
     }
     public function postLogin(Request $request) {
@@ -38,6 +40,7 @@ class LoginController extends Controller
 
             if( Auth::attempt(['email' => $email, 'password' =>$password])) {
                 // Kiểm tra đúng email và mật khẩu sẽ chuyển trang
+                
                 return redirect('user');
             } else {
                 // Kiểm tra không đúng sẽ hiển thị thông báo lỗi

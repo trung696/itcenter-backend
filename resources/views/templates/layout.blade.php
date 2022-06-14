@@ -369,6 +369,22 @@
                     </ul>
                 </li>
 
+                <li class=" active menu-open ">
+                    <a href="#"><i class="fa fa-users"></i> <span>Role</span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('route_BackEnd_role_list') }}"><i
+                                        class="fa fa-circle-o"></i>Danh sách Role</a></li>
+                    </ul>
+                </li>
+
+                <li class=" active menu-open ">
+                    <a href="#"><i class="fa fa-users"></i> <span>Permission</span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('route_BackEnd_permission_add') }}"><i
+                                        class="fa fa-circle-o"></i>Thêm Permission</a></li>
+                    </ul>
+                </li>
+
 
 {{--                <li class=" active menu-open ">--}}
 {{--                    </a>--}}

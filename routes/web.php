@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    bcrypt(123456789);
     return view('welcome');
 });
 //trang chủ
@@ -46,7 +47,8 @@ Route::get('/', 'HocsinhController@index');
 Route::get('/admin/home', 'HocsinhController@index');
 
 Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
-Route::match(['get', 'post'], '/user/add', 'UserController@add')->name('route_BackEnd_NguoiDung_Add');
+
+// Route::match(['get', 'post'], '/user/add', 'UserController@add')->name('route_BackEnd_NguoiDung_Add');
 
 Route::get('/user/detail/{id}', 'UserController@detail')
     ->where('id', '[0-9]+')
@@ -232,4 +234,48 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::post('/dia-diem/update/{id}', 'DiaDiemController@updateDiaDiem')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_DiaDiem_Update');
+
+    //permission 
+    Route::get('/add_permission','PermissionController@add')
+        ->name('route_BackEnd_permission_add');
+    Route::post('/add_permission','PermissionController@store')
+        ->name('route_BackEnd_permission_store');
+
+
+    //role(doanh)   
+    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list');
+    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add');
+    Route::post('/create_role','RoleController@store')->name('route_BackEnd_role_store');
+    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit');
+    Route::post('/edit_role/{id}','RoleController@update')->name('route_BackEnd_role_update');
+    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete');
+
+    //end role(doanh)
+
+    //user(doanh)
+    Route::get('/user/add','UserController@formAdd')->name('route_BackEnd_user_add');
+    Route::post('/user/add','UserController@store')->name('route_BackEnd_user_store');
+    Route::get('/user/edit/{id}','UserController@edit')->name('route_BackEnd_user_edit');
+    Route::post('/user/edit/{id}','UserController@update')->name('route_BackEnd_user_update');
+    Route::get('/user/delete/{id}','UserController@delete')->name('route_BackEnd_user_delete');
+    Route::get('/user/deleteSelect','UserController@deleteCheckbox')->name('route_BackEnd_user_delete_checkbox');
+    //end user
+
+    //teacher (doanh)
+
+    Route::get('/teacher','TeacherController@index')->name('route_BackEnd_teacher_list');
+    Route::get('/teacher/add','UserController@formAdd')->name('route_BackEnd_user_add');
+
+    //end teachr(doanh)
+    Route::match(['get', 'post'], '/chien-dich/add', 'ChienDichController@themChienDich')
+        ->name('route_BackEnd_ChienDich_Add');
+    Route::get('/chien-dich/chi-tiet/{id}', 'ChienDichController@chitetChienDich')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_ChienDich_Detail');
+    Route::post('/chien-dich/update/{id}', 'ChienDichController@updateChienDich')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_ChienDich_Update');
+    Route::get('/chien-dich/delete/{id}', 'ChienDichController@dungChiendich')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_ChienDich_Delete');
 });
