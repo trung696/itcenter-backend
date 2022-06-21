@@ -17,10 +17,12 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password','address', 'phone','status'];
-    public function roles(){
-        return $this->belongsToMany(Role::class,'role_user','user_id','role_id');
+    protected $fillable = ['name', 'email', 'password', 'address', 'phone', 'status'];
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -28,6 +30,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'password', 'remember_token',
+    ];
+    protected $hiddenurl = [
         'password', 'remember_token',
     ];
 
