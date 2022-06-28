@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\RoleRequest;
+
+use  App\Rules\RoleUpdateUniqueRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Session;
 
-class BienBanRequest extends FormRequest
+class RoleEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,7 @@ class BienBanRequest extends FormRequest
      */
     public function authorize()
     {
-        return true ;
+        return true;
     }
 
     /**
@@ -26,8 +27,13 @@ class BienBanRequest extends FormRequest
     {
         return [
             //'tên thuộc tính' => 'quy định điều kiện'
-            'name' => 'bail|required|max:200|min:2|unique:roles',
-            'description' => 'bail|required|max:200|min:2'
+            'name' => ['bail','required','max:200','min:2', new RoleUpdateUniqueRequest],
+            'description' => [
+                'bail',
+                'required',
+                'max:200',
+                'min:2'
+            ]
         ];
     }
     //câu thông báo lỗi
@@ -42,13 +48,6 @@ class BienBanRequest extends FormRequest
             'description.required' => 'Mô tả vai trò(role) không được để trống',
             'description.max' => 'Mô tả vai trò(role) không vượt quá 200 kí tự',
             'description.min' => 'Mô tả vai trò(role) không dưới 2 kí tự',
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'name' => "Danh mục",
         ];
     }
 }

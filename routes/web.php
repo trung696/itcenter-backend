@@ -243,12 +243,12 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
 
 
     //role(doanh)   
-    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list');
-    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add');
+    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list')->middleware('can:role-list');
+    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add')->middleware('can:role-add');
     Route::post('/create_role','RoleController@store')->name('route_BackEnd_role_store');
-    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit');
+    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit')->middleware('can:role-edit');
     Route::post('/edit_role/{id}','RoleController@update')->name('route_BackEnd_role_update');
-    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete');
+    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete')->middleware('can:role-delete');
 
     //end role(doanh)
 
@@ -262,9 +262,8 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     //end user
 
     //teacher (doanh)
-    //helo
     Route::get('/teacher','TeacherController@index')->name('route_BackEnd_teacher_list');
-    Route::get('/teacher/add','UserController@formAdd')->name('route_BackEnd_user_add');
+    Route::get('/teacher/add','UserController@add')->name('route_BackEnd_user_add');
 
     //end teachr(doanh)
     Route::match(['get', 'post'], '/chien-dich/add', 'ChienDichController@themChienDich')

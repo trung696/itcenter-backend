@@ -24,7 +24,19 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+    
+        //gọi và đây để hoạt động được
+        $this->defineGateRole();
 
         //
     }
+     //Role
+     public function defineGateRole()
+     {
+         Gate::define('role-list','App\Policies\RolePolicy@view') ;
+         Gate::define('role-add','App\Policies\RolePolicy@create') ;
+         Gate::define('role-edit','App\Policies\RolePolicy@update');
+         Gate::define('role-delete','App\Policies\RolePolicy@delete') ;
+     }
+     //End Role
 }

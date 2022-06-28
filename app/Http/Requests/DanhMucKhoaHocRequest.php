@@ -37,7 +37,7 @@ class DanhMucKhoaHocRequest extends FormRequest
                 switch ($currentAction) {
                     case 'themDanhMucKhoaHoc':
                         $rules = [
-                            "ten_danh_muc" => "required",
+                            "ten_danh_muc" => "required|unique:users",
                         ];
                         break;
                     case 'update':
