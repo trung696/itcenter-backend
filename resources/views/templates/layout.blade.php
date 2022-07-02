@@ -386,6 +386,16 @@
                     </ul>
                 </li>
 
+                <li class=" active menu-open ">
+                    <a href="#"><i class="fa fa-users"></i> <span>FORM</span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('route_frontend_add') }}"><i
+                                        class="fa fa-circle-o"></i>FORM</a></li>
+                    </ul>
+                </li>
+
+                
+
 
 {{--                <li class=" active menu-open ">--}}
 {{--                    </a>--}}

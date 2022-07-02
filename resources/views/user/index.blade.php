@@ -74,10 +74,9 @@
                             <!-- <input type="text" name="search_ten_nguoi_dung" class="form-control" placeholder="Tên người dùng"
                                    value="@isset($extParams['search_ten_nguoi_dung']){{$extParams['search_ten_nguoi_dung']}}@endisset"> -->
                             <input type="text" name="search_ten_nguoi_dung" class="form-control" placeholder="Tên người dùng"
-                                   value="">       
+                                   value="">
                         </div>
                     </div>
-          
                     <div class="clearfix"></div>
                     <div class="col-xs-12" style="text-align:center;">
                         <div class="form-group">

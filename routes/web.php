@@ -263,9 +263,19 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
 
     //teacher (doanh)
     Route::get('/teacher','TeacherController@index')->name('route_BackEnd_teacher_list');
-    Route::get('/teacher/add','UserController@add')->name('route_BackEnd_user_add');
-
+    Route::get('/teacher/edit/{id}','TeacherController@edit')->name('route_BackEnd_teacher_edit');
+    Route::post('/teacher/edit/{id}','TeacherController@update')->name('route_BackEnd_teacher_update');
     //end teachr(doanh)
+
+    // Trang Client 
+    Route::prefix('client')->group(function () {
+        Route::get('/form','Client\FormContactController@add')->name('route_frontend_add');
+        Route::post('/form','Client\FormContactController@store')->name('route_frontend_store');
+
+    });
+    //End  Trang Client 
+
+
     Route::match(['get', 'post'], '/chien-dich/add', 'ChienDichController@themChienDich')
         ->name('route_BackEnd_ChienDich_Add');
     Route::get('/chien-dich/chi-tiet/{id}', 'ChienDichController@chitetChienDich')

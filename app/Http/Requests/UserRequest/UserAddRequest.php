@@ -29,7 +29,7 @@ class UserAddRequest extends FormRequest
             'email' => 'bail|required|email|unique:users',
             'password' => 'bail|required|max:50|string',
             'address' => 'bail|required|max:200|min:2',
-            'phone' => 'bail|required|numeric|phone_number|size:10',
+            'phone' => 'bail|required|numeric',
         ];
     }
     //câu thông báo lỗi
@@ -55,8 +55,7 @@ class UserAddRequest extends FormRequest
             //phone
             'phone.required' => 'Số điện thoại không được để trống',
             'phone.numeric' => 'Số điện thoại là dạng số',
-            'phone.phone_number' => 'Số điện thoại không đúng định dạng',
-            'phone.size' => 'Số điện thoại quá 10 số',
+          
         ];
     }
 }

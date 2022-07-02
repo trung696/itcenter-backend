@@ -81,8 +81,7 @@
                         </button>
                         <a href="" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                             Clear </a>
-                        <a href="" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
-                            Add new</a>
+                      
                     </div>
                 </div>
             </div>
@@ -165,9 +164,17 @@
                         <td class="text-center">{{$teacher->phone}}</td>
                         <td class="text-center">{{$teacher->address}}</td>
                         <td class="text-center">
-                           update
+                            @if($teacher->sex == config('gioi_tinh.sex.0') )
+                                Nam
+                            @else
+                                Nữ
+                            @endif
                         </td>
-                        <td class="image-clean">update<img src="" style="max-width: 50px"></td>
+                        <td class="image-clean"> @if(isset($teacher->avatar) &&  $teacher->avatar) 
+                                                <img src="{{$teacher->avatar}}" style="max-width: 50px"> 
+                                                @elseif (isset($teacher->avatar))
+                                                Update di
+                                                @endif </td>
                         <td class="text-center" style="background-color:
                                 @if($teacher->status == config('trang_thai.status.0'))
                                     red
@@ -182,8 +189,8 @@
                                     @endif
                         </td>
                         <td class="text-center">
-                            <a href="" title="Sửa"><i class="fa fa-edit"></i></a>
-                            <a href="" title="Sửa"><i class="fa fa-edit"></i></a>
+                            <a href="{{route('route_BackEnd_teacher_edit',['id' => $teacher->id ])}}" title="Sửa"><i class="fa fa-edit"></i></a>
+                            <a href="" title="Xóa"><i class="fa fa-remove"></i></a>
                         </td>
                     </tr>
                 @endforeach

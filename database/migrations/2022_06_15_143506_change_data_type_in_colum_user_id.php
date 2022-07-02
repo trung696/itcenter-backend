@@ -14,8 +14,8 @@ class ChangeDataTypeInColumUserId extends Migration
     public function up()
     {
         Schema::table('teachers', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->change();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->unsignedBigInteger('user_id')->change();
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
