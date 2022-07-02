@@ -3,16 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
-class DanhMucTaiSan extends Model
+class Teacher extends Model
 {
     //
-    protected $table = 'danh_muc_tai_san';
-    protected $fillable = ['tb1.id', 'tb1.ten_danh_muc', 'tb1.trang_thai', 'tb1.created_at', 'tb1.updated_at'];
+    //
+    //
+    protected $table = 'teacher';
+    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.address', 'tb1.email', 'tb1.phone_number', 'tb1.avatar', 'tb1.sex', 'tb1.status', 'tb1.created_at', 'tb1.updated_at'];
     public $timestamps = false;
 
     public function createStdClass()
@@ -32,10 +33,10 @@ class DanhMucTaiSan extends Model
     {
         $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable);
-        if (isset($params['search_ten_danh_muc_tai_san']) && strlen($params['search_ten_danh_muc_tai_san']) > 0) {
-            $query->where('tb1.ten_danh_muc', 'like', '%' . $params['search_ten_danh_muc_tai_san'] . '%');
+        if (isset($params['search_ngay_lap']) && strlen($params['search_ngay_lap']) > 0) {
+            $query->where('tb1.ngay_lap', 'like', '%' . $params['search_ngay_lap'] . '%');
         }
-        $list = $query->where('trang_thai', '=', 1)->paginate(10, ['tb1.id']);
+        $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }
     public function loadOne($id, $params = null)
@@ -52,23 +53,31 @@ class DanhMucTaiSan extends Model
     public function saveNew($params)
     {
         if (empty($params['user_add'])) {
-            Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
+            // Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
             Session::push('errors', 'Không xác định thông tin người cập nhật');
             return null;
         }
+        $latestBienBan = DB::table('bien_ban_ban_giao_ts')->orderBy('created_at', 'DESC')->first();
+        $soLuongBienBan = 1;
         $data =  array_merge($params['cols'], [
-            'ten_danh_muc' => $params['cols']['ten_danh_muc'],
-            //            'trang_thai' => $params['cols']['trang_thai'],
-            'trang_thai' => 1,
+            'ngay_lap' => date('Y-m-d H:i:s'),
+            'ho_ten_nguoi_giao' => $params['cols']['ho_ten_nguoi_giao'],
+            'chuc_danh_nguoi_giao' => $params['cols']['chuc_danh_nguoi_giao'],
+            'bo_phan_nguoi_giao' => $params['cols']['bo_phan_nguoi_giao'],
+            'ho_ten_nguoi_nhan' => $params['cols']['ho_ten_nguoi_nhan'],
+            'chuc_danh_nguoi_nhan' => $params['cols']['chuc_danh_nguoi_nhan'],
+            'bo_phan_nguoi_nhan' => $params['cols']['bo_phan_nguoi_nhan'],
+            'id_don_vi' => $params['cols']['id_don_vi'],
+            'so_luong_bien_ban' => $soLuongBienBan,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
         $res = DB::table($this->table)->insertGetId($data);
 
-        if (empty($res) || !is_numeric($res)) {
-            Log::error(__METHOD__ . ':: ' . $res . '-->' . json_encode($data));
-        }
+        // if (empty($res) || !is_numeric($res)) {
+        //     Log::error(__METHOD__ . ':: ' . $res . '-->' . json_encode($data));
+        // }
 
         return $res;
     }
@@ -78,7 +87,7 @@ class DanhMucTaiSan extends Model
         //        $params = ['cols'=>['col'=>'new_value'],'user_edit'=>'id'];
 
         if (empty($params['user_edit'])) {
-            Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
+            // Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
             Session::push('errors', 'Không xác định thông tin người cập nhật');
             return null;
         }
@@ -114,7 +123,7 @@ class DanhMucTaiSan extends Model
         //        $params = ['cols'=>['col'=>'new_value'],'user_edit'=>'id'];
 
         if (empty($params['user_edit'])) {
-            Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
+            // Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
             Session::push('errors', 'Không xác định thông tin người cập nhật');
             return null;
         }
@@ -146,36 +155,18 @@ class DanhMucTaiSan extends Model
             ->limit(1)
             ->update($dataUpdate);
 
-        if (empty($res) || !is_numeric($res)) {
-            Log::error(__METHOD__ . ':: ' . $res . '-->' . json_encode($dataUpdate));
-        }
+        // if (empty($res) || !is_numeric($res)) {
+        //     Log::error(__METHOD__ . ':: ' . $res . '-->' . json_encode($dataUpdate));
+        // }
 
         return $res;
     }
     public function loadListIdAndName($where = null)
     {
-        $list = DB::table($this->table)->select('id', 'ten_danh_muc', 'trang_thai');
+        $list = DB::table($this->table)->select('id', 'ten_don_vi', 'trang_thai');
         if ($where != null)
             $list->where([$where]);
         return $list->get();
-    }
-    public function loadListIdAndNameInListId($mon = [])
-    {
-        $list = DB::table($this->table)
-            ->select('id', 'ma_mh', 'ten_mh')
-            ->where('d_id', 0)->whereIn('id', $mon);
-        return $list->get();
-    }
-    public function loadListIdAndNameByLop($id_lop)
-    {
-
-        $list = DB::table($this->table . ' as tb1')
-            ->select('tb1.id', 'tb1.ma_mh', 'tb1.ten_mh')
-            ->join('tb_mon_khoa as tb2', 'tb1.id', '=', 'tb2.id_mh')
-            ->join('tb_lop_khoa as tb3', 'tb2.id_kh', '=', 'tb3.id_khoa_hoc')
-            ->where('tb3.id_lop', '=', $id_lop)
-            ->get();
-        return $list;
     }
     public function checkPhoneNumber($phone)
     {
@@ -226,7 +217,7 @@ class DanhMucTaiSan extends Model
     public function chuyenGiaoNhieu($params = array())
     {
         if (empty($params['user_edit'])) {
-            Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
+            // Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
             Session::push('errors', 'Không xác định thông tin người cập nhật');
             return null;
         }
@@ -252,9 +243,9 @@ class DanhMucTaiSan extends Model
             ->limit(1)
             ->update($dataUpdate);
 
-        if (empty($res) || !is_numeric($res)) {
-            Log::error(__METHOD__ . ':: ' . $res . '-->' . json_encode($dataUpdate));
-        }
+        // if (empty($res) || !is_numeric($res)) {
+        //     Log::error(__METHOD__ . ':: ' . $res . '-->' . json_encode($dataUpdate));
+        // }
 
         return $res;
     }
