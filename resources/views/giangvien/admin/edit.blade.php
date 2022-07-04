@@ -56,94 +56,95 @@
 
 
     <!-- Phần nội dung riêng của action  -->
-    <form class="form-horizontal " action="{{route('route_BackEnd_user_update',['id'=>$userEdit->id])}}" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal " action="{{route('route_BackEnd_teacher_update',['id'=>$teacherEdit->id])}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
-                    @error('name')
+                    <!-- @error('name')
                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    @enderror -->
                     <div class="form-group">
-                        <label for="ten_de_thi" class="col-md-3 col-sm-4 control-label">Tên người dùng <span class="text-danger">(*)</span></label>
+                        <label for="name" class="col-md-3 col-sm-4 control-label">Tên giảng viên <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <input type="text" name="name" value="{{$userEdit->name}}" id="name" class="form-control">
+                            <input type="text" name="name" @error('name') is-invalid @enderror id="name" value="{{$teacherEdit->name}}" class="form-control">
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
 
-                    @error('email')
+                    <!-- @error('email')
                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    @enderror -->
                     <div class="form-group">
                         <label for="email" class="col-md-3 col-sm-4 control-label">Email <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <input type="text" name="email" value="{{$userEdit->email}}" id="email" class="form-control">
+                            <input type="text" name="email" @error('email') is-invalid @enderror id="email" class="form-control" value="{{$teacherEdit->email}}">
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
-
+<!--                    
                     @error('password')
                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    @enderror -->
                     <div class="form-group">
                         <label for="email" class="col-md-3 col-sm-4 control-label">Mật khẩu <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <input type="password" name="password" value="{{$userEdit->password}}" id="password" class="form-control" value="">
+                            <input type="password" name="password" @error('password') is-invalid @enderror id="password" value="{{$teacherEdit->password}}" class="form-control" >
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
-
-                    @error('address')
+                  
+                    <!-- @error('address')
                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    @enderror -->
                     <div class="form-group">
-                        <label for="email" class="col-md-3 col-sm-4 control-label">Địa chỉ <span class="text-danger">(*)</span></label>
+                        <label for="address" class="col-md-3 col-sm-4 control-label">Địa chỉ <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <input type="text" name="address" id="address" class="form-control" value="{{$userEdit->address}}">
+                            <input type="text" name="address" @error('address') is-invalid @enderror id="address" class="form-control" value="{{$teacherEdit->address}}">
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
 
-                    @error('phone')
+                     <!-- @error('address')
                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                    @enderror -->
                     <div class="form-group">
-                        <label for="email" class="col-md-3 col-sm-4 control-label">Số điện thoại <span class="text-danger">(*)</span></label>
+                        <label for="sex" class="col-md-3 col-sm-4 control-label">Giới tính <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <input type="number" value="{{$userEdit->phone}}" id="phone" name="phone" class="form-control">
-                            <span id="mes_sdt"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="nguon" class="col-md-3 col-sm-4 control-label">Quyền <span class="text-danger">(*)</span></label>
-                        <div class="col-md-9 col-sm-8">
-                            <select multiple name="role_id[]" id="role" class="form-control select2" data-placeholder="Chọn Quyền">
-                                <option value="">== Chọn quyền ==</option>
-                                @foreach($roles as $role)
-                                <option {{ $roleOfUser->contains('id',$role->id) ? 'selected' : '' }} value="{{$role->id}}">
-                                    {{$role->name}}
-                                </option>
+                            <select  name="sex" id="sex" class="form-control select2" data-placeholder="Chọn giới tính">
+                                <option value="">== Chọn giới tính ==</option>
+                                @foreach(config('gioi_tinh.sex') as $key => $valueSex)
+                                <option value="{{$key}}">{{$valueSex}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
+                     <!-- @error('address')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror -->
                     <div class="form-group">
-                        <label for="nguon" class="col-md-3 col-sm-4 control-label">Trạng thái <span class="text-danger">(*)</span></label>
+                        <label for="address" class="col-md-3 col-sm-4 control-label">Ảnh <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <select name="status" id="status" class="form-control select2" data-placeholder="Trạng thái">
-                                <option value="">== Chọn trạng thái ==</option>
-                                @foreach(config('trang_thai.status') as $key => $value)
-                                <option value="{{$key}}">
-                                    {{$value}}
-                                </option>
-                                @endforeach
-                            </select>
+                            <input type="file" name="image" @error('image') is-invalid @enderror id="image" class="form-control" value="{{old('image')}}">
+                            <span id="mes_sdt"></span>
                         </div>
                     </div>
+                
+                    
+                    <!-- @error('phone')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror -->
+                    <div class="form-group">
+                        <label for="phone" class="col-md-3 col-sm-4 control-label">Số điện thoại <span class="text-danger">(*)</span></label>
+                        <div class="col-md-9 col-sm-8">
+                            <input type="number" id="phone" name="phone" @error('phone') is-invalid @enderror class="form-control" value="{{$teacherEdit->phone}}">
+                            <span id="mes_sdt"></span>
+                        </div>
+                    </div>
+           
 
+                
 
                 </div>
                 <div class="col-md-6">

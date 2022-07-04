@@ -12,7 +12,7 @@ use Session;
 class LoginController extends Controller
 {
     public function getLogin() {
-        // echo bcrypt(123456789);
+        // dd(bcrypt(123456));
         return view('auth/login');
     }
     public function postLogin(Request $request) {
@@ -35,12 +35,12 @@ class LoginController extends Controller
             return redirect('login')->withErrors($validator)->withInput();
         } else {
             // Nếu dữ liệu hợp lệ sẽ kiểm tra trong csdl
+            // dd($request->all());
             $email = $request->input('email');
             $password = $request->input('password');
 
             if( Auth::attempt(['email' => $email, 'password' =>$password])) {
                 // Kiểm tra đúng email và mật khẩu sẽ chuyển trang
-                
                 return redirect('user');
             } else {
                 // Kiểm tra không đúng sẽ hiển thị thông báo lỗi

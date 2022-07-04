@@ -7,7 +7,8 @@ use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use App\Http\Requests\RoleRequest\RoleAddRequest;
+use App\Http\Requests\RoleRequest\RoleEditRequest;
 class RoleController extends Controller
 {
     public function index(){
@@ -19,7 +20,7 @@ class RoleController extends Controller
         $listModule = Permission::where('parent_id',0)->get();
         return view('role.add',compact('listModule'));
     }
-    public function store(Request $request){
+    public function store(RoleAddRequest $request){
         try{
             DB::beginTransaction();
             $roleInsert = Role::create([
@@ -44,7 +45,7 @@ class RoleController extends Controller
         return view('role.edit',compact('listModule','roleEdit','permissionChecked'));
     }
 
-    public function update(Request $request, $id){
+    public function update( RoleEditRequest $request, $id){
         try{
             DB::beginTransaction();
             $roleUpdate = Role::find($id)->update([

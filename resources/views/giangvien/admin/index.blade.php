@@ -71,7 +71,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="form-group">
-                        <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên danh mục khoá học" value="@isset($extParams['search_ten_danh_muc_khoa_hoc']){{$extParams['search_ten_danh_muc_khoa_hoc']}}@endisset">
+                        <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên danh mục khoá học" value="">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -79,10 +79,9 @@
                     <div class="form-group">
                         <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i class="fa fa-search" style="color:white;"></i> Search
                         </button>
-                        <a href="{{ url('/danh-muc-khoa-hoc') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
+                        <a href="" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                             Clear </a>
-                        <a href="{{ route('route_BackEnd_DanhMucKhoaHoc_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
-                            Add new</a>
+                      
                     </div>
                 </div>
             </div>
@@ -131,59 +130,79 @@
         </div>
         @endif
     </div>
-    @if(count($list)<=0) <p class="alert alert-warning">
+    <p class="alert alert-warning">
         Không có dữ liệu phù hợp
-        </p>
-        @endif
-        <div class="box-body table-responsive no-padding">
-            <form action="" method="post">
-                @csrf
-                <span class="pull-right">Tổng số bản ghi tìm thấy: <span style="font-size: 15px;font-weight: bold;">{{ $list->count() }}</span></span>
-                <div class="clearfix"></div>
-                <div class="double-scroll">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th style="width: 50px" class="text-center">
-                                STT
-                            </th>
-                            <th class="text-center">Tên danh mục</th>
-                            <th width="50px" class="text-center">Trạng thái</th>
-                            <th width="50px" class="text-center">Công Cụ</th>
-                        </tr>
-                        @php($i=1)
+    </p>
+    <div class="box-body table-responsive no-padding">
+        <form action="" method="post">
+            @csrf
+            <span class="pull-right">Tổng số bản ghi tìm thấy: <span style="font-size: 15px;font-weight: bold;"></span></span>
+            <div class="clearfix"></div>
+            <div class="double-scroll">
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width: 50px" class="text-center">
+                            STT
+                        </th>
+                        <th class="text-center">Tên Giảng Viên</th>
+                        <th class="text-center">Email giảng viên</th>
+                        <th class="text-center">Mật khẩu</th>
+                        <th class="text-center">SĐT</th>
+                        <th class="text-center">Địa chỉ</th>
+                        <th class="text-center">Giới tính</th>
+                        <th class="text-center">Hình ảnh giảng viên</th>
+                        <th width="50px" class="text-center">Trạng thái</th>
+                        <th width="50px" class="text-center">Hành động</th>
+                    </tr>
 
-                        @foreach($list as $item)
-
-                        <tr>
-                            {{-- <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
-                            <td class="text-center">{{$i++}}</td>
-                            <td class="text-center">{{$item->ten_danh_muc}}</td>
-                            <td class="text-center" style="width:180px; background-color:
-                                @if($item->trang_thai == 0)
-                                        red
+                @foreach ($teachers as $teacher)
+                    <tr>
+                        <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="" value=""> </td>
+                        <td class="text-center">{{$teacher->name}}</td>
+                        <td class="text-center">{{$teacher->email}}</td>
+                        <td class="text-center">{{$teacher->password}}</td>
+                        <td class="text-center">{{$teacher->phone}}</td>
+                        <td class="text-center">{{$teacher->address}}</td>
+                        <td class="text-center">
+                            @if($teacher->sex == config('gioi_tinh.sex.0') )
+                                Nam
+                            @else
+                                Nữ
+                            @endif
+                        </td>
+                        <td class="image-clean"> @if(isset($teacher->avatar) &&  $teacher->avatar) 
+                                                <img src="{{$teacher->avatar}}" style="max-width: 50px"> 
+                                                @elseif (isset($teacher->avatar))
+                                                Update di
+                                                @endif </td>
+                        <td class="text-center" style="background-color:
+                                @if($teacher->status == config('trang_thai.status.0'))
+                                    red
                                 @else
-                                        green
+                                    green
                                 @endif;
-                                        color: white">
-                                @if($item->trang_thai == 0)
-                                Dừng Hoạt Động
-                                @else
-                                Đang Hoạt Động
-                                @endif
-                            </td>
-                            <td class="text-center"><a href="{{ route('route_BackEnd_DanhMucKhoaHoc_Detail',['id'=> $item->id ]) }}" title="Sửa"><i class="fa fa-edit"></i></a></td>
-                        </tr>
-                        @endforeach
+                                    color: white">
+                             @if($teacher->status == config('trang_thai.status.0'))
+                                     Chưa kích hoạt
+                                    @else
+                                      Kích hoạt
+                                    @endif
+                        </td>
+                        <td class="text-center">
+                            <a href="{{route('route_BackEnd_teacher_edit',['id' => $teacher->id ])}}" title="Sửa"><i class="fa fa-edit"></i></a>
+                            <a href="" title="Xóa"><i class="fa fa-remove"></i></a>
+                        </td>
+                    </tr>
+                @endforeach
+                </table>
+            </div>
+        </form>
+    </div>
+    <br>
+    <div class="text-center">
 
-                    </table>
-                </div>
-            </form>
-        </div>
-        <br>
-        <div class="text-center">
-            {{ $list->appends($extParams)->links() }}
-        </div>
-        <index-cs ref="index_cs"></index-cs>
+    </div>
+    <index-cs ref="index_cs"></index-cs>
 </section>
 
 @endsection

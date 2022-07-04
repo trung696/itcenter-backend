@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', 'HocsinhController@index');
 Route::get('/admin/home', 'HocsinhController@index');
 
-Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
+// Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
 
 // Route::match(['get', 'post'], '/user/add', 'UserController@add')->name('route_BackEnd_NguoiDung_Add');
 
@@ -62,8 +62,8 @@ Route::post('/user/update/{id}', 'UserController@update')
 //Route::match(['get', 'post'], '/user/add', 'BackEnd\BoDeThiController@add')->name('route_BackEnd_DeThi_Add');
 //    ->middleware(['can:BackEnd_QuanLyDaoTao_taoDanhSachThi']);
 // Đăng ký thành viên
-Route::get('register', 'Auth\RegisterController@getRegister');
-Route::post('register', 'Auth\RegisterController@postRegister');
+// Route::get('register', 'Auth\RegisterController@getRegister');
+// Route::post('register', 'Auth\RegisterController@postRegister');
 
 // Đăng nhập và xử lý đăng nhập
 Route::get('login', [ 'as' => 'login', 'uses' => 'Auth\LoginController@getLogin']);
@@ -243,17 +243,21 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
 
 
     //role(doanh)   
-    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list');
-    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add');
+    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list')->middleware('can:role-list');
+    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add')->middleware('can:role-add');
     Route::post('/create_role','RoleController@store')->name('route_BackEnd_role_store');
-    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit');
+    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit')->middleware('can:role-edit');
     Route::post('/edit_role/{id}','RoleController@update')->name('route_BackEnd_role_update');
-    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete');
+    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete')->middleware('can:role-delete');
 
     //end role(doanh)
 
     //user(doanh)
     Route::get('/user/add','UserController@formAdd')->name('route_BackEnd_user_add');
+    Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
+    Route::post('/user/search', 'UserController@search')->name('route_BackEnd_user_search');
+
+
     Route::post('/user/add','UserController@store')->name('route_BackEnd_user_store');
     Route::get('/user/edit/{id}','UserController@edit')->name('route_BackEnd_user_edit');
     Route::post('/user/edit/{id}','UserController@update')->name('route_BackEnd_user_update');
@@ -262,11 +266,20 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     //end user
 
     //teacher (doanh)
-
     Route::get('/teacher','TeacherController@index')->name('route_BackEnd_teacher_list');
-    Route::get('/teacher/add','UserController@formAdd')->name('route_BackEnd_user_add');
-
+    Route::get('/teacher/edit/{id}','TeacherController@edit')->name('route_BackEnd_teacher_edit');
+    Route::post('/teacher/edit/{id}','TeacherController@update')->name('route_BackEnd_teacher_update');
     //end teachr(doanh)
+
+    // Trang Client 
+    Route::prefix('client')->group(function () {
+        Route::get('/form','Client\FormContactController@add')->name('route_frontend_add');
+        Route::post('/form','Client\FormContactController@store')->name('route_frontend_store');
+
+    });
+    //End  Trang Client 
+
+
     Route::match(['get', 'post'], '/chien-dich/add', 'ChienDichController@themChienDich')
         ->name('route_BackEnd_ChienDich_Add');
     Route::get('/chien-dich/chi-tiet/{id}', 'ChienDichController@chitetChienDich')
