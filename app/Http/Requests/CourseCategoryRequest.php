@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 
-class DanhMucKhoaHocRequest extends FormRequest
+class CourseCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,18 +31,20 @@ class DanhMucKhoaHocRequest extends FormRequest
         Session::push('post_form_data', $dataRequest);
 
         $currentAction = $this->route()->getActionMethod();
-    //    dd($currentAction);
+//        dd($currentAction);
         switch ($this->method()):
             case 'POST':
                 switch ($currentAction) {
-                    case 'themDanhMucKhoaHoc':
+                    case 'AddCourseCategory':
                         $rules = [
-                            "ten_danh_muc" => "required",
+                            "name" => "required",
+                            "description" => "required",
                         ];
                         break;
                     case 'update':
                         $rules = [
-                            "ten_danh_muc" => "required",
+                            "name" => "required",
+                            "description" => "required",
                         ];
                         break;
 
@@ -60,7 +62,8 @@ class DanhMucKhoaHocRequest extends FormRequest
     public function messages()
     {
         return [
-            'ten_danh_muc.required' => 'Bắt buộc phải nhập tên danh mục',
+            'name.required' => 'Bắt buộc phải nhập tên danh mục',
+            'description.required' => 'Bắt buộc phải nhập tên danh mục',
         ];
     }
 }

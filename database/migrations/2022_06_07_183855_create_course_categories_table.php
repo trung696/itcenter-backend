@@ -28,6 +28,6 @@ class CreateCourseCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_catalog');
+        Schema::dropIfExists('course_categories');
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 
-class DanhMucKhoaHocRequest extends FormRequest
+class CentralFacilityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,20 +29,25 @@ class DanhMucKhoaHocRequest extends FormRequest
         $dataRequest = $this->request->all();
 
         Session::push('post_form_data', $dataRequest);
+        // dd(Session::push('post_form_data', $dataRequest));
 
         $currentAction = $this->route()->getActionMethod();
     //    dd($currentAction);
         switch ($this->method()):
             case 'POST':
                 switch ($currentAction) {
-                    case 'themDanhMucKhoaHoc':
+                    case 'AddCentralFacility':
                         $rules = [
-                            "ten_danh_muc" => "required",
+                            "name" => "required",
+                            "address" => "required",
+                            "description" => "required",
                         ];
                         break;
-                    case 'update':
+                    case 'updateCentralFacility':
                         $rules = [
-                            "ten_danh_muc" => "required",
+                            "name" => "required",
+                            "address" => "required",
+                            "description" => "required",
                         ];
                         break;
 
@@ -60,7 +65,9 @@ class DanhMucKhoaHocRequest extends FormRequest
     public function messages()
     {
         return [
-            'ten_danh_muc.required' => 'Bắt buộc phải nhập tên danh mục',
+            'name.required' => 'Bắt buộc phải nhập tên địa điểm',
+            'address.required' => 'Bắt buộc phải nhập địa chỉ',
+            'description.required' => 'Bắt buộc phải nhập mô tả',
         ];
     }
 }
