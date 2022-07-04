@@ -39,15 +39,21 @@ class UserController extends Controller
     {
         $this->v['_title'] = 'Danh sách Người dùng';
         $this->v['routeIndexText'] = 'Danh sách người dùng';
-        $objNguoiDung = new NguoiDung();
-        $listUser = User::all();
+        // $objNguoiDung = new NguoiDung();
+        if(isset($request->search_ten_nguoi_dung) && $request->search_ten_nguoi_dung){
+            $listUser = User::where('name', 'LIKE', "%{$request->search_ten_nguoi_dung}%")->get();
+        }else{
+            $listUser = User::paginate(5);
+        }
         $roles = Role::all();
-        // $this->v['extParams'] = $request->all();
-        // dd($this->v['extParams']);
-        // $this->v['list'] = $objNguoiDung->loadListWithPager($this->v['extParams']);
-        // $this->v['quyens'] = config('app.roles');
         return view('user.index', $this->v, compact('listUser', 'roles'));
     }
+
+    public function search(Request $request){
+        $user = User::where('name', 'like', '%' .$request->get('search').'%' )->get();
+        return json_encode($user);
+    }
+
 
     public function home(Request $request)
     {
