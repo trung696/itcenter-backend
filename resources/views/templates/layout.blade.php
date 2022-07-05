@@ -331,7 +331,14 @@
                 </li>
 
                 <li class=" active menu-open ">
-                    <a href="#"><i class="fa fa-users"></i> <span>Quản lý học viên</span></a>
+                    <a href="{{route('route_BackEnd_teacher_list')}}"><i class="fa fa-dollar"></i> <span>Giảng Viên</span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('route_BackEnd_teacher_list')}}"><i class="fa fa-circle-o"></i> Danh sách giảng viên</a></li>
+                    </ul>
+                </li>
+
+                <li class=" active menu-open ">
+                    <a href="#"><i class="fa fa-users"></i> <span>Học viên</span></a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('route_BackEnd_DanhSachHocVien_index') }}"><i class="fa fa-circle-o"></i>Danh sách học viên</a></li>
                         <li><a href=""><i class="fa fa-circle-o"></i>Danh sách đăng ký</a></li>
@@ -377,13 +384,7 @@
                                         class="fa fa-circle-o"></i> Danh sách địa điểm</a></li>
                     </ul>
                 </li>
-                <li class=" active menu-open ">
-                    <a href="#"><i class="fa fa-dollar"></i> <span>Giảng Viên</span></a>
-                    <ul class="treeview-menu">
-                        <li><a href=""><i
-                                        class="fa fa-circle-o"></i> Danh sách giảng viên</a></li>
-                    </ul>
-                </li>
+
 
                 <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-users"></i> <span>Role</span></a>
@@ -400,6 +401,16 @@
                                         class="fa fa-circle-o"></i>Thêm Permission</a></li>
                     </ul>
                 </li>
+
+                <li class=" active menu-open ">
+                    <a href="#"><i class="fa fa-users"></i> <span>FORM</span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('route_frontend_add') }}"><i
+                                        class="fa fa-circle-o"></i>FORM</a></li>
+                    </ul>
+                </li>
+
+                
 
 
 {{--                <li class=" active menu-open ">--}}

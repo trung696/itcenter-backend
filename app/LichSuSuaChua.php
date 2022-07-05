@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 
 class LichSuSuaChua extends Model
 {
-    //
+
     protected $table = 'lich_su_sua_chua';
     protected $fillable = ['tb1.id','tb1.ngay_sua_chua','tb1.noi_dung','tb1.nguyen_nhan',
         'tb1.chi_phi','tb1.nguon_chi','tb1.id_tai_san_con','tb1.created_at','tb1.updated_at'];

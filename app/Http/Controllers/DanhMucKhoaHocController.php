@@ -45,10 +45,12 @@ class DanhMucKhoaHocController extends Controller
         $this->v['_action'] = 'Add';
         $this->v['_title'] = 'Thêm danh mục khoá học';
         $this->v['trang_thai'] = config('app.status_danh_muc');
+
         if($request->isMethod('post')){
             $params = [
                 'danhmuc_add' => Auth::user()->id
             ];
+            dd($params);
             $params['cols'] = array_map(function ($item) {
                 if ($item == '')
                     $item = null;

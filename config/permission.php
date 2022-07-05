@@ -12,6 +12,12 @@ return [
         'add-product' => 'product_add',
         'edit-product' => 'product_edit',
         'delete-product' => 'product_delete',
+
+        //role
+        'role-list'=>'role_list',
+        'role-add'=>'role_add',
+        'role-edit'=>'role_edit',
+        'role-delete'=>'role_delete',
     ],
 
     'table_module' => [
