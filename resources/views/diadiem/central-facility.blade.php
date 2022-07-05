@@ -71,22 +71,8 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <input type="text" name="search_ten_khoa_hoc" class="form-control" placeholder="Tên khoá học"
-                                   value="@isset($extParams['search_ten_khoa_hoc']){{$extParams['search_ten_khoa_hoc']}}@endisset">
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group">
-                            <select name="search_danh_muc_khoa_hoc" class="form-control select1"
-                                    data-placeholder="Chọn trạng thái">
-                                <option value=""> == Chọn Danh Mục Khoá Học ==</option>
-                                @if(count($danh_muc_khoa_hoc)>0)
-                                    @foreach($danh_muc_khoa_hoc as $key => $item)
-                                        <option value="{{ $item->id }}"
-                                                @isset($extParams['search_danh_muc_khoa_hoc']) @if($extParams['search_danh_muc_khoa_hoc'] )  @endif @endisset>{{$item->ten_danh_muc}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
+                            <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên địa điểm"
+                                   value="@isset($extParams['search_ten_dia_diem']){{$extParams['search_ten_dia_diem']}}@endisset">
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -95,9 +81,9 @@
                             <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i
                                         class="fa fa-search" style="color:white;"></i> Search
                             </button>
-                            <a href="{{ url('/khoahoc-list.html') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
+                            <a href="{{ url('/danh-sach-dia-diem') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_KhoaHoc_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
+                            <a href="{{ route('route_BackEnd_CentralFacility_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                                 Add new</a>
                         </div>
                     </div>
@@ -162,13 +148,9 @@
                             <th style="width: 50px" class="text-center">
                                 STT
                             </th>
-                            <th class="text-center">Tên Khoá Học</th>
-                            <th class="text-center">Thời gian</th>
-                            <th class="text-center">Thông tin khoá học</th>
-                            <th class="text-center">Hình ảnh</th>
-                            <th class="text-center">Học phí</th>
-                            <th class="text-center">Danh mục</th>
-                            <th width="50px" class="text-center">Trạng thái</th>
+                            <th class="text-center">Tên địa điểm</th>
+                            <th class="text-center">địa chỉ</th>
+                            <th class="text-center">mô tả</th>
                             <th width="50px" class="text-center">Công Cụ</th>
                         </tr>
                         @php($i=1)
@@ -178,29 +160,11 @@
                             <tr>
                                 {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
                                 <td class="text-center">{{$i++}}</td>
-                                <td class="text-center">{{$item->ten_khoa_hoc}}</td>
-                                <td class="text-center">{{$item->thoi_gian}}</td>
-                                <td class="text-center">{{$item->thong_tin_khoa_hoc}}</td>
-                                <td class="image-clean"><img src="{{ $item->hinh_anh?Storage::url($item->hinh_anh):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
-                                <td class="text-center">{{$item->hoc_phi}}</td>
-                                <td class="text-center">{{$arrDanhMuc[$item->id_danh_muc]}}</td>
-                                <td class="text-center" style="width:180px;background-color:
-                                @if($item->trang_thai == 0)
-                                        red
-                                @else
-                                        green
-                                @endif;
-                                        color: white">
-                                    @if($item->trang_thai == 0)
-                                        Dừng Hoạt Động
-                                    @else
-                                        Đang Hoạt Động
-                                    @endif
-                                </td>
-
-                                <td class="text-center">
-                                    <a href="{{ route('route_BackEnd_KhoaHoc_Detail',['id'=> $item->id]) }}"title="Chi tiết"><i class="fa fa-edit"></i></a>
-                                </td>
+                                <td class="text-center">{{$item->name}}</td>
+                                <td class="text-center">{{$item->address}}</td>
+                                <td class="text-center">{{$item->description}}</td>
+                                <td class="text-center"><a href="{{ route('route_BackEnd_CentralFacility_Detail',['id'=> $item->id ]) }}" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                                <td class="text-center"><a onclick="return confirm('Bạn có muốn xóa?')" href="{{ route('route_BackEnd_CentralFacility_Delete',['id'=> $item->id ]) }}" title="Xóa"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                             </tr>
                         @endforeach
 
