@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
 use Illuminate\Database\Eloquent\Model;
-use App\Teacher;
+use App\Student;
 use App\User;
 use App\Role;
 use Illuminate\Http\Request;
@@ -30,21 +30,21 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function giaoVien(Request $request)
+    public function hocVien(Request $request)
     {
         //
-        $this->v['_title'] = 'Giáo viên';
-        $this->v['routeIndexText'] = 'Giáo viên';
-        $objTeacher = new Teacher();
+        $this->v['_title'] = 'Học viên';
+        $this->v['routeIndexText'] = 'Học viên';
+        $objStudent = new Student();
         $this->v['extParams'] = $request->all();
-        $this->v['list'] = $objTeacher->loadListWithPager($this->v['extParams']);
+        $this->v['list'] = $objStudent->loadListWithPager($this->v['extParams']);
         $role = DB::table('roles as tb1')->get();
         $arrRole = [];
         foreach ($role as $key => $value) {
             $arrRole[$value->id] = $value->name;
         }
         $this->v['arrRole'] = $arrRole;
-        return view('giangvien.admin.danh-sach-giang-vien', $this->v);
+        return view('hocvien.danh-sach-hoc-vien', $this->v);
     }
     /**
      * Display the specified resource.
@@ -52,14 +52,14 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function thongTinGiangVien($id)
+    public function thongTinHocVien($id)
     {
-        $this->v['routeIndexText'] = 'Thông tin giảng viên';
+        $this->v['routeIndexText'] = 'Thông tin  viên';
         $this->v['_action'] = 'Edit';
-        $this->v['_title'] = 'Thông tin giảng viên';
+        $this->v['_title'] = 'Thông tin học viên';
         //        $this->v['request'] = Session::pull('post_form_data')[0];
-        $objTeacher = new Teacher();
-        $objItem = $objTeacher->loadOne($id);
+        $objStudent = new Student();
+        $objItem = $objStudent->loadOne($id);
         $this->v['objItem'] = $objItem;
         if (empty($objItem)) {
             Session::push('errors', 'Không tồn tại danh mục này ' . $id);
@@ -68,7 +68,7 @@ class TeacherController extends Controller
         // $objDonVi = new DonVi();
         // $this->v['don_vi'] = $objDonVi->loadListIdAndName(['trang_thai', 1]);
 
-        return view('giangvien.admin.chi-tiet-giang-vien', $this->v);
+        return view('hocvien.danh-sach-hoc-vien', $this->v);
     }
 
     /**
@@ -77,12 +77,12 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateThongTinGiaoVien($id, TeacherRequest $request)
+    public function updateThongTinHocVien($id, TeacherRequest $request)
     {
         //
-        $method_route = 'route_BackEnd_Teacher_Detail';
+        $method_route = 'route_BackEnd_Student_Detail';
         // $primary_table = 'bien_ban_ban_giao_ts';
-        $objTeacher = new Teacher();
+        $objStudent = new Student();
         //Xử lý request
         $params = [
             'user_edit' => Auth::user()->id
@@ -95,24 +95,24 @@ class TeacherController extends Controller
             return $item;
         }, $request->post());
         unset($params['cols']['_token']);
-        $objItem = $objTeacher->loadOne($id);
+        $objItem = $objStudent->loadOne($id);
         if (empty($objItem)) {
             Session::push('errors', 'Không tồn tại danh mục này ' . $id);
-            return redirect()->route('route_BackEnd_Teacher_index');
+            return redirect()->route('route_BackEnd_Student_index');
         }
         $params['cols']['id'] = $id;
-        $res = $objTeacher->saveUpdate($params);
+        $res = $objStudent->saveUpdate($params);
 
         if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi
         {
             Session::flash('success', 'Cập nhật bản ghi: ' . $objItem->id . ' thành công!');
-            return redirect()->route('route_BackEnd_Teacher_index');
+            return redirect()->route('route_BackEnd_Student_index');
         } elseif ($res == 1) {
             //            SpxLogUserActivity(Auth::user()->id, 'edit', $primary_table, $id, 'edit');
             $request->session()->forget('post_form_data'); // xóa data post
             Session::flash('success', 'Cập nhật bản ghi: ' . $objItem->id . ' thành công!');
 
-            return redirect()->route('route_BackEnd_Teacher_index');
+            return redirect()->route('route_BackEnd_Student_index');
         } else {
 
             Session::push('errors', 'Lỗi cập nhật cho bản ghi: ' . $res);
@@ -125,7 +125,7 @@ class TeacherController extends Controller
         $deleteData = DB::table('teacher')->where('id', '=', $id)->delete();
         if ($deleteData) {
             Session::flash('success', 'Xóa dữ liệu thành công');
-            return redirect(route('route_BackEnd_Teacher_index'));
+            return redirect(route('route_BackEnd_Student_index'));
         }
     }
 }

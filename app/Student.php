@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-class Teacher extends Model
+class Student extends Model
 {
     //
     //
@@ -197,16 +197,16 @@ class Teacher extends Model
             ->get();
         return $list;
     }
-    public function getByTuVanNumber($id_tuvan, $id_hocvien)
-    {
-        $list = DB::table($this->table)
-            ->select('id', DB::raw("(concat(hodem, ' ',ten)) as name"), 'phone_number')
-            ->where('id_tuvan', $id_tuvan)
-            ->where('id', 'like', $id_hocvien . '%')
-            ->paginate(config('app.backend_row_per_page'));
-        //            ->get();
-        return $list;
-    }
+    // public function getByTuVanNumber($id_tuvan, $id_hocvien)
+    // {
+    //     $list = DB::table($this->table)
+    //         ->select('id', DB::raw("(concat(hodem, ' ',ten)) as name"), 'phone_number')
+    //         ->where('id_tuvan', $id_tuvan)
+    //         ->where('id', 'like', $id_hocvien . '%')
+    //         ->paginate(config('app.backend_row_per_page'));
+    //     //            ->get();
+    //     return $list;
+    // }
     // public function checkUseEvent($id_event)
     // {
     //     $count = DB::table($this->table)
