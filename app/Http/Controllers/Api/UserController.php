@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -28,7 +30,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {
         $validated = Validator::make($request->all(), [
             'name' => 'bail|required|max:200|min:2',
             'email' => 'bail|required|email|unique:users',
@@ -52,13 +54,21 @@ class UserController extends Controller
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'status' => 0,
+                'tokenActive' => Str::random(20)
             ];
-            User::create($userAdd);
-            return response()->json([
-                'status' => true,
-                'message' => "Thêm thành công User",
-                'contact' => $request->all()
-            ], 200);
+            if ($user = User::create($userAdd)) {
+                Mail::send('emailActiveUser', compact('user'), function ($email) use ($user) {
+                    // mail nhận thư, tên người dùng
+                    $email->subject("Xác thực tài khoản");
+                    $email->to($user->email, $user->name);
+                });
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Thêm thành công User",
+                    'contact' => $user
+                ], 200);
+            }
         }
     }
 
