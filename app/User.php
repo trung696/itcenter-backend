@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 
 class User extends Authenticatable
@@ -17,6 +18,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $table = "users";
     protected $fillable = ['name', 'email', 'password','repassword', 'address', 'phone', 'status'];
 
     public function roles()
@@ -66,4 +68,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function loadListIdAndName($where = null){
+        $list = DB::table($this->table)->select('id', 'name','status');
+        if($where != null)
+            $list->where([$where]);
+        return $list->get();
+    }
 }

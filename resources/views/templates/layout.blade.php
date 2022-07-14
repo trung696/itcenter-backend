@@ -371,12 +371,27 @@
                   </ul>
               </li>
               <li class=" active menu-open ">
+                <a href="#"><i class="fa fa-dollar"></i> <span>Class</span></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('route_BackEnd_Class_List') }}"><i
+                                    class="fa fa-circle-o"></i> list class</a></li>
+                </ul>
+            </li>
+              <li class=" active menu-open ">
                 <a href="#"><i class="fa fa-dollar"></i> <span>Central Facility</span></a>
                 <ul class="treeview-menu">
                     <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i
                                     class="fa fa-circle-o"></i> list central facility</a></li>
                 </ul>
             </li>
+
+            <li class=" active menu-open ">
+              <a href="#"><i class="fa fa-dollar"></i> <span>Document</span></a>
+              <ul class="treeview-menu">
+                  <li><a href="{{ route('route_BackEnd_Document_List') }}"><i
+                                  class="fa fa-circle-o"></i> list document</a></li>
+              </ul>
+          </li>
                 <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-dollar"></i> <span>Địa Điểm Học</span></a>
                     <ul class="treeview-menu">

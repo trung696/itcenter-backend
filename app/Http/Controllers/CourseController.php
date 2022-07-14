@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\CourseCategory;
-use App\LopHoc;
+use App\CentralFacility;
+use App\ClassModel;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +45,7 @@ class CourseController extends Controller
         $arrCategory = [];
         foreach ($categories as $index => $item) {
             $arrCategory[$item->id] = $item->name;
-            // dd($arrCategories[$item->id]);
+            // dd($arrCategory[$item->id]);
         }
         $this->v['arrCategory'] = $arrCategory;
         // dd($this->v['arrCategory']);
@@ -58,8 +59,8 @@ class CourseController extends Controller
         $this->v['_action'] = 'Add';
         $this->v['_title'] = 'Thêm khoá học';
         $this->v['trang_thai'] = config('app.status_user');
+        
         if ($request->isMethod('post')) {
-
             if (Session::has($method_route)) {
                 return redirect()->route($method_route); // không cho F5, chỉ có thể post 1 lần
             } else
@@ -119,6 +120,15 @@ class CourseController extends Controller
         $objItem = $objCourse->loadOne($id);
         $this->v['course_id'] = $objCourse->loadListIdAndName(['status', 1]);
         $this->v['objItem'] = $objItem;
+        $course = $this->v['course_id'];
+        // dd($user);
+        $arrCourse = [];
+        foreach ($course as $index => $item) {
+            // dd($item);
+            $arrCourse[$item->id] = $item->name;
+            
+        }
+        $this->v['arrCourse'] = $arrCourse;
         if (empty($objItem)) {
             Session::push('errors', 'Không tồn tại danh mục này ' . $id);
             return redirect()->back();
@@ -139,11 +149,36 @@ class CourseController extends Controller
             $datetime[1] = $datetime[1] . ' 23:59:59';
             $this->v['extParams']['search_ngay_khai_giang_array'] = $datetime;
         }
-        // $objClassRoom = new LopHoc();
-        // $this->v['lists'] = $objLopHoc->loadListWithPager($this->v['extParams'], $id);
-        // $objItemLH = $objLopHoc->loadOne($id);
-        // $this->v['objItemLH'] = $objItemLH;
+        $objClassModel = new ClassModel();
+        $this->v['lists'] = $objClassModel->loadListWithPager($this->v['extParams'], $id);
+        $objItemClass = $objClassModel->loadOne($id);
+        $this->v['objItemClass'] = $objClassModel;
+        $objUser = new User();
+        $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
+        $user = $this->v['user'];
+        // dd($user);
+        $arrUser = [];
+        foreach ($user as $index => $item) {
+            // dd($item);
+            $arrUser[$item->id] = $item->name;
+            
+        }
+        $this->v['arrUser'] = $arrUser;
+        // dd( $this->v['arrUser']);
 
+        $objCentralFacility = new CentralFacility();
+        $this->v['centralFacility'] = $objCentralFacility->loadListIdAndName();
+        $centralFacility = $this->v['centralFacility'];
+        // dd($user);
+        $arrFacility = [];
+        foreach ($centralFacility as $index => $item) {
+            // dd($item);
+            $arrFacility[$item->id] = $item->name;
+            
+        }
+        $this->v['arrFacility'] = $arrFacility;
+        // dd( $this->v['arrUser']);
+        
         return view('khoahoc.admin.course-detail',$this->v);
     }
     private function uploadFile($file)

@@ -59,7 +59,7 @@
                 </button>
             </div>
         @endif
-        @if ($errors->any())
+        {{-- @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -71,10 +71,10 @@
                     <span class="sr-only">Close</span>
                 </button>
             </div>
-    @endif
+    @endif --}}
 
     <!-- Phần nội dung riêng của action  -->
-        <form class="form-horizontal " action="" method="post" >
+        <form class="form-horizontal " action="" method="post" enctype="multipart/form-data">
             @csrf
             <div class="box-body">
                 <div class="row">
@@ -88,7 +88,7 @@
                         {{--                            </div>--}}
                         {{--                        </div>--}}
                         <div class="form-group">
-                            <label for="name" class="col-md-3 col-sm-4 control-label">Tên khoá học <span class="text-danger">(*)</span></label>
+                            <label for="name" class="col-md-3 col-sm-4 control-label">Tên tài liệu <span class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
                                 <input type="text" name="name" id="ten_khoa_hoc" class="form-control" value="@isset($request['name']){{ $request['name'] }}@endisset">
@@ -96,39 +96,30 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description" class="col-md-3 col-sm-4 control-label">Thông tin khoá học <span class="text-danger">(*)</span></label>
-
-                            <div class="col-md-9 col-sm-8">
-                                <textarea name="description" class="form-control" value="@isset($request['description']){{ $request['description'] }}@endisset"></textarea>
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 col-sm-4 control-label">Ảnh Khoá Học</label>
+                            <label class="col-md-3 col-sm-4 control-label">Tệp tài liệu</label>
                             <div class="col-md-9 col-sm-8">
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <img id="hinh_anh_khoa_hoc_preview" src="http://placehold.it/100x100" alt="your image"
-                                             style="max-width: 200px; height:100px; margin-bottom: 10px;" class="img-fluid"/>
-                                        <input type="file" name="image" accept="image/*"
-                                               class="form-control-file " id="hinh_anh_khoa_hoc">
+                                        <input type="file" name="file" class="form-control-file " >
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="category_id" class="col-md-3 col-sm-4 control-label">Danh Mục Khoá Học</label>
+                            <label for="category_id" class="col-md-3 col-sm-4 control-label">Khoá Học</label>
                             <div class="col-md-9 col-sm-8">
-                                <select name="category_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn danh mục khoá học">
+                                <select name="course_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn danh mục khoá học">
                                     <option value="">== Chọn danh mục khoá học==</option>
-                                    @foreach($course_categories as $item)
-                                        <option value="{{ $item->id }}" @isset($request['category_id']) @if($request['category_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
+                                    @foreach($course as $item)
+                                        <option value="{{ $item->id }}" @isset($request['course_id']) @if($request['course_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
+                        </div>
+                        
                     {{--                    tab2--}}
                     <div class="col-md-6">
 

@@ -31,20 +31,18 @@ class CourseCategoryRequest extends FormRequest
         Session::push('post_form_data', $dataRequest);
 
         $currentAction = $this->route()->getActionMethod();
-//        dd($currentAction);
+    //    dd($currentAction);
         switch ($this->method()):
             case 'POST':
                 switch ($currentAction) {
                     case 'AddCourseCategory':
                         $rules = [
                             "name" => "required",
-                            "description" => "required",
                         ];
                         break;
                     case 'update':
                         $rules = [
                             "name" => "required",
-                            "description" => "required",
                         ];
                         break;
 
@@ -62,8 +60,7 @@ class CourseCategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Bắt buộc phải nhập tên danh mục',
-            'description.required' => 'Bắt buộc phải nhập tên danh mục',
+            'name.required' => 'Bắt buộc phải nhập tên danh mục khóa học',
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 
-class CourseRequest extends FormRequest
+class DocumentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,16 +34,14 @@ class CourseRequest extends FormRequest
         switch ($this->method()):
             case 'POST':
                 switch ($currentAction) {
-                    case 'AddCourse':
+                    case 'AddDocument':
                         $rules = [
                             "name" => "required",
-                            "description" => "required",
                         ];
                         break;
-                    case 'updateCourse':
+                    case 'updateKhoaHoc':
                         $rules = [
                             "name" => "required",
-                            "description" => "required",
                         ];
                         break;
 
@@ -61,8 +59,7 @@ class CourseRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Bắt buộc phải nhập tên khoá học',
-            'description.required' => 'Bắt buộc phải nhập thông tin khóa học',
+            'name.required' => 'Bắt buộc phải nhập tên tài liệu',
         ];
     }
 }

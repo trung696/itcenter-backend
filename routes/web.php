@@ -311,7 +311,7 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     ->name('route_BackEnd_Course_List');   
     Route::match(['get', 'post'], '/course/add', 'CourseController@AddCourse')
     ->name('route_BackEnd_Course_Add'); 
-    Route::get('/Course/detail/{id}', 'CourseController@CourseDetail')
+    Route::get('/Course-Class/detail/{id}', 'CourseController@CourseDetail')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Course_Detail');
     Route::post('/Course/update/{id}', 'CourseController@updateCourse')
@@ -320,6 +320,22 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::get('/Course/delete/{id}', 'CourseController@destroy')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Course_Delete');
+
+        //class 
+    Route::get('/class','ClassController@classList')
+        ->name('route_BackEnd_Class_List');
+    Route::match(['get', 'post'], '/class/add', 'ClassController@addClass')
+    ->name('route_BackEnd_Class_Add');
+    Route::get('/class/detail/{id}', 'ClassController@classDetail')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Class_Detail');
+    Route::post('/class/update/{id}', 'ClassController@updateClass')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Class_Update');
+    Route::get('/class/delete/{id}', 'ClassController@destroy')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Class_Delete');
+
         //central facility
         Route::get('/central-facility','CentralFacilityController@listCentralFacility')
     ->name('route_BackEnd_CentralFacility_List');
@@ -334,5 +350,20 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::get('/central-facility/delete/{id}', 'CentralFacilityController@destroy')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_CentralFacility_Delete');
+        
+        //document
+    Route::get('/document','DocumentController@document')
+    ->name('route_BackEnd_Document_List');
+    Route::match(['get', 'post'], '/document/add', 'DocumentController@AddDocument')
+    ->name('route_BackEnd_Document_Add');
+    Route::get('/document/detail/{id}', 'DocumentController@documentDetail')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Document_Detail');
+    Route::post('/document/update/{id}', 'DocumentController@updateDocument')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Document_Update');
+    Route::get('/document/delete/{id}', 'DocumentController@destroy')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Document_Delete');
 });
 

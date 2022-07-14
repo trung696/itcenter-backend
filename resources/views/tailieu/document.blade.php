@@ -71,8 +71,8 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <input type="text" name="name" class="form-control" placeholder="Tên địa điểm"
-                                   value="@isset($extParams['name']){{$extParams['name']}}@endisset">
+                            <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên danh mục khoá học"
+                                   value="@isset($extParams['search_ten_danh_muc_khoa_hoc']){{$extParams['search_ten_danh_muc_khoa_hoc']}}@endisset">
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -81,9 +81,9 @@
                             <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i
                                         class="fa fa-search" style="color:white;"></i> Search
                             </button>
-                            <a href="{{ url('/central-facility') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
+                            <a href="{{ url('/document') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_CentralFacility_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
+                            <a href="{{ route('route_BackEnd_Document_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                                 Add new</a>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                     </button>
                 </div>
             @endif
-            @if ($errors->any())
+            {{-- @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -129,7 +129,7 @@
                         <span class="sr-only">Close</span>
                     </button>
                 </div>
-            @endif
+            @endif --}}
         </div>
         @if(count($list)<=0)
             <p class="alert alert-warning">
@@ -148,9 +148,10 @@
                             <th style="width: 50px" class="text-center">
                                 STT
                             </th>
-                            <th class="text-center">Tên địa điểm</th>
-                            <th class="text-center">địa chỉ</th>
-                            <th class="text-center">mô tả</th>
+                            <th class="text-center">Tên tài liệu</th>
+                            <th>Tệp tài liệu</th>
+                            <th width="50px" class="text-center">Khóa học</th>
+                            <th>trạng thái</th>
                             <th width="50px" class="text-center">Công Cụ</th>
                         </tr>
                         @php($i=1)
@@ -161,10 +162,30 @@
                                 {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
                                 <td class="text-center">{{$i++}}</td>
                                 <td class="text-center">{{$item->name}}</td>
-                                <td class="text-center">{{$item->address}}</td>
-                                <td class="text-center">{{$item->description}}</td>
-                                <td class="text-center"><a href="{{ route('route_BackEnd_CentralFacility_Detail',['id'=> $item->id ]) }}" title="Sửa"><i class="fa fa-edit"></i></a></td>
-                                <td class="text-center"><a onclick="return confirm('Bạn có muốn xóa?')" href="{{ route('route_BackEnd_CentralFacility_Delete',['id'=> $item->id ]) }}" title="Xóa"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                <td class="text-center">{{$item->file}}</td>
+                                <td class="text-center">{{$arrCourse[$item->course_id]}}</td>
+                                <td class="text-center" style="width:180px; background-color:
+                                @if($item->status == 0)
+                                        red
+                                @else
+                                        green
+                                @endif;
+                                        color: white">
+                                    @if($item->status == 0)
+                                        Dừng Hoạt Động
+                                    @else
+                                        Đang Hoạt Động
+                                    @endif
+                                </td>
+                                <td class="text-center"><a href="{{ route('route_BackEnd_Document_Detail',['id'=> $item->id ]) }}" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                                <td class="text-center">
+                                    <a 
+                                    onclick="return confirm('Bạn có muốn xóa?')" 
+                                    href="{{ route('route_BackEnd_Document_Delete',['id'=> $item->id ]) }}" 
+                                    title="Xóa">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
 

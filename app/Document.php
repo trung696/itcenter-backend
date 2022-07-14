@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class CentralFacility extends Model
+class Document extends Model
 {
-    protected $table = 'central_facility';
-    protected $fillable = ['tb1.id','tb1.name','tb1.address','tb1.description','tb1.created_at','tb1.updated_at'];
+    protected $table = 'document';
+    protected $fillable = ['tb1.id','tb1.name','tb1.file','tb1.status','tb1.course_id','tb1.created_at','tb1.updated_at'];
     public $timestamps = false;
     public function createStdClass(){
         $objItem = new \stdClass();
@@ -28,34 +28,39 @@ class CentralFacility extends Model
     public function loadListWithPager($params = array()){
         $query = DB::table($this->table.' as tb1')
             ->select($this->fillable);
-        if(isset($params['name']) && strlen($params['name'])>0){
-            $query->where('tb1.name', 'like', '%' .$params['name'].'%');
+        if(isset($params['search_ten_dia_diem']) && strlen($params['search_ten_dia_diem'])>0){
+            $query->where('tb1.ten_dia_diem', 'like', '%' .$params['search_ten_dia_diem'].'%');
         }
         $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }
     public function loadListIdAndName($where = null){
-        $list = DB::table($this->table)->select('id', 'name');
+        $list = DB::table($this->table)->select('id', 'name','status');
         if($where != null)
             $list->where([$where]);
         return $list->get();
     }
     public function saveNew($params){
-        if (empty($params['diadiem_add'])){
+        if (empty($params['user_add'])){
             Log::warning(__METHOD__ . 'Không xác định thông tin người cập nhập');
             Session::push('errors', 'Không xác định thông tin người cập nhập');
             return null;
         }
-        $data = array_merge($params['cols'],['name' => $params['cols']['name'],
+        $data = array_merge($params['cols'],
+        ['name' => $params['cols']['name'],
+            'file' => $params['cols']['file'],
+            'status' => 1,
+            'course_id' => $params['cols']['course_id'],
             'created_at'=> date('Y-m-d H:i:s'),
             'updated_at'=> date('Y-m-d H:i:s'),
         ]);
+        // dd($data);
         $res = DB::table($this->table)->insertGetId($data);
         return $res;
     }
     public function saveUpdate($params)
     {
-        if (empty($params['diadiem_edit'])) {
+        if (empty($params['user_edit'])) {
             Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
             Session::push('errors', 'Không xác định thông tin người cập nhật');
             return null;
@@ -67,20 +72,17 @@ class CentralFacility extends Model
         }
 
         $dataUpdate = [];
-        
         foreach ($params['cols'] as $colName => $val) {
             if ($colName == 'id') continue;
 
             if (in_array('tb1.'.$colName, $this->fillable))
                 $dataUpdate[$colName] = (strlen($val)==0)?null:$val;
-                // dd($dataUpdate[$colName]);
         }
 
         $res = DB::table($this->table)
             ->where('id', $params['cols']['id'])
             ->limit(1)
             ->update($dataUpdate);
-            // dd($res);
         return $res;
     }
     public function loadOne($id, $params = null){

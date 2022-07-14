@@ -63,7 +63,7 @@ class LopHocController extends  Controller{
 
     public function chiTietLopHoc($id, Request $request){
 
-        dd(123);
+        // dd(123);
         $this->v['routeIndexText'] = 'Chi tiết lớp học';
         $this->v['_action'] = 'Edit';
         $this->v['_title'] = 'Chi tiết lớp học';
