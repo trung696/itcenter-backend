@@ -50,7 +50,6 @@ class TeacherController extends Controller
             'avatar' => 'https://s.memehay.com/files/posts/20210515/toan-bo-loi-ran-day-cua-huan-hoa-hong-huan-rose.jpg'
          ]);
       
-         
          DB::commit();
          session()->flash('success', 'Sửa thành công tài khoản giảng viên ');
          return redirect()->route('route_BackEnd_teacher_list');

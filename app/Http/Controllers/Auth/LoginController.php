@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session as FacadesSession;
 use Session;
 
 class LoginController extends Controller
@@ -40,13 +39,12 @@ class LoginController extends Controller
             $password = $request->input('password');
 
             if( Auth::attempt(['email' => $email, 'password' =>$password])) {
-                // Kiểm tra đúng email và mật khẩu sẽ chuyển trang
                 return redirect('user');
             } else {
                 // Kiểm tra không đúng sẽ hiển thị thông báo lỗi
-                Session::flash('error', 'Email hoặc mật khẩu không đúng!');
+                session()->flash('error', 'Email hoặc mật khẩu không đúng!');
                 return redirect('login');
             }
         }
-    }
+    }    
 }
