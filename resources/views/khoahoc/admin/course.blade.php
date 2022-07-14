@@ -80,10 +80,10 @@
                             <select name="search_danh_muc_khoa_hoc" class="form-control select1"
                                     data-placeholder="Chọn trạng thái">
                                 <option value=""> == Chọn Danh Mục Khoá Học ==</option>
-                                @if(count($danh_muc_khoa_hoc)>0)
-                                    @foreach($danh_muc_khoa_hoc as $key => $item)
+                                @if(count($course_category)>0)
+                                    @foreach($course_category as $key => $item)
                                         <option value="{{ $item->id }}"
-                                                @isset($extParams['search_danh_muc_khoa_hoc']) @if($extParams['search_danh_muc_khoa_hoc'] )  @endif @endisset>{{$item->ten_danh_muc}}</option>
+                                                @isset($extParams['search_danh_muc_khoa_hoc']) @if($extParams['search_danh_muc_khoa_hoc'] )  @endif @endisset>{{$item->name}}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -97,7 +97,7 @@
                             </button>
                             <a href="{{ url('/khoahoc-list.html') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_KhoaHoc_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
+                            <a href="{{ route('route_BackEnd_Course_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                                 Add new</a>
                         </div>
                     </div>
@@ -163,10 +163,8 @@
                                 STT
                             </th>
                             <th class="text-center">Tên Khoá Học</th>
-                            <th class="text-center">Thời gian</th>
                             <th class="text-center">Thông tin khoá học</th>
                             <th class="text-center">Hình ảnh</th>
-                            <th class="text-center">Học phí</th>
                             <th class="text-center">Danh mục</th>
                             <th width="50px" class="text-center">Trạng thái</th>
                             <th width="50px" class="text-center">Công Cụ</th>
@@ -178,20 +176,18 @@
                             <tr>
                                 {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
                                 <td class="text-center">{{$i++}}</td>
-                                <td class="text-center">{{$item->ten_khoa_hoc}}</td>
-                                <td class="text-center">{{$item->thoi_gian}}</td>
-                                <td class="text-center">{{$item->thong_tin_khoa_hoc}}</td>
-                                <td class="image-clean"><img src="{{ $item->hinh_anh?Storage::url($item->hinh_anh):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
-                                <td class="text-center">{{$item->hoc_phi}}</td>
-                                <td class="text-center">{{$arrDanhMuc[$item->id_danh_muc]}}</td>
+                                <td class="text-center">{{$item->name}}</td>
+                                <td class="text-center">{{$item->description}}</td>
+                                <td class="image-clean"><img src="{{ $item->image?Storage::url($item->image):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
+                                <td class="text-center">{{$arrCategory[$item->category_id]}}</td>
                                 <td class="text-center" style="width:180px;background-color:
-                                @if($item->trang_thai == 0)
+                                @if($item->status == 0)
                                         red
                                 @else
                                         green
                                 @endif;
                                         color: white">
-                                    @if($item->trang_thai == 0)
+                                    @if($item->status == 0)
                                         Dừng Hoạt Động
                                     @else
                                         Đang Hoạt Động
@@ -199,7 +195,8 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="{{ route('route_BackEnd_KhoaHoc_Detail',['id'=> $item->id]) }}"title="Chi tiết"><i class="fa fa-edit"></i></a>
+                                    <a href="{{ route('route_BackEnd_Course_Detail',['id'=> $item->id]) }}"title="Chi tiết"><i class="fa fa-edit"></i></a>
+                                    <td class="text-center"><a onclick="return confirm('Bạn có muốn xóa?')" href="{{ route('route_BackEnd_Course_Delete',['id'=> $item->id ]) }}" title="Xóa"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                                 </td>
                             </tr>
                         @endforeach

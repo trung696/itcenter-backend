@@ -18,7 +18,7 @@ class AddCollumTableUsers extends Migration
             $table->integer('phone');
             $table->string('address');
             $table->string('avatar');
-            $table->boolean('status');	
+            // $table->boolean('status');	
         });
     }
 

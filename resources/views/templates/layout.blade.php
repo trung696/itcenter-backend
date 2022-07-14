@@ -362,6 +362,22 @@
                     </ul>
                 </li>
                 <li class=" active menu-open ">
+                  <a href="#"><i class="fa fa-dollar"></i> <span>Course</span></a>
+                  <ul class="treeview-menu">
+                      <li><a href="{{ route('route_BackEnd_CourseCategory_List') }}"><i
+                                      class="fa fa-circle-o"></i> Course Category</a></li>
+                      <li><a href="{{ route('route_BackEnd_Course_List') }}"><i
+                                      class="fa fa-circle-o"></i> Course</a></li>
+                  </ul>
+              </li>
+              <li class=" active menu-open ">
+                <a href="#"><i class="fa fa-dollar"></i> <span>Central Facility</span></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i
+                                    class="fa fa-circle-o"></i> list central facility</a></li>
+                </ul>
+            </li>
+                <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-dollar"></i> <span>Địa Điểm Học</span></a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('route_BackEnd_DanhSachDiaDiem_index') }}"><i

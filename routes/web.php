@@ -243,12 +243,12 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
 
 
     //role(doanh)   
-    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list')->middleware('can:role-list');
-    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add')->middleware('can:role-add');
+    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list');
+    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add');
     Route::post('/create_role','RoleController@store')->name('route_BackEnd_role_store');
-    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit')->middleware('can:role-edit');
+    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit');
     Route::post('/edit_role/{id}','RoleController@update')->name('route_BackEnd_role_update');
-    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete')->middleware('can:role-delete');
+    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete');
 
     //end role(doanh)
 
@@ -291,4 +291,48 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::get('/chien-dich/delete/{id}', 'ChienDichController@dungChiendich')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_ChienDich_Delete');
+
+        //course category(dai)
+    Route::get('/course-category','CourseCategoryController@courseCategory')
+    ->name('route_BackEnd_CourseCategory_List');
+    Route::match(['get', 'post'], '/course-category/add', 'CourseCategoryController@AddCourseCategory')
+    ->name('route_BackEnd_CourseCategory_Add');
+    Route::get('/course-category/detail/{id}', 'CourseCategoryController@courseCategoryDetail')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_CourseCategory_Detail');
+    Route::post('/course-category/edit/{id}', 'CourseCategoryController@updateCourseCategory')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_CourseCategory_Update'); 
+        Route::get('/course-category/delete/{id}', 'CourseCategoryController@destroy')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_CourseCategory_Delete');   
+        //course
+    Route::get('/course','CourseController@course')
+    ->name('route_BackEnd_Course_List');   
+    Route::match(['get', 'post'], '/course/add', 'CourseController@AddCourse')
+    ->name('route_BackEnd_Course_Add'); 
+    Route::get('/Course/detail/{id}', 'CourseController@CourseDetail')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Course_Detail');
+    Route::post('/Course/update/{id}', 'CourseController@updateCourse')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Course_Update');
+    Route::get('/Course/delete/{id}', 'CourseController@destroy')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Course_Delete');
+        //central facility
+        Route::get('/central-facility','CentralFacilityController@listCentralFacility')
+    ->name('route_BackEnd_CentralFacility_List');
+    Route::match(['get', 'post'], '/central-facility/add', 'CentralFacilityController@AddCentralFacility')
+    ->name('route_BackEnd_CentralFacility_Add');
+    Route::get('/central-facility/detail/{id}', 'CentralFacilityController@centralFacilityDetail')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_CentralFacility_Detail');
+    Route::post('/central-facility/update/{id}', 'CentralFacilityController@updateCentralFacility')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_CentralFacility_Update');
+    Route::get('/central-facility/delete/{id}', 'CentralFacilityController@destroy')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_CentralFacility_Delete');
 });
+
