@@ -318,4 +318,17 @@ class UserController extends Controller
     //             return redirect()->route($method_route, ['id' => $id]);
     //         }
     //     }
+    public function active(User $user, $token){
+        $tokens =  rtrim($token, '}');
+         if($user->tokenActive === $tokens){
+             $user->update(['status'=>1,
+                            'tokenActive' => null]);
+            return "Cập nhập thành công";
+            //  return redirect()->route('')->with('yes','xác thực tài khoản thành công');
+         }else{
+            //  return redirect()->route('')->with('NO','chưa xác thực đưuọc tài khoản');
+            return "Lủng rồi xem lại đê";
+
+         }
+     }
 }

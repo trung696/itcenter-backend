@@ -29,6 +29,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('contacts', 'Api\ApiContactController');
 Route::apiResource('users', 'Api\UserController');
+Route::get('/user/{user}/{token}', [App\Http\Controllers\UserController::class, 'active'])->where(['id' => '[0-9]+,[a-z]+'])->name('active.user');
+
+Route::apiResource('login', 'Api\ApiLoginController');
+Route::apiResource('category', 'Api\ApiCategoryController');
 
 
 
