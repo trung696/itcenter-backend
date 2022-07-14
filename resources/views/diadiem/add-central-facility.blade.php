@@ -62,7 +62,7 @@
                 </button>
             </div>
         @endif
-        {{-- @if ($errors->any())
+        @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -74,7 +74,7 @@
                     <span class="sr-only">Close</span>
                 </button>
             </div>
-    @endif --}}
+    @endif
 
     <!-- Phần nội dung riêng của action  -->
         <form class="form-horizontal " action="" method="post" enctype="multipart/form-data">
@@ -95,7 +95,7 @@
                             <label for="address" class="col-md-3 col-sm-4 control-label">Địa chỉ<span class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
-                                <textarea name="address" id="ten_dia_diem" class="form-control">
+                                <textarea name="address" id="ten_dia_diem" value="@isset($request['address']){{ $request['address'] }}@endisset" class="form-control">
 
                                 </textarea>
                                 <span id="mes_sdt"></span>
@@ -106,7 +106,7 @@
                             <label for="description" class="col-md-3 col-sm-4 control-label">Mô tả <span class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
-                                <textarea name="description" id="ten_dia_diem" class="form-control">
+                                <textarea name="description"value="@isset($request['description']){{ $request['description'] }}@endisset" id="ten_dia_diem" class="form-control">
 
                                 </textarea>
                                 <span id="mes_sdt"></span>

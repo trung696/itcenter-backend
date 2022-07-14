@@ -96,42 +96,80 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description" class="col-md-3 col-sm-4 control-label">Thông tin khoá học <span class="text-danger">(*)</span></label>
+                            <label for="price" class="col-md-3 col-sm-4 control-label">Giá <span class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
-                                <textarea name="description" class="form-control" value="@isset($request['description']){{ $request['description'] }}@endisset"></textarea>
+                                <input type="text" name="price" id="ten_khoa_hoc" class="form-control" value="@isset($request['price']){{ $request['price'] }}@endisset">
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
+                        
                         <div class="form-group">
-                            <label class="col-md-3 col-sm-4 control-label">Ảnh Khoá Học</label>
+                            <label for="slot" class="col-md-3 col-sm-4 control-label">số chỗ <span class="text-danger">(*)</span></label>
+
                             <div class="col-md-9 col-sm-8">
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <img id="hinh_anh_khoa_hoc_preview" src="http://placehold.it/100x100" alt="your image"
-                                             style="max-width: 200px; height:100px; margin-bottom: 10px;" class="img-fluid"/>
-                                        <input type="file" name="image" accept="image/*"
-                                               class="form-control-file " id="hinh_anh_khoa_hoc">
-                                    </div>
+                                <input type="text" name="slot" id="ten_khoa_hoc" class="form-control" value="@isset($request['slot']){{ $request['slot'] }}@endisset">
+                                <span id="mes_sdt"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="start_date" class="col-md-3 col-sm-4 control-label">Thời gian bắt đầu <span class="text-danger">(*)</span></label>
+
+                            <div class="col-md-9 col-sm-8">
+                                <input type="date" name="start_date" id="ten_khoa_hoc" class="form-control" value="@isset($request['name']){{ $request['name'] }}@endisset">
+                                <span id="mes_sdt"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="end_date" class="col-md-3 col-sm-4 control-label">Thời gian kết thúc <span class="text-danger">(*)</span></label>
+
+                            <div class="col-md-9 col-sm-8">
+                                <input type="date" name="end_date" id="ten_khoa_hoc" class="form-control" value="@isset($request['name']){{ $request['name'] }}@endisset">
+                                <span id="mes_sdt"></span>
+                            </div>
+                        </div>
+                </div>
+
+                                    {{--                    tab2--}}
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="lecturer_id" class="col-md-3 col-sm-4 control-label">Giảng viên</label>
+                                            <div class="col-md-9 col-sm-8">
+                                                <select name="lecturer_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn giảng viên">
+                                                    <option value="">== Giảng viên ==</option>
+                                                    @foreach($user as $item)
+                                                        <option value="{{ $item->id }}" @isset($request['lecturer_id']) @if($request['lecturer_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="location_id" class="col-md-3 col-sm-4 control-label">Địa điểm</label>
+                                            <div class="col-md-9 col-sm-8">
+                                                <select name="location_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn địa điểm">
+                                                    <option value="">== Địa điểm ==</option>
+                                                    @foreach($centralFacility as $item)
+                                                        <option value="{{ $item->id }}" @isset($request['location_id']) @if($request['location_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="form-group">
+                                            <label for="course_id" class="col-md-3 col-sm-4 control-label">Khoá Học</label>
+                                            <div class="col-md-9 col-sm-8">
+                                                <select name="course_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn khoá học">
+                                                    <option value="">== khoá học==</option>
+                                                    @foreach($course as $item)
+                                                        <option value="{{ $item->id }}" @isset($request['course_id']) @if($request['course_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="category_id" class="col-md-3 col-sm-4 control-label">Danh Mục Khoá Học</label>
-                            <div class="col-md-9 col-sm-8">
-                                <select name="category_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn danh mục khoá học">
-                                    <option value="">== Chọn danh mục khoá học==</option>
-                                    @foreach($course_categories as $item)
-                                        <option value="{{ $item->id }}" @isset($request['category_id']) @if($request['category_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    {{--                    tab2--}}
-                    <div class="col-md-6">
-
                     </div>
                 </div>
 
@@ -139,7 +177,7 @@
             <!-- /.box-body -->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary"> Save</button>
-                <a href="{{ route('route_BackEnd_Course_List') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('route_BackEnd_Class_List') }}" class="btn btn-default">Cancel</a>
             </div>
             <!-- /.box-footer -->
         </form>

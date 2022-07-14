@@ -83,7 +83,7 @@
                             </button>
                             <a href="{{ url('/danh-muc-khoa-hoc') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_DanhMucKhoaHoc_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
+                            <a href="{{ route('route_BackEnd_CourseCategory_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                                 Add new</a>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                     </button>
                 </div>
             @endif
-            {{-- @if ($errors->any())
+            @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -129,7 +129,7 @@
                         <span class="sr-only">Close</span>
                     </button>
                 </div>
-            @endif --}}
+            @endif
         </div>
         @if(count($list)<=0)
             <p class="alert alert-warning">

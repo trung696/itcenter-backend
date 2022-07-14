@@ -80,7 +80,7 @@
 
     <!-- Phần nội dung riêng của action  -->
         <form class="form-horizontal "
-              action="{{ route('route_BackEnd_Course_Update',['id'=>request()->route('id')]) }}" method="post"
+              action="{{ route('route_BackEnd_Document_Update',['id'=>request()->route('id')]) }}" method="post"
               enctype="multipart/form-data">
             @csrf
             <div class="box-body">
@@ -97,38 +97,25 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="image" class="col-md-3 col-sm-4 control-label">Hình ảnh khoá học <span
+                            <label for="file" class="col-md-3 col-sm-4 control-label">tệp tài liệu <span
                                         class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
-                                <img id="hinh_anh_khoa_hoc_preview" src="{{ $objItem->image?Storage::url($objItem->image):'http://placehold.it/100x100' }}" alt="your image"
-                                     style="max-width: 200px; height:100px; margin-bottom: 10px;" class="img-fluid"/>
-                                <input type="file" name="image" accept="image/*"
+                                <input type="file" name="file" 
                                         id="hinh_anh_khoa_hoc">
                             </div>
                         </div>
+                       
                         <div class="form-group">
-                            <label for="description" class="col-md-3 col-sm-4 control-label">Thông tin khoá học <span
-                                        class="text-danger">(*)</span></label>
-
+                            <label for="danh_muc_tai_san_id" class="col-md-3 col-sm-4 control-label">Khoá Học</label>
                             <div class="col-md-9 col-sm-8">
-                                <textarea name="description" id="thong_tin_khoa_hoc" class="form-control">
-                                          @isset($request['description'])  {{ $request['description'] }} @else {{ $objItem->description }} @endisset @if($objItem->description != '')  @endif
-
-                                </textarea>
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="danh_muc_tai_san_id" class="col-md-3 col-sm-4 control-label">Danh Mục Khoá Học</label>
-                            <div class="col-md-9 col-sm-8">
-                                <select name="category_id" id="id_danh_muc" class="form-control select2"
-                                        data-placeholder="Chọn danh mục khoá học">
-                                    <option value="">== Chọn danh mục khoá học ==</option>
-                                    @foreach($course_category as $item)
+                                <select name="course_id" id="id_danh_muc" class="form-control select2"
+                                        data-placeholder="Chọn  khoá học">
+                                    <option value="">== Chọn khoá học ==</option>
+                                    @foreach($course as $item)
                                         <option value="{{ $item->id }}"
-                                                @isset($request['danh_muc_khoa_hoc']) @if($request['danh_muc_khoa_hoc'] == $item->id) selected
-                                                @endif @else @if($objItem->category_id == $item->id) selected @endif @endisset>
+                                                @isset($request['course']) @if($request['course'] == $item->id) selected
+                                                @endif @else @if($objItem->course_id == $item->id) selected @endif @endisset>
                                             {{ $item->name }}
                                         </option>
                                     @endforeach
@@ -153,7 +140,7 @@
         </form>
 
 
-        <div class="box box-primary" style="margin-top: 50px">
+        {{-- <div class="box box-primary" style="margin-top: 50px">
             <div class="box-header with-border">
                 <div class="box-title">
                     Danh Sách Lớp Học
@@ -184,12 +171,12 @@
                                     <select name="trang_thai" id="trang_thai" class="form-control select2"
                                             data-placeholder="Chọn trạng thái">
                                         <option value=""> == Chọn trạng thái ==</option>
-                                        {{-- @if(count($trang_thai)>0)
+                                        @if(count($trang_thai)>0)
                                             @foreach($trang_thai as $index => $mh)
                                                 <option value="{{ $index }}"
                                                         @isset($extParams['trang_thai']) @if($extParams['trang_thai'] == $index) selected @endif @endisset>{{$mh}}</option>
                                             @endforeach
-                                        @endif --}}
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -222,55 +209,52 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="name">Tên Lớp Học <span
+                                                <label for="ten_lop_hoc">Tên Lớp Học <span
                                                             class="text-danger">(*)</span></label>
-                                                <input type="text" class="form-control" name="name"
+                                                <input type="text" class="form-control" name="ten_lop_hoc"
                                                        id="ten_lop_hoc">
                                             </div>
                                             <div class="form-group">
-                                                <label for="price">Giá<span class="text-danger">(*)</span></label>
-                                                <input type="number" class="form-control" name="price"
+                                                <label for="ca_hoc">Ca học<span class="text-danger">(*)</span></label>
+                                                <input type="text" class="form-control" name="ca_hoc"
                                                        id="ca_hoc">
                                             </div>
                                             <div class="form-group">
-                                                <label for="slot" class="col-md-12" style="padding:0">Số chỗ<span class="text-danger">(*)</span></label>
-                                                <input type="text" class="form-control" name="slot" id="so_cho">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="start_date">Thời gian bắt đầu<span class="text-danger">(*)</span></label>
-                                                <input type="date" class="form-control" name="start_date" id="thoi_giang_khai_giang">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="start_date">Thời gian kết thúc<span class="text-danger">(*)</span></label>
-                                                <input type="date" class="form-control" name="end_date" id="thoi_giang_khai_giang">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="lecture_id">Giảng Viên<span
-                                                            class="text-danger">(*)</span></label>
-                                                <input type="text" class="form-control" name="lecturer_id" id="id_giang_vien">
+                                                <label for="thoi_giang_khai_giang">Thời gian khai giảng<span class="text-danger">(*)</span></label>
+                                                <input type="date" class="form-control" name="thoi_giang_khai_giang" id="thoi_giang_khai_giang">
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="id_dia_diem" class="col-md-12" style="padding:0">Địa điểm<span class="text-danger">(*)</span></label>
-                                                <input type="text" class="form-control" name="location_id" id="id_dia_diem">
+                                                <input type="text" class="form-control" name="id_dia_diem" id="id_dia_diem">
                                             </div>
-                                            
-
                                             <div class="form-group">
-                                                <label for="category_id" class="col-md-3 col-sm-4 control-label">Khoá Học</label>
-                                                <div class="col-md-9 col-sm-8">
-                                                    <select name="course_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn danh mục khoá học">
-                                                        {{-- <option value="">== khoá học==</option>
-                                                        @foreach($course as $item)
-                                                            <option value="{{ $item->id }}" @isset($request['course_id']) @if($request['course_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
-                                                        @endforeach --}}
-                                                    </select>
-                                                </div>
+                                                <label for="so_cho" class="col-md-12" style="padding:0">Số chỗ<span class="text-danger">(*)</span></label>
+                                                <input type="text" class="form-control" name="so_cho" id="so_cho">
+                                            </div>
+
+                                            <div class="form-group hide">
+                                                <label for="id_khoa_hoc" class="col-md-12" style="padding:0">Khoá học<span class="text-danger">(*)</span></label>
+                                                <input type="text" class="form-control" name="id_khoa_hoc" id="id_khoa_hoc" value="{{ $objItem->id }}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_giang_vien">Giảng Viên<span
+                                                            class="text-danger">(*)</span></label>
+                                                <input type="text" class="form-control" name="id_giang_vien" id="id_giang_vien">
                                             </div>
                                         </div>
                                     </div>
-                            
+                                            <div class="form-group">
+                                                <label for="trang_thai" class="col-md-12" style="padding:0">Trạng thái <span
+                                                            class="text-danger">(*)</span></label>
+                                                <select name="trang_thai" id="trang_thai"
+                                                        class="form-control select2 col-md-12" style="width: 100%">
+                                                    <option value="">== Chọn trạng thái ==</option>
+                                                    @foreach($trang_thai as $index => $item)
+                                                        <option value="{{ $index }}">{{ $item }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                     <div class="text-center">
                                         <button class="btn btn-primary" id="saveLopHoc" type="submit">Lưu lại</button>
                                         <button type="reset" class="btn btn-default">Nhập lại</button>
@@ -281,34 +265,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="clearfix"></div>
-                <div v-if="list_hoa_dons.length>0" class="table-responsive">
+                <div class="clearfix"></div> --}}
+                {{-- <div v-if="list_hoa_dons.length>0" class="table-responsive">
                     <table class="table table-bordered" style="margin-top:20px;">
                         <tbody>
                         <tr>
                             <th>#ID</th>
                             <th>Tên lớp hoc</th>
-                            <th>Giá</th>
-                            <th>Số chỗ</th>
-                            <th>Ngày bắt đầu</th>
-                            <th>Ngày kết thúc</th>
-                            <th>Giảng viên</th>
+                            <th>Thời gian khai giang</th>
                             <th>Địa điểm</th>
-                            <th>khóa học</th>
+                            <th>Số chỗ</th>
+                            <th>Trạng thái</th>
                             <th>Công cụ</th>
                         </tr>
                         @foreach($lists as $key => $item)
                             <tr>
 
                                 <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->price }}</td>
-                                <td>{{ $item->slot }}</td>
-                                <td>{{ $item->start_date }}</td>
-                                <td>{{ $item->end_date }}</td>
-                                <td>{{ $arrUser[$item->lecturer_id] }}</td>
-                                <td>{{ $arrFacility[$item->location_id] }}</td>
-                                <td>{{ $arrCourse[$item->course_id] }}</td>
+                                <td>{{ $item->ten_lop_hoc }}</td>
+                                <td>{{ $item->thoi_gian_khai_giang }}</td>
+                                <td>{{ $item->id_dia_diem }}</td>
+                                <td>{{ $item->so_cho }}</td>
+                                <td>
+                                    @if($item->trang_thai == 0)
+                                        Đóng
+                                    @elseif($item->trang_thai == 1)
+                                        Mở
+                                @endif
                                 <td class="text-center">
                                     <a href="{{ route('route_BackEnd_LopHoc_Detail',['id'=> $item->id]) }}" title="Sửa" ><i class="fa fa-edit"></i></a>
                                     <a href="{{ route('route_BackEnd_TaiSanCon_Delete',['id'=> $item->id]) }}" title="Xóa" ><i class="fa fa-trash"></i></a>
@@ -324,7 +307,7 @@
             <br>
             <div class="text-center">
             </div>
-        </div>
+        </div> --}}
 
     </section>
 @endsection

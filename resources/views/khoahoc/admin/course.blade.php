@@ -95,7 +95,7 @@
                             <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i
                                         class="fa fa-search" style="color:white;"></i> Search
                             </button>
-                            <a href="{{ url('/khoahoc-list.html') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
+                            <a href="{{ url('/course') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                                 Clear </a>
                             <a href="{{ route('route_BackEnd_Course_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                                 Add new</a>
