@@ -33,12 +33,13 @@ class ApiLoginController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'email' => 'required|email',
-            'password' => 'required|min:1'
+            'email' => 'bail|required|email',
+            'password' => 'required'
         ];
         $messages = [
             'email.required' => 'Email là trường bắt buộc',
-            'email.email' => 'Email không đúng định dạng',
+            'email.unique' => 'Email đã tồn tại',
+
             'password.required' => 'Mật khẩu là trường bắt buộc',
             'password.min' => 'Mật khẩu phải chứa ít nhất 2 ký tự',
         ];
@@ -46,11 +47,15 @@ class ApiLoginController extends Controller
 
 
         if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'heading' => 'Chưa qua được validate',
+                'error' => $validator->errors()
+            ],500);
             // Điều kiện dữ liệu không hợp lệ sẽ chuyển về trang đăng nhập và thông báo lỗi
-            return redirect('login')->withErrors($validator)->withInput();
+            // return redirect('login')->withErrors($validator)->withInput();
         } else {
             // Nếu dữ liệu hợp lệ sẽ kiểm tra trong csdl
-            // dd($request->all());
             $email = $request->input('email');
             $password = $request->input('password');
 
@@ -70,13 +75,13 @@ class ApiLoginController extends Controller
                 }
                 return response()->json([
                     'status' => true,
-                    'heading' => 'ok',
+                    'heading' => 'Tạo thành công token cho user đang login',
                     'data' =>  $addToken
                 ],200);
             } else {
                 return response()->json([
                     'status' => false,
-                    'heading' => 'lunrg',
+                    'heading' => 'sai user hoac pass',
                 ],500);
             }
         }
@@ -114,5 +119,21 @@ class ApiLoginController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function deleteToken(Request  $request){
+        $tokenUp = $request->header('token');
+        $checkToken = SessionUser::where('token',$tokenUp)->first();
+        if(empty($tokenUp)){
+            return response()->json([
+                'status' => false,
+                'heading' => 'Không gửi token lên',
+            ], 401);
+        }elseif(!empty($checkToken)){
+            $checkToken->delete();
+            return response()->json([
+                'status' => true,
+                'heading' => 'Xóa thành công token',
+            ], 200);
+        }
     }
 }
