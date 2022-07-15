@@ -121,4 +121,8 @@ class KhoaHoc extends Model
             ->update($dataUpdate);
         return $res;
     }
+
+    public function lop(){
+        return $this->hasMany(ClassRoom::class);
+    }
 }

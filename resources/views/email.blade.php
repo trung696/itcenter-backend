@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Xin chào học viên, {{$emails->ho_ten}}<b></b></p>
+    <p>Xin chào học viên, {{$email->ho_ten}}<b></b></p>
     <p>Trung tâm văn hoá Thanh Trung Academics </p>
     <p>Xin thông báo, bạn đã đăng ký thành công lớp học: {{$emails->ten_lop_hoc}} thuộc khoá học: {{$emails->ten_khoa_hoc}}</p>
 <table style="width: 100%; border-collapse: collapse">
