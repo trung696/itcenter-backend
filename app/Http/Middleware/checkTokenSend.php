@@ -17,7 +17,7 @@ class checkTokenSend
      */
     public function handle(Request $request, Closure $next)
     {
-        $tokenUp = $request->header('token');
+        $tokenUp = $request->bearerToken();
         $checkIssetToken = SessionUser::where('token', $tokenUp)->first();
         if (empty($tokenUp)) {
             return response()->json([

@@ -19,7 +19,7 @@ class ApiGetKhoaHocOfUser extends Controller
             return response()->json([
                 'status' => true,
                 'heading' => "các khóa học mà user đã đang kí",
-                'data' => 'doanh update'
+                'data' => []
             ],200);
         // }
     }
