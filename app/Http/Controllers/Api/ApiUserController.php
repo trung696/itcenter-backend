@@ -66,8 +66,9 @@ class ApiUserController extends Controller
      */
     public function show(Request $request, User $user)
     {
-        $tokenUp = $request->header('token');
+        $tokenUp = $request->bearerToken();
         $checkToken = SessionUser::where('token',$tokenUp)->first();
+        
         if(empty($tokenUp)){
             return response()->json([
                 'status' => false,
