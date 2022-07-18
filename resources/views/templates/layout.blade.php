@@ -344,13 +344,13 @@
                         <li><a href=""><i class="fa fa-circle-o"></i>Danh sách đăng ký</a></li>
                     </ul>
                 </li>
-                <li class=" active menu-open ">
+                <!-- <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-users"></i> <span>Khuyến Mại</span></a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('route_BackEnd_ChienDich_index') }}"><i
                                         class="fa fa-circle-o"></i>Chiến Dịch</a></li>
                     </ul>
-                </li>
+                </li> -->
 
                 <!-- <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-dollar"></i> <span>Khoá hoc</span></a>
@@ -392,13 +392,13 @@
                                   class="fa fa-circle-o"></i> list document</a></li>
               </ul>
           </li>
-                <li class=" active menu-open ">
+                <!-- <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-dollar"></i> <span>Địa Điểm Học</span></a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('route_BackEnd_DanhSachDiaDiem_index') }}"><i
                                         class="fa fa-circle-o"></i> Danh sách địa điểm</a></li>
                     </ul>
-                </li>
+                </li> -->
 
 
                 <li class=" active menu-open ">
