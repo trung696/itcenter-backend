@@ -13,6 +13,10 @@ class Document extends Model
     protected $table = 'document';
     protected $fillable = ['tb1.id','tb1.name','tb1.file','tb1.status','tb1.course_id','tb1.created_at','tb1.updated_at'];
     public $timestamps = false;
+
+    public function course() {
+        $this->belongsTo(Course::class,'id','course_id');
+    }
     public function createStdClass(){
         $objItem = new \stdClass();
         foreach ($this->fillable as $field){

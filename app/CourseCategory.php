@@ -14,11 +14,10 @@ class CourseCategory extends Model
     protected $table = 'course_categories';
     protected $fillable = ['tb1.id','tb1.name','tb1.status','tb1.created_at','tb1.updated_at'];
     public $timestamps = false;
-    
-    public function course(){
-        return $this->hasMany('App\Course');
-    }
 
+    public function course(){
+        return $this->hasMany(Course::class,'category_id');
+    }
     public function createStdClass(){
         $objItem = new \stdClass();
         foreach ($this->fillable as $field){
