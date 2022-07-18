@@ -263,10 +263,10 @@ Route::middleware(['auth'])->group(function () {
 
     //teacher (trung)
 
-    Route::get('/teacher', 'TeacherController@giaoVien')->name('route_BackEnd_Teacher_index');
+    Route::get('/teacher', 'GiangVienController@danhSachGiangVien')->name('route_BackEnd_Teacher_index');
     // Route::get('/teacher/add', 'UserController@formAdd')->name('route_BackEnd_user_add');
-    Route::get('/teacher/thong-tin-giang-vien/{id}', 'TeacherController@thongTinGiangVien')->name('route_BackEnd_Teacher_info');
-    Route::get('/teacher/update/{id}', 'TeacherController@updateThongTinGiaoVien')->name('route_BackEnd_Teacher_update');
+    Route::get('/teacher/thong-tin-giang-vien/{id}', 'GiangVienController@thongTinGiangVien')->name('route_BackEnd_Teacher_info');
+    Route::get('/teacher/update/{id}', 'GiangVienController@updateThongTinGiaoVien')->name('route_BackEnd_Teacher_update');
 
     //end teachr(doanh)
     Route::match(['get', 'post'], '/chien-dich/add', 'ChienDichController@themChienDich')

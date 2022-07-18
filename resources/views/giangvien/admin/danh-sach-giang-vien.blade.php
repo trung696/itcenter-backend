@@ -4,10 +4,10 @@
     <style>
         body {
             /*-webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            -o-user-select: none;*/
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -o-user-select: none;*/
             user-select: none;
         }
 
@@ -31,16 +31,16 @@
             margin-top: 3px;
         }
 
-        .table > tbody > tr.success > td {
+        .table>tbody>tr.success>td {
             background-color: #009688;
             color: white !important;
         }
 
-        .table > tbody > tr.success > td span {
+        .table>tbody>tr.success>td span {
             color: white !important;
         }
 
-        .table > tbody > tr.success > td span.button__csentity {
+        .table>tbody>tr.success>td span.button__csentity {
             color: #333 !important;
         }
 
@@ -71,20 +71,23 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên danh mục khoá học"
-                                   value="@isset($extParams['search_ten_danh_muc_khoa_hoc']){{$extParams['search_ten_danh_muc_khoa_hoc']}}@endisset">
+                            <input type="text" name="search_ten_giang_vien" class="form-control"
+                                placeholder="Tên Giảng Viên"
+                                value="@isset($extParams['search_ten_giang_vien']) {{ $extParams['search_ten_giang_vien'] }} @endisset">
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-xs-12" style="text-align:center;">
                         <div class="form-group">
-                            <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i
-                                        class="fa fa-search" style="color:white;"></i> Search
+                            <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i class="fa fa-search"
+                                    style="color:white;"></i> Search
                             </button>
-                            <a href="{{ url('/danh-muc-khoa-hoc') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
+                            <a href="{{ url('/danh-sach-giang-vien') }}" class="btn btn-default btn-sm "><i
+                                    class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_DanhMucKhoaHoc_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
-                                Add new</a>
+                            {{-- <a href="{{ route('route_BackEnd_GiangVien_Add') }}" class="btn btn-info btn-sm"><i
+                                    class="fa fa-user-plus" style="color:white;"></i>
+                                Add new</a> --}}
                         </div>
                     </div>
                 </div>
@@ -97,8 +100,9 @@
     <!-- Main content -->
     <section class="content appTuyenSinh">
         <div id="msg-box">
-            <?php //Hiển thị thông báo thành công?>
-            @if ( Session::has('success') )
+            <?php //Hiển thị thông báo thành công
+            ?>
+            @if (Session::has('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
                     <strong>{{ Session::get('success') }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -107,8 +111,9 @@
                     </button>
                 </div>
             @endif
-            <?php //Hiển thị thông báo lỗi?>
-            @if ( Session::has('error') )
+            <?php //Hiển thị thông báo lỗi
+            ?>
+            @if (Session::has('error'))
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <strong>{{ Session::get('error') }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -131,7 +136,7 @@
                 </div>
             @endif
         </div>
-        @if(count($list)<=0)
+        @if (count($list) <= 0)
             <p class="alert alert-warning">
                 Không có dữ liệu phù hợp
             </p>
@@ -140,7 +145,7 @@
             <form action="" method="post">
                 @csrf
                 <span class="pull-right">Tổng số bản ghi tìm thấy: <span
-                            style="font-size: 15px;font-weight: bold;">{{ $list->count() }}</span></span>
+                        style="font-size: 15px;font-weight: bold;">{{ $list->count() }}</span></span>
                 <div class="clearfix"></div>
                 <div class="double-scroll">
                     <table class="table table-bordered">
@@ -151,47 +156,67 @@
                             <th class="text-center">Tên Giảng Viên</th>
                             <th class="text-center">Thông tin giảng viên</th>
                             <th class="text-center">Hình ảnh giảng viên</th>
+                            <th class="text-center">Danh sach giang vien dạy</th>
                             <th width="50px" class="text-center">Trạng thái</th>
                             <th width="50px" class="text-center">Công Cụ</th>
                         </tr>
-                        @php($i=1)
+                        @php($i = 1)
 
-                        @foreach($list as  $item)
-
+                        @foreach ($list as $item)
                             <tr>
-                                {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
-                                <td class="text-center">{{$i++}}</td>
-                                <td class="text-center">{{$item->ten_giang_vien}}</td>
-                                <td class="text-center">{{$item->thong_tin_giang_vien}}</td>
-                                <td class="image-clean"><img src="{{ $item->hinh_anh_giang_vien?Storage::url($item->hinh_anh_giang_vien):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
-                                <td class="text-center" style="width:180px; background-color:
-                                @if($item->trang_thai == 0)
-                                        red
+                                {{-- <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td> --}}
+                                <td class="text-center">{{ $i++ }}</td>
+                                <td class="text-center">{{ $item->ten_giang_vien }}</td>
+                                <td class="text-center">{{ $item->thong_tin_giang_vien }}</td>
+                                <td class="image-clean"><img
+                                        src="{{ $item->hinh_anh_giang_vien ? Storage::url($item->hinh_anh_giang_vien) : 'http://placehold.it/100x100' }}"
+                                        style="max-width: 50px"></td>
+                                <?php
+                                $listChuyeMon = \Illuminate\Support\Facades\DB::table('chuyen_mon_day as tb1')
+                                    ->select('tb1.id', 'tb1.id_giang_vien', 'tb1.id_khoa_hoc', 'tb2.ten_khoa_hoc', 'tb1.trang_thai')
+                                    ->leftJoin('khoa_hoc as tb2', 'tb2.id', '=', 'tb1.id_khoa_hoc')
+                                    ->where('tb1.id_giang_vien', '=', $item->id)
+                                    ->get();
+                                
+                                ?>
+                                <td class="text-center">
+                                    @foreach ($listChuyeMon as $values)
+                                        <a
+                                            href="{{ route('route_BackEnd_LopHoc_XepLop', ['id' => $values->id_khoa_hoc, 'id_giang_vien' => $values->id_giang_vien]) }}"><button
+                                                type="button"
+                                                class="btn btn-primary">{{ $values->ten_khoa_hoc }}</button></a><br>
+                                        <br>
+                                    @endforeach
+
+                                </td>
+                                <td class="text-center"
+                                    style="width:180px; background-color:
+                                @if ($item->trang_thai == 0) red
                                 @else
-                                        green
-                                @endif;
+                                        green @endif;
                                         color: white">
-                                    @if($item->trang_thai == 0)
+                                    @if ($item->trang_thai == 0)
                                         Dừng Hoạt Động
                                     @else
                                         Đang Hoạt Động
                                     @endif
                                 </td>
-                                <td class="text-center"><a href="{{ route('route_BackEnd_DanhMucKhoaHoc_Detail',['id'=> $item->id ]) }}" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                                <td class="text-center"><a
+                                        href="{{ route('route_BackEnd_AdminGiangVien_Detail', ['id' => $item->id]) }}"
+                                        title="Sửa"><i class="fa fa-edit"></i></a></td>
                             </tr>
                         @endforeach
 
                     </table>
                 </div>
+
             </form>
         </div>
         <br>
         <div class="text-center">
-            {{  $list->appends($extParams)->links() }}
+            {{ $list->appends($extParams)->links() }}
         </div>
         <index-cs ref="index_cs"></index-cs>
     </section>
 
 @endsection
-
-
