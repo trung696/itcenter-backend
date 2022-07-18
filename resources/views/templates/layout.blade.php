@@ -352,7 +352,7 @@
                     </ul>
                 </li>
 
-                <li class=" active menu-open ">
+                <!-- <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-dollar"></i> <span>Khoá hoc</span></a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('route_BackEnd_DanhMucKhoaHoc_List') }}"><i
@@ -360,7 +360,7 @@
                         <li><a href="{{ route('route_BackEnd_KhoaHoc_index') }}"><i
                                         class="fa fa-circle-o"></i> Khoá học</a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li class=" active menu-open ">
                   <a href="#"><i class="fa fa-dollar"></i> <span>Course</span></a>
                   <ul class="treeview-menu">
