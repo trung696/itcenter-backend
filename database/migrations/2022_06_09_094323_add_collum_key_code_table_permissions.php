@@ -26,7 +26,7 @@ class AddCollumKeyCodeTablePermissions extends Migration
     public function down()
     {
         Schema::table('permissions', function (Blueprint $table) {
-           $table->dropColumn('keycode');
+           $table->dropColumn('key_code');
         });
     }
 }

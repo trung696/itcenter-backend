@@ -41,6 +41,8 @@ class CourseController extends Controller
         $objCourseCategory = new CourseCategory();
         $this->v['course_category'] = $objCourseCategory->loadListIdAndName(['status', 1]);
         $categories = $this->v['course_category'];
+        // $courseCategory = Course::find(3)->courseCategory->toArray();
+        // dd($courseCategory);
         // dd($categories);
         $arrCategory = [];
         foreach ($categories as $index => $item) {
@@ -238,7 +240,7 @@ class CourseController extends Controller
 	
 	//Kiểm tra lệnh delete để trả về một thông báo
 	if ($deleteData) {
-		Session::flash('success', 'Xóa học sinh thành công!');
+		Session::flash('success', 'Xóa khóa học thành công!');
 	}else {                        
 		Session::flash('error', 'Xóa thất bại!');
 	}
