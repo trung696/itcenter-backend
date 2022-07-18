@@ -263,6 +263,9 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::post('/user/edit/{id}','UserController@update')->name('route_BackEnd_user_update');
     Route::get('/user/delete/{id}','UserController@delete')->name('route_BackEnd_user_delete');
     Route::get('/user/deleteSelect','UserController@deleteCheckbox')->name('route_BackEnd_user_delete_checkbox');
+
+    Route::get('api/user/{user}/{token}', [App\Http\Controllers\ActiveUserController::class, 'active'])->where(['id' => '[0-9]+,[a-z]+'])->name('active.user');
+
     //end user
 
     //teacher (doanh)

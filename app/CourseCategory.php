@@ -94,4 +94,6 @@ class CourseCategory extends Model
         $obj = $query->first();
         return $obj;
     }
+
+
 }

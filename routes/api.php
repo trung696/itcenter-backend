@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\ApiContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,22 +18,35 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Lấy danh sách sản phẩm
-// Route::apiResource('contact', 'ApiContactController');
-// Route::get('/contact/list',[ApiContactController::class, 'index']);
-// Route::post('/contact/create',[ApiContactController::class, 'store']);
-// Route::get('/contact/{id}',[ApiContactController::class, 'show']);
-// Route::patch('/contact/update/{id}',[ApiContactController::class, 'update']);
-// Route::get('/contact/list',[ApiContactController::class, 'destroy']);
-
 Route::apiResource('contacts', 'Api\ApiContactController');
-Route::apiResource('users', 'Api\UserController');
 Route::get('/user/{user}/{token}', [App\Http\Controllers\UserController::class, 'active'])->where(['id' => '[0-9]+,[a-z]+'])->name('active.user');
-
-Route::apiResource('login', 'Api\ApiLoginController');
 Route::apiResource('category', 'Api\ApiCategoryController');
 
 
+//add new route 
+
+// khoa hoc ( post : /api/user -- thêm user
+//            patch :  /api/user/{id} -- sửa thông tin user đó
+//            get :  /api/user/{id} -- lấy thông tin user đó )
+Route::apiResource('user', 'Api\ApiUserController');
+Route::patch('user/update/{id}','Api\ApiUserController@update')->middleware('checkTokenUp');
+// Route::patch('user/update/{id}','App\Http\Controllers\Api\ApiUserController@update')->middleware('checkTokenUp');
+
+
+// khoa hoc ( get : /api/categories -- lấy tất cả khóa học
+//            get : /api/categories/$id -- lấy tất cả các lớp học của khóa học  đó )
+Route::apiResource('categories','Api\ApiCategoryController');
+
+// app\Http\Controllers\Api\ApiGetKhoaHocOfUser.php
+// Login ( post :    /api/login -- login hệ thống
+//         delete : /api/logout  -- logout hệ thống)
+Route::apiResource('login','Api\ApiLoginController');
+Route::delete('logout','Api\ApiLoginController@deleteToken');
+
+
+//xem danh muc khoa hoc ma user da dang ki
+// danhMucOfUser ( get :    /api/danhMucOfUser -- lấy danh mục khó học mà user đã đăng kí
+Route::apiResource('danhMucOfUser','Api\ApiGetKhoaHocOfUser')->middleware('checkTokenUp');
 
 
 

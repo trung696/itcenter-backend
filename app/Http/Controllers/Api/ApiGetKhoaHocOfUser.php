@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\CourseCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\Constraint\Count;
 
-class ApiCategoryController extends Controller
+class ApiGetKhoaHocOfUser extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
-        $allCate=CourseCategory::all();
-        return response()->json([
-            'status' => true,
-            'heading' => "Tất cả danh mục khóa học",
-            'data' => $allCate
-        ],200);
+        /// ĐOẠN NÀY ĐÃ CHECK BÊN MIDDLEWARE checkTokenUp
+            // $allCate=C::all();
+            return response()->json([
+                'status' => true,
+                'heading' => "các khóa học mà user đã đang kí",
+                'data' => []
+            ],200);
+        // }
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -41,16 +40,9 @@ class ApiCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CourseCategory $courseCategory, $id)
+    public function show($id)
     {
-        $courseCategoryById = CourseCategory::where('id',$id)->first();
-        dd($courseCategoryById->course);
-        // $lopInCategory = $courseCategory->course;
-        // return response()->json([
-        //     'status' => true,
-        //     'heading' => "full lop hoc cua 1 khoa hoc",
-        //     'data' => $lopInCategory
-        // ]);
+        //
     }
 
     /**
