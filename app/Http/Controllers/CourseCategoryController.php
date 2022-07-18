@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\DanhMucKhoaHocRequest;
 use App\Http\Requests\CourseCateGoryRequest;
+// use Illuminate\Support\Facades\App\CourseCategory;
 use App\CourseCategory;
+use App\Course;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -37,6 +39,8 @@ class CourseCategoryController extends Controller
         $this->v['id_user'] = Auth::id();
         $this->v['list'] = $objDanhMucKhoaHoc->loadListWithPager($this->v['extParams']);
         // dd($this->v['list']);
+        // $data = CourseCategory::find(2)->course->toArray();
+        // dd($data);
 
         return view('khoahoc.admin.category', $this->v);
     }
@@ -149,7 +153,7 @@ class CourseCategoryController extends Controller
 	
 	//Kiểm tra lệnh delete để trả về một thông báo
 	if ($deleteData) {
-		Session::flash('success', 'Xóa học sinh thành công!');
+		Session::flash('success', 'Xóa danh mục khóa học thành công!');
 	}else {                        
 		Session::flash('error', 'Xóa thất bại!');
 	}

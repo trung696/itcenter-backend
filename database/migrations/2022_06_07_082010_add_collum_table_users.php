@@ -30,7 +30,7 @@ class AddCollumTableUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropTable('users');
+            
         });
     }
 }
