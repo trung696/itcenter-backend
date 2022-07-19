@@ -41,22 +41,22 @@ Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@them
 // check mã khuyến mãi để giảm học phí
 Route::match(['get', 'post'], '/check-coupon', 'MaChienDichController@checkcoupon')->name('route_BackEnd_CheckCoupon_Check');
 Route::middleware(['auth'])->group(function () {
-// Sửa đường dẫn trang chủ mặc định
+    // Sửa đường dẫn trang chủ mặc định
 
-Route::get('/', 'HocsinhController@index');
-Route::get('/admin/home', 'HocsinhController@index');
+    Route::get('/', 'HocsinhController@index');
+    Route::get('/admin/home', 'HocsinhController@index');
 
-// Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
+    // Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
 
-// Route::match(['get', 'post'], '/user/add', 'UserController@add')->name('route_BackEnd_NguoiDung_Add');
+    // Route::match(['get', 'post'], '/user/add', 'UserController@add')->name('route_BackEnd_NguoiDung_Add');
 
-Route::get('/user/detail/{id}', 'UserController@detail')
-    ->where('id', '[0-9]+')
-    ->name('route_BackEnd_NguoiDung_Detail');
+    Route::get('/user/detail/{id}', 'UserController@detail')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_NguoiDung_Detail');
 
-Route::post('/user/update/{id}', 'UserController@update')
-    ->where('id', '[0-9]+')
-    ->name('route_BackEnd_NguoiDung_Update');
+    Route::post('/user/update/{id}', 'UserController@update')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_NguoiDung_Update');
 });
 //    ->middleware(['can:BackEnd_QuanLyDaoTao_taoDanhSachThi']);
 //Route::match(['get', 'post'], '/user/add', 'BackEnd\BoDeThiController@add')->name('route_BackEnd_DeThi_Add');
@@ -66,35 +66,35 @@ Route::post('/user/update/{id}', 'UserController@update')
 // Route::post('register', 'Auth\RegisterController@postRegister');
 
 // Đăng nhập và xử lý đăng nhập
-Route::get('login', [ 'as' => 'login', 'uses' => 'Auth\LoginController@getLogin']);
-Route::post('login', [ 'as' => 'login', 'uses' => 'Auth\LoginController@postLogin']);
+Route::get('login', ['as' => 'login', 'uses' => 'Auth\LoginController@getLogin']);
+Route::post('login', ['as' => 'login', 'uses' => 'Auth\LoginController@postLogin']);
 
 // Đăng xuất
-Route::get('logout', [ 'as' => 'logout', 'uses' => 'Auth\LogoutController@getLogout']);
+Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\LogoutController@getLogout']);
 
 // danh mục tài sản
 Route::middleware(['auth'])->group(function () {
 
-Route::get('/taisan-category', 'TaiSanController@danhMucTaiSan')->name('route_BackEnd_DanhMucTaiSan_index');
+    Route::get('/taisan-category', 'TaiSanController@danhMucTaiSan')->name('route_BackEnd_DanhMucTaiSan_index');
 
 
 
-Route::match(['get', 'post'], '/taisan-category/add', 'TaiSanController@themDanhMucTaiSan')->name('route_BackEnd_DanhMucTaiSan_Add');
+    Route::match(['get', 'post'], '/taisan-category/add', 'TaiSanController@themDanhMucTaiSan')->name('route_BackEnd_DanhMucTaiSan_Add');
 
 
 
 
-Route::get('/taisan-category/detail/{id}', 'TaiSanController@chiTietDanhMucTaiSan')
-    ->where('id', '[0-9]+')
-    ->name('route_BackEnd_DanhMucTaiSan_Detail');
+    Route::get('/taisan-category/detail/{id}', 'TaiSanController@chiTietDanhMucTaiSan')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_DanhMucTaiSan_Detail');
 
-Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhMucTaiSan')
-    ->where('id', '[0-9]+')
-    ->name('route_BackEnd_DanhMucTaiSan_Update');
+    Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhMucTaiSan')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_DanhMucTaiSan_Update');
 
 
 
-// tài sản
+    // tài sản
     Route::get('/taisan', 'TaiSanController@TaiSan')->name('route_BackEnd_TaiSan_index');
 
     Route::match(['get', 'post'], '/taisan/add', 'TaiSanController@themTaiSan')->name('route_BackEnd_TaiSan_Add');
@@ -124,7 +124,7 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::match(['get', 'post'], '/taisancon/add', 'TaiSanConController@themTaiSanCon')->name('route_BackEnd_TaiSanCon_Add');
     Route::match(['get', 'post'], '/soluongtaisan/add', 'TaiSanController@themSoLuongTaiSan')->name('route_BackEnd_addSoLuongTaiSan_Add');
     Route::get('/taisancon/detail/{id}/{idTaiSan}', 'TaiSanConController@chiTietTaiSanCon')
-//        ->where('id', '[0-9]+')
+        //        ->where('id', '[0-9]+')
         ->name('route_BackEnd_TaiSanCon_Detail');
     Route::post('/taisancon-category/update/{id}', 'TaiSanConController@updateChiTietTaiSanCon')
         ->where('id', '[0-9]+')
@@ -147,7 +147,7 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->name('route_BackEnd_TaiSanCon_InBienBanKiemKe_Update');
 
     // thêm lịch sử sửa chữa
-        Route::match(['get', 'post'], '/lichsusuachua/add', 'LichSuSuaChuaController@themLichSuSuaChua')->name('route_BackEnd_LichSuSuaChua_Add');
+    Route::match(['get', 'post'], '/lichsusuachua/add', 'LichSuSuaChuaController@themLichSuSuaChua')->name('route_BackEnd_LichSuSuaChua_Add');
 
     // thêm biên bản
     Route::get('/bienban', 'BienBanController@bienBan')->name('route_BackEnd_BienBan_index');
@@ -166,10 +166,10 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     // biên bản thanh lí
     Route::get('/bienbanthanhli', 'BienBanController@bienBanThanhLi')->name('route_BackEnd_BienBanThanhLi_index');
     Route::get('/bienbanthanhli/print', 'TaiSanConController@inBienBanThanhLi')
-//        ->where('id', '[0-9]+')
+        //        ->where('id', '[0-9]+')
         ->name('route_BackEnd_TaiSanCon_InBienBanThanhLi_Update');
     //danh mục khoá học
-    Route::get('/danh-muc-khoa-hoc','DanhMucKhoaHocController@danhMucKhoaHoc')
+    Route::get('/danh-muc-khoa-hoc', 'DanhMucKhoaHocController@danhMucKhoaHoc')
         ->name('route_BackEnd_DanhMucKhoaHoc_List');
     Route::match(['get', 'post'], '/danh-muc-khoa-hoc/them', 'DanhMucKhoaHocController@themDanhMucKhoaHoc')
         ->name('route_BackEnd_DanhMucKhoaHoc_Add');
@@ -180,7 +180,7 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_DanhMucKhoaHoc_Update');
     //khoá học
-    Route::get('/khoahoc-list.html','KhoaHocController@khoaHoc')
+    Route::get('/khoahoc-list.html', 'KhoaHocController@khoaHoc')
         ->name('route_BackEnd_KhoaHoc_index');
     Route::match(['get', 'post'], '/khoa-hoc/add', 'KhoaHocController@themKhoaHoc')
         ->name('route_BackEnd_KhoaHoc_Add');
@@ -199,12 +199,12 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_LopHoc_InLopHoc_Update');
     //Khuyến mãi
-    Route::get('/khuyenmai-lists','KhuyenMaiController@danhSachKhuyenMai')
+    Route::get('/khuyenmai-lists', 'KhuyenMaiController@danhSachKhuyenMai')
         ->name('route_BackEnd_DanhSachKhhuyenMai_index');
     Route::match(['get', 'post'], '/khuyen-mai/add', 'KhuyenMaiController@themKhuyenMai')
         ->name('route_BackEnd_DanhSachKhhuyenMai_Add');
-   //chiến dịch
-    Route::get('/chien-dich','ChienDichController@listChienDich')
+    //chiến dịch
+    Route::get('/chien-dich', 'ChienDichController@listChienDich')
         ->name('route_BackEnd_ChienDich_index');
     Route::match(['get', 'post'], '/chien-dich/add', 'ChienDichController@themChienDich')
         ->name('route_BackEnd_ChienDich_Add');
@@ -221,10 +221,10 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::match(['get', 'post'], '/ma-chien-dich/add', 'MaChienDichController@taoMaChienDich')
         ->name('route_BackEnd_MaChienDich_Add');
     //học viên
-    Route::get('/danh-sach-hoc-vien','HocVienController@danhSachHocVien')
+    Route::get('/danh-sach-hoc-vien', 'HocVienController@danhSachHocVien')
         ->name('route_BackEnd_DanhSachHocVien_index');
     //địa điểm
-    Route::get('/danh-sach-dia-diem','DiaDiemController@danhSachDiaDiem')
+    Route::get('/danh-sach-dia-diem', 'DiaDiemController@danhSachDiaDiem')
         ->name('route_BackEnd_DanhSachDiaDiem_index');
     Route::match(['get', 'post'], '/dia-diem/add', 'DiaDiemController@themDiaDiem')
         ->name('route_BackEnd_DiaDiem_Add');
@@ -236,49 +236,66 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->name('route_BackEnd_DiaDiem_Update');
 
     //permission 
-    Route::get('/add_permission','PermissionController@add')
+    Route::get('/add_permission', 'PermissionController@add')
         ->name('route_BackEnd_permission_add');
-    Route::post('/add_permission','PermissionController@store')
+    Route::post('/add_permission', 'PermissionController@store')
         ->name('route_BackEnd_permission_store');
 
 
     //role(doanh)   
-    Route::get('/list_role','RoleController@index')->name('route_BackEnd_role_list');
-    Route::get('/add_role','RoleController@add')->name('route_BackEnd_role_add');
-    Route::post('/create_role','RoleController@store')->name('route_BackEnd_role_store');
-    Route::get('/edit_role/{id}','RoleController@edit')->name('route_BackEnd_role_edit');
-    Route::post('/edit_role/{id}','RoleController@update')->name('route_BackEnd_role_update');
-    Route::get('/delete_role/{id}','RoleController@delete')->name('route_BackEnd_role_delete');
+    Route::get('/list_role', 'RoleController@index')->name('route_BackEnd_role_list');
+    Route::get('/add_role', 'RoleController@add')->name('route_BackEnd_role_add');
+    Route::post('/create_role', 'RoleController@store')->name('route_BackEnd_role_store');
+    Route::get('/edit_role/{id}', 'RoleController@edit')->name('route_BackEnd_role_edit');
+    Route::post('/edit_role/{id}', 'RoleController@update')->name('route_BackEnd_role_update');
+    Route::get('/delete_role/{id}', 'RoleController@delete')->name('route_BackEnd_role_delete');
 
     //end role(doanh)
 
     //user(doanh)
-    Route::get('/user/add','UserController@formAdd')->name('route_BackEnd_user_add');
+    Route::get('/user/add', 'UserController@formAdd')->name('route_BackEnd_user_add');
     Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
     Route::post('/user/search', 'UserController@search')->name('route_BackEnd_user_search');
 
 
-    Route::post('/user/add','UserController@store')->name('route_BackEnd_user_store');
-    Route::get('/user/edit/{id}','UserController@edit')->name('route_BackEnd_user_edit');
-    Route::post('/user/edit/{id}','UserController@update')->name('route_BackEnd_user_update');
-    Route::get('/user/delete/{id}','UserController@delete')->name('route_BackEnd_user_delete');
-    Route::get('/user/deleteSelect','UserController@deleteCheckbox')->name('route_BackEnd_user_delete_checkbox');
+    Route::post('/user/add', 'UserController@store')->name('route_BackEnd_user_store');
+    Route::get('/user/edit/{id}', 'UserController@edit')->name('route_BackEnd_user_edit');
+    Route::post('/user/edit/{id}', 'UserController@update')->name('route_BackEnd_user_update');
+    Route::get('/user/delete/{id}', 'UserController@delete')->name('route_BackEnd_user_delete');
+    Route::get('/user/deleteSelect', 'UserController@deleteCheckbox')->name('route_BackEnd_user_delete_checkbox');
 
     Route::get('api/user/{user}/{token}', [App\Http\Controllers\ActiveUserController::class, 'active'])->where(['id' => '[0-9]+,[a-z]+'])->name('active.user');
 
     //end user
 
     //teacher (doanh)
-    Route::get('/teacher','TeacherController@index')->name('route_BackEnd_teacher_list');
-    Route::get('/teacher/edit/{id}','TeacherController@edit')->name('route_BackEnd_teacher_edit');
-    Route::post('/teacher/edit/{id}','TeacherController@update')->name('route_BackEnd_teacher_update');
+    Route::get('/teacher', 'TeacherController@index')->name('route_BackEnd_teacher_list');
+    Route::get('/teacher/edit/{id}', 'TeacherController@edit')->name('route_BackEnd_teacher_edit');
+    Route::post('/teacher/edit/{id}', 'TeacherController@update')->name('route_BackEnd_teacher_update');
     //end teachr(doanh)
+    Route::get('/student', 'StudentController@index')->name('route_BackEnd_student_list');
+    Route::get('/student/edit/{id}', 'StudentController@edit')->name('route_BackEnd_student_edit');
+    Route::post('/student/edit/{id}', 'StudentController@update')->name('route_BackEnd_student_update');
+
+    //register
+    Route::get('/register', 'RegisterController@index')->name('route_BackEnd_register_list');
+    // Route::get('/register/add', 'RegisterController@formAdd')->name('route_BackEnd_register_add');
+    Route::post('/register/add/{id}', 'RegisterController@add')->name('route_BackEnd_register_add');
+    Route::get('/register/edit/{id}', 'RegisterController@edit')->name('route_BackEnd_student_edit');
+    Route::post('/register/edit/{id}', 'RegisterController@update')->name('route_BackEnd_student_update');
+    //đăng klí lớp học
+    Route::get('/dangky/lop/{id}', 'LopHocController@frDangKyLopHoc')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_UserDangKyLopHoc');
+    Route::get('/dang-ky-thanh-cong', 'LopHocController@frontendDangKyThanhCong')->name('route_BackEnd_UserDangKyLopHocThanhCong');
+    Route::get('/dang-ky-khong-thanh-cong', 'LopHocController@frontendDangKyKhongThanhCong')->name('route_BackEnd_UserDangKyLopHocKhongThanhCong');
+
+
 
     // Trang Client 
     Route::prefix('client')->group(function () {
-        Route::get('/form','Client\FormContactController@add')->name('route_frontend_add');
-        Route::post('/form','Client\FormContactController@store')->name('route_frontend_store');
-
+        Route::get('/form', 'Client\FormContactController@add')->name('route_frontend_add');
+        Route::post('/form', 'Client\FormContactController@store')->name('route_frontend_store');
     });
     //End  Trang Client 
 
@@ -295,25 +312,25 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_ChienDich_Delete');
 
-        //course category(dai)
-    Route::get('/course-category','CourseCategoryController@courseCategory')
-    ->name('route_BackEnd_CourseCategory_List');
+    //course category(dai)
+    Route::get('/course-category', 'CourseCategoryController@courseCategory')
+        ->name('route_BackEnd_CourseCategory_List');
     Route::match(['get', 'post'], '/course-category/add', 'CourseCategoryController@AddCourseCategory')
-    ->name('route_BackEnd_CourseCategory_Add');
+        ->name('route_BackEnd_CourseCategory_Add');
     Route::get('/course-category/detail/{id}', 'CourseCategoryController@courseCategoryDetail')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_CourseCategory_Detail');
     Route::post('/course-category/edit/{id}', 'CourseCategoryController@updateCourseCategory')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CourseCategory_Update'); 
-        Route::get('/course-category/delete/{id}', 'CourseCategoryController@destroy')
+        ->name('route_BackEnd_CourseCategory_Update');
+    Route::get('/course-category/delete/{id}', 'CourseCategoryController@destroy')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CourseCategory_Delete');   
-        //course
-    Route::get('/course','CourseController@course')
-    ->name('route_BackEnd_Course_List');   
+        ->name('route_BackEnd_CourseCategory_Delete');
+    //course
+    Route::get('/course', 'CourseController@course')
+        ->name('route_BackEnd_Course_List');
     Route::match(['get', 'post'], '/course/add', 'CourseController@AddCourse')
-    ->name('route_BackEnd_Course_Add'); 
+        ->name('route_BackEnd_Course_Add');
     Route::get('/Course-Class/detail/{id}', 'CourseController@CourseDetail')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Course_Detail');
@@ -324,11 +341,11 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Course_Delete');
 
-        //class 
-    Route::get('/class','ClassController@classList')
+    //class 
+    Route::get('/class', 'ClassController@classList')
         ->name('route_BackEnd_Class_List');
     Route::match(['get', 'post'], '/class/add', 'ClassController@addClass')
-    ->name('route_BackEnd_Class_Add');
+        ->name('route_BackEnd_Class_Add');
     Route::get('/class/detail/{id}', 'ClassController@classDetail')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Class_Detail');
@@ -339,11 +356,11 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Class_Delete');
 
-        //central facility
-        Route::get('/central-facility','CentralFacilityController@listCentralFacility')
-    ->name('route_BackEnd_CentralFacility_List');
+    //central facility
+    Route::get('/central-facility', 'CentralFacilityController@listCentralFacility')
+        ->name('route_BackEnd_CentralFacility_List');
     Route::match(['get', 'post'], '/central-facility/add', 'CentralFacilityController@AddCentralFacility')
-    ->name('route_BackEnd_CentralFacility_Add');
+        ->name('route_BackEnd_CentralFacility_Add');
     Route::get('/central-facility/detail/{id}', 'CentralFacilityController@centralFacilityDetail')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_CentralFacility_Detail');
@@ -353,12 +370,12 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
     Route::get('/central-facility/delete/{id}', 'CentralFacilityController@destroy')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_CentralFacility_Delete');
-        
-        //document
-    Route::get('/document','DocumentController@document')
-    ->name('route_BackEnd_Document_List');
+
+    //document
+    Route::get('/document', 'DocumentController@document')
+        ->name('route_BackEnd_Document_List');
     Route::match(['get', 'post'], '/document/add', 'DocumentController@AddDocument')
-    ->name('route_BackEnd_Document_Add');
+        ->name('route_BackEnd_Document_Add');
     Route::get('/document/detail/{id}', 'DocumentController@documentDetail')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Document_Detail');
@@ -369,4 +386,3 @@ Route::post('/taisan-category/update/{id}', 'TaiSanController@updateChiTietDanhM
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Document_Delete');
 });
-
