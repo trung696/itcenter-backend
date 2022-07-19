@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ChienDich;
+use App\Course;
 use App\DangKy;
 use App\DiaDiem;
 use App\GiangVien;
@@ -224,15 +225,17 @@ class LopHocController extends  Controller
         $now = date('Y-m-d');
         $objLopHoc = new LopHoc();
         $objItemLopHoc = $objLopHoc->loadOneID($id);
-        if ($objItemLopHoc->thoi_gian_bat_dau < $now || $objItemLopHoc->so_cho <= 0) {
-            return redirect()->route('route_BackEnd_UserLopHoc_Detail', ['id' => $objItemLopHoc->id_khoa_hoc]);
-        }
+        // if ($objItemLopHoc->thoi_gian_bat_dau < $now || $objItemLopHoc->so_cho <= 0) {
+        //     return redirect()->route('route_BackEnd_UserLopHoc_Detail', ['id' => $objItemLopHoc->id_khoa_hoc]);
+        // }
         $this->v['objItemLopHoc'] = $objItemLopHoc;
 
-        $objKhoaHoc = new KhoaHoc();
-        $this->v['objKhoaHoc'] = $objKhoaHoc->loadOneID($this->v['objItemLopHoc']->id_khoa_hoc);
+        $objKhoaHoc = new Course();
+        $this->v['objKhoaHoc'] = $objKhoaHoc->loadOneID($this->v['objItemLopHoc']->course_id);
+        // dd($objItemLopHoc);
+        // dd($objKhoaHoc);
         $objGiangVien = new Teacher();
-        $this->v['objItemGiangVien'] = $objGiangVien->loadOne($this->v['objItemLopHoc']->id_giang_vien);
+        $this->v['objItemGiangVien'] = $objGiangVien->loadOne($this->v['objItemLopHoc']->lecturer_id);
         return view('khoahoc.client.fr-dang-ky-khoa-hoc',  $this->v);
     }
 

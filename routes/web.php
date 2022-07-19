@@ -283,7 +283,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/register/add/{id}', 'RegisterController@add')->name('route_BackEnd_register_add');
     Route::get('/register/edit/{id}', 'RegisterController@edit')->name('route_BackEnd_student_edit');
     Route::post('/register/edit/{id}', 'RegisterController@update')->name('route_BackEnd_student_update');
+
     //đăng klí lớp học
+    Route::get('/lop-hoc/detail/{id}', 'LopHocController@frontendDanhSachLopHoc')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_UserLopHoc_Detail');
+
     Route::get('/dangky/lop/{id}', 'LopHocController@frDangKyLopHoc')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_UserDangKyLopHoc');

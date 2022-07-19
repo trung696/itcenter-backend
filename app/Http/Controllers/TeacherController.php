@@ -35,6 +35,8 @@ class TeacherController extends Controller
       return view('giangvien.admin.edit', $this->v, compact('teacherEdit'));
    }
 
+
+
    public function update(Request $request, $id)
    {
       try {
