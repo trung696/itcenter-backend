@@ -25,7 +25,7 @@ Route::get('/khoa-hoc/detail/{id}', 'KhoaHocController@fontendDanhSachKhoaHoc')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_UserKhoaHoc_Detail');
 
-// fontend lớp học và đăng ký
+// frontend lớp học và đăng ký
 Route::get('/lop-hoc/detail/{id}', 'LopHocController@frontendDanhSachLopHoc')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_UserLopHoc_Detail');
@@ -34,6 +34,20 @@ Route::get('/dangky/lop/{id}', 'LopHocController@frDangKyLopHoc')
     ->name('route_BackEnd_UserDangKyLopHoc');
 Route::get('/dang-ky-thanh-cong', 'LopHocController@frontendDangKyThanhCong')->name('route_BackEnd_UserDangKyLopHocThanhCong');
 Route::get('/dang-ky-khong-thanh-cong', 'LopHocController@frontendDangKyKhongThanhCong')->name('route_BackEnd_UserDangKyLopHocKhongThanhCong');
+
+//back-end đăng kí lớp
+Route::get('/registerlist', 'DangKyController@danhSachDangKy')
+    ->name('route_BackEnd_DanhSachDangKy_index');
+Route::match(['get', 'post'], '/register/add', 'DangKyController@themDangKy')
+    ->name('route_BackEnd_DangKyAdmin_Add');
+Route::get('/list-lop/{id}', 'DangKyController@getListLop')->where('id', '[0-9]+')->name('route_BackEnd_admin_getListLop'); //->middleware(['can:BackEnd_Admin_getListHuyen']);
+Route::get('/register/detail/{id}', 'DangKyController@chiTietDangKy')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_AdminDangKy_Detail');
+Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_AdminDangKy_Update');
+
 
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');

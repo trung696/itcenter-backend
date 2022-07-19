@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ChienDich;
+use App\Course;
 use App\DangKy;
 use App\HocVien;
 use App\Http\Requests\DangKyRequest;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\DanhMucKhoaHocRequest;
+use App\Student;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -49,8 +51,10 @@ class DangKyController extends Controller
         $this->v['routeIndexText'] = 'Danh mục khoa học';
         $this->v['_action'] = 'Add';
         $this->v['_title'] = 'Thêm danh mục khoá học';
-        $this->v['trang_thai'] = config('app.status_dang_ky');
-        $objKhoaHoc = new KhoaHoc();
+        // $this->v['status'] = config('app.status_giang_vien');
+        // dd($this->v['status']);
+        $objKhoaHoc = new Course();
+
 
 
         if ($request->isMethod('post')) {
@@ -78,7 +82,7 @@ class DangKyController extends Controller
                 }
 
                 $objDangKy = new DangKy();
-                $objHocVien = new HocVien();
+                $objHocVien = new Student();
                 $checkEmail = $objHocVien->loadCheckHocVien($request->email);
                 if (!isset($checkEmail)) {
                     $resHocVien = $objHocVien->saveNewAdmin($params);
@@ -96,25 +100,27 @@ class DangKyController extends Controller
                     $arrDangKy['id_hoc_vien'] = $resHocVien;
                     $arrDangKy['gia_tien'] = $gia->hoc_phi - ($gia->hoc_phi * $request->pham_tram_giam / 100);
                     $arrDangKy['trang_thai'] = $request->trang_thai;
+
+                    // dd($request->trang_thai);
                     if ($request->trang_thai == 1) {
                         $res = $objDangKy->saveNewOnline($arrDangKy);
                         if ($res) {
                             $objLopHoc = new  LopHoc();
                             $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
-                            $udateSoCho = [];
-                            $udateSoCho['id'] = $request->id_lop_hoc;
-                            $udateSoCho['so_cho'] = $socho->so_cho - 1;
-                            $update = $objLopHoc->saveUpdateSoCho($udateSoCho);
+                            $updateSoCho = [];
+                            $updateSoCho['id'] = $request->id_lop_hoc;
+                            $updateSoCho['so_cho'] = $socho->so_cho - 1;
+                            $update = $objLopHoc->saveUpdateSoCho($updateSoCho);
                         }
                     } else {
                         $res = $objDangKy->saveNew($arrDangKy);
                     }
                     $email = $request->email;
                     $objGuiGmail = DB::table('dang_ky', 'tb1')
-                        ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.ten_lop_hoc', 'tb4.hoc_phi', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+                        ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
                         ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
-                        ->leftJoin('lop_hoc as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
-                        ->leftJoin('khoa_hoc as tb4', 'tb3.id_khoa_hoc', '=', 'tb4.id')
+                        ->leftJoin('lop_hoc as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
+                        ->leftJoin('course as tb4', 'tb3.id_khoa_hoc', '=', 'tb4.id')
                         ->where('tb1.id', $res)->first();
                     if (isset($request->pham_tram_giam)) {
                         $objGuiGmail->so_dien_thoai = $request->pham_tram_giam;
@@ -145,6 +151,9 @@ class DangKyController extends Controller
         }
 
         $this->v['objKhoaHoc'] = $objKhoaHoc->loadListWithPager();
+        // dd($objKhoaHoc);
+        // dd($trang_thai);
+
         return view('dangky.them-dang-ky', $this->v);
     }
     private function uploadFile($file)
