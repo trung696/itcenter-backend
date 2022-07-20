@@ -130,7 +130,7 @@
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="pham_tram_giam" class="col-md-3 col-sm-4 control-label">Phần Trăm Giảm<span
                                     class="text-danger">(*)</span></label>
                             <div class="col-md-9 col-sm-8">
@@ -138,7 +138,7 @@
                                     value="@isset($request['pham_tram_giam']) {{ $request['pham_tram_giam'] }} @endisset">
                                 <span id="mes_sdt"></span>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <label class="col-md-3 col-sm-4 control-label">Ảnh Học Viên</label>

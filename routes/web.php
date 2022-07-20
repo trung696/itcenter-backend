@@ -292,11 +292,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/student/edit/{id}', 'StudentController@update')->name('route_BackEnd_student_update');
 
     //register
-    Route::get('/register', 'RegisterController@index')->name('route_BackEnd_register_list');
-    // Route::get('/register/add', 'RegisterController@formAdd')->name('route_BackEnd_register_add');
-    Route::post('/register/add/{id}', 'RegisterController@add')->name('route_BackEnd_register_add');
-    Route::get('/register/edit/{id}', 'RegisterController@edit')->name('route_BackEnd_student_edit');
-    Route::post('/register/edit/{id}', 'RegisterController@update')->name('route_BackEnd_student_update');
 
     //đăng klí lớp học
     Route::get('/lop-hoc/detail/{id}', 'LopHocController@frontendDanhSachLopHoc')

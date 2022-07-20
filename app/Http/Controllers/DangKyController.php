@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ChienDich;
+use App\ClassModel;
 use App\Course;
 use App\DangKy;
 use App\HocVien;
@@ -19,7 +20,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\DanhMucKhoaHocRequest;
-use App\Student;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -55,8 +55,8 @@ class DangKyController extends Controller
         // dd($this->v['status']);
         $objKhoaHoc = new Course();
 
-
-
+        // $objLopHoc = new LopHoc();
+        $objLopHoc = new ClassModel();
         if ($request->isMethod('post')) {
             $params = [
                 'danhmuc_add' => Auth::user()->id
@@ -82,7 +82,7 @@ class DangKyController extends Controller
                 }
 
                 $objDangKy = new DangKy();
-                $objHocVien = new Student();
+                $objHocVien = new HocVien();
                 $checkEmail = $objHocVien->loadCheckHocVien($request->email);
                 if (!isset($checkEmail)) {
                     $resHocVien = $objHocVien->saveNewAdmin($params);
@@ -93,23 +93,24 @@ class DangKyController extends Controller
                     }
                 }
                 if (isset($resHocVien)) {
-                    $gia = $objKhoaHoc->loadOne($request->id_khoa_hoc);
+                    $gia = $objLopHoc->loadOne($request->id_lop_hoc);
 
                     $arrDangKy = [];
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
                     $arrDangKy['id_hoc_vien'] = $resHocVien;
-                    $arrDangKy['gia_tien'] = $gia->hoc_phi - ($gia->hoc_phi * $request->pham_tram_giam / 100);
+                    $arrDangKy['gia_tien'] = $gia->price;
                     $arrDangKy['trang_thai'] = $request->trang_thai;
-
+                    // dd($objLopHoc->slot);
                     // dd($request->trang_thai);
                     if ($request->trang_thai == 1) {
                         $res = $objDangKy->saveNewOnline($arrDangKy);
                         if ($res) {
-                            $objLopHoc = new  LopHoc();
+                            // $objLopHoc = new  LopHoc();
                             $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
+                            // dd($socho);
                             $updateSoCho = [];
                             $updateSoCho['id'] = $request->id_lop_hoc;
-                            $updateSoCho['so_cho'] = $socho->so_cho - 1;
+                            $updateSoCho['so_cho'] = $socho->slot - 1;
                             $update = $objLopHoc->saveUpdateSoCho($updateSoCho);
                         }
                     } else {
@@ -119,7 +120,7 @@ class DangKyController extends Controller
                     $objGuiGmail = DB::table('dang_ky', 'tb1')
                         ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
                         ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
-                        ->leftJoin('lop_hoc as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
+                        ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
                         ->leftJoin('course as tb4', 'tb3.id_khoa_hoc', '=', 'tb4.id')
                         ->where('tb1.id', $res)->first();
                     if (isset($request->pham_tram_giam)) {
@@ -151,6 +152,7 @@ class DangKyController extends Controller
         }
 
         $this->v['objKhoaHoc'] = $objKhoaHoc->loadListWithPager();
+        $this->v['objLopHoc'] = $objLopHoc->loadListWithPager();
         // dd($objKhoaHoc);
         // dd($trang_thai);
 

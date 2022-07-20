@@ -8,10 +8,10 @@
     <style>
         body {
             /*-webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                -o-user-select: none;*/
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -o-user-select: none;*/
             user-select: none;
         }
 
@@ -217,7 +217,7 @@
                                 <td class="text-center">{{ $item->ho_ten }}</td>
                                 <td class="text-center">{{ $item->so_dien_thoai }}</td>
                                 <td class="text-center">{{ $item->email }}</td>
-                                <td class="text-center">{{ $item->ten_lop_hoc }}</td>
+                                <td class="text-center">{{ $item->name }}</td>
                                 <td class="text-center">{{ $item->ngay_dang_ky }}</td>
                                 <td class="text-center"
                                     style="width:180px; background-color:
