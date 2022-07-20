@@ -13,9 +13,9 @@ class AddCollumDeleteAtInTableUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->softDeletes(); // add
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->softDeletes(); // add
+        // });
     }
 
     /**

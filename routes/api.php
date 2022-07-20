@@ -37,6 +37,10 @@ Route::patch('user/update/{id}','Api\ApiUserController@update')->middleware('che
 //            get : /api/categories/$id -- lấy tất cả các lớp học của khóa học  đó )
 Route::apiResource('categories','Api\ApiCategoryController');
 
+// danh muc khoa hoc ( get : /api/cource -- lấy tất cả khóa học
+//            get : /api/cource/$id -- lấy tất cả các lớp học của khóa học  đó )
+Route::apiResource('course','Api\ApiCourceController');
+
 // app\Http\Controllers\Api\ApiGetKhoaHocOfUser.php
 // Login ( post :    /api/login -- login hệ thống
 //         delete : /api/logout  -- logout hệ thống)
