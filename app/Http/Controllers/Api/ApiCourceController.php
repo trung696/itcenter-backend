@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\CourseCategory;
+use App\ClassModel;
+use App\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\Constraint\Count;
 
-class ApiCategoryController extends Controller
+class ApiCourceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,7 @@ class ApiCategoryController extends Controller
      */
     public function index()
     {
-        $allCate=CourseCategory::all();
-        return response()->json([
-            'status' => true,
-            'heading' => "Tất cả danh mục khóa học",
-            'data' => $allCate
-        ],200);
+        //
     }
 
     /**
@@ -41,13 +36,13 @@ class ApiCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CourseCategory $courseCategory, $id)
+    public function show($id)
     {
-        $courseCategoryById = CourseCategory::where('id',$id)->first()->course;
+        $course = Course::find($id)->classRoom;
         return response()->json([
             'status' => true,
-            'heading' => 'Lấy thành công danh sách course của courseCategory',
-            'data' => $courseCategoryById,
+            'heading' => 'Lấy thành công danh sách class của course',
+            'data' => $course,
         ],200);
     }
 
