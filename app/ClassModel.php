@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class ClassModel extends Model
 {
     protected $table = 'class';
-    protected $fillable = ['tb1.id','tb1.name','tb1.price','tb1.slot','tb1.start_date','tb1.end_date','tb1.lecturer_id','tb1.location_id','tb1.course_id','tb1.created_at','tb1.updated_at'];
+    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.price', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.created_at', 'tb1.updated_at'];
     public $timestamps = false;
     public function course()
     {
@@ -21,8 +21,8 @@ class ClassModel extends Model
     
     public function createStdClass(){
         $objItem = new \stdClass();
-        foreach ($this->fillable as $field){
-            $field = substr($field,4);
+        foreach ($this->fillable as $field) {
+            $field = substr($field, 4);
             $objItem->$field = null;
         }
         return $objItem;
@@ -31,8 +31,8 @@ class ClassModel extends Model
     public function loadOne($id, $params = null)
     {
 
-        $query = DB::table($this->table.' as tb1')
-       ->select( $this->fillable)
+        $query = DB::table($this->table . ' as tb1')
+            ->select($this->fillable)
             ->where('tb1.id', '=', $id);
 
         $obj = $query->first();
@@ -41,8 +41,8 @@ class ClassModel extends Model
     public function loadOneID($id, $params = null)
     {
 
-        $query = DB::table($this->table.' as tb1')
-            ->select( 'tb1.id','tb1.name','tb1.price','tb1.slot','tb1.start_date','tb1.end_date','tb1.lecturer_id','tb1.location_id','tb1.course_id')
+        $query = DB::table($this->table . ' as tb1')
+            ->select('tb1.id', 'tb1.name', 'tb1.price', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id')
             ->where('tb1.id', '=', $id);
 
         $obj = $query->first();
@@ -52,33 +52,36 @@ class ClassModel extends Model
      * @param array $params
      * @return mixed
      */
-    public function loadListWithPager($params = array()){
-        $query = DB::table($this->table.' as tb1')
+    public function loadListWithPager($params = array())
+    {
+        $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable);
-        if(isset($params['search_name_class']) && strlen($params['search_name_class'])>0){
-            $query->where('tb1.name', 'like', '%' .$params['search_name_class'].'%');
+        if (isset($params['search_name_class']) && strlen($params['search_name_class']) > 0) {
+            $query->where('tb1.name', 'like', '%' . $params['search_name_class'] . '%');
         }
-        if(isset($params['search_danh_muc_khoa_hoc'])&& $params['search_danh_muc_khoa_hoc']){
+        if (isset($params['search_danh_muc_khoa_hoc']) && $params['search_danh_muc_khoa_hoc']) {
             $query->where('tb1.category_id', $params['search_danh_muc_khoa_hoc']);
         }
         $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }
 
-    public function loadListIdWithPager($params = array(),$id = null){
-        $query = DB::table($this->table.' as tb1')
+    public function loadListIdWithPager($params = array(), $id = null)
+    {
+        $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable)
-            ->where('tb1.category_id',$id);
-        if(isset($params['search_ten_khoa_hoc']) && strlen($params['search_ten_khoa_hoc'])>0){
-            $query->where('tb1.ten_khoa_hoc', 'like', '%' .$params['search_ten_khoa_hoc'].'%');
+            ->where('tb1.category_id', $id);
+        if (isset($params['search_ten_khoa_hoc']) && strlen($params['search_ten_khoa_hoc']) > 0) {
+            $query->where('tb1.ten_khoa_hoc', 'like', '%' . $params['search_ten_khoa_hoc'] . '%');
         }
         $lists = $query->paginate(6, ['tb1.id']);
         return $lists;
     }
 
-    public function loadListIdAndName($where = null){
-        $list = DB::table($this->table)->select('id', 'name','status');
-        if($where != null)
+    public function loadListIdAndName($where = null)
+    {
+        $list = DB::table($this->table)->select('id', 'name', 'status');
+        if ($where != null)
             $list->where([$where]);
         return $list->get();
     }
@@ -90,7 +93,7 @@ class ClassModel extends Model
             Session::push('errors', 'Không xác định thông tin người cập nhật');
             return null;
         }
-        $data =  array_merge($params['cols'],[
+        $data =  array_merge($params['cols'], [
             'name' => $params['cols']['name'],
             'price' => $params['cols']['price'],
             'slot' => $params['cols']['slot'],
@@ -121,14 +124,23 @@ class ClassModel extends Model
         foreach ($params['cols'] as $colName => $val) {
             if ($colName == 'id') continue;
 
-            if (in_array('tb1.'.$colName, $this->fillable))
-                $dataUpdate[$colName] = (strlen($val)==0)?null:$val;
+            if (in_array('tb1.' . $colName, $this->fillable))
+                $dataUpdate[$colName] = (strlen($val) == 0) ? null : $val;
         }
         $res = DB::table($this->table)
             ->where('id', $params['cols']['id'])
             ->limit(1)
             ->update($dataUpdate);
-            // dd($res);
+        // dd($res);
+        return $res;
+    }
+    public function saveUpdateSoCho($udateSoCho)
+    {
+
+        $res = DB::table($this->table)
+            ->where('id', $udateSoCho['id'])
+            ->limit(1)
+            ->update(['slot' => $udateSoCho['so_cho']]);
         return $res;
     }
 }
