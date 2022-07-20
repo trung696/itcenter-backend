@@ -121,14 +121,14 @@ class DangKyController extends Controller
                         ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
                         ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
                         ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
-                        ->leftJoin('course as tb4', 'tb3.id_khoa_hoc', '=', 'tb4.id')
+                        ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
                         ->where('tb1.id', $res)->first();
                     if (isset($request->pham_tram_giam)) {
                         $objGuiGmail->so_dien_thoai = $request->pham_tram_giam;
                     }
 
-
-                    Mail::to($email)->send(new OrderShipped($objGuiGmail));
+                    // dd($email);
+                    // Mail::to($email)->send(new OrderShipped($objGuiGmail));
 
                     $method_route = 'route_BackEnd_DangKyAdmin_Add';
                     if ($res == null) {
@@ -226,7 +226,7 @@ class DangKyController extends Controller
                     ->leftJoin('khoa_hoc as tb4', 'tb3.id_khoa_hoc', '=', 'tb4.id')
                     ->where('tb1.id', $id)->first();
                 $email = $objGuiGmail->email;
-                Mail::to($email)->send(new OrderShipped($objGuiGmail));
+                // Mail::to($email)->send(new OrderShipped($objGuiGmail));
                 $objLopHoc = new  LopHoc();
                 $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
                 $udateSoCho = [];
@@ -253,11 +253,12 @@ class DangKyController extends Controller
     public function inHoaDon($id, Request $request)
     {
         $emails = DB::table('dang_ky', 'tb1')
-            ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.ten_lop_hoc', 'tb4.hoc_phi', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+            ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
             ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
-            ->leftJoin('lop_hoc as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
-            ->leftJoin('khoa_hoc as tb4', 'tb3.id_khoa_hoc', '=', 'tb4.id')
+            ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
+            ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
             ->where('tb1.id', $id)->first();
+        dd($emails);
         $pdf = PDF::setOptions([
             'logOutputFile' => storage_path('logs/log.htm'),
             'tempDir' => storage_path('logs/')
