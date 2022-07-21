@@ -53,6 +53,7 @@ Route::delete('logout','Api\ApiLoginController@deleteToken');
 Route::apiResource('danhMucOfUser','Api\ApiGetKhoaHocOfUser')->middleware('checkTokenUp');
 
 
+Route::apiResource('registerClass','Api\ApiRegisterClassController');
 
 // // Lấy thông tin sản phẩm theo id
 // Route::get('products/{id}', 'Api\ProductController@show')->name('products.show');
