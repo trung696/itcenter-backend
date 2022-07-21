@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class HocVien extends Model
 {
     protected $table = 'hoc_vien';
-    protected $fillable = ['tb1.id', 'tb1.ho_ten', 'tb1.ngay_sinh', 'tb1.so_dien_thoai', 'tb1.email', 'tb1.hinh_anh', 'tb1.trang_thai', 'tb1.created_at', 'tb1.updated_at'];
+    protected $fillable = ['ho_ten', 'ngay_sinh','gioi_tinh', 'so_dien_thoai', 'email', 'hinh_anh', 'trang_thai','created_at','updated_at'];
     public $timestamps = false;
     public function createStdClass()
     {
