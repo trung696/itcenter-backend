@@ -16,6 +16,12 @@ class ApiCourceController extends Controller
      */
     public function index()
     {
+        $course = Course::all();
+        return response()->json([
+            'status' => true,
+            'heading' => 'success',
+            'data' => $course,
+        ], 200);
         //
     }
 
@@ -43,7 +49,7 @@ class ApiCourceController extends Controller
             'status' => true,
             'heading' => 'Lấy thành công danh sách class của course',
             'data' => $course,
-        ],200);
+        ], 200);
     }
 
     /**
