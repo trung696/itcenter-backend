@@ -174,12 +174,11 @@
                         <div class="col-md-9 col-sm-8">
                             <select name="id_lop_hoc" id="id_lop_hoc" class="form-control select2"
                                 data-placeholder="Chọn lớp học">
-                                <option value="">== Chọn lớp học==</option>
-                                @foreach ($objLopHoc as $item)
+                                <!-- @foreach ($objLopHoc as $item)
                                     <option value="{{ $item->id }}"
                                         @isset($request['id_lop_hoc']) @if ($request['id_khoa_hoc'] == $item->id) selected @endif
                                     @endisset>{{ $item->name }}</option>
-                            @endforeach
+                            @endforeach -->
                         </select>
                     </div>
                 </div>
@@ -217,8 +216,8 @@
 @section('script')
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
-<script src="{{ asset('js/dangkyadmin.js') }} "></script>
+<!-- <script src="{{ asset('js/dangkyadmin.js') }} "></script> -->
 {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
-{{-- <script src="public/js/taisan.js"></script> --}}
+<script src="{{ asset('/js/addDangky.js')}}"></script>
 
 @endsection

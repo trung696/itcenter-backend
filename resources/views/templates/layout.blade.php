@@ -838,7 +838,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                         }
                     })
                     .fail(function(err) {
-                        console.log(err)
+                        // console.log(err)
                     });
                 // setTimeout(getMessage,10000);
             }
