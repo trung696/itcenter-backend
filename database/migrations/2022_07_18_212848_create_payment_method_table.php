@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClassTable extends Migration
+class CreatePaymentMethodTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,9 @@ class CreateClassTable extends Migration
      */
     public function up()
     {
-        Schema::create('class', function (Blueprint $table) {
+        Schema::create('payment_method', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('course_id');
             $table->string('name');
-            $table->double('price');
-            $table->integer('slot');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->integer('lecturer_id');
-            $table->integer('location_id');
             $table->timestamps();
         });
     }
@@ -34,6 +27,6 @@ class CreateClassTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('class');
+        Schema::dropIfExists('payment_menthod');
     }
 }

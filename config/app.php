@@ -231,12 +231,11 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
-    'roles' =>[1=>'Quản lý',2 =>'Nhân viên'],
-    'status_user' =>[0 => 'Khóa',1 =>'Mở'],
-    'status_danh_muc' =>[0 => 'Dừng Hoạt Động',1 =>'Đang Hoạt Động'],
-    'status_chien_dich' =>[0 => 'Chưa Sử Dụng',1 =>'Đã Sử Dụng'],
-    'status_asset_baby' =>[0 => 'Tạm dừng sử dụng',1 =>'Thanh lý',2 =>'Bảo hành',3 =>'Sửa chữa',4 =>'Đang sử dụng'],
-    'expense' =>[0 => 'Ngân Sách HH',1 =>'Dự án',2 =>'Biếu Tặng',3 =>'Khác'],
-    'status_check' =>[0 => 'Chưa kiểm kê',1 =>'Xấu',2 =>'Vừa',3 =>'Đẹp'],
+    'roles' => [1 => 'Quản lý', 2 => 'Nhân viên'],
+    'status_user' => [0 => 'Khóa', 1 => 'Mở'],
+    'status_giang_vien' => [0 => 'Dừng Giảng Dạy', 1 => 'Đang giảng Dạy'],
+    'status_dang_ky' => [0 => 'Chưa Thanh Toán', 1 => 'Đã Thanh Toán'],
+    'status_danh_muc' => [0 => 'Dừng Hoạt Động', 1 => 'Đang Hoạt Động'],
+
 
 ];
