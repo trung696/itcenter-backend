@@ -4,11 +4,7 @@ $(document).ready(function () {
     const selectvalue = this.value ?? 0;
     //
 
-    listLopHoc
-      .find("option")
-      .remove()
-      .append(new Option("=== Chọn lớp học ===", ""))
-      .val("");
+    listLopHoc.find("option").remove();
 
     $.ajaxSetup({
       headers: {
@@ -28,6 +24,7 @@ $(document).ready(function () {
           $.each(result?.data, function (index, item) {
             listLopHoc.append(new Option(item?.name, item?.id));
           });
+          listLopHoc.val("");
         }
       },
     });
