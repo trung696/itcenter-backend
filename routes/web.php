@@ -399,4 +399,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/document/delete/{id}', 'DocumentController@destroy')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Document_Delete');
+
+        //payment method
+    Route::get('/payment-method', 'PaymentMethodController@paymentMethod')
+        ->name('route_BackEnd_PaymentMethod_List');
+    Route::match(['get', 'post'], '/payment-method/add', 'PaymentMethodController@AddPaymentMethod')
+        ->name('route_BackEnd_PaymentMethod_Add');
+    Route::get('/payment-method/detail/{id}', 'PaymentMethodController@paymentMethodDetail')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_PaymentMethod__Detail');
+    Route::post('/payment-method/update/{id}', 'PaymentMethodController@updatePaymentMethod')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_PaymentMethod__Update');
+    Route::get('/payment-method/delete/{id}', 'PaymentMethodController@destroy')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_PaymentMethod_Delete');
 });

@@ -400,6 +400,13 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                                     list document</a></li>
                         </ul>
                     </li>
+                    <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Payment Method</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_PaymentMethod_List') }}"><i
+                                        class="fa fa-circle-o"></i> List payment</a></li>
+                        </ul>
+                    </li>
                     <!-- <li class=" active menu-open ">
                     <a href="#"><i class="fa fa-dollar"></i> <span>Địa Điểm Học</span></a>
                     <ul class="treeview-menu">
