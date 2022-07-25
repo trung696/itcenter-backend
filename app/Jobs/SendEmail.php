@@ -37,7 +37,6 @@ class SendEmail implements ShouldQueue
     {
         foreach ($this->users as $user) {
             Mail::to($user->email)->send(new MailNotify($this->data));
-            
         }
     }
 }
