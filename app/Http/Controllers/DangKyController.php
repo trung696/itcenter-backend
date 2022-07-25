@@ -8,7 +8,6 @@ use App\Course;
 use App\DangKy;
 use App\HocVien;
 use App\Http\Requests\DangKyRequest;
-use App\KhoaHoc;
 use App\LopHoc;
 use App\MaChienDich;
 use App\Mail\OrderShipped;
@@ -88,7 +87,7 @@ class DangKyController extends Controller
                 if (!isset($checkEmail)) {
                     // dd($checkEmail);
                     $resHocVien = $objHocVien->saveNewAdmin($params);
-                //email tồn tại trên hệ thống 
+                    //email tồn tại trên hệ thống 
                 } else {
                     $checkHV = $objDangKy->loadCheckName($request->id_lop_hoc, $checkEmail->id);
                     if (!isset($checkHV)) {
@@ -166,13 +165,13 @@ class DangKyController extends Controller
         $fileName = time() . '_' . $file->getClientOriginalName();
         return $file->storeAs('hinh_anh_hoc_vien', $fileName, 'public');
     }
-    public function getListLop($id_khoa_hoc)
+    public function getListLop($course_id)
     {
         $now = date('Y-m-d');
-        $list_lop_hoc = DB::table('lop_hoc')->select('id', 'ten_lop_hoc', 'id_khoa_hoc')
-            ->where('id_khoa_hoc', '=', $id_khoa_hoc)
-            ->where('thoi_gian_bat_dau', '>', $now)
-            ->orderBy('ten_lop_hoc', 'ASC')->get();
+        $list_lop_hoc = DB::table('class')->select('id', 'name', 'course_id')
+            ->where('course_id', '=', $course_id)
+            ->where('start_date', '>', $now)
+            ->orderBy('name', 'ASC')->get();
         return response()->json($list_lop_hoc, 200);
     }
     public function chiTietDangKy($id, Request $request)
@@ -182,23 +181,27 @@ class DangKyController extends Controller
         $this->v['_action'] = 'Edit';
         $this->v['_title'] = 'Chi tiết đăng ký';
         $this->v['trang_thai'] = config('app.status_dang_ky');
+
         $objDangKy = new DangKy();
         $itemDK = $objDangKy->loadOne($id);
         $this->v['itemDK'] = $itemDK->id_lop_hoc;
+        $this->v['itemTT'] = $itemDK->trang_thai;
+        // dd($itemDK);
         $this->v['itemDKTT'] = $itemDK->trang_thai;
         $this->v['itemGia'] = $itemDK->gia_tien;
         $objHocVien = new  HocVien();
         $this->v['itemHV'] = $objHocVien->loadOne($itemDK->id_hoc_vien);
+
         $objLopHoc = new LopHoc();
         $itemLH = $objLopHoc->loadOne($this->v['itemDK']);
-        $objKhoaHoc = new KhoaHoc();
-        $this->v['itemKH'] = $objKhoaHoc->loadOne($itemLH->id_khoa_hoc);
-
-        $list_lop_hoc = DB::table('lop_hoc')->select('id', 'ten_lop_hoc')
-            ->where('id_khoa_hoc', '=', $itemLH->id_khoa_hoc)
-            ->where('thoi_gian_bat_dau', '>', $now)->get();
+        // dd($itemLH);
+        $objKhoaHoc = new Course();
+        $this->v['itemKH'] = $objKhoaHoc->loadOne($itemLH->course_id);
+        $list_lop_hoc = DB::table('class')->select('id', 'name')
+            ->where('course_id', '=', $itemLH->course_id)
+            ->where('start_date', '>', $now)->get();
         $this->v['listLH'] = $list_lop_hoc;
-
+        // dd($list_lop_hoc);
         return view('dangky.sua-thong-tin', $this->v);
     }
     public function updateDangKy($id, Request $request)
@@ -206,13 +209,13 @@ class DangKyController extends Controller
         $now = date('Y-m-d');
         $objDangKy = new DangKy();
         $dangKy = $objDangKy->loadOne($id);
-        $objLopHoc = new LopHoc();
+        $objLopHoc = new ClassModel();
         $lopHoc = $objLopHoc->loadOne($dangKy->id_lop_hoc);
         if ($dangKy->trang_thai == 1) {
 
             Session::flash('success', 'Đăng Ký Này Đã Thanh Toán Không Thể Thay Đổi');
             return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
-        } elseif ($lopHoc->thoi_gian_bat_dau < $now) {
+        } elseif ($lopHoc->start_date < $now) {
             Session::flash('success', 'Lớp Học Đã Khai Giảng Không Thay đổi');
             return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
         } else {
@@ -223,18 +226,18 @@ class DangKyController extends Controller
             $res = $objDangKy->updateDangKy($arrDangKy);
             if ($request->trang_thai == 1) {
                 $objGuiGmail = DB::table('dang_ky', 'tb1')
-                    ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb2.email', 'tb3.ten_lop_hoc', 'tb4.hoc_phi', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+                    ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb2.email', 'tb3.name', 'tb4.hoc_phi', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
                     ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
-                    ->leftJoin('lop_hoc as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
-                    ->leftJoin('khoa_hoc as tb4', 'tb3.id_khoa_hoc', '=', 'tb4.id')
+                    ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
+                    ->leftJoin('khoa_hoc as tb4', 'tb3.course_id', '=', 'tb4.id')
                     ->where('tb1.id', $id)->first();
                 $email = $objGuiGmail->email;
                 // Mail::to($email)->send(new OrderShipped($objGuiGmail));
-                $objLopHoc = new  LopHoc();
+                $objLopHoc = new  ClassModel();
                 $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
                 $udateSoCho = [];
                 $udateSoCho['id'] = $request->id_lop_hoc;
-                $udateSoCho['so_cho'] = $socho->so_cho - 1;
+                $udateSoCho['so_cho'] = $socho->slot - 1;
                 $update = $objLopHoc->saveUpdateSoCho($udateSoCho);
             }
             if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi

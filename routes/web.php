@@ -48,6 +48,11 @@ Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Update');
 
+// Đăng kí
+Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_AdminDangKyIn_Detail');
+
 
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');
@@ -400,7 +405,7 @@ Route::middleware(['auth'])->group(function () {
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Document_Delete');
 
-        //payment method
+    //payment method
     Route::get('/payment-method', 'PaymentMethodController@paymentMethod')
         ->name('route_BackEnd_PaymentMethod_List');
     Route::match(['get', 'post'], '/payment-method/add', 'PaymentMethodController@AddPaymentMethod')
