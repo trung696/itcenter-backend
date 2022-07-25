@@ -84,8 +84,11 @@ class DangKyController extends Controller
                 $objDangKy = new DangKy();
                 $objHocVien = new HocVien();
                 $checkEmail = $objHocVien->loadCheckHocVien($request->email);
+                //email chưa tôàn tại trên hệ thống 
                 if (!isset($checkEmail)) {
+                    // dd($checkEmail);
                     $resHocVien = $objHocVien->saveNewAdmin($params);
+                //email tồn tại trên hệ thống 
                 } else {
                     $checkHV = $objDangKy->loadCheckName($request->id_lop_hoc, $checkEmail->id);
                     if (!isset($checkHV)) {

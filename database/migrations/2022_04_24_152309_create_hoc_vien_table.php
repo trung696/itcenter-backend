@@ -17,7 +17,7 @@ class CreateHocVienTable extends Migration
             $table->id();
             $table->string('ho_ten');
             $table->date('ngay_sinh');
-            $table->integer('gioi_tính');
+            $table->integer('gioi_tinh');
             $table->string('so_dien_thoai');
             $table->string('email');
             $table->string('hinh_anh')->nullable();

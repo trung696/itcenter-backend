@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\Session;
 class DangKy extends Model
 {
     protected $table = 'dang_ky';
-    protected $fillable = ['tb1.id', 'tb1.ngay_dang_ky', 'tb1.id_lop_hoc', 'tb1.gia_tien', 'tb1.id_hoc_vien', 'tb1.trang_thai', 'tb1.created_at', 'tb1.updated_at'];
+    protected $fillable = ['ngay_dang_ky', 'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai', 'created_at', 'updated_at'];
+    public function class()
+    {
+        return $this->belongsTo(ClassModel::class,'id_lop_hoc','id');
+    }
+    
     public function loadListWithPager($params = array(), $id = null)
     {
         $query = DB::table($this->table . ' as tb1')

@@ -15,6 +15,13 @@ class Course extends Model
     protected $fillable = ['tb1.id','tb1.name','tb1.description','tb1.status','tb1.image','tb1.category_id','tb1.created_at','tb1.updated_at'];
     public $timestamps = false;
 
+    public function classRoom(){
+        return $this->hasMany(ClassModel::class);
+    }
+
+  
+
+
     public function Document() {
         $this->hasMany(Document::class,'course_id','id');
     }

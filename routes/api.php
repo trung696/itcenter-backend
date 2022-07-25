@@ -19,11 +19,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('contacts', 'Api\ApiContactController');
-Route::get('/user/{user}/{token}', [App\Http\Controllers\UserController::class, 'active'])->where(['id' => '[0-9]+,[a-z]+'])->name('active.user');
+Route::get('/user/{user}/{token}', 'App\Http\Controllers\UserController@active')->name('active.user');
 Route::apiResource('category', 'Api\ApiCategoryController');
 
 
 //add new route 
+// Login ( post :    /api/login -- login hệ thống
+//         delete : /api/logout  -- logout hệ thống)
+Route::apiResource('login','Api\ApiLoginController');
+Route::delete('logout','Api\ApiLoginController@deleteToken');
 
 // khoa hoc ( post : /api/user -- thêm user
 //            patch :  /api/user/{id} -- sửa thông tin user đó
@@ -37,18 +41,17 @@ Route::patch('user/update/{id}','Api\ApiUserController@update')->middleware('che
 //            get : /api/categories/$id -- lấy tất cả các lớp học của khóa học  đó )
 Route::apiResource('categories','Api\ApiCategoryController');
 
-// app\Http\Controllers\Api\ApiGetKhoaHocOfUser.php
-// Login ( post :    /api/login -- login hệ thống
-//         delete : /api/logout  -- logout hệ thống)
-Route::apiResource('login','Api\ApiLoginController');
-Route::delete('logout','Api\ApiLoginController@deleteToken');
+// danh muc khoa hoc ( get : /api/cource -- lấy tất cả khóa học
+//            get : /api/cource/$id -- lấy tất cả các lớp học của khóa học  đó )
+Route::apiResource('course','Api\ApiCourceController');
+
 
 
 //xem danh muc khoa hoc ma user da dang ki
 // danhMucOfUser ( get :    /api/danhMucOfUser -- lấy danh mục khó học mà user đã đăng kí
 Route::apiResource('danhMucOfUser','Api\ApiGetKhoaHocOfUser')->middleware('checkTokenUp');
 
-
+Route::apiResource('registerClass','Api\ApiRegisterClassController');
 
 // // Lấy thông tin sản phẩm theo id
 // Route::get('products/{id}', 'Api\ProductController@show')->name('products.show');

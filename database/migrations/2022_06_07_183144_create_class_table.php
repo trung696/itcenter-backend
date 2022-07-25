@@ -15,7 +15,7 @@ class CreateClassTable extends Migration
     {
         Schema::create('class', function (Blueprint $table) {
             $table->id();
-            $table->integer('course_id');
+            $table->unsignedInteger('course_id');
             $table->string('name');
             $table->double('price');
             $table->integer('slot');

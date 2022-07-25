@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\CourseCategory;
+use App\ClassModel;
+use App\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\Constraint\Count;
 
-class ApiCategoryController extends Controller
+class ApiCourceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,12 @@ class ApiCategoryController extends Controller
      */
     public function index()
     {
-        $allCate=CourseCategory::all();
+        $all = Course::all();
         return response()->json([
             'status' => true,
-            'heading' => "Tất cả danh mục khóa học",
-            'data' => $allCate
-        ],200);
+            'heading' => "Tất cả khoá học",
+            'data' => $all
+        ], 200);
     }
 
     /**
@@ -41,14 +41,25 @@ class ApiCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CourseCategory $courseCategory, $id)
+    public function show($id)
     {
-        $courseCategoryById = CourseCategory::where('id',$id)->first()->course;
+        $listClass = Course::find($id)->classRoom;
+        if (isset($listClass) &&  count($listClass)) {
+            foreach ($listClass as $listClassItem) {
+                //lấy danh sách các đăng kí đã thanh toán tiền để cập nhập số chỗ trong lớp
+                $countStudentInClass = count($listClassItem->dangKi->where('trang_thai', '=', 1));
+            }
+            return response()->json([
+                'status' => true,
+                'heading' => 'Lấy thành công danh sách class của course',
+                'data' => $listClass,
+            ], 200);
+        }
         return response()->json([
             'status' => true,
-            'heading' => 'Lấy thành công danh sách course của courseCategory',
-            'data' => $courseCategoryById,
-        ],200);
+            'heading' => 'Course này chưa có class nào',
+            'data' => $listClass = Course::find($id),
+        ], 200);
     }
 
     /**
