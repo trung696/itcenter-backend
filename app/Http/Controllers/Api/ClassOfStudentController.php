@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\ClassModel;
-use App\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ApiCourceController extends Controller
+class ClassOfStudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,23 +36,7 @@ class ApiCourceController extends Controller
      */
     public function show($id)
     {
-        $listClass = Course::find($id)->classRoom;
-        if (isset($listClass) &&  count($listClass)) {
-            foreach ($listClass as $listClassItem) {
-                //lấy danh sách các đăng kí đã thanh toán tiền để cập nhập số chỗ trong lớp
-                $countStudentInClass = count($listClassItem->dangKi->where('trang_thai', '=', 1));
-            }
-            return response()->json([
-                'status' => true,
-                'heading' => 'Lấy thành công danh sách class của course',
-                'data' => $listClass,
-            ], 200);
-        }
-        return response()->json([
-            'status' => true,
-            'heading' => 'Course này chưa có class nào',
-            'data' => $listClass = Course::find($id),
-        ], 200);
+        //
     }
 
     /**

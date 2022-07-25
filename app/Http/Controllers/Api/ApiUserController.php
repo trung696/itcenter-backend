@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\HocVien;
 use App\Http\Controllers\Controller;
 use App\SessionUser;
 use App\User;
@@ -32,18 +33,17 @@ class ApiUserController extends Controller
     public function store(Request $request)
     {
         $userAdd = [
-            'name' => $request->name,
+            'ho_ten' => $request->ho_ten,
+            'ngay_sinh' => $request->ngay_sinh,
+            'gioi_tinh' => $request->gioi_tinh,
+            'so_dien_thoai' =>$request->so_dien_thoai,
             'email' => $request->email,
-            'phone' => $request->phone,
-            'password' =>Hash::make($request->password),
-            'address' => $request->address,
-            'birthday' => $request->birthday,
-            'gender' => $request->gender,
-            'status' => 0,
+            'hinh_anh'=> $request->hinh_anh,
+            'trang_thai' => 0,
+            'password' => Str::random(6),
             'tokenActive' => Str::random(20),
         ];
-        // dd($userAdd);
-       if( $user = User::create($userAdd) ){
+       if( $user = HocVien::create($userAdd) ){
         Mail::send('emailActiveUser',compact('user'), function ($email) use($user){
             // mail nhận thư, tên người dùng
             $email->subject("Xác thực tài khoản");
@@ -51,7 +51,7 @@ class ApiUserController extends Controller
         });
        }
         return response()->json([
-            'heading' => 'được của nó rồi',
+            'heading' => 'Thêm thành công tài khoản',
             'data' => $user,
             'status' => true    ,
         ],200);
@@ -64,11 +64,12 @@ class ApiUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, User $user)
+    public function show(Request $request)
     {
         $tokenUp = $request->bearerToken();
         $checkToken = SessionUser::where('token',$tokenUp)->first();
-        
+    //    dd($checkToken->hocVien);
+
         if(empty($tokenUp)){
             return response()->json([
                 'status' => false,
@@ -81,9 +82,9 @@ class ApiUserController extends Controller
             ],401);
         }else{
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'heading' => "Thông tin của user",
-                'data' => $user
+                'data' => $checkToken->hocVien
             ],200);
         }
     }
@@ -97,8 +98,12 @@ class ApiUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $userUpdate = User::find($id);
-        $userUpdate->update($request->all());
+        $userUpdate = HocVien::find($id);
+        // $userAfterUpdate = HocVien::whereId($userUpdate->id);
+       $userUpdate->update(
+            $request->all()
+        );
+        // dd($userUpdate);
         return response()->json([
             'heading'=>'cập nhập thành công',
             'status'=>true,

@@ -19,6 +19,9 @@ class Course extends Model
         return $this->hasMany(ClassModel::class);
     }
 
+  
+
+
     public function Document() {
         $this->hasMany(Document::class,'course_id','id');
     }

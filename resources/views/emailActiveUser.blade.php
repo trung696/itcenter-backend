@@ -6,4 +6,4 @@
 <h2> token {{$user->tokenActive}}</h2>
 <br>
 <!-- <p> vui lòng   để kích hoạt thg gà </p> -->
-<a href="{{route('active.user',['user'=>$user->id ,'token'=>$user->tokenActive])}}}">Nhấn vào đây để kích hoạt tài khoản của bạn</a>
+<a href="{{route('active.user',['hocVien'=>$user->id ,'token'=>$user->tokenActive])}}}">Nhấn vào đây để kích hoạt tài khoản của bạn</a>

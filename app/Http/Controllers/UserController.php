@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\DeThi;
+use App\HocVien;
 use App\Http\Requests\AdminBoDeThiRequest;
 use App\Http\Requests\UserRequest\UserAddRequest;
 use App\Http\Requests\UserRequest\UserEditRequest;
-
 use App\KhoaHoc;
-use App\MonHoc;
-use App\NguoiDung;
 use App\Role;
 use App\Teacher;
 use App\User;
-use App\TuyenSinh\HocVien;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -318,10 +314,12 @@ class UserController extends Controller
     //             return redirect()->route($method_route, ['id' => $id]);
     //         }
     //     }
-    public function active(User $user, $token){
+    public function active(HocVien $hocVien, $token){
+        dd(123);
         $tokens =  rtrim($token, '}');
-         if($user->tokenActive === $tokens){
-             $user->update(['status'=>1,
+    
+         if($hocVien->tokenActive === $tokens){
+             $hocVien->update(['status'=>1,
                             'tokenActive' => null]);
             return "Cập nhập thành công";
             //  return redirect()->route('')->with('yes','xác thực tài khoản thành công');
