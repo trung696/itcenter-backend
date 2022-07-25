@@ -12,6 +12,11 @@ class DangKy extends Model
 {
     protected $table = 'dang_ky';
     protected $fillable = ['ngay_dang_ky', 'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai', 'created_at', 'updated_at'];
+    public function class()
+    {
+        return $this->belongsTo(ClassModel::class,'id_lop_hoc','id');
+    }
+    
     public function loadListWithPager($params = array(), $id = null)
     {
         $query = DB::table($this->table . ' as tb1')
