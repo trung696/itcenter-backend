@@ -131,7 +131,7 @@
                     </button>
                 </div>
             @endif
-            {{-- @if ($errors->any())
+            @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -143,7 +143,7 @@
                         <span class="sr-only">Close</span>
                     </button>
                 </div>
-            @endif --}}
+            @endif
         </div>
         @if(count($list)<=0)
             <p class="alert alert-warning">
@@ -172,13 +172,14 @@
                         @php($i=1)
 
                         @foreach($list as  $item)
-
+                        {{-- {{ dd(asset("storage/hinh_anh_khoa_hoc/$item->image")) }} --}}
+                        {{-- {{dd(Storage::url("app/public/hinh_anh_khoa_hoc/$item->image"))}} --}}
                             <tr>
                                 {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
                                 <td class="text-center">{{$i++}}</td>
                                 <td class="text-center">{{$item->name}}</td>
                                 <td class="text-center">{{$item->description}}</td>
-                                <td class="image-clean"><img src="{{ $item->image?Storage::url($item->image):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
+                                <td class="image-clean"><img src="{{ $item->image?asset("storage/hinh_anh_khoa_hoc/$item->image"):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
                                 <td class="text-center">{{$arrCategory[$item->category_id]}}</td>
                                 <td class="text-center" style="width:180px;background-color:
                                 @if($item->status == 0)

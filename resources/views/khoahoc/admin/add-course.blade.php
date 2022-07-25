@@ -98,11 +98,24 @@
                         <div class="form-group">
                             <label for="description" class="col-md-3 col-sm-4 control-label">Thông tin khoá học <span class="text-danger">(*)</span></label>
 
-                            <div class="col-md-9 col-sm-8">
-                                <textarea name="description" class="form-control" value="@isset($request['description']){{ $request['description'] }}@endisset"></textarea>
+                            <div class="col-md-12 col-sm-8">
+                                <textarea name="description" class="form-control tinymce_editor" value="@isset($request['description']){{ $request['description'] }}@endisset"></textarea>
+                                <span id="mes_sdt"></span>
+                            </div>
+                            <div class="col-md-12 col-sm-8">
+                                <textarea name="description" class="form-control tinymce_editor" value="@isset($request['description']){{ $request['description'] }}@endisset"></textarea>
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                              <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                                <i class="fa fa-picture-o"></i> Choose
+                              </a>
+                            </span>
+                            <input id="thumbnail" class="form-control" type="text" name="filepath">
+                          </div>
+                          <img id="holder" style="margin-top:15px;max-height:100px;">
                         <div class="form-group">
                             <label class="col-md-3 col-sm-4 control-label">Ảnh Khoá Học</label>
                             <div class="col-md-9 col-sm-8">
@@ -111,7 +124,7 @@
                                         <img id="hinh_anh_khoa_hoc_preview" src="http://placehold.it/100x100" alt="your image"
                                              style="max-width: 200px; height:100px; margin-bottom: 10px;" class="img-fluid"/>
                                         <input type="file" name="image" accept="image/*"
-                                               class="form-control-file " id="hinh_anh_khoa_hoc">
+                                               class="form-control-file  @error('image') is-invalid @enderror" id="hinh_anh_khoa_hoc">
                                     </div>
                                 </div>
                             </div>
@@ -147,9 +160,13 @@
     </section>
 @endsection
 @section('script')
+
     <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
     <script src="{{ asset('js/khoahoc.js') }} "></script>
+    <script src="{{ asset('js/add.js') }} "></script>
+    <script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    
     {{--    <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
     {{--    <script src="public/js/taisan.js"></script>--}}
 

@@ -100,6 +100,7 @@
                             <label for="image" class="col-md-3 col-sm-4 control-label">Hình ảnh khoá học <span
                                         class="text-danger">(*)</span></label>
 
+                                        
                             <div class="col-md-9 col-sm-8">
                                 <img id="hinh_anh_khoa_hoc_preview" src="{{ $objItem->image?Storage::url($objItem->image):'http://placehold.it/100x100' }}" alt="your image"
                                      style="max-width: 200px; height:100px; margin-bottom: 10px;" class="img-fluid"/>
