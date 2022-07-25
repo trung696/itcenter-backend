@@ -70,7 +70,7 @@ class ApiRegisterClassController extends Controller
             return response()->json([
                 'heading' => 'lỗi validate',
                 'log' => $validated->errors(),
-            ], 404);
+            ], 400);
         }
         // validate
         $addNewStudent = HocVien::create([
