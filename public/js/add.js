@@ -32,7 +32,14 @@ $(document).ready(function (){
     }
   };
 
+  var route_prefix = "filemanager";
+ $('#lfm').filemanager('image', {prefix: route_prefix});
+ $('#lfm').filemanager('image');
+//  $('#lfm').filemanager('file');
+
   tinymce.init(editor_config);
+
+  
     
 })
   

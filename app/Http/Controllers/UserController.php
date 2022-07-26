@@ -80,7 +80,8 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'address' => $request->address,
-                'phone' => $request->phone
+                'phone' => $request->phone,
+                'avatar' => $request->avatar,
             ]);
             if(isset($request->role_id) && count($request->role_id) ){
                 $user->roles()->attach($request->role_id);
@@ -89,7 +90,7 @@ class UserController extends Controller
             //check nếu edit mà quyền là giảng viên thì insert vào bảng teacher
             if (isset($request->role_id) && $request->role_id )  {
                 foreach ($request->role_id as $role) {
-                    if ($role == 2) {
+                    if ($role == 1) {
                         Teacher::create([
                             'user_id' => $user->id,
                             'name' => $request->name,
@@ -97,7 +98,9 @@ class UserController extends Controller
                             'password' => Hash::make($request->password),
                             'address' => $request->address,
                             'phone' => $request->phone,
-                            'status' => 0
+                            'avatar' => $request->avatar,
+                            'status' => 0,
+                            
                         ]);
                     }
                 }
@@ -132,6 +135,7 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'address' => $request->address,
                 'phone' => $request->phone,
+                'avatar' => $request->avatar,
                 'status' => $request->status
             ]);
             $user = User::find($id);
@@ -139,7 +143,7 @@ class UserController extends Controller
             //check nếu edit mà quyền là giảng viên thì insert vào bảng teacher
             if ($request->role_id) {
                 foreach ($request->role_id as $role) {
-                    if ($role == 7) {
+                    if ($role == 1) {
                         Teacher::create([
                             'user_id' => $id,
                             'name' => $request->name,
@@ -147,6 +151,7 @@ class UserController extends Controller
                             'password' => Hash::make($request->password),
                             'address' => $request->address,
                             'phone' => $request->phone,
+                            'avatar' => $request->avatar,
                             'status' => $request->status
                         ]);
                     }

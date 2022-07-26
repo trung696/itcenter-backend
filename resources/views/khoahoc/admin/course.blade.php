@@ -179,7 +179,7 @@
                                 <td class="text-center">{{$i++}}</td>
                                 <td class="text-center">{{$item->name}}</td>
                                 <td class="text-center">{{$item->description}}</td>
-                                <td class="image-clean"><img src="{{ $item->image?asset("storage/hinh_anh_khoa_hoc/$item->image"):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
+                                <td class="image-clean"><img src="{{ $item->image?$item->image:'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
                                 <td class="text-center">{{$arrCategory[$item->category_id]}}</td>
                                 <td class="text-center" style="width:180px;background-color:
                                 @if($item->status == 0)

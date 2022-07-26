@@ -115,6 +115,17 @@
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
+
+                    <span class="mt-4">ảnh đại diện</span>
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
+                            <i class="fa fa-picture-o"></i> Choose
+                            </a>
+                        </span>
+                        <input id="thumbnail" class="form-control  @error('avatar') is-invalid @enderror" type="text" name="avatar" accept="image/*">
+                        </div>
+                        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
            
 
                     <div class="form-group">
@@ -151,5 +162,17 @@
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
 {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
 {{-- <script src="public/js/taisan.js"></script>--}}
+<script src="{{ asset('js/add.js') }} "></script>
+<script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+ <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+ <script>
+    {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
+  </script>
+  <script>
+    $('#lfm').filemanager('image', {prefix: route_prefix});
+    // $('#lfm').filemanager('file', {prefix: route_prefix});
+  </script>
+{{--    <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
+{{--    <script src="public/js/taisan.js"></script>--}}
 
 @endsection
