@@ -42,8 +42,11 @@ class CourseController extends Controller
         $this->v['course_category'] = $objCourseCategory->loadListIdAndName(['status', 1]);
         $categories = $this->v['course_category'];
         // $courseCategory = Course::find(3)->courseCategory->toArray();
+        // $class = Course::find(3)->class->toArray();
+        // dd($class);
         // dd($courseCategory);
         // dd($categories);
+
         $arrCategory = [];
         foreach ($categories as $index => $item) {
             $arrCategory[$item->id] = $item->name;
@@ -61,8 +64,9 @@ class CourseController extends Controller
         $this->v['_action'] = 'Add';
         $this->v['_title'] = 'Thêm khoá học';
         $this->v['trang_thai'] = config('app.status_user');
-        
+        // dd(123);
         if ($request->isMethod('post')) {
+            // dd(456);
             if (Session::has($method_route)) {
                 return redirect()->route($method_route); // không cho F5, chỉ có thể post 1 lần
             } else
@@ -78,8 +82,10 @@ class CourseController extends Controller
                     $item = trim($item);
                 return $item;
             }, $request->post());
+            // dd($request->file('image'));
             if($request->hasFile('image') && $request->file('image')->isValid()){
                 $params['cols']['image'] = $this->uploadFile($request->file('image'));
+                // dd($params['cols']['image']);
             }
 
             // dd($params['cols']);
@@ -186,6 +192,7 @@ class CourseController extends Controller
     private function uploadFile($file)
     {
         $fileName = time().'_'.$file->getClientOriginalName();
+        dd($fileName);
         return $file->storeAs('hinh_anh_khoa_hoc', $fileName, 'public');
     }
 

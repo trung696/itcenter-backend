@@ -176,6 +176,7 @@
                         <th class="text-center">Email</th>
                         <th class="text-center">Địa chỉ</th>
                         <th class="text-center">Số điện thoại</th>
+                        <th>Ảnh đại diện</th>
                         <th class="text-center">Quyền</th>
                         <th class="text-center">Trạng thái</th>
                         <th class="text-center">Hành động</th>
@@ -194,6 +195,7 @@
                             <td class="text-center">{{$userItem->email}}</td>
                             <td class="text-center">{{$userItem->address}}</td>
                             <td class="text-center">{{$userItem->phone}}</td>
+                            <td class="image-clean"><img src="{{ $userItem->avatar?$userItem->avatar:'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
                             <td class="text-center">
                                 @foreach($roleOfUser as $role)
                                 {{$role->name}} @if(count($roleOfUser) > 1) - @endif

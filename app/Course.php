@@ -23,7 +23,7 @@ class Course extends Model
 
 
     public function Document() {
-        $this->hasMany(Document::class,'course_id','id');
+        return $this->hasMany(Document::class,'course_id','id');
     }
     public function courseCategory() {
         return $this->belongsTo(CourseCategory::class,'category_id','id');

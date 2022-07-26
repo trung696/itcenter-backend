@@ -117,7 +117,7 @@
                     </button>
                 </div>
             @endif
-            {{-- @if ($errors->any())
+            @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -129,7 +129,7 @@
                         <span class="sr-only">Close</span>
                     </button>
                 </div>
-            @endif --}}
+            @endif
         </div>
         @if(count($list)<=0)
             <p class="alert alert-warning">
@@ -162,7 +162,11 @@
                                 {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
                                 <td class="text-center">{{$i++}}</td>
                                 <td class="text-center">{{$item->name}}</td>
-                                <td class="text-center">{{$item->file}}</td>
+                                <td class="text-center">
+                                    <a href="{{$item->file}}">
+                                        <i class="fa fa-file-text" aria-hidden="true"></i>(tải xuống)
+                                    </a>
+                                </td>
                                 <td class="text-center">{{$arrCourse[$item->course_id]}}</td>
                                 <td class="text-center" style="width:180px; background-color:
                                 @if($item->status == 0)

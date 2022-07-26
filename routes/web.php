@@ -414,4 +414,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-method/delete/{id}', 'PaymentMethodController@destroy')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_PaymentMethod_Delete');
+        
 });
