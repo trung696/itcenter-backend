@@ -18,8 +18,15 @@ class ClassModel extends Model
     {
         return $this->belongsTo(Course::class);
     }
-    
-    public function createStdClass(){
+
+
+    public function dangKi()
+    {
+        return $this->hasMany(DangKy::class,'id_lop_hoc','id');
+    }
+
+    public function createStdClass()
+    {
         $objItem = new \stdClass();
         foreach ($this->fillable as $field) {
             $field = substr($field, 4);
