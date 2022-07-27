@@ -6,6 +6,7 @@ use App\ClassModel;
 use App\DangKy;
 use App\HocVien;
 use App\Http\Controllers\Controller;
+use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,41 +35,69 @@ class ApiRegisterClassController extends Controller
         $checkIssetPhone = HocVien::where('so_dien_thoai', $request->so_dien_thoai)->first();
         //hoc vien da ton tai tren db
         if ($checkIssetEmail != null || $checkIssetPhone != null) {
+            // dd($checkIssetEmail);
+
             $infoHocVien = '';
-            if($checkIssetEmail == null){
+            if ($checkIssetEmail == null) {
                 $infoHocVien = $checkIssetPhone;
-            }elseif($checkIssetPhone == null){
+            } elseif ($checkIssetPhone == null) {
+                $infoHocVien = $checkIssetEmail;
+            } elseif ($checkIssetEmail != null && $checkIssetPhone != null) {
                 $infoHocVien = $checkIssetEmail;
             }
-            // dd($infoHocVien);
             //có tài khoản rồi chỉ đang kí lớp học thôi
+            //lưu thông tin thanh toán bảng momo
+            //check xem thanh toán phương thức gì
+            if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
+                // dd('có pay men momo');
+                $payment = Payment::create([
+                    'payment_method_id' => $request->payment_method_id,
+                    'payment_date' => date("Y-m-d h:i:s"),
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'status' => 1,
+                ]);
+                //nếu thêm thành công thanh toán momo vào bảng  payment
+                if ($payment) {
+                    $addDangKiIssetStudent = DangKy::create([
+                        'ngay_dang_ky' => date("Y-m-d"),
+                        'id_lop_hoc' => $request->id_lop_hoc,
+                        'id_hoc_vien' => $infoHocVien->id,
+                        'gia_tien' => $request->gia_tien,
+                        'trang_thai' => $payment->status,
+                        'id_payment' => $payment->id,
+                        'paid_date' => $payment->payment_date,
+                    ]);
+                    if ($addDangKiIssetStudent->trang_thai == 1) {
+                        $classOfDangKi = $addDangKiIssetStudent->class;
+                        ClassModel::whereId($classOfDangKi->id)->update([
+                            'slot' =>  $classOfDangKi->slot - 1
+                        ]);
+                    }
+                }
+                return response()->json([
+                    'status' => true,
+                    'heading' => 'đang kí thành công và đã chuyển tiền thành công qua momo',
+                    'data' => $addDangKiIssetStudent,
+                    'data_payment' => $addDangKiIssetStudent->payment
+                ], 200);
+            }
+            //không có payment momo
             $addDangKiIssetStudent = DangKy::create([
                 'ngay_dang_ky' => date("Y-m-d"),
                 'id_lop_hoc' => $request->id_lop_hoc,
                 'id_hoc_vien' => $infoHocVien->id,
                 'gia_tien' => $request->gia_tien,
-                // chỗ này sẽ check trạng thái đã nộp tiền chưa(nếu nộp rồi thì số chỗ đó mới trừ đi)
-                'trang_thai' => $request->trang_thai,
+                'trang_thai' => 0,
+                'id_payment' => null,
+                'paid_date' => null,
             ]);
-            
-            if ($addDangKiIssetStudent->trang_thai == 1) {
-                $classOfDangKi = $addDangKiIssetStudent->class;
-                ClassModel::whereId($classOfDangKi->id)->update([
-                    'slot' =>  $classOfDangKi->slot - 1
-                ]);
-                return response()->json([
-                    'status' => true,
-                    'heading' => 'đã thêm thành công vào bảng đăng kí',
-                    'data' => $classOfDangKi
-                ]);
-            }
             return response()->json([
                 'status' => true,
-                'heading' => 'thêm vào đang kí thành công khi đã có tài khoản',
-                'data' => $addDangKiIssetStudent
+                'heading' => 'đang kí thành công chờ hệ thống kiểm tra xem bạn đã thanh toán hay chưa',
+                'data' => $addDangKiIssetStudent,
             ], 200);
         }
-        dd('k thoa man');
 
         //check validate khi chuan bi them moi hoc vien
         $validated = Validator::make($request->all(), [
@@ -85,7 +114,12 @@ class ApiRegisterClassController extends Controller
                 'log' => $validated->errors(),
             ], 400);
         }
-        // validate
+        //không lỗi validate nào thì thêm thông tin vào bảng học viên và lưu đang kí, thanh toán
+        return $this->add_table_hoc_vien_and_register_class($request);
+    }
+
+    public function add_table_hoc_vien_and_register_class(Request $request)
+    {
         $addNewStudent = HocVien::create([
             'ho_ten' => $request->ho_ten,
             'ngay_sinh' => $request->ngay_sinh,
@@ -97,33 +131,56 @@ class ApiRegisterClassController extends Controller
         ]);
 
         if ($addNewStudent) {
-            //thêm xong sinh viên thì cần add ngày đang kí, id lớp học,id sinh viên, giá tiền lớp học  vào bảng dang_ki
-            $addDangKi = DangKy::create([
+            if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
+                // dd('có pay men momo');
+                $payment = Payment::create([
+                    'payment_method_id' => $request->payment_method_id,
+                    'payment_date' => date("Y-m-d h:i:s"),
+                    'price' => $request->price,
+                    'description' => $request->description,
+                    'status' => 1,
+                ]);
+                //nếu thêm thành công thanh toán momo vào bảng  payment
+                if ($payment) {
+                    $addDangKiIssetStudent = DangKy::create([
+                        'ngay_dang_ky' => date("Y-m-d"),
+                        'id_lop_hoc' => $request->id_lop_hoc,
+                        'id_hoc_vien' => $addNewStudent->id,
+                        'gia_tien' => $request->gia_tien,
+                        'trang_thai' => $payment->status,
+                        'id_payment' => $payment->id,
+                        'paid_date' => $payment->payment_date,
+                    ]);
+                    if ($addDangKiIssetStudent->trang_thai == 1) {
+                        $classOfDangKi = $addDangKiIssetStudent->class;
+                        ClassModel::whereId($classOfDangKi->id)->update([
+                            'slot' =>  $classOfDangKi->slot - 1
+                        ]);
+                    }
+                }
+                return response()->json([
+                    'status' => true,
+                    'heading' => 'tạo thành công tài koản, đang kí thành công và đã chuyển tiền thành công qua momo',
+                    'data' => $addDangKiIssetStudent,
+                    'data_payment' => $addDangKiIssetStudent->payment
+                ], 200);
+            }
+            //không có payment momo
+            $addDangKiIssetStudent = DangKy::create([
                 'ngay_dang_ky' => date("Y-m-d"),
                 'id_lop_hoc' => $request->id_lop_hoc,
                 'id_hoc_vien' => $addNewStudent->id,
                 'gia_tien' => $request->gia_tien,
-                'trang_thai' => $request->trang_thai,
+                'trang_thai' => 0,
+                'id_payment' => null,
+                'paid_date' => null,
             ]);
-            // dd($addDangKi);
-            if ($addDangKi->trang_thai == 1) {
-                $classOfDangKi = $addDangKi->class;
-                ClassModel::whereId($classOfDangKi->id)->update([
-                    'slot' =>  $classOfDangKi->slot - 1
-                ]);
-
-                return response()->json([
-                    'status' => true,
-                    'heading' => 'Thêm mới sinh vien và đã thêm thành công vào bảng đăng kí',
-                    'data' => $classOfDangKi
-                ]);
-            }
+            return response()->json([
+                'status' => true,
+                'heading' => 'đang kí thành công tài khoản và thêm được vào bảng đang kí, chờ hệ thống kiểm tra xem bạn đã thanh toán hay chưa',
+                'data' => $addDangKiIssetStudent,
+            ], 200);
         }
-        return response()->json([
-            'heading' => 'Thêm mới sinh vien, đang kí',
-            'status' => true,
-            'data' => $addNewStudent,
-        ], 200);
     }
 
     /**
@@ -134,7 +191,8 @@ class ApiRegisterClassController extends Controller
      */
     public function show($id)
     {
-        //
+        $dki = DangKy::find($id)->payment;
+        dd($dki);
     }
 
     /**
@@ -146,7 +204,55 @@ class ApiRegisterClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dangKy = DangKy::where('id', $id)->first();
+        $checkClass = ClassModel::where('id', $request->id_lop_hoc)->first();
+        //check con slot khong
+        if ($checkClass->slot > 0) {
+            $dangKyOld = DangKy::where('id', $id)->first();
+            $updateDangKy =  $dangKy->update([
+                'id_lop_hoc' => $request->id_lop_hoc,
+            ]);
+            $dangKyAfterUpdate = DangKy::where('id', $id)->first();
+
+            // dd($dangKyAfterUpdate);
+            //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
+            if ($dangKyAfterUpdate->trang_thai == 1) {
+                if ($updateDangKy) {
+                    ClassModel::whereId($dangKyOld->class->id)->update([
+                        'slot' =>  $dangKyOld->class->slot + 1
+                    ]);
+                }
+            }
+
+            //check chỗ lớp mới chuyển sang và trừ đi 1 slot
+            $dangKyAfterUpdate = DangKy::where('id', $id)->first();
+            if ($dangKyAfterUpdate->trang_thai == 1) {
+                $classOfChuyenLop = $dangKyAfterUpdate->class;
+                ClassModel::whereId($classOfChuyenLop->id)->update([
+                    'slot' =>  $classOfChuyenLop->slot - 1
+                ]);
+                return response()->json([
+                    'status' => 200,
+                    'heading' => 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1'
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 200,
+                    'heading' => 'Chuyển lớp thành công chờ trường check thanh toán'
+                ], 200);
+            }
+
+            return response()->json([
+                'status' => true,
+                'heading' => 'Chuyển lớp thành công',
+                'data' => $dangKyAfterUpdate
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'heading' => 'lớp đã đầy không thể chuyển lớp'
+            ]);
+        }
     }
 
     /**
@@ -158,5 +264,10 @@ class ApiRegisterClassController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function checkPayment()
+    {
+        dd('cjheck');
     }
 }
