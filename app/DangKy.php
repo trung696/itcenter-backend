@@ -11,10 +11,15 @@ use Illuminate\Support\Facades\Session;
 class DangKy extends Model
 {
     protected $table = 'dang_ky';
-    protected $fillable = ['ngay_dang_ky', 'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai', 'created_at', 'updated_at'];
+    protected $fillable = ['ngay_dang_ky', 'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai','id_payment','paid_date', 'created_at', 'updated_at'];
     public function class()
     {
         return $this->belongsTo(ClassModel::class,'id_lop_hoc','id');
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class,'id_payment','id');
     }
     
     public function loadListWithPager($params = array(), $id = null)
