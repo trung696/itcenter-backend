@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\ClassModel;
 use App\Course;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class ApiCourceController extends Controller
@@ -54,8 +55,9 @@ class ApiCourceController extends Controller
                     $countStudentInClass = count($listClassItem->dangKi->where('trang_thai', '=', 1));
                     $listClassNew[] = $listClassItem;
                 }                
+               $listClassItem->lecturer_id = User::where('id', $listClassItem->lecturer_id,)->first()->name;
             }
-           
+            
             // return response()->json([
             //     'status' => true,
             //     'heading' => 'Lấy thành công danh sách class của course',
