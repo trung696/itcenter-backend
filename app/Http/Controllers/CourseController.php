@@ -221,7 +221,9 @@ class CourseController extends Controller
             return redirect()->route('route_BackEnd_NguoiDung_index');
         }
         $params['cols']['id'] = $id;
+        // dd($params);
         $res = $modelCourse->saveUpdate($params);
+
         if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi
         {
             Session::push('post_form_data', $this->v['request']);
