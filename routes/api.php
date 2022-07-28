@@ -52,6 +52,11 @@ Route::apiResource('course','Api\ApiCourceController');
 Route::apiResource('danhMucOfUser','Api\ApiGetKhoaHocOfUser')->middleware('checkTokenUp');
 
 Route::apiResource('registerClass','Api\ApiRegisterClassController');
+Route::get('checkPayMent','Api\ApiRegisterClassController@checkPayMent')->name('checkPayment');
+
+Route::apiResource('teacher','Api\ApiTeacherController');
+Route::apiResource('payment','Api\ApiPayMentController');
+
 
 // // Lấy thông tin sản phẩm theo id
 // Route::get('products/{id}', 'Api\ProductController@show')->name('products.show');
