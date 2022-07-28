@@ -37,6 +37,7 @@ class CourseRequest extends FormRequest
                     case 'AddCourse':
                         $rules = [
                             "name" => "required",
+                            "price" => "required",
                             "image" => "required",
                             "description" => "required",
                         ];
@@ -44,6 +45,7 @@ class CourseRequest extends FormRequest
                     case 'updateCourse':
                         $rules = [
                             "name" => "required",
+                            "price" => "required",
                             "image" => "required",
                             "description" => "required",
                         ];
@@ -64,6 +66,7 @@ class CourseRequest extends FormRequest
     {
         return [
             'name.required' => 'Bắt buộc phải nhập tên khoá học',
+            "price.required" => "Bắt buộc phải nhập giá khóa học",
             'description.required' => 'Bắt buộc phải nhập thông tin khóa học',
             'image.required' => 'Bắt buộc phải nhập ảnh khóa học',
         ];
