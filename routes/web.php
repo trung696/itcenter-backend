@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    bcrypt(123456789);
+    bcrypt(123456);
     return view('welcome');
 });
 //trang chủ

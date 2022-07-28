@@ -1,5 +1,6 @@
 @extends('templates.layout')
 @section('content')
+
 <section class="content-header">
     <h1 class=" text-info">
         <i class="fa fa-caret-right btn-spx-toggle-toolbar" style="cursor: pointer"></i>
