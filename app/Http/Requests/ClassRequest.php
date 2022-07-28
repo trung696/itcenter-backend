@@ -38,7 +38,6 @@ class ClassRequest extends FormRequest
                     case 'addClass':
                         $rules = [
                             "name" => "required",
-                            "price" => "required",
                             "slot" => "required",
                             "start_date" => "required",
                             "end_date" => "required",
@@ -50,7 +49,6 @@ class ClassRequest extends FormRequest
                     case 'updateClass':
                         $rules = [
                             "name" => "required",
-                            "price" => "required",
                             "slot" => "required",
                             "start_date" => "required",
                             "end_date" => "required",
@@ -75,7 +73,6 @@ class ClassRequest extends FormRequest
     {
         return [
             'name.required' => 'Bắt buộc phải nhập lớp học',
-            'price.required' => 'Bắt buộc phải nhập giá',
             'slot.required' => 'Bắt buộc phải nhập số chỗ',
             'start_date.required' => 'Bắt buộc phải nhập ngày bắt đầu',
             'end_date.required' => 'Bắt buộc phải nhập ngày kết thúc',

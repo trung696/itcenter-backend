@@ -163,6 +163,7 @@
                                 STT
                             </th>
                             <th class="text-center">Tên Khoá Học</th>
+                        <th class="text-center">Giá</th>
                             <th class="text-center">Thông tin khoá học</th>
                             <th class="text-center">Hình ảnh</th>
                             <th class="text-center">Danh mục</th>
@@ -178,6 +179,7 @@
                                 {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
                                 <td class="text-center">{{$i++}}</td>
                                 <td class="text-center">{{$item->name}}</td>
+                                <td class="text-center">{{ $item->price }}</td>
                                 <td class="text-center">{{$item->description}}</td>
                                 <td class="image-clean"><img src="{{ $item->image?$item->image:'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
                                 <td class="text-center">{{$arrCategory[$item->category_id]}}</td>

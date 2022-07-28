@@ -96,6 +96,14 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="price" class="col-md-3 col-sm-4 control-label">Giá <span class="text-danger">(*)</span></label>
+
+                            <div class="col-md-9 col-sm-8">
+                                <input type="text" name="price" id="ten_khoa_hoc" class="form-control" value="@isset($request['price']){{ $request['price'] }}@endisset">
+                                <span id="mes_sdt"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="description" class="col-md-3 col-sm-4 control-label">Thông tin khoá học <span class="text-danger">(*)</span></label>
 
                             <div class="col-md-12 col-sm-8">
@@ -104,7 +112,7 @@
                             </div>
                         </div>
 
-                        <h2 class="mt-4">up ảnh</h2>
+                        <h2 class="mt-4">ảnh khóa học</h2>
                         <div class="input-group">
                         <span class="input-group-btn">
                             <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
