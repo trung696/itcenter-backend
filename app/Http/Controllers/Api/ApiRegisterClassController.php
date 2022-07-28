@@ -35,8 +35,6 @@ class ApiRegisterClassController extends Controller
         $checkIssetPhone = HocVien::where('so_dien_thoai', $request->so_dien_thoai)->first();
         //hoc vien da ton tai tren db
         if ($checkIssetEmail != null || $checkIssetPhone != null) {
-            // dd($checkIssetEmail);
-
             $infoHocVien = '';
             if ($checkIssetEmail == null) {
                 $infoHocVien = $checkIssetPhone;
@@ -223,7 +221,6 @@ class ApiRegisterClassController extends Controller
                     ]);
                 }
             }
-
             //check chỗ lớp mới chuyển sang và trừ đi 1 slot
             $dangKyAfterUpdate = DangKy::where('id', $id)->first();
             if ($dangKyAfterUpdate->trang_thai == 1) {
@@ -264,10 +261,5 @@ class ApiRegisterClassController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function checkPayment()
-    {
-        dd('cjheck');
     }
 }
