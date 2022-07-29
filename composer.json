@@ -22,7 +22,8 @@
         "stripe/stripe-php": "^7.128",
         "symfony/http-client": "^5.4",
         "symfony/mailgun-mailer": "^5.4",
-        "symfony/postmark-mailer": "^5.4"
+        "symfony/postmark-mailer": "^5.4",
+        "unisharp/laravel-filemanager": "^2.5"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -12,14 +12,21 @@ use Illuminate\Support\Facades\Hash;
 class ClassModel extends Model
 {
     protected $table = 'class';
-    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.price', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.created_at', 'tb1.updated_at'];
+    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.created_at', 'tb1.updated_at'];
     public $timestamps = false;
     public function course()
     {
         return $this->belongsTo(Course::class);
     }
-    
-    public function createStdClass(){
+
+
+    public function dangKi()
+    {
+        return $this->hasMany(DangKy::class,'id_lop_hoc','id');
+    }
+
+    public function createStdClass()
+    {
         $objItem = new \stdClass();
         foreach ($this->fillable as $field) {
             $field = substr($field, 4);
@@ -42,7 +49,7 @@ class ClassModel extends Model
     {
 
         $query = DB::table($this->table . ' as tb1')
-            ->select('tb1.id', 'tb1.name', 'tb1.price', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id')
+            ->select('tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id')
             ->where('tb1.id', '=', $id);
 
         $obj = $query->first();
@@ -95,7 +102,6 @@ class ClassModel extends Model
         }
         $data =  array_merge($params['cols'], [
             'name' => $params['cols']['name'],
-            'price' => $params['cols']['price'],
             'slot' => $params['cols']['slot'],
             'start_date' => $params['cols']['start_date'],
             'end_date' => $params['cols']['end_date'],

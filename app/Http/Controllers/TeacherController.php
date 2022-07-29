@@ -49,7 +49,8 @@ class TeacherController extends Controller
             'address' => $request->address,
             'sex' => $request->sex,
             'phone' => $request->phone,
-            'avatar' => 'https://pngimg.com/image/62425'
+            'avatar' => $request->avatar,
+            // 'avatar' => 'https://pngimg.com/image/62425'
          ]);
 
          DB::commit();

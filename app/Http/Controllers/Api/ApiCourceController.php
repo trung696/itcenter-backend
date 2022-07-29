@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\ClassModel;
 use App\Course;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class ApiCourceController extends Controller
@@ -44,11 +45,35 @@ class ApiCourceController extends Controller
      */
     public function show($id)
     {
-        $course = Course::find($id)->classRoom;
+        $listClass = Course::find($id)->classRoom;
+        $listClassNew = [];
+        $today = date("Y-m-d");
+
+        if (isset($listClass) &&  count($listClass)) {
+            foreach ($listClass as $key => $listClassItem) {
+                if(strtotime($today) < strtotime($listClassItem->end_date)){
+                    //lấy danh sách các đăng kí đã thanh toán tiền để cập nhập số chỗ trong lớp
+                    $countStudentInClass = count($listClassItem->dangKi->where('trang_thai', '=', 1));
+                    $listClassNew[] = $listClassItem;
+                }                
+               $listClassItem->lecturer_id = User::where('id', $listClassItem->lecturer_id,)->first()->name;
+            }
+            
+            // return response()->json([
+            //     'status' => true,
+            //     'heading' => 'Lấy thành công danh sách class của course',
+            //     'data' => $listClass,
+            // ], 200);
+            return response()->json([
+                'status' => true,
+                'heading' => 'Lấy thành công danh sách class của course',
+                'data' => $listClassNew,
+            ], 200);
+        }
         return response()->json([
             'status' => true,
-            'heading' => 'Lấy thành công danh sách class của course',
-            'data' => $course,
+            'heading' => 'Course này chưa có class nào',
+            'data' => $listClass = Course::find($id),
         ], 200);
     }
 

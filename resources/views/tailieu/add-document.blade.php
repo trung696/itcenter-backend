@@ -95,7 +95,18 @@
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+
+                        <h2 class="mt-4">Tệp tài liệu</h2>
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
+                            <i class="fa fa-picture-o"></i> Choose
+                            </a>
+                        </span>
+                        <input id="thumbnail" class="form-control " type="text" name="file" accept="image/*">
+                        </div>
+                        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+                        {{-- <div class="form-group">
                             <label class="col-md-3 col-sm-4 control-label">Tệp tài liệu</label>
                             <div class="col-md-9 col-sm-8">
                                 <div class="row">
@@ -104,7 +115,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <label for="category_id" class="col-md-3 col-sm-4 control-label">Khoá Học</label>
@@ -141,6 +152,19 @@
     <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
     <script src="{{ asset('js/khoahoc.js') }} "></script>
+    {{--    <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
+    {{--    <script src="public/js/taisan.js"></script>--}}
+
+    <script src="{{ asset('js/upfile.js') }} "></script>
+    <script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+     <script>
+        {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
+      </script>
+      <script>
+        $('#lfm').filemanager('image', {prefix: route_prefix});
+        // $('#lfm').filemanager('file', {prefix: route_prefix});
+      </script>
     {{--    <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
     {{--    <script src="public/js/taisan.js"></script>--}}
 

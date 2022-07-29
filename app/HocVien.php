@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class HocVien extends Model
 {
     protected $table = 'hoc_vien';
-    protected $fillable = ['ho_ten', 'ngay_sinh','gioi_tinh', 'so_dien_thoai', 'email', 'hinh_anh', 'trang_thai','created_at','updated_at'];
+    protected $fillable = ['ho_ten', 'ngay_sinh','gioi_tinh', 'so_dien_thoai', 'email', 'hinh_anh', 'trang_thai','password','tokenActive','created_at','updated_at'];
     public $timestamps = false;
     public function createStdClass()
     {
@@ -22,6 +22,7 @@ class HocVien extends Model
         }
         return $objItem;
     }
+
     public function loadListWithPager($params = array())
     {
         $query = DB::table($this->table . ' as tb1')

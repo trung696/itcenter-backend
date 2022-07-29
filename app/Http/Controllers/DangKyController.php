@@ -193,7 +193,6 @@ class DangKyController extends Controller
         $itemLH = $objLopHoc->loadOne($this->v['itemDK']);
         $objKhoaHoc = new KhoaHoc();
         $this->v['itemKH'] = $objKhoaHoc->loadOne($itemLH->id_khoa_hoc);
-
         $list_lop_hoc = DB::table('lop_hoc')->select('id', 'ten_lop_hoc')
             ->where('id_khoa_hoc', '=', $itemLH->id_khoa_hoc)
             ->where('thoi_gian_bat_dau', '>', $now)->get();

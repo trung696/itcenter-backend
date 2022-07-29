@@ -12,15 +12,18 @@ use Illuminate\Support\Facades\Hash;
 class Course extends Model
 {
     protected $table = 'course';
-    protected $fillable = ['tb1.id','tb1.name','tb1.description','tb1.status','tb1.image','tb1.category_id','tb1.created_at','tb1.updated_at'];
+    protected $fillable = ['tb1.id','tb1.name','tb1.price','tb1.description','tb1.status','tb1.image','tb1.category_id','tb1.created_at','tb1.updated_at'];
     public $timestamps = false;
 
     public function classRoom(){
         return $this->hasMany(ClassModel::class);
     }
 
+  
+
+
     public function Document() {
-        $this->hasMany(Document::class,'course_id','id');
+        return $this->hasMany(Document::class,'course_id','id');
     }
     public function courseCategory() {
         return $this->belongsTo(CourseCategory::class,'category_id','id');
@@ -78,6 +81,7 @@ class Course extends Model
         }
         $data =  array_merge($params['cols'],[
             'name' => $params['cols']['name'],
+            'price' => $params['cols']['price'],
             'description' => $params['cols']['description'],
             'image' => $params['cols']['image'],
             'status' => 1,
