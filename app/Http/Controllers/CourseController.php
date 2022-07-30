@@ -41,12 +41,6 @@ class CourseController extends Controller
         $objCourseCategory = new CourseCategory();
         $this->v['course_category'] = $objCourseCategory->loadListIdAndName(['status', 1]);
         $categories = $this->v['course_category'];
-        // $courseCategory = Course::find(3)->courseCategory->toArray();
-        // $class = Course::find(3)->class->toArray();
-        // dd($class);
-        // dd($courseCategory);
-        // dd($categories);
-
         $arrCategory = [];
         foreach ($categories as $index => $item) {
             $arrCategory[$item->id] = $item->name;
