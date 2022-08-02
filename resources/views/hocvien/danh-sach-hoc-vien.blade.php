@@ -164,15 +164,13 @@
                         @php($i=1)
 
                         @foreach($list as  $item)
-
                             <tr>
-                                {{--                                <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td>--}}
                                 <td class="text-center">{{$i++}}</td>
                                 <td class="text-center">{{$item->ho_ten}}</td>
                                 <td class="text-center">{{$item->ngay_sinh}}</td>
                                 <td class="text-center">{{$item->so_dien_thoai}}</td>
                                 <td class="text-center">{{$item->email}}</td>
-                                <td class="text-center"><a href="{{ route('route_BackEnd_DanhMucKhoaHoc_Detail',['id'=> $item->id ]) }}" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                                <td class="text-center"><a href="" title="Sửa"><i class="fa fa-edit"></i></a></td>
                             </tr>
                         @endforeach
 

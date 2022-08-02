@@ -37,6 +37,7 @@ class CourseController extends Controller
         $objCourse = new Course();
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
+        // dd($request->all());
         $this->v['list'] = $objCourse->loadListWithPager($this->v['extParams']);
         $objCourseCategory = new CourseCategory();
         $this->v['course_category'] = $objCourseCategory->loadListIdAndName(['status', 1]);

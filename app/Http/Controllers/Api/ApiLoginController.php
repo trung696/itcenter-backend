@@ -118,7 +118,9 @@ class ApiLoginController extends Controller
         //
     }
     public function deleteToken(Request  $request){
-        $tokenUp = $request->header('token');
+        // $tokenUp = $request->header('token');
+        $tokenUp = $request->bearerToken();
+
         // $tokenUp = $request->bearerToken();
         $checkToken = SessionUser::where('token',$tokenUp)->first();
         if(empty($tokenUp)){
