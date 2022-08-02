@@ -194,7 +194,6 @@ class DangKyController extends Controller
 
         $objLopHoc = new LopHoc();
         $itemLH = $objLopHoc->loadOne($this->v['itemDK']);
-        // dd($itemLH);
         $objKhoaHoc = new Course();
         $this->v['itemKH'] = $objKhoaHoc->loadOne($itemLH->course_id);
         $list_lop_hoc = DB::table('class')->select('id', 'name')

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    bcrypt(123456789);
+    bcrypt(123456);
     return view('welcome');
 });
 //trang chủ
@@ -419,4 +419,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-method/delete/{id}', 'PaymentMethodController@destroy')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_PaymentMethod_Delete');
+        
 });

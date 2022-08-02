@@ -175,6 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
 
     ],
@@ -229,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
     'roles' => [1 => 'Quản lý', 2 => 'Nhân viên'],
