@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCollumDeleteAtInTableUsers extends Migration
+class AddCollumLiDoInTableChuyenLop extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddCollumDeleteAtInTableUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->softDeletes(); // add
+        Schema::table('thong_tin_chuyen_lops', function (Blueprint $table) {
+           $table->string('liDo');
         });
     }
 
@@ -25,8 +25,8 @@ class AddCollumDeleteAtInTableUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
+        Schema::table('thong_tin_chuyen_lops', function (Blueprint $table) {
+            $table->dropColumn('liDo');
         });
     }
 }

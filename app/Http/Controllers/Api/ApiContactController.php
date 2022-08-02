@@ -46,22 +46,23 @@ class ApiContactController extends Controller
         //      return ('Nhập lỗi 1 trong 4 trường');
         // }
         if ($validated->fails()) {
-           dd($validated->errors());
-            return ('Nhập lỗi 1 trong 4 trường');
-        }
-        else {
+            return response()->json([
+                'status' => false,
+                'heading' => 'Chưa qua được validate',
+                'error' => $validated->errors()
+            ], 500);
+        } else {
             $con = FormContact::create($request->all());
-            Mail::send('frontend.home.form.contentMail',compact('con'), function ($email){
+            Mail::send('frontend.home.form.contentMail', compact('con'), function ($email) {
                 // mail nhận thư, tên người dùng
                 $email->subject("Có người đăng kí tư vấn");
-                $email->to('doanhptph10742@fpt.edu.vn','Phạm Tiến Doanh');
+                $email->to('doanhptph10742@fpt.edu.vn', 'Phạm Tiến Doanh');
             });
             return response()->json([
                 'status' => true,
                 'message' => "Thêm thành công contact",
                 'contact' => $request->all()
             ], 200);
-         
         }
     }
 
