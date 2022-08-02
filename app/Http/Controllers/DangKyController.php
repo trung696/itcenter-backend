@@ -49,7 +49,7 @@ class DangKyController extends Controller
     {
         $this->v['routeIndexText'] = 'Danh mục khoa học';
         $this->v['_action'] = 'Add';
-        $this->v['_title'] = 'Thêm danh mục khoá học';
+        $this->v['_title'] = 'Thêm đăng ký ';
         // $this->v['status'] = config('app.status_giang_vien');
         // dd($this->v['status']);
         $objKhoaHoc = new Course();
@@ -95,7 +95,7 @@ class DangKyController extends Controller
                     }
                 }
                 if (isset($resHocVien)) {
-                    $gia = $objLopHoc->loadOne($request->id_lop_hoc);
+                    $gia = $objKhoaHoc->loadOne($request->id_lop_hoc);
 
                     $arrDangKy = [];
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
@@ -120,7 +120,7 @@ class DangKyController extends Controller
                     }
                     $email = $request->email;
                     $objGuiGmail = DB::table('dang_ky', 'tb1')
-                        ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+                        ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
                         ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
                         ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
                         ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
@@ -195,11 +195,17 @@ class DangKyController extends Controller
         $objLopHoc = new LopHoc();
         $itemLH = $objLopHoc->loadOne($this->v['itemDK']);
         $objKhoaHoc = new Course();
-        $this->v['itemKH'] = $objKhoaHoc->loadOne($itemLH->course_id);
+        $itemKH = $objKhoaHoc->loadOne($itemLH->course_id);
+        $this->v['itemKH'] = $itemKH->id;
+        // dd($itemKH);
         $list_lop_hoc = DB::table('class')->select('id', 'name')
             ->where('course_id', '=', $itemLH->course_id)
             ->where('start_date', '>', $now)->get();
         $this->v['listLH'] = $list_lop_hoc;
+        $list_khoa_hoc = DB::table('course')->select('id', 'name')->get();
+        // ->where('course_id', '=', $itemLH->course_id)
+        // ->where('start_date', '>', $now)->get();
+        $this->v['listKH'] = $list_khoa_hoc;
         // dd($list_lop_hoc);
         return view('dangky.sua-thong-tin', $this->v);
     }
@@ -258,7 +264,7 @@ class DangKyController extends Controller
     public function inHoaDon($id, Request $request)
     {
         $emails = DB::table('dang_ky', 'tb1')
-            ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+            ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
             ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
             ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
             ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
