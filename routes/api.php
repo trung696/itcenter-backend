@@ -57,6 +57,8 @@ Route::get('checkPayMent','Api\ApiRegisterClassController@checkPayMent')->name('
 Route::apiResource('teacher','Api\ApiTeacherController');
 Route::apiResource('payment','Api\ApiPayMentController');
 
+//api chuyển lớp
+Route::apiResource('doiLop','Api\ApiDoiLopController');
 
 // // Lấy thông tin sản phẩm theo id
 // Route::get('products/{id}', 'Api\ProductController@show')->name('products.show');

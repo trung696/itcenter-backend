@@ -8,7 +8,9 @@ use App\HocVien;
 use App\Http\Controllers\Controller;
 use App\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 
 class ApiRegisterClassController extends Controller
@@ -35,8 +37,6 @@ class ApiRegisterClassController extends Controller
         $checkIssetPhone = HocVien::where('so_dien_thoai', $request->so_dien_thoai)->first();
         //hoc vien da ton tai tren db
         if ($checkIssetEmail != null || $checkIssetPhone != null) {
-            // dd($checkIssetEmail);
-
             $infoHocVien = '';
             if ($checkIssetEmail == null) {
                 $infoHocVien = $checkIssetPhone;
@@ -127,8 +127,17 @@ class ApiRegisterClassController extends Controller
             'so_dien_thoai' => $request->so_dien_thoai,
             'email' => $request->email,
             'hinh_anh' => $request->hinh_anh,
-            'trang_thai' => 1
+            'trang_thai' => 1,
+            'password' => Str::random(6),
+            'tokenActive' => Str::random(20),
         ]);
+        if ($hoc_vien = $addNewStudent) {
+            Mail::send('emailSendPassword', compact('hoc_vien'), function ($email) use ($hoc_vien) {
+                // mail nhận thư, tên người dùng
+                $email->subject("Hệ thống gửi password đến bạn");
+                $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
+            });
+        }
 
         if ($addNewStudent) {
             if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
@@ -223,7 +232,6 @@ class ApiRegisterClassController extends Controller
                     ]);
                 }
             }
-
             //check chỗ lớp mới chuyển sang và trừ đi 1 slot
             $dangKyAfterUpdate = DangKy::where('id', $id)->first();
             if ($dangKyAfterUpdate->trang_thai == 1) {
@@ -264,10 +272,5 @@ class ApiRegisterClassController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function checkPayment()
-    {
-        dd('cjheck');
     }
 }

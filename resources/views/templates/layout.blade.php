@@ -41,8 +41,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
     <![endif]-->
 
     <!-- Google Font -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link rel="icon" type="image/png" sizes="16x16" href="/public/img/favicon.png">
     <link rel="stylesheet" href="{{ asset('default/bower_components/select2/dist/css/select2.min.css') }}">
     @yield('css')
@@ -166,70 +165,6 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        {{-- <li class="dropdown messages-menu"> --}}
-                        {{-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"> --}}
-                        {{-- <i class="fa fa-envelope-o"></i> --}}
-                        {{-- <span class="label label-success">4</span> --}}
-                        {{-- </a> --}}
-                        {{-- <ul class="dropdown-menu"> --}}
-                        {{-- <li class="header">You have 4 messages</li> --}}
-                        {{-- <li> --}}
-                        {{-- <!-- inner menu: contains the actual data --> --}}
-                        {{-- <ul class="menu"> --}}
-                        {{-- <li><!-- start message --> --}}
-                        {{-- <a href="#"> --}}
-                        {{-- <div class="pull-left"> --}}
-                        {{-- <img src="/public/default/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> --}}
-                        {{-- </div> --}}
-                        {{-- <h4> --}}
-                        {{-- Support Team --}}
-                        {{-- <small><i class="fa fa-clock-o"></i> 5 mins</small> --}}
-                        {{-- </h4> --}}
-                        {{-- <p>Why not buy a new awesome theme?</p> --}}
-                        {{-- </a> --}}
-                        {{-- </li> --}}
-                        {{-- <!-- end message --> --}}
-                        {{-- </ul> --}}
-                        {{-- </li> --}}
-                        {{-- <li class="footer"><a href="#">See All Messages</a></li> --}}
-                        {{-- </ul> --}}
-                        {{-- </li> --}}
-                        {{-- <!-- Notifications: style can be found in dropdown.less --> --}}
-                        {{-- <!-- Tasks: style can be found in dropdown.less --> --}}
-                        {{-- <li class="dropdown tasks-menu"> --}}
-                        {{-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"> --}}
-                        {{-- <i class="fa fa-flag-o"></i> --}}
-                        {{-- <span class="label label-danger">9</span> --}}
-                        {{-- </a> --}}
-                        {{-- <ul class="dropdown-menu"> --}}
-                        {{-- <li class="header">You have 9 tasks</li> --}}
-                        {{-- <li> --}}
-                        {{-- <!-- inner menu: contains the actual data --> --}}
-                        {{-- <ul class="menu"> --}}
-                        {{-- <li><!-- Task item --> --}}
-                        {{-- <a href="#"> --}}
-                        {{-- <h3> --}}
-                        {{-- Design some buttons --}}
-                        {{-- <small class="pull-right">20%</small> --}}
-                        {{-- </h3> --}}
-                        {{-- <div class="progress xs"> --}}
-                        {{-- <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" --}}
-                        {{-- aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"> --}}
-                        {{-- <span class="sr-only">20% Complete</span> --}}
-                        {{-- </div> --}}
-                        {{-- </div> --}}
-                        {{-- </a> --}}
-                        {{-- </li> --}}
-                        {{-- <!-- end task item --> --}}
-                        {{-- </ul> --}}
-                        {{-- </li> --}}
-                        {{-- <li class="footer"> --}}
-                        {{-- <a href="#">View all tasks</a> --}}
-                        {{-- </li> --}}
-                        {{-- </ul> --}}
-                        {{-- </li> --}}
-                        <!-- User Account: style can be found in dropdown.less -->
 
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -247,31 +182,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                 <a href="{{ route('logout') }}" class="btn btn-default btn-flat">Sign out</a>
               </li> -->
                                 <!-- User image -->
-                                {{-- <li class="user-header"> --}}
 
-                                {{-- <img src="/public/img/no-avartar.png" class="img-circle" alt="User Image"> --}}
-
-                                {{-- <p> --}}
-                                {{-- Username: {{ $objUser->username }}<br> --}}
-                                {{-- Email: {{ $objUser->email }} --}}
-                                {{-- <small>Member since Nov. 2012</small> --}}
-                                {{-- </p> --}}
-                                {{-- </li> --}}
-                                <!-- Menu Body -->
-                                {{-- <li class="user-body"> --}}
-                                {{-- <div class="row"> --}}
-                                {{-- <div class="col-xs-4 text-center"> --}}
-                                {{-- <a href="#">Followers</a> --}}
-                                {{-- </div> --}}
-                                {{-- <div class="col-xs-4 text-center"> --}}
-                                {{-- <a href="#">Sales</a> --}}
-                                {{-- </div> --}}
-                                {{-- <div class="col-xs-4 text-center"> --}}
-                                {{-- <a href="#">Friends</a> --}}
-                                {{-- </div> --}}
-                                {{-- </div> --}}
-                                {{-- <!-- /.row --> --}}
-                                {{-- </li> --}}
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
@@ -346,10 +257,8 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-users"></i> <span>Học viên</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_DanhSachHocVien_index') }}"><i
-                                        class="fa fa-circle-o"></i>Danh sách học viên</a></li>
-                            <li><a href="{{ route('route_BackEnd_DanhSachDangKy_index') }}"><i
-                                        class="fa fa-circle-o"></i>Danh sách đăng ký</a></li>
+                            <li><a href="{{ route('route_BackEnd_DanhSachHocVien_index') }}"><i class="fa fa-circle-o"></i>Danh sách học viên</a></li>
+                            <li><a href="{{ route('route_BackEnd_DanhSachDangKy_index') }}"><i class="fa fa-circle-o"></i>Danh sách đăng ký</a></li>
                         </ul>
                     </li>
                     <!-- <li class=" active menu-open ">
@@ -407,13 +316,6 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                                         class="fa fa-circle-o"></i> Danh sách phương thức thanh toán</a></li>
                         </ul>
                     </li>
-                    <!-- <li class=" active menu-open ">
-                    <a href="#"><i class="fa fa-dollar"></i> <span>Địa Điểm Học</span></a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{ route('route_BackEnd_DanhSachDiaDiem_index') }}"><i
-                                        class="fa fa-circle-o"></i> Danh sách địa điểm</a></li>
-                    </ul>
-                </li> -->
 
 
                     {{-- <li class=" active menu-open ">
@@ -427,8 +329,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-users"></i> <span>Permission</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_permission_add') }}"><i
-                                        class="fa fa-circle-o"></i>Thêm Permission</a></li>
+                            <li><a href="{{ route('route_BackEnd_permission_add') }}"><i class="fa fa-circle-o"></i>Thêm Permission</a></li>
                         </ul>
                     </li> --}}
 
@@ -441,22 +342,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     {{-- <li class=" active menu-open "> --}}
                     {{-- <a href="#"><i class="fa fa-paperclip"></i> <span>Biên Bản</span></a> --}}
                     {{-- <ul class="treeview-menu"> --}}
-                    {{-- <li><a href="{{ route('route_BackEnd_BienBan_index') }}"><i --}}
-                    {{-- class="fa fa-circle-o"></i>Biên Bản Bàn Giao</a></li> --}}
-                    {{-- </ul> --}}
-                    {{-- <ul class="treeview-menu"> --}}
-                    {{-- <li><a href="{{ route('route_BackEnd_BienBanKiemKe_index') }}"><i --}}
-                    {{-- class="fa fa-circle-o"></i>Biên Bản Kiểm Kê</a></li> --}}
-                    {{-- </ul> --}}
-                    {{-- <ul class="treeview-menu"> --}}
-                    {{-- <li><a href="{{ route('route_BackEnd_BienBanThanhLi_index') }}"><i --}}
-                    {{-- class="fa fa-circle-o"></i>Biên Bản Thanh Lí</a></li> --}}
-                    {{-- </ul> --}}
-                    {{-- </li> --}}
-                    {{-- <li class=" active menu-open "> --}}
-                    {{-- </a> --}}
-                    {{-- </li> --}}
-                </ul>
+                    {{-- <li><a href="{{ route('route_BackEnd_BienBan_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Bàn Giao</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}} {{-- <li><a href="{{ route('route_BackEnd_BienBanKiemKe_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Kiểm Kê</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}} {{-- <li><a href="{{ route('route_BackEnd_BienBanThanhLi_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Thanh Lí</a></li> --}} {{-- </ul> --}} {{-- </li> --}} {{-- <li class=" active menu-open "> --}} {{-- </a> --}} {{-- </li> --}} </ul>
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -730,8 +616,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
             <div class="modal-content">
                 <div class="modal-header" style="padding-bottom: 0px;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="font-size: 24px; color:red; margin-top: -10px"
-                            class="fa fa-close"></span></button>
+                        <span aria-hidden="true" style="font-size: 24px; color:red; margin-top: -10px" class="fa fa-close"></span></button>
                     <h4 class="modal-title" id="app-modal-dialog-title">Default Modal</h4>
                 </div>
                 <div class="modal-body" id="app-modal-dialog-body">
@@ -794,7 +679,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
 
     {{-- @yield('script') --}}
     @isset($include_file)
-        @include($include_file)
+    @include($include_file)
     @endisset
 
 

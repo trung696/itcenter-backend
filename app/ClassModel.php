@@ -22,7 +22,7 @@ class ClassModel extends Model
 
     public function dangKi()
     {
-        return $this->hasMany(DangKy::class,'id_lop_hoc','id');
+        return $this->hasMany(DangKy::class, 'id_lop_hoc', 'id');
     }
 
     public function createStdClass()
