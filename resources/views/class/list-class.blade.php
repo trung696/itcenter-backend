@@ -149,6 +149,7 @@
                             <tr>
                                 <th>#ID</th>
                                 <th>Tên lớp hoc</th>
+                                <th>Giá</th>
                                 <th>Số chỗ</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
@@ -162,6 +163,7 @@
 
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
+                                    <td>{{ $arrCoursePrice[$item->course_id]}}</td>
                                     <td>{{ $item->slot }}</td>
                                     <td>{{ $item->start_date }}</td>
                                     <td>{{ $item->end_date }}</td>

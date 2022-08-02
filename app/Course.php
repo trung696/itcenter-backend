@@ -66,7 +66,7 @@ class Course extends Model
     }
 
     public function loadListIdAndName($where = null){
-        $list = DB::table($this->table)->select('id', 'name','status');
+        $list = DB::table($this->table)->select('id', 'name','status','price');
         if($where != null)
             $list->where([$where]);
         return $list->get();

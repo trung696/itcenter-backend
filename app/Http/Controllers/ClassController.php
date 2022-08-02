@@ -66,12 +66,21 @@ class ClassController extends  Controller{
         // $this->v['objItem'] = $objItem;
         $course = $this->v['course_id'];
         $arrCourse = [];
+        $arrCoursePrice = [];
         foreach ($course as $index => $item) {
             // dd($item);
             $arrCourse[$item->id] = $item->name;
             
         }
+
+        foreach ($course as $index => $item) {
+            // dd($item);
+            $arrCoursePrice[$item->id] = $item->price;
+            
+        }
+        // dd($arrCoursePrice);
         $this->v['arrCourse'] = $arrCourse;
+        $this->v['arrCoursePrice'] = $arrCoursePrice;
         // dd($this->v['arrCourse']);
         // if (empty($objItem)) {
         //     Session::push('errors', 'Không tồn tại danh mục này ' . $id);
