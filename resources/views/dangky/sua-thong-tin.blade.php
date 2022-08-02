@@ -143,7 +143,7 @@
 
                             <div class="col-md-9 col-sm-8">
                                 <input type="text" name="email" id="email" class="form-control"
-                                    value="{{ $itemKH->ten_khoa_hoc }}" disabled>
+                                    value="{{ $itemKH->name }}" disabled>
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
@@ -151,11 +151,11 @@
                             <label for="id_lop_hoc" class="col-md-3 col-sm-4 control-label">Lớp Học</label>
                             <div class="col-md-9 col-sm-8">
                                 <select name="id_lop_hoc" id="id_khoa_hoc" class="form-control select2"
-                                    style="width: 100%" data-placeholder="Chọn khoá học">
+                                    style="width: 100%" data-placeholder="Chọn lớp học">
                                     <option value="">== Chọn Lớp học==</option>
                                     @foreach ($listLH as $item)
                                         <option value="{{ $item->id }}"
-                                            @if ($item->id == $itemDK) selected @endif>{{ $item->ten_lop_hoc }}
+                                            @if ($item->id == $itemDK) selected @endif>{{ $item->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -180,36 +180,40 @@
                                     <select name="trang_thai" id="trang_thai" class="form-control select2"
                                         data-placeholder="Chọn trạng thái">
                                         <option value="">== Chọn trạng thái ==</option>
-                                        @foreach ($trang_thai as $index => $item)
+                                        <option value="0" @if ($itemTT == 0) selected @endif>Chưa Thanh
+                                            Toán</option>
+                                        <option value="1" @if ($itemTT == 1) selected @endif>Đã Thanh
+                                            Toán</option>
+                                        {{-- @foreach ($trang_thai as $index => $item)
                                             <option value="{{ $index }}"
                                                 @isset($request['trang_thai']) @if ($request['trang_thai'] == $index) selected @endif
                                         @else @if ($index == $itemDKTT) selected @endif @endisset>
                                         {{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                                @endforeach --}}
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                @endif
+                </div>
             </div>
-        </div>
-    </div>
-    <!-- /.box-body -->
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary"> Save</button>
-        <a href="{{ route('route_BackEnd_AdminDangKyIn_Detail', ['id' => request()->route('id')]) }}"
-            class="btn btn-primary">In Hoá Dơn</a>
-        <a href="{{ route('route_BackEnd_DanhSachDangKy_index') }}" class="btn btn-default">Cancel</a>
-    </div>
-    <!-- /.box-footer -->
-</form>
+            <!-- /.box-body -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary"> Save</button>
+                <a href="{{ route('route_BackEnd_AdminDangKyIn_Detail', ['id' => request()->route('id')]) }}"
+                    class="btn btn-primary">In Hoá Dơn</a>
+                <a href="{{ route('route_BackEnd_DanhSachDangKy_index') }}" class="btn btn-default">Cancel</a>
+            </div>
+            <!-- /.box-footer -->
+        </form>
 
-</section>
+    </section>
 @endsection
 @section('script')
-<script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
-<script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
-<script src="{{ asset('js/khoahoc.js') }} "></script>
-{{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
-{{-- <script src="public/js/taisan.js"></script> --}}
+    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+    <script src="{{ asset('js/khoahoc.js') }} "></script>
+    {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
+    {{-- <script src="public/js/taisan.js"></script> --}}
 
 @endsection

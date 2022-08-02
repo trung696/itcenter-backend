@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -6,20 +7,24 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-class KhuyenMai extends Model{
+
+class KhuyenMai extends Model
+{
     protected $table = 'khuyen_mai';
     protected $fillable = ['tb1.id', 'tb1.ma_khuyen_mai', 'tb1.ten_khuyen_mai', 'tb1.phan_tram_khuyen_mai', 'tb1.ngay_bat_dau', 'tb1.ngay_ket_thuc', 'tb1.hinh_anh_khuyen_mai', 'tb1.trang_thai', 'tb1.created_at', 'tb1.updated_at'];
     public $timestamps = false;
-    public function createStdClass(){
+    public function createStdClass()
+    {
         $objItem = new \stdClass();
-        foreach ($this->fillable as $field){
-            $field = substr($field,4);
+        foreach ($this->fillable as $field) {
+            $field = substr($field, 4);
             $objItem->$field = null;
         }
         return $objItem;
     }
-    public function loadListWithPager($params = array()){
-        $query = DB::table($this->table.' as tb1')
+    public function loadListWithPager($params = array())
+    {
+        $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable);
         if (isset($params['search_khuyen_mai']) && strlen($params['search_khuyen_mai']) > 0) {
             $query->where('tb1.ma_khuyen_mai', 'like', '%' . $params['search_khuyen_mai'] . '%')
@@ -28,10 +33,11 @@ class KhuyenMai extends Model{
         $list = $query->where('tb1.trang_thai', '=', 1)->paginate(10, ['tb1.id']);
         return $list;
     }
-    public function loadCheckName($name,$params = null){
-        $query = DB::table($this->table.' as tb1')
+    public function loadCheckName($name, $params = null)
+    {
+        $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable)
-        ->where('tb1.ma_khuyen_mai','=',$name);
+            ->where('tb1.ma_khuyen_mai', '=', $name);
         $list = $query->where('tb1.trang_thai', '=', 1)->first();
         return $list;
     }
@@ -44,7 +50,7 @@ class KhuyenMai extends Model{
             return null;
         }
 
-        $data =  array_merge($params['cols'],[
+        $data =  array_merge($params['cols'], [
             'ma_khuyen_mai' => $params['cols']['ma_khuyen_mai'],
             'ten_khuyen_mai' => $params['cols']['ten_khuyen_mai'],
             'phan_tram_khuyen_mai' => $params['cols']['phan_tram_khuyen_mai'],
@@ -60,5 +66,4 @@ class KhuyenMai extends Model{
 
         return $res;
     }
-
 }

@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Log;
 
 class TeacherController extends Controller
 {
+    private $v;
+
+    public function __construct()
+    {
+        $this->v = [];
+    }
     public function index()
     {
         $this->v['routeIndexText'] = 'Danh sách học sinh';
