@@ -15,8 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\KhoaHocRequest;
 use Illuminate\Support\Facades\Session;
 use Spipu\Html2Pdf\Html2Pdf;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+
 
 require_once __DIR__ . '/../../SLib/functions.php';
 

@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    bcrypt(123456);
     return view('welcome');
 });
 //trang chủ
@@ -48,6 +47,9 @@ Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Update');
 
+//list_đổi lớp
+Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop');
+Route::get('/doiLop/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
 
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');
@@ -91,12 +93,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/taisan-category', 'TaiSanController@danhMucTaiSan')->name('route_BackEnd_DanhMucTaiSan_index');
 
-
-
     Route::match(['get', 'post'], '/taisan-category/add', 'TaiSanController@themDanhMucTaiSan')->name('route_BackEnd_DanhMucTaiSan_Add');
-
-
-
 
     Route::get('/taisan-category/detail/{id}', 'TaiSanController@chiTietDanhMucTaiSan')
         ->where('id', '[0-9]+')
@@ -400,7 +397,7 @@ Route::middleware(['auth'])->group(function () {
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Document_Delete');
 
-        //payment method
+    //payment method
     Route::get('/payment-method', 'PaymentMethodController@paymentMethod')
         ->name('route_BackEnd_PaymentMethod_List');
     Route::match(['get', 'post'], '/payment-method/add', 'PaymentMethodController@AddPaymentMethod')
@@ -414,5 +411,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-method/delete/{id}', 'PaymentMethodController@destroy')
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_PaymentMethod_Delete');
-        
 });
