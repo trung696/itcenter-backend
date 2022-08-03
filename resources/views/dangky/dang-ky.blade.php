@@ -202,7 +202,7 @@
                             </th>
                             <th class="text-center">Tên học viên</th>
                             <th class="text-center">Số điện thoại</th>
-                            <th class="text-center">Gmail</th>
+                            <th class="text-center">Email</th>
                             <th class="text-center">Lớp đăng ký</th>
                             <th class="text-center">Ngày đăng ký</th>
                             <th width="50px" class="text-center">Trạng thái</th>
