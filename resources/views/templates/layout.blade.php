@@ -279,49 +279,46 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     </ul>
                 </li> -->
                     <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-dollar"></i> <span>Course</span></a>
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Khóa học</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_CourseCategory_List') }}"><i class="fa fa-circle-o"></i> Course Category</a></li>
+                            <li><a href="{{ route('route_BackEnd_CourseCategory_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh mục khóa học</a></li>
                             <li><a href="{{ route('route_BackEnd_Course_List') }}"><i class="fa fa-circle-o"></i>
-                                    Course</a></li>
+                                    Khóa học</a></li>
                         </ul>
                     </li>
                     <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-dollar"></i> <span>Class</span></a>
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Lớp học</span></a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_Class_List') }}"><i class="fa fa-circle-o"></i>
-                                    list class</a></li>
+                                    Danh sách lớp học</a></li>
                         </ul>
                     </li>
                     <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-dollar"></i> <span>Central Facility</span></a>
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Cơ sở trung tâm</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i class="fa fa-circle-o"></i> list central facility</a></li>
+                            <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh sách cơ sở trung tâm</a></li>
                         </ul>
                     </li>
 
                     <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-dollar"></i> <span>Document</span></a>
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Tài Liệu</span></a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_Document_List') }}"><i class="fa fa-circle-o"></i>
-                                    list document</a></li>
+                                    Danh sách tài liệu</a></li>
                         </ul>
                     </li>
                     <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-dollar"></i> <span>Payment Method</span></a>
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Phương thức thanh toán</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_PaymentMethod_List') }}"><i class="fa fa-circle-o"></i> List payment</a></li>
-                        </ul>
-                    </li>
-                    <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-dollar"></i> <span>Chuyển lớp</span></a>
-                        <ul class="treeview-menu">
-                            <li><a href="{{route('route_BackEnd_list_doi_lop')}}"><i class="fa fa-circle-o"></i> Danh sách sinh viên muốn chuyển lớp</a></li>
+                            <li><a href="{{ route('route_BackEnd_PaymentMethod_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh sách phương thức thanh toán</a></li>
                         </ul>
                     </li>
 
 
-                    <li class=" active menu-open ">
+                    {{-- <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-users"></i> <span>Role</span></a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_role_list') }}"><i class="fa fa-circle-o"></i>Danh
@@ -334,9 +331,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                         <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_permission_add') }}"><i class="fa fa-circle-o"></i>Thêm Permission</a></li>
                         </ul>
-                    </li>
-
-                  
+                    </li> --}}
 
 
 
