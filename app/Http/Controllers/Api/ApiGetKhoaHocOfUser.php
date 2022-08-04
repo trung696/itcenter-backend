@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DangKy;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Middleware\checkTokenSend;
+use App\SessionUser;
 
 class ApiGetKhoaHocOfUser extends Controller
 {
@@ -14,13 +17,21 @@ class ApiGetKhoaHocOfUser extends Controller
      */
     public function index(Request  $request)
     {
-        /// ĐOẠN NÀY ĐÃ CHECK BÊN MIDDLEWARE checkTokenUp
-            // $allCate=C::all();
+        $tokenUp = $request->bearerToken();
+        $id_user = SessionUser::where('token', $tokenUp)->first()->user_id;
+        $listDangKiOfUser = DangKy::where('id_hoc_vien', $id_user)->get();
+        if ($listDangKiOfUser) {
+            dd($listDangKiOfUser);
             return response()->json([
                 'status' => true,
-                'heading' => "các khóa học mà user đã đang kí",
-                'data' => []
-            ],200);
+                'heading' => "Danh sách khóa học đăng kí",
+                'data' => $listDangKiOfUser
+            ], 200);
+        }
+        return response()->json([
+            'status' => true,
+            'heading' => "Bạn chua đang kí lớp học nào",
+        ], 200);
         // }
     }
     /**

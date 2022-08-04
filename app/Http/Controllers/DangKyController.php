@@ -96,7 +96,6 @@ class DangKyController extends Controller
                 }
                 if (isset($resHocVien)) {
                     $gia = $objLopHoc->loadOne($request->id_lop_hoc);
-
                     $arrDangKy = [];
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
                     $arrDangKy['id_hoc_vien'] = $resHocVien;

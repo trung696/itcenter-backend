@@ -45,58 +45,72 @@ class ApiRegisterClassController extends Controller
             } elseif ($checkIssetEmail != null && $checkIssetPhone != null) {
                 $infoHocVien = $checkIssetEmail;
             }
-            //có tài khoản rồi chỉ đang kí lớp học thôi
-            //lưu thông tin thanh toán bảng momo
-            //check xem thanh toán phương thức gì
-            if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
-                // dd('có pay men momo');
-                $payment = Payment::create([
-                    'payment_method_id' => $request->payment_method_id,
-                    'payment_date' => date("Y-m-d h:i:s"),
-                    'price' => $request->price,
-                    'description' => $request->description,
-                    'status' => 1,
-                ]);
-                //nếu thêm thành công thanh toán momo vào bảng  payment
-                if ($payment) {
+
+            //kiểm tra xem đã đăng kí lớp học Chưa
+            if (isset($infoHocVien->id) && isset($request->id_lop_hoc)) {
+                //đã đang kí thì thông báo là đăng kí rồi
+                $checkDk = DangKy::where('id_lop_hoc', '=', $request->id_lop_hoc)->where('id_hoc_vien', '=', $infoHocVien->id)->first();
+                if ($checkDk) {
+                    return response()->json([
+                        'status' => true,
+                        'heading' => "Bạn đã đang kí lớp học này rồi"
+                    ]);
+                } else {
+                    //có tài khoản rồi chỉ đang kí lớp học thôi
+                    //lưu thông tin thanh toán bảng momo
+                    //check xem thanh toán phương thức gì
+                    if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
+                        // dd('có pay men momo');
+                        $payment = Payment::create([
+                            'payment_method_id' => $request->payment_method_id,
+                            'payment_date' => date("Y-m-d h:i:s"),
+                            'price' => $request->price,
+                            'description' => $request->description,
+                            'status' => 1,
+                        ]);
+                        //nếu thêm thành công thanh toán momo vào bảng  payment
+                        if ($payment) {
+                            $addDangKiIssetStudent = DangKy::create([
+                                'ngay_dang_ky' => date("Y-m-d"),
+                                'id_lop_hoc' => $request->id_lop_hoc,
+                                'id_hoc_vien' => $infoHocVien->id,
+                                'gia_tien' => $request->gia_tien,
+                                'trang_thai' => $payment->status,
+                                'id_payment' => $payment->id,
+                                'paid_date' => $payment->payment_date,
+                            ]);
+                            if ($addDangKiIssetStudent->trang_thai == 1) {
+                                $classOfDangKi = $addDangKiIssetStudent->class;
+                                ClassModel::whereId($classOfDangKi->id)->update([
+                                    'slot' =>  $classOfDangKi->slot - 1
+                                ]);
+                            }
+                        }
+                        return response()->json([
+                            'status' => true,
+                            'heading' => 'đang kí thành công và đã chuyển tiền thành công qua momo',
+                            'data' => $addDangKiIssetStudent,
+                            'data_payment' => $addDangKiIssetStudent->payment
+                        ], 200);
+                    }
+                    //không có payment momo
+
                     $addDangKiIssetStudent = DangKy::create([
                         'ngay_dang_ky' => date("Y-m-d"),
                         'id_lop_hoc' => $request->id_lop_hoc,
                         'id_hoc_vien' => $infoHocVien->id,
                         'gia_tien' => $request->gia_tien,
-                        'trang_thai' => $payment->status,
-                        'id_payment' => $payment->id,
-                        'paid_date' => $payment->payment_date,
+                        'trang_thai' => 0,
+                        'id_payment' => null,
+                        'paid_date' => null,
                     ]);
-                    if ($addDangKiIssetStudent->trang_thai == 1) {
-                        $classOfDangKi = $addDangKiIssetStudent->class;
-                        ClassModel::whereId($classOfDangKi->id)->update([
-                            'slot' =>  $classOfDangKi->slot - 1
-                        ]);
-                    }
+                    return response()->json([
+                        'status' => true,
+                        'heading' => 'đang kí thành công chờ hệ thống kiểm tra xem bạn đã thanh toán hay chưa',
+                        'data' => $addDangKiIssetStudent,
+                    ], 200);
                 }
-                return response()->json([
-                    'status' => true,
-                    'heading' => 'đang kí thành công và đã chuyển tiền thành công qua momo',
-                    'data' => $addDangKiIssetStudent,
-                    'data_payment' => $addDangKiIssetStudent->payment
-                ], 200);
             }
-            //không có payment momo
-            $addDangKiIssetStudent = DangKy::create([
-                'ngay_dang_ky' => date("Y-m-d"),
-                'id_lop_hoc' => $request->id_lop_hoc,
-                'id_hoc_vien' => $infoHocVien->id,
-                'gia_tien' => $request->gia_tien,
-                'trang_thai' => 0,
-                'id_payment' => null,
-                'paid_date' => null,
-            ]);
-            return response()->json([
-                'status' => true,
-                'heading' => 'đang kí thành công chờ hệ thống kiểm tra xem bạn đã thanh toán hay chưa',
-                'data' => $addDangKiIssetStudent,
-            ], 200);
         }
 
         //check validate khi chuan bi them moi hoc vien

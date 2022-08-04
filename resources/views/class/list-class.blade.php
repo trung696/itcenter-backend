@@ -155,7 +155,7 @@
                                 <th>Ngày kết thúc</th>
                                 <th>Giảng viên</th>
                                 <th>Địa điểm</th>
-                                <th>khóa học</th>
+                                <th>Khóa học</th>
                                 <th>Công cụ</th>
                             </tr>
                             @foreach ($lists as $key => $item)
