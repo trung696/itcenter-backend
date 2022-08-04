@@ -50,43 +50,61 @@
         </div>
         <div class="box-body">
             <!-- <form action="" method="post"> -->
-                <!-- @csrf -->
-                <div class="clearfix"></div>
-                <div v-if="list_hoa_dons.length>0" class="table-responsive">
+            <!-- @csrf -->
+            <div class="clearfix"></div>
+            <div v-if="list_hoa_dons.length>0" class="table-responsive">
 
-                    <table class="table table-bordered" style="margin-top:20px;">
-                        <tbody>
-                            <tr>
-                                <th>#ID</th>
-                                <th>Tên Sinh Viên</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Lớp cũ</th>
-                                <th>Lớp muốn chuyển</th>
-                                <th>Lí do</th>
-                                <th>Trạng thái</th>
-                                <th>Công cụ</th>
+                <table class="table table-bordered" style="margin-top:20px;">
+                    <tbody>
+                        <tr>
+                            <th>#ID</th>
+                            <th>Tên Sinh Viên</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Lớp cũ</th>
+                            <th>Lớp muốn chuyển</th>
+                            <th>Lí do</th>
+                            <th>Trạng thái</th>
+                            <th>Công cụ</th>
 
-                            </tr>
-                            @foreach ($lists as $key => $item)
-                            <tr>
+                        </tr>
+                        @foreach ($lists as $key => $item)
+                        <tr>
 
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->ho_ten }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>{{ $item->so_dien_thoai }}</td>
-                                <td>{{ $item->oldClass }}</td>
-                                <td>{{ $item->newClass }}</td>
-                                <td>{{ $item->liDo }}</td>
-                                <td>
-                                    <p style="color:'red'"> Chờ duyệt</p>
-                                </td>
-                                <td> <a href="{{route('route_BackEnd_doi_lop',['email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}"> <button>Đồng ý</button> </a></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->ho_ten }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->so_dien_thoai }}</td>
+                            <td>
+                                @php
+                                foreach($listClass as $itemList){
+                                if($item->oldClass == $itemList->id){
+                                echo $itemList->name;
+                                }
+                                }
+                                @endphp
+                            </td>
+                            <td>
+                                @php
+                                foreach($listClass as $itemList){
+                                if($item->newClass == $itemList->id){
+                                echo $itemList->name;
+                                }
+                                }
+                                @endphp
+                            </td>
+
+                            <td>{{ $item->liDo }}</td>
+                            <td>
+                                <p style="color: red "> Chờ duyệt</p>
+                            </td>
+                            <td> <a href=" {{route('route_BackEnd_doi_lop',['email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}"> <button>Đồng ý</button> </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <!-- </form>     -->
         </div>
         <br>

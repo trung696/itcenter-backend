@@ -22,7 +22,6 @@ Route::apiResource('contacts', 'Api\ApiContactController');
 Route::get('/user/{user}/{token}', 'App\Http\Controllers\UserController@active')->name('active.user');
 Route::apiResource('category', 'Api\ApiCategoryController');
 
-
 //add new route 
 // Login ( post :    /api/login -- login hệ thống
 //         delete : /api/logout  -- logout hệ thống)

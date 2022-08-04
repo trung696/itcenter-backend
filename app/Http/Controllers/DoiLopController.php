@@ -13,7 +13,9 @@ class DoiLopController extends Controller
     public function index()
     {
         $lists = ThongTinChuyenLop::all();
-        return view('chuyenLop.list', compact('lists'));
+        // dd($lists);
+        $listClass = ClassModel::all();
+        return view('chuyenLop.list', compact('lists','listClass'));
     }
     public function doiLop(Request $request, $email, $oldClass, $newClass)
     {
