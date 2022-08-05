@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191); // add: default varchar(191)
+        Validator::extend('greater_than', function ($attribute, $value, $params, $validator) {
+
+
+            $other = Request::get($params[0]);
+            return $value > $other;
+        });
+
+        Validator::replacer('greater_than', function ($message, $attribute, $rule, $params) {
+            return str_replace('_', ' ', 'Không được phép nhập ' . $attribute . ' nhỏ hơn ' . $params[0]);
+        });
+        //
     }
 }

@@ -181,7 +181,7 @@ class DangKyController extends Controller
         $this->v['_action'] = 'Edit';
         $this->v['_title'] = 'Chi tiết đăng ký';
         $this->v['trang_thai'] = config('app.status_dang_ky');
-
+        // dd(config('app.status_dang_ky'));
         $objDangKy = new DangKy();
         $itemDK = $objDangKy->loadOne($id);
         $this->v['itemDK'] = $itemDK->id_lop_hoc;

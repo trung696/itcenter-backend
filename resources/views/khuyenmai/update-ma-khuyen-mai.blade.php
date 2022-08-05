@@ -80,75 +80,61 @@
         @endif
 
         <!-- Phần nội dung riêng của action  -->
-        <form class="form-horizontal " action="" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal "
+            action="{{ route('route_BackEnd_MaChienDich_Update', ['id' => request()->route('id')]) }}" method="post"
+            enctype="multipart/form-data">
             @csrf
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
-
                         <div class="form-group">
-                            <label for="ten_chien_dich" class="col-md-3 col-sm-4 control-label">Tên chiến dịch <span
+                            <label for="ma_khuyen_mai" class="col-md-3 col-sm-4 control-label">Mã Khuyến Mãi <span
                                     class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
-                                <input type="text" name="ten_chien_dich" id="ten_chien_dich" class="form-control"
-                                    value="@isset($request['ten_chien_dich']) {{ $request['ten_chien_dich'] }} @endisset">
+                                <input type="text" name="ma_khuyen_mai" id="v" class="form-control"
+                                    value="@isset($request['ma_khuyen_mai']) {{ $request['ma_khuyen_mai'] }} @else {{ $objItem->ma_khuyen_mai }} @endisset"
+                                    @if ($objItem->ma_khuyen_mai != '')  @endif disabled>
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="ngay_bat_dau" class="col-md-3 col-sm-4 control-label">Thời gian bắt đầu<span
+                            <label for="nguon" class="col-md-3 col-sm-4 control-label">Trạng thái <span
                                     class="text-danger">(*)</span></label>
-
                             <div class="col-md-9 col-sm-8">
-                                <input type="date" name="ngay_bat_dau" id="ngay_bat_dau" class="form-control"
-                                    value="@isset($request['ngay_bat_dau']) {{ $request['ngay_bat_dau'] }} @endisset">
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="ngay_ket_thuc" class="col-md-3 col-sm-4 control-label">Thời gian kết thúc<span
-                                    class="text-danger">(*)</span></label>
-
-                            <div class="col-md-9 col-sm-8">
-                                <input type="date" name="ngay_ket_thuc" id="ngay_ket_thuc" class="form-control"
-                                    value="@isset($request['ngay_ket_thuc']) {{ $request['ngay_ket_thuc'] }} @endisset">
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="phan_tram_giam" class="col-md-3 col-sm-4 control-label">Phần trăm giảm giá<span
-                                    class="text-danger">(*)</span></label>
-
-                            <div class="col-md-9 col-sm-8">
-                                <input type="number" name="phan_tram_giam" id="phan_tram_giam" class="form-control"
-                                    value="@isset($request['phan_tram_khuyen_mai']) {{ $request['phan_tram_khuyen_mai'] }} @endisset">
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- tab2 --}}
-                    <div class="col-md-6">
-
+                                <select name="trang_thai" id="trang_thai" class="form-control select2"
+                                    data-placeholder="Chọn trạng thái">
+                                    <option value="">== Chọn trạng thái ==</option>
+                                    @foreach ($trang_thai as $index => $item)
+                                        <option value="{{ $index }}"
+                                            @isset($request['trang_thai']) @if ($request['trang_thai'] == $index) selected @endif
+                                    @else @if ($objItem->trang_thai == $index) selected @endif @endisset>
+                                    {{ $item }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
-
             </div>
-            <!-- /.box-body -->
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary"> Save</button>
-                <a href="{{ route('route_BackEnd_DanhSachKhhuyenMai_index') }}" class="btn btn-default">Cancel</a>
-            </div>
-            <!-- /.box-footer -->
-        </form>
+            {{-- tab2 --}}
+        </div>
 
-    </section>
+    </div>
+    <!-- /.box-body -->
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary"> Save</button>
+        <a href="{{ route('route_BackEnd_ChienDich_Detail', ['id' => $objItem->id_chien_dich]) }}"
+            class="btn btn-default">Cancel</a>
+    </div>
+    <!-- /.box-footer -->
+</form>
+
+</section>
 @endsection
 @section('script')
-    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
-    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
-    <script src="{{ asset('js/khuyenmai.js') }} "></script>
-    {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
-    {{-- <script src="public/js/taisan.js"></script> --}}
+<script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
+<script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+{{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
+{{-- <script src="public/js/taisan.js"></script> --}}
 
 @endsection
