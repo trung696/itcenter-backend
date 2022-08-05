@@ -149,12 +149,13 @@
                             <tr>
                                 <th>#ID</th>
                                 <th>Tên lớp hoc</th>
+                                <th>Giá</th>
                                 <th>Số chỗ</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
                                 <th>Giảng viên</th>
                                 <th>Địa điểm</th>
-                                <th>khóa học</th>
+                                <th>Khóa học</th>
                                 <th>Công cụ</th>
                             </tr>
                             @foreach ($lists as $key => $item)
@@ -162,6 +163,7 @@
 
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
+                                    <td>{{ $arrCoursePrice[$item->course_id]}}</td>
                                     <td>{{ $item->slot }}</td>
                                     <td>{{ $item->start_date }}</td>
                                     <td>{{ $item->end_date }}</td>

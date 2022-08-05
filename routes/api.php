@@ -22,7 +22,6 @@ Route::apiResource('contacts', 'Api\ApiContactController');
 Route::get('/user/{user}/{token}', 'App\Http\Controllers\UserController@active')->name('active.user');
 Route::apiResource('category', 'Api\ApiCategoryController');
 
-
 //add new route 
 // Login ( post :    /api/login -- login hệ thống
 //         delete : /api/logout  -- logout hệ thống)
@@ -57,6 +56,8 @@ Route::get('checkPayMent','Api\ApiRegisterClassController@checkPayMent')->name('
 Route::apiResource('teacher','Api\ApiTeacherController');
 Route::apiResource('payment','Api\ApiPayMentController');
 
+//api chuyển lớp
+Route::apiResource('doiLop','Api\ApiDoiLopController');
 
 // // Lấy thông tin sản phẩm theo id
 // Route::get('products/{id}', 'Api\ProductController@show')->name('products.show');

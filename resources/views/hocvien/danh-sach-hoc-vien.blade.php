@@ -166,6 +166,16 @@
                             <th class="text-center">Email</th>
                             <th class="text-center">Công cụ</th>
                         </tr>
+                        @php($i=1)
+
+                        @foreach($list as  $item)
+                            <tr>
+                                <td class="text-center">{{$i++}}</td>
+                                <td class="text-center">{{$item->ho_ten}}</td>
+                                <td class="text-center">{{$item->ngay_sinh}}</td>
+                                <td class="text-center">{{$item->so_dien_thoai}}</td>
+                                <td class="text-center">{{$item->email}}</td>
+                                <td class="text-center"><a href="" title="Sửa"><i class="fa fa-edit"></i></a></td>
                         @php($i = 1)
 
                         @foreach ($list as $item)

@@ -17,12 +17,13 @@ class ApiCourceController extends Controller
      */
     public function index()
     {
-        $all = Course::all();
+        $course = Course::all();
         return response()->json([
             'status' => true,
-            'heading' => "Tất cả khoá học",
-            'data' => $all
+            'heading' => 'success',
+            'data' => $course,
         ], 200);
+        //
     }
 
     /**

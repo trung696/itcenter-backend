@@ -37,16 +37,11 @@ class CourseController extends Controller
         $objCourse = new Course();
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
+        // dd($request->all());
         $this->v['list'] = $objCourse->loadListWithPager($this->v['extParams']);
         $objCourseCategory = new CourseCategory();
         $this->v['course_category'] = $objCourseCategory->loadListIdAndName(['status', 1]);
         $categories = $this->v['course_category'];
-        // $courseCategory = Course::find(3)->courseCategory->toArray();
-        // $class = Course::find(3)->class->toArray();
-        // dd($class);
-        // dd($courseCategory);
-        // dd($categories);
-
         $arrCategory = [];
         foreach ($categories as $index => $item) {
             $arrCategory[$item->id] = $item->name;

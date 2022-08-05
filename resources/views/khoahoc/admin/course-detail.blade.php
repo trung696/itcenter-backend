@@ -175,7 +175,7 @@
             <!-- /.box-footer -->
         </form>
 
-
+{{-- 
         <div class="box box-primary" style="margin-top: 50px">
             <div class="box-header with-border">
                 <div class="box-title">
@@ -201,24 +201,24 @@
                                     <input type="text" name="search_ngay_khai_giang" class="form-control daterangepicker-click" placeholder="Ngày khai giảng"
                                            value="@isset($extParams['search_ngay_khai_giang']){{$extParams['search_ngay_khai_giang']}}@endisset" autocomplete="off">
                                 </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6">
+                            </div> --}}
+                            {{-- <div class="col-md-4 col-sm-6">
                                 <div class="form-group" style="margin-top: 5px">
                                     <select name="trang_thai" id="trang_thai" class="form-control select2"
                                             data-placeholder="Chọn trạng thái">
-                                        <option value=""> == Chọn trạng thái ==</option>
+                                        <option value=""> == Chọn trạng thái ==</option> --}}
                                         {{-- @if(count($trang_thai)>0)
                                             @foreach($trang_thai as $index => $mh)
                                                 <option value="{{ $index }}"
                                                         @isset($extParams['trang_thai']) @if($extParams['trang_thai'] == $index) selected @endif @endisset>{{$mh}}</option>
                                             @endforeach
                                         @endif --}}
-                                    </select>
+                                    {{-- </select>
                                 </div>
                             </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="clearfix"></div>
+                            {{-- <div class="clearfix"></div>
                             <div class="col-xs-12" style="text-align:center;">
                                 <div class="form-group">
                                     <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i
@@ -277,24 +277,24 @@
                                             <div class="form-group">
                                                 <label for="id_dia_diem" class="col-md-12" style="padding:0">Địa điểm<span class="text-danger">(*)</span></label>
                                                 <input type="text" class="form-control" name="location_id" id="id_dia_diem">
-                                            </div>
+                                            </div> --}}
                                             
 
-                                            <div class="form-group">
+                                            {{-- <div class="form-group">
                                                 <label for="category_id" class="col-md-3 col-sm-4 control-label">Khoá Học</label>
                                                 <div class="col-md-9 col-sm-8">
-                                                    <select name="course_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn danh mục khoá học">
+                                                    <select name="course_id" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn danh mục khoá học"> --}}
                                                         {{-- <option value="">== khoá học==</option>
                                                         @foreach($course as $item)
                                                             <option value="{{ $item->id }}" @isset($request['course_id']) @if($request['course_id'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
                                                         @endforeach --}}
-                                                    </select>
+                                                    {{-- </select>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                             
-                                    <div class="text-center">
+                                    {{-- <div class="text-center">
                                         <button class="btn btn-primary" id="saveLopHoc" type="submit">Lưu lại</button>
                                         <button type="reset" class="btn btn-default">Nhập lại</button>
                                         <button type="button" class="btn btn-danger"  onclick="huy()">Hủy</button>
@@ -347,7 +347,7 @@
             <br>
             <div class="text-center">
             </div>
-        </div>
+        </div> --}}
 
     </section>
 @endsection
