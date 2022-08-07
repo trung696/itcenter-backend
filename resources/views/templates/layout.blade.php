@@ -408,308 +408,209 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
       @yield('content')
       <div class="clearfix"></div>
 
-                    <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-users"></i> <span>Khuyến mãi</span></a>
-                        <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_ChienDich_index') }}"><i
-                                        class="fa fa-circle-o"></i>Danh sách Chiến dịch </a>
-                            </li>
-                        </ul>
-                        <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_DanhSachKhhuyenMai_index') }}"><i
-                                        class="fa fa-circle-o"></i>Danh sách khuyến mãi</a>
-                            </li>
-                        </ul>
-
-                    </li>
-
-
-
-
-                    {{-- <li class=" active menu-open "> --}}
-                    {{-- </a> --}}
-                    {{-- </li> --}}
-                    {{-- <li class=" active menu-open "> --}}
-                    {{-- <a href="#"><i class="fa fa-paperclip"></i> <span>Biên Bản</span></a> --}}
-                    {{-- <ul class="treeview-menu"> --}}
-                    {{-- <li><a href="{{ route('route_BackEnd_BienBan_index') }}"><i --}}
-                    {{-- class="fa fa-circle-o"></i>Biên Bản Bàn Giao</a></li> --}}
-                    {{-- </ul> --}}
-                    {{-- <ul class="treeview-menu"> --}}
-                    {{-- <li><a href="{{ route('route_BackEnd_BienBanKiemKe_index') }}"><i --}}
-                    {{-- class="fa fa-circle-o"></i>Biên Bản Kiểm Kê</a></li> --}}
-                    {{-- </ul> --}}
-                    {{-- <ul class="treeview-menu"> --}}
-                    {{-- <li><a href="{{ route('route_BackEnd_BienBanThanhLi_index') }}"><i --}}
-                    {{-- class="fa fa-circle-o"></i>Biên Bản Thanh Lí</a></li> --}}
-                    {{-- </ul> --}}
-                    {{-- </li> --}}
-                    {{-- <li class=" active menu-open "> --}}
-                    {{-- </a> --}}
-                    {{-- </li> --}}
-                </ul>
-            </section>
-            <!-- /.sidebar -->
-        </aside>
-
-        <!-- =============================================== -->
-
-        <!-- Content Wrapper. Contains page content -->
-        <div id="app" class="content-wrapper" style="background-color: #ecf0f5;">
-            {{-- @if (!empty($alert_msg)) --}}
-            {{-- <section> --}}
-            {{-- @php($check = false) --}}
-            {{-- @foreach ($alert_msg as $row_alert) --}}
-            {{-- @if ($loop->iteration > 3 && $check == false) --}}
-            {{-- <span id="view-more-all" class="more" style="display: none;"> --}}
-            {{-- @endif --}}
-            {{-- @if ($row_alert->priority == 1) --}}
-            {{-- <p class="callout callout-warning callout-fix"> --}}
-            {{-- <span class=" blink5 fa  fa-hand-o-right" style="color: yellow; font-size: 18px;"></span> --}}
-            {{-- {!!  $row_alert->content  !!} --}}
-            {{-- {!! strlen($row_alert->content)>1000?mb_substr($row_alert->content,0,1000).'<span id="dots-tb-'.$row_alert->id.'">...</span><span id="view-more-tb-'.$row_alert->id.'" class="more">'.mb_substr($row_alert->content,1000).'</span><button type="button" class="btn btn-link btnViewMore" style="padding:0;margin:0;outline:none;text-decoration:none;" data-stt="tb-'.$row_alert->id.'" id="myBtn-tb-'.$row_alert->id.'"><i class="fa fa-angle-down"></i> Xem thêm</button>':$row_alert->content !!} --}}
-            {{-- <button class="btn btn-link btnCloseNotification" data-id="{{ $row_alert->id }}" style="padding: 0;margin: 0;outline: none;"> --}}
-            {{-- <span class="fa fa-times-circle pull-right" style="color: white;"></span> --}}
-            {{-- </button> --}}
-            {{-- </p> --}}
-            {{-- @elseif($row_alert->priority ==2) --}}
-            {{-- <p class="callout callout-danger callout-fix"> --}}
-            {{-- <span class=" blink5 fa  fa-hand-o-right"  style="color: yellow; font-size: 18px;"></span> --}}
-            {{-- {!! strlen($row_alert->content)>1000?mb_substr($row_alert->content,0,1000).'<span id="dots-tb-'.$row_alert->id.'">...</span><span id="view-more-tb-'.$row_alert->id.'" class="more">'.mb_substr($row_alert->content,1000).'</span><button type="button" class="btn btn-link btnViewMore" style="padding:0;margin:0;outline:none;text-decoration:none;" data-stt="tb-'.$row_alert->id.'" id="myBtn-tb-'.$row_alert->id.'"><i class="fa fa-angle-down"></i> Xem thêm</button>':$row_alert->content !!} --}}
-            {{-- <button class="btn btn-link btnCloseNotification" data-id="{{ $row_alert->id }}" style="padding: 0;margin: 0;outline: none;"> --}}
-            {{-- <span class="fa fa-times-circle pull-right" style="color: white;"></span> --}}
-            {{-- </button> --}}
-            {{-- </p> --}}
-
-            {{-- @else --}}
-            {{-- <p class="callout callout-success callout-fix"> --}}
-            {{-- <span class=" blink5 fa fa-hand-o-right"  style="color: yellow; font-size: 18px;"></span> --}}
-            {{-- {!! strlen($row_alert->content)>1000?mb_substr($row_alert->content,0,1000).'<span id="dots-tb-'.$row_alert->id.'">...</span><span id="view-more-tb-'.$row_alert->id.'" class="more">'.mb_substr($row_alert->content,1000).'</span><button type="button" class="btn btn-link btnViewMore" style="padding:0;margin:0;outline:none;text-decoration:none;" data-stt="tb-'.$row_alert->id.'" id="myBtn-tb-'.$row_alert->id.'"><i class="fa fa-angle-down"></i> Xem thêm</button>':$row_alert->content !!} --}}
-            {{-- <button class="btn btn-link btnCloseNotification" data-id="{{ $row_alert->id }}" style="padding: 0;margin: 0;outline: none;"> --}}
-            {{-- <span class="fa fa-times-circle pull-right" style="color: white;"></span> --}}
-            {{-- </button> --}}
-            {{-- </p> --}}
-            {{-- @endif --}}
-            {{-- @if ($loop->iteration > 3 && $check == false) --}}
-            {{-- @php($check = true) --}}
-            {{-- @endif --}}
-            {{-- @if ($loop->iteration > 3 && $loop->iteration == $alert_msg->count()) --}}
-            {{-- </span> --}}
-            {{-- <div style="text-align: center;"> --}}
-            {{-- <button type="button" class="btn btn-link btnViewMore" style="padding:0;margin:0;outline:none;text-decoration:none;" data-stt="all" id="myBtn-all"><i class="fa fa-angle-down config-icon"></i></button> --}}
-            {{-- <button type="button" class="btn btn-link btnCloseAllNotify" style="padding:0;margin:0;outline:none;text-decoration:none;" title="Đóng tất cả"><i class="fa fa-times" style="font-size: 18px;font-weight: normal;"></i> Đóng tất cả</button> --}}
-            {{-- </div> --}}
-
-            {{-- @endif --}}
-            {{-- @endforeach --}}
-            {{-- </section> --}}
-            {{-- @endif --}}
-            @yield('content')
-            <div class="clearfix"></div>
-
-        </div>
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                {{-- <b>Version</b> {{ config('app.app_version') }} by MRS --}}
-            </div>
-            <strong>Copyright &copy; 2018-<?php echo date('Y'); ?>
-        </footer>
-        <?php /*
-                                                                          {{--<!-- Control Sidebar -->--}}
-                                                                          {{--<aside class="control-sidebar control-sidebar-dark">--}}
-                                                                            {{--<!-- Create the tabs -->--}}
-                                                                            {{--<ul class="nav nav-tabs nav-justified control-sidebar-tabs">--}}
-                                                                              {{--<li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>--}}
-                                                                        
-                                                                              {{--<li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>--}}
-                                                                            {{--</ul>--}}
-                                                                            {{--<!-- Tab panes -->--}}
-                                                                            {{--<div class="tab-content">--}}
-                                                                              {{--<!-- Home tab content -->--}}
-                                                                              {{--<div class="tab-pane" id="control-sidebar-home-tab">--}}
-                                                                                {{--<h3 class="control-sidebar-heading">Recent Activity</h3>--}}
-                                                                                {{--<ul class="control-sidebar-menu">--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<i class="menu-icon fa fa-birthday-cake bg-red"></i>--}}
-                                                                        
-                                                                                      {{--<div class="menu-info">--}}
-                                                                                        {{--<h4 class="control-sidebar-subheading">Langdon's Birthday</h4>--}}
-                                                                        
-                                                                                        {{--<p>Will be 23 on April 24th</p>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<i class="menu-icon fa fa-user bg-yellow"></i>--}}
-                                                                        
-                                                                                      {{--<div class="menu-info">--}}
-                                                                                        {{--<h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>--}}
-                                                                        
-                                                                                        {{--<p>New phone +1(800)555-1234</p>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<i class="menu-icon fa fa-envelope-o bg-light-blue"></i>--}}
-                                                                        
-                                                                                      {{--<div class="menu-info">--}}
-                                                                                        {{--<h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>--}}
-                                                                        
-                                                                                        {{--<p>nora@example.com</p>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<i class="menu-icon fa fa-file-code-o bg-green"></i>--}}
-                                                                        
-                                                                                      {{--<div class="menu-info">--}}
-                                                                                        {{--<h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>--}}
-                                                                        
-                                                                                        {{--<p>Execution time 5 seconds</p>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                {{--</ul>--}}
-                                                                                {{--<!-- /.control-sidebar-menu -->--}}
-                                                                        
-                                                                                {{--<h3 class="control-sidebar-heading">Tasks Progress</h3>--}}
-                                                                                {{--<ul class="control-sidebar-menu">--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<h4 class="control-sidebar-subheading">--}}
-                                                                                        {{--Custom Template Design--}}
-                                                                                        {{--<span class="label label-danger pull-right">70%</span>--}}
-                                                                                      {{--</h4>--}}
-                                                                        
-                                                                                      {{--<div class="progress progress-xxs">--}}
-                                                                                        {{--<div class="progress-bar progress-bar-danger" style="width: 70%"></div>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<h4 class="control-sidebar-subheading">--}}
-                                                                                        {{--Update Resume--}}
-                                                                                        {{--<span class="label label-success pull-right">95%</span>--}}
-                                                                                      {{--</h4>--}}
-                                                                        
-                                                                                      {{--<div class="progress progress-xxs">--}}
-                                                                                        {{--<div class="progress-bar progress-bar-success" style="width: 95%"></div>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<h4 class="control-sidebar-subheading">--}}
-                                                                                        {{--Laravel Integration--}}
-                                                                                        {{--<span class="label label-warning pull-right">50%</span>--}}
-                                                                                      {{--</h4>--}}
-                                                                        
-                                                                                      {{--<div class="progress progress-xxs">--}}
-                                                                                        {{--<div class="progress-bar progress-bar-warning" style="width: 50%"></div>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                  {{--<li>--}}
-                                                                                    {{--<a href="javascript:void(0)">--}}
-                                                                                      {{--<h4 class="control-sidebar-subheading">--}}
-                                                                                        {{--Back End Framework--}}
-                                                                                        {{--<span class="label label-primary pull-right">68%</span>--}}
-                                                                                      {{--</h4>--}}
-                                                                        
-                                                                                      {{--<div class="progress progress-xxs">--}}
-                                                                                        {{--<div class="progress-bar progress-bar-primary" style="width: 68%"></div>--}}
-                                                                                      {{--</div>--}}
-                                                                                    {{--</a>--}}
-                                                                                  {{--</li>--}}
-                                                                                {{--</ul>--}}
-                                                                                {{--<!-- /.control-sidebar-menu -->--}}
-                                                                        
-                                                                              {{--</div>--}}
-                                                                              {{--<!-- /.tab-pane -->--}}
-                                                                              {{--<!-- Stats tab content -->--}}
-                                                                              {{--<div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>--}}
-                                                                              {{--<!-- /.tab-pane -->--}}
-                                                                              {{--<!-- Settings tab content -->--}}
-                                                                              {{--<div class="tab-pane" id="control-sidebar-settings-tab">--}}
-                                                                                {{--<form method="post">--}}
-                                                                                  {{--<h3 class="control-sidebar-heading">General Settings</h3>--}}
-                                                                        
-                                                                                  {{--<div class="form-group">--}}
-                                                                                    {{--<label class="control-sidebar-subheading">--}}
-                                                                                      {{--Report panel usage--}}
-                                                                                      {{--<input type="checkbox" class="pull-right" checked>--}}
-                                                                                    {{--</label>--}}
-                                                                        
-                                                                                    {{--<p>--}}
-                                                                                      {{--Some information about this general settings option--}}
-                                                                                    {{--</p>--}}
-                                                                                  {{--</div>--}}
-                                                                                  {{--<!-- /.form-group -->--}}
-                                                                        
-                                                                                  {{--<div class="form-group">--}}
-                                                                                    {{--<label class="control-sidebar-subheading">--}}
-                                                                                      {{--Allow mail redirect--}}
-                                                                                      {{--<input type="checkbox" class="pull-right" checked>--}}
-                                                                                    {{--</label>--}}
-                                                                        
-                                                                                    {{--<p>--}}
-                                                                                      {{--Other sets of options are available--}}
-                                                                                    {{--</p>--}}
-                                                                                  {{--</div>--}}
-                                                                                  {{--<!-- /.form-group -->--}}
-                                                                        
-                                                                                  {{--<div class="form-group">--}}
-                                                                                    {{--<label class="control-sidebar-subheading">--}}
-                                                                                      {{--Expose author name in posts--}}
-                                                                                      {{--<input type="checkbox" class="pull-right" checked>--}}
-                                                                                    {{--</label>--}}
-                                                                        
-                                                                                    {{--<p>--}}
-                                                                                      {{--Allow the user to show his name in blog posts--}}
-                                                                                    {{--</p>--}}
-                                                                                  {{--</div>--}}
-                                                                                  {{--<!-- /.form-group -->--}}
-                                                                        
-                                                                                  {{--<h3 class="control-sidebar-heading">Chat Settings</h3>--}}
-                                                                        
-                                                                                  {{--<div class="form-group">--}}
-                                                                                    {{--<label class="control-sidebar-subheading">--}}
-                                                                                      {{--Show me as online--}}
-                                                                                      {{--<input type="checkbox" class="pull-right" checked>--}}
-                                                                                    {{--</label>--}}
-                                                                                  {{--</div>--}}
-                                                                                  {{--<!-- /.form-group -->--}}
-                                                                        
-                                                                                  {{--<div class="form-group">--}}
-                                                                                    {{--<label class="control-sidebar-subheading">--}}
-                                                                                      {{--Turn off notifications--}}
-                                                                                      {{--<input type="checkbox" class="pull-right">--}}
-                                                                                    {{--</label>--}}
-                                                                                  {{--</div>--}}
-                                                                                  {{--<!-- /.form-group -->--}}
-                                                                        
-                                                                                  {{--<div class="form-group">--}}
-                                                                                    {{--<label class="control-sidebar-subheading">--}}
-                                                                                      {{--Delete chat history--}}
-                                                                                      {{--<a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>--}}
-                                                                                    {{--</label>--}}
-                                                                                  {{--</div>--}}
-                                                                                  {{--<!-- /.form-group -->--}}
-                                                                                {{--</form>--}}
-                                                                              {{--</div>--}}
-                                                                              {{--<!-- /.tab-pane -->--}}
-                                                                            {{--</div>--}}
-                                                                          {{--</aside>--}}
-                                                                          {{--<!-- /.control-sidebar -->--}}
-                                                                         */
-        ?>
-        <!-- Add the sidebar's background. This div must be placed
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <div class="pull-right hidden-xs">
+        {{-- <b>Version</b> {{ config('app.app_version') }} by MRS --}}
+      </div>
+      <strong>Copyright &copy; 2018-<?php echo date('Y'); ?>
+    </footer>
+    <?php /*
+                          {{--<!-- Control Sidebar -->--}}
+                          {{--<aside class="control-sidebar control-sidebar-dark">--}}
+                            {{--<!-- Create the tabs -->--}}
+                            {{--<ul class="nav nav-tabs nav-justified control-sidebar-tabs">--}}
+                              {{--<li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>--}}
+                        
+                              {{--<li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>--}}
+                            {{--</ul>--}}
+                            {{--<!-- Tab panes -->--}}
+                            {{--<div class="tab-content">--}}
+                              {{--<!-- Home tab content -->--}}
+                              {{--<div class="tab-pane" id="control-sidebar-home-tab">--}}
+                                {{--<h3 class="control-sidebar-heading">Recent Activity</h3>--}}
+                                {{--<ul class="control-sidebar-menu">--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<i class="menu-icon fa fa-birthday-cake bg-red"></i>--}}
+                        
+                                      {{--<div class="menu-info">--}}
+                                        {{--<h4 class="control-sidebar-subheading">Langdon's Birthday</h4>--}}
+                        
+                                        {{--<p>Will be 23 on April 24th</p>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<i class="menu-icon fa fa-user bg-yellow"></i>--}}
+                        
+                                      {{--<div class="menu-info">--}}
+                                        {{--<h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>--}}
+                        
+                                        {{--<p>New phone +1(800)555-1234</p>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<i class="menu-icon fa fa-envelope-o bg-light-blue"></i>--}}
+                        
+                                      {{--<div class="menu-info">--}}
+                                        {{--<h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>--}}
+                        
+                                        {{--<p>nora@example.com</p>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<i class="menu-icon fa fa-file-code-o bg-green"></i>--}}
+                        
+                                      {{--<div class="menu-info">--}}
+                                        {{--<h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>--}}
+                        
+                                        {{--<p>Execution time 5 seconds</p>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                {{--</ul>--}}
+                                {{--<!-- /.control-sidebar-menu -->--}}
+                        
+                                {{--<h3 class="control-sidebar-heading">Tasks Progress</h3>--}}
+                                {{--<ul class="control-sidebar-menu">--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<h4 class="control-sidebar-subheading">--}}
+                                        {{--Custom Template Design--}}
+                                        {{--<span class="label label-danger pull-right">70%</span>--}}
+                                      {{--</h4>--}}
+                        
+                                      {{--<div class="progress progress-xxs">--}}
+                                        {{--<div class="progress-bar progress-bar-danger" style="width: 70%"></div>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<h4 class="control-sidebar-subheading">--}}
+                                        {{--Update Resume--}}
+                                        {{--<span class="label label-success pull-right">95%</span>--}}
+                                      {{--</h4>--}}
+                        
+                                      {{--<div class="progress progress-xxs">--}}
+                                        {{--<div class="progress-bar progress-bar-success" style="width: 95%"></div>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<h4 class="control-sidebar-subheading">--}}
+                                        {{--Laravel Integration--}}
+                                        {{--<span class="label label-warning pull-right">50%</span>--}}
+                                      {{--</h4>--}}
+                        
+                                      {{--<div class="progress progress-xxs">--}}
+                                        {{--<div class="progress-bar progress-bar-warning" style="width: 50%"></div>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                  {{--<li>--}}
+                                    {{--<a href="javascript:void(0)">--}}
+                                      {{--<h4 class="control-sidebar-subheading">--}}
+                                        {{--Back End Framework--}}
+                                        {{--<span class="label label-primary pull-right">68%</span>--}}
+                                      {{--</h4>--}}
+                        
+                                      {{--<div class="progress progress-xxs">--}}
+                                        {{--<div class="progress-bar progress-bar-primary" style="width: 68%"></div>--}}
+                                      {{--</div>--}}
+                                    {{--</a>--}}
+                                  {{--</li>--}}
+                                {{--</ul>--}}
+                                {{--<!-- /.control-sidebar-menu -->--}}
+                        
+                              {{--</div>--}}
+                              {{--<!-- /.tab-pane -->--}}
+                              {{--<!-- Stats tab content -->--}}
+                              {{--<div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>--}}
+                              {{--<!-- /.tab-pane -->--}}
+                              {{--<!-- Settings tab content -->--}}
+                              {{--<div class="tab-pane" id="control-sidebar-settings-tab">--}}
+                                {{--<form method="post">--}}
+                                  {{--<h3 class="control-sidebar-heading">General Settings</h3>--}}
+                        
+                                  {{--<div class="form-group">--}}
+                                    {{--<label class="control-sidebar-subheading">--}}
+                                      {{--Report panel usage--}}
+                                      {{--<input type="checkbox" class="pull-right" checked>--}}
+                                    {{--</label>--}}
+                        
+                                    {{--<p>--}}
+                                      {{--Some information about this general settings option--}}
+                                    {{--</p>--}}
+                                  {{--</div>--}}
+                                  {{--<!-- /.form-group -->--}}
+                        
+                                  {{--<div class="form-group">--}}
+                                    {{--<label class="control-sidebar-subheading">--}}
+                                      {{--Allow mail redirect--}}
+                                      {{--<input type="checkbox" class="pull-right" checked>--}}
+                                    {{--</label>--}}
+                        
+                                    {{--<p>--}}
+                                      {{--Other sets of options are available--}}
+                                    {{--</p>--}}
+                                  {{--</div>--}}
+                                  {{--<!-- /.form-group -->--}}
+                        
+                                  {{--<div class="form-group">--}}
+                                    {{--<label class="control-sidebar-subheading">--}}
+                                      {{--Expose author name in posts--}}
+                                      {{--<input type="checkbox" class="pull-right" checked>--}}
+                                    {{--</label>--}}
+                        
+                                    {{--<p>--}}
+                                      {{--Allow the user to show his name in blog posts--}}
+                                    {{--</p>--}}
+                                  {{--</div>--}}
+                                  {{--<!-- /.form-group -->--}}
+                        
+                                  {{--<h3 class="control-sidebar-heading">Chat Settings</h3>--}}
+                        
+                                  {{--<div class="form-group">--}}
+                                    {{--<label class="control-sidebar-subheading">--}}
+                                      {{--Show me as online--}}
+                                      {{--<input type="checkbox" class="pull-right" checked>--}}
+                                    {{--</label>--}}
+                                  {{--</div>--}}
+                                  {{--<!-- /.form-group -->--}}
+                        
+                                  {{--<div class="form-group">--}}
+                                    {{--<label class="control-sidebar-subheading">--}}
+                                      {{--Turn off notifications--}}
+                                      {{--<input type="checkbox" class="pull-right">--}}
+                                    {{--</label>--}}
+                                  {{--</div>--}}
+                                  {{--<!-- /.form-group -->--}}
+                        
+                                  {{--<div class="form-group">--}}
+                                    {{--<label class="control-sidebar-subheading">--}}
+                                      {{--Delete chat history--}}
+                                      {{--<a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>--}}
+                                    {{--</label>--}}
+                                  {{--</div>--}}
+                                  {{--<!-- /.form-group -->--}}
+                                {{--</form>--}}
+                              {{--</div>--}}
+                              {{--<!-- /.tab-pane -->--}}
+                            {{--</div>--}}
+                          {{--</aside>--}}
+                          {{--<!-- /.control-sidebar -->--}}
+                         */
+    ?>
+    <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 

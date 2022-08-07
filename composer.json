@@ -17,14 +17,13 @@
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "2.0",
         "realrashid/sweet-alert": "^5.0",
         "spipu/html2pdf": "^5.2",
         "stripe/stripe-php": "^7.128",
         "symfony/http-client": "^5.4",
         "symfony/mailgun-mailer": "^5.4",
         "symfony/postmark-mailer": "^5.4",
-        "unisharp/laravel-filemanager": "~2.5"
+        "unisharp/laravel-filemanager": "^2.5"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
