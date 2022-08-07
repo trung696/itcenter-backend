@@ -72,44 +72,39 @@
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <input type="text" name="search_sdt_gmail" class="form-control"
-                                placeholder="Nhâp số điện thoại/gmail sinh viên"
+                                placeholder="Nhâp họ tên/số điện thoại/gmail học viên"
                                 value="@isset($extParams['search_sdt_gmail']) {{ $extParams['search_sdt_gmail'] }} @endisset">
                         </div>
                     </div>
-                    {{-- <div class="col-md-3 col-sm-6">
-                            <div class="form-group">
-                                <select name="id_khuyen_mai" class="form-control select1"
-                                        data-placeholder="Chọn trạng thái">
-                                    <option value=""> == Chọn Chiến Dịch ==</option>
-                                    @if (count($chien_dich) > 0)
-                                        @foreach ($chien_dich as $key => $item)
-                                            <option value="{{ $item->id }}"
-                                                    @isset($request['id_chien_dich']) @endisset>
-                                                {{ $item->ten_chien_dich }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                    </div> --}}
-                    {{-- <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <select name="id_khuyen_mai" class="form-control select1" data-placeholder="Chọn trạng thái">
+                                <option value=""> == Chọn Chiến Dịch ==</option>
+                                @if (count($chien_dich) > 0)
+                                    @foreach ($chien_dich as $key => $item)
+                                        <option value="{{ $item->id }}" @isset($request['id_chien_dich'])  @endisset>
+                                            {{ $item->ten_chien_dich }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <button type="submit" name="btnGuiMa" class="btn btn-primary btn-sm "> Gửi mã khuyến mãi
                             </button>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="clearfix"></div>
                     <div class="col-xs-12" style="text-align:center;">
                         <div class="form-group">
                             <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i class="fa fa-search"
                                     style="color:white;"></i> Search
                             </button>
-                            <a href="{{ url('/danh-muc-khoa-hoc') }}" class="btn btn-default btn-sm "><i
+                            <a href="{{ url('/danh-sach-hoc-vien') }}" class="btn btn-default btn-sm "><i
                                     class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_DanhMucKhoaHoc_Add') }}" class="btn btn-info btn-sm"><i
-                                    class="fa fa-user-plus" style="color:white;"></i>
-                                Add new</a>
                         </div>
                     </div>
                 </div>
@@ -166,16 +161,6 @@
                             <th class="text-center">Email</th>
                             <th class="text-center">Công cụ</th>
                         </tr>
-                        @php($i=1)
-
-                        @foreach($list as  $item)
-                            <tr>
-                                <td class="text-center">{{$i++}}</td>
-                                <td class="text-center">{{$item->ho_ten}}</td>
-                                <td class="text-center">{{$item->ngay_sinh}}</td>
-                                <td class="text-center">{{$item->so_dien_thoai}}</td>
-                                <td class="text-center">{{$item->email}}</td>
-                                <td class="text-center"><a href="" title="Sửa"><i class="fa fa-edit"></i></a></td>
                         @php($i = 1)
 
                         @foreach ($list as $item)
@@ -183,11 +168,11 @@
                                 {{-- <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td> --}}
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td class="text-center">{{ $item->ho_ten }}</td>
-                                <td class="text-center">{{ $item->ngay_sinh }}</td>
+                                <td class="text-center">{{ date('d/m/Y', strtotime($item->ngay_sinh)) }}</td>
                                 <td class="text-center">{{ $item->so_dien_thoai }}</td>
                                 <td class="text-center">{{ $item->email }}</td>
                                 <td class="text-center"><a
-                                        href="{{ route('route_BackEnd_DanhMucKhoaHoc_Detail', ['id' => $item->id]) }}"
+                                        href="{{ route('route_BackEnd_DanhSachHocVien_Detail', ['id' => $item->id]) }}"
                                         title="Sửa"><i class="fa fa-edit"></i></a></td>
                             </tr>
                         @endforeach
