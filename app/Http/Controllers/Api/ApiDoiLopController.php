@@ -24,6 +24,8 @@ class ApiDoiLopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     //cho client gửi thông tin chuyển lớp lên admin
     public function store(Request $request)
     {
         $thongTinChuyenLop =[

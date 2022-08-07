@@ -21,7 +21,7 @@ class ApiGetKhoaHocOfUser extends Controller
         $id_user = SessionUser::where('token', $tokenUp)->first()->user_id;
         $listDangKiOfUser = DangKy::where('id_hoc_vien', $id_user)->get();
         if ($listDangKiOfUser) {
-            dd($listDangKiOfUser);
+            // dd($listDangKiOfUser);
             return response()->json([
                 'status' => true,
                 'heading' => "Danh sách khóa học đăng kí",

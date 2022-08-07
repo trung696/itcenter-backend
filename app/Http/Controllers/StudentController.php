@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class StudentController extends Controller
+class TeacherController extends Controller
 {
     private $v;
 

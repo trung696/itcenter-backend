@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\CourseCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Mockery\Undefined;
 use PHPUnit\Framework\Constraint\Count;
 
 class ApiCategoryController extends Controller
@@ -16,12 +17,19 @@ class ApiCategoryController extends Controller
      */
     public function index()
     {
-        $allCate=CourseCategory::all();
+        $allCate = CourseCategory::all()->toArray();
+        $data = [];
+
+        for ($i = 0; $i < count($allCate); $i++) {
+            $item = $allCate[$i];
+            $item['courses'] = CourseCategory::where('id', $item['id'])->first()->course->toArray();
+            array_push($data, $item);
+        }
         return response()->json([
             'status' => true,
-            'heading' => "Tất cả danh mục khóa học",
-            'data' => $allCate
-        ],200);
+            'heading' => "Danh mục khoá học",
+            'data' => $data
+        ], 200);
     }
 
     /**
@@ -43,12 +51,12 @@ class ApiCategoryController extends Controller
      */
     public function show(CourseCategory $courseCategory, $id)
     {
-        $courseCategoryById = CourseCategory::where('id',$id)->first()->course;
+        $courseCategoryById = CourseCategory::where('id', $id)->first()->course;
         return response()->json([
             'status' => true,
             'heading' => 'Lấy thành công danh sách course của courseCategory',
             'data' => $courseCategoryById,
-        ],200);
+        ], 200);
     }
 
     /**
