@@ -188,14 +188,12 @@
                                 Đang Hoạt Động
                                 @endif
                             </td>
-
                             <td class="text-center">
                                 <a href="{{ route('route_BackEnd_Course_Detail',['id'=> $item->id]) }}" title="Chi tiết"><i class="fa fa-edit"></i></a>
                             <td class="text-center"><a onclick="return confirm('Bạn có muốn xóa?')" href="{{ route('route_BackEnd_Course_Delete',['id'=> $item->id ]) }}" title="Xóa"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                             </td>
                         </tr>
                         @endforeach
-                       
                     </table>
                 </div>
             </form>

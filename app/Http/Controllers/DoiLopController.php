@@ -15,45 +15,103 @@ class DoiLopController extends Controller
         $lists = ThongTinChuyenLop::all();
         // dd($lists);
         $listClass = ClassModel::all();
-        return view('chuyenLop.list', compact('lists','listClass'));
+        return view('chuyenLop.list', compact('lists', 'listClass'));
     }
     public function doiLop(Request $request, $email, $oldClass, $newClass)
     {
         $hocVien = HocVien::where('email', '=', $email)->first();
         $id_hoc_vien = $hocVien->id;
         $dangKy = DangKy::where('id_hoc_vien', '=', $id_hoc_vien)->where('id_lop_hoc', '=', $oldClass)->first();
-        $checkClass = ClassModel::where('id', $newClass)->first();
-        //check con slot khong
-        if ($checkClass->slot > 0) {
-            $dangKyOld = DangKy::where('id', $dangKy->id)->first();
-            $updateDangKy =  $dangKy->update([
-                'id_lop_hoc' => $newClass,
-            ]);
-            $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
-            // dd($dangKyAfterUpdate);
-            //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
-            if ($dangKyAfterUpdate->trang_thai == 1) {
-                if ($updateDangKy) {
-                    ClassModel::whereId($dangKyOld->class->id)->update([
-                        'slot' =>  $dangKyOld->class->slot + 1
+        //kiểm tra xem lớp học cũ và lớp muốn chuyển có cùng 1 khóa học Không
+        //lớp cũ
+        $checkCourseClassOld = ClassModel::where('id', $oldClass)->first()->course;
+        //lớp mới
+        $checkCourseClassNew = ClassModel::where('id', $newClass)->first()->course;
+        // dd($checkCourseClassOld, $checkCourseClassNew);
+        if ($checkCourseClassOld->name === $checkCourseClassNew->name) {
+            $checkClass = ClassModel::where('id', $newClass)->first();
+            //check con slot khong
+            if ($checkClass->slot > 0) {
+                $dangKyOld = DangKy::where('id', $dangKy->id)->first();
+                $updateDangKy =  $dangKy->update([
+                    'id_lop_hoc' => $newClass,
+                ]);
+                $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
+                // dd($dangKyAfterUpdate);
+                //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
+                if ($dangKyAfterUpdate->trang_thai == 1) {
+                    if ($updateDangKy) {
+                        ClassModel::whereId($dangKyOld->class->id)->update([
+                            'slot' =>  $dangKyOld->class->slot + 1
+                        ]);
+                    }
+                }
+                //check chỗ lớp mới chuyển sang và trừ đi 1 slot
+                $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
+                if ($dangKyAfterUpdate->trang_thai == 1) {
+                    $classOfChuyenLop = $dangKyAfterUpdate->class;
+                    ClassModel::whereId($classOfChuyenLop->id)->update([
+                        'slot' =>  $classOfChuyenLop->slot - 1
                     ]);
+                    return 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1';
+                } else {
+                    return 'Chuyển lớp thành công chờ trường check thanh toán';
+                }
+                return 'Chuyển lớp thành công';
+            } else {
+                return 'lớp đã đầy không thể chuyển lớp';
+            }
+        }
+        //nếu khác khóa học thì gọi function doiKhoaHoc()
+        return  $this->doiKhoaHoc($dangKy,  $checkCourseClassNew, $newClass, $dangKy,  $oldClass);
+    }
+
+    public function doiKhoaHoc($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
+    {
+        $checkClass = ClassModel::where('id', $idNewClass)->first();
+        if ($checkClass->slot > 0) {
+            $getPayMentOfOldDangKy = DangKy::where('id', $oldDangKy->id_payment)->first();
+            //Số tiền đã nộp
+            $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
+            //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
+            //giá tiền của lớp muốn chuyển sang
+            $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;
+            //lưu thoong tin chuyển lớp mới
+            $idClassOld = $dangKyOld['id_lop_hoc'];
+            $dangKyOld['id_lop_hoc'] =  $idNewClass;
+            $dangKyOld['gia_tien'] =  $priceClassNew;
+            $dangKyOld['so_tien_da_dong'] =  $priceDaNop;
+            $dangKyOld['du_no'] =  $priceDaNop - $priceClassNew;
+            // dd($dangKyOld);
+            //nếu có dư nợ
+            if ($dangKyOld->du_no != 0) {
+                //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ
+                if ($dangKyOld->du_no  < 0) {
+                    $dangKyOld['trang_thai'] =  0;
+                    $dangKyOld->update();
+                    // dd($dangKyOld->class->slot);
+                    $classOld = ClassModel::whereId($idClassOld)->first();
+                    $classOld['slot'] = $classOld->slot + 1;
+                    $classOld->update();
+                    return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
+                //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
+                } elseif ($dangKyOld->du_no  > 0) {
+                    //update xong ở bảng đăng kí thì phải +1 vào slot ở course vừa chuyển đi
+                    $dangKyOld->update();
+                    //cộng 1 slot vào lớp cũ
+                    $classOld = ClassModel::whereId($idClassOld)->first();
+                    $classOld['slot'] = $classOld->slot + 1;
+                    $classOld->update();
+                   
+                    //trừ 1 slot ở lớp mới (phải lấy lại cái đăng kí mới đã)
+                    $classNew = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
+                    $classNew['slot'] = $classNew->slot - 1;
+                    $classNew->update();
+                    return "Bạn đã chuyển lớp thành công và thừa . $dangKyOld->du_no.";
                 }
             }
-            //check chỗ lớp mới chuyển sang và trừ đi 1 slot
-            $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
-            if ($dangKyAfterUpdate->trang_thai == 1) {
-                $classOfChuyenLop = $dangKyAfterUpdate->class;
-                ClassModel::whereId($classOfChuyenLop->id)->update([
-                    'slot' =>  $classOfChuyenLop->slot - 1
-                ]);
-                return 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1';
-            } else {
-                'Chuyển lớp thành công chờ trường check thanh toán';
-            }
-            return 'Chuyển lớp thành công';
-        
-        } else {
-            'lớp đã đầy không thể chuyển lớp';
         }
+        // hết slot thì không dc đki
+        return "Lớp này đã đủ sinh viên";
     }
 }
