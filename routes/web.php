@@ -223,6 +223,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('route_BackEnd_DanhSachKhhuyenMai_index');
     Route::match(['get', 'post'], '/khuyen-mai/add', 'KhuyenMaiController@themKhuyenMai')
         ->name('route_BackEnd_DanhSachKhhuyenMai_Add');
+
     //chiến dịch
     Route::get('/chien-dich', 'ChienDichController@listChienDich')
         ->name('route_BackEnd_ChienDich_index');
@@ -240,6 +241,16 @@ Route::middleware(['auth'])->group(function () {
     //mã chiến dịch
     Route::match(['get', 'post'], '/ma-chien-dich/add', 'MaChienDichController@taoMaChienDich')
         ->name('route_BackEnd_MaChienDich_Add');
+    Route::get('/ma-chien-dich/delete/{id}', 'MaChienDichController@deleteMaKhuyMai')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_MaChienDich_Detele');
+    Route::get('/ma-chien-dich/chi-tiet/{id}', 'MaChienDichController@chitetMaKhuyenMai')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_MaChienDich_Detail');
+    Route::post('/ma-chien-dich/update/{id}', 'MaChienDichController@updateMaChienDich')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_MaChienDich_Update');
+
     //học viên
     Route::get('/danh-sach-hoc-vien', 'HocVienController@danhSachHocVien')
         ->name('route_BackEnd_DanhSachHocVien_index');

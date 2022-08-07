@@ -4,10 +4,10 @@
     <style>
         body {
             /*-webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            -o-user-select: none;*/
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        -o-user-select: none;*/
             user-select: none;
         }
 
@@ -31,16 +31,16 @@
             margin-top: 3px;
         }
 
-        .table > tbody > tr.success > td {
+        .table>tbody>tr.success>td {
             background-color: #009688;
             color: white !important;
         }
 
-        .table > tbody > tr.success > td span {
+        .table>tbody>tr.success>td span {
             color: white !important;
         }
 
-        .table > tbody > tr.success > td span.button__csentity {
+        .table>tbody>tr.success>td span.button__csentity {
             color: #333 !important;
         }
 
@@ -71,19 +71,22 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <input type="text" name="search_khuyen_mai" class="form-control" placeholder="Tên danh mục khoá học"
-                                   value="@isset($extParams['search_khuyen_mai']){{$extParams['search_khuyen_mai']}}@endisset">
+                            <input type="text" name="search_khuyen_mai" class="form-control"
+                                placeholder="Tên danh mục khoá học"
+                                value="@isset($extParams['search_khuyen_mai']) {{ $extParams['search_khuyen_mai'] }} @endisset">
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-xs-12" style="text-align:center;">
                         <div class="form-group">
-                            <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i
-                                        class="fa fa-search" style="color:white;"></i> Search
+                            <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i class="fa fa-search"
+                                    style="color:white;"></i> Search
                             </button>
-                            <a href="{{ url('/khuyenmai-lists') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
+                            <a href="{{ url('/khuyenmai-lists') }}" class="btn btn-default btn-sm "><i
+                                    class="fa fa-remove"></i>
                                 Clear </a>
-                            <a href="{{ route('route_BackEnd_DanhSachKhhuyenMai_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
+                            <a href="{{ route('route_BackEnd_DanhSachKhhuyenMai_Add') }}" class="btn btn-info btn-sm"><i
+                                    class="fa fa-user-plus" style="color:white;"></i>
                                 Add new</a>
                         </div>
                     </div>
@@ -97,8 +100,9 @@
     <!-- Main content -->
     <section class="content appTuyenSinh">
         <div id="msg-box">
-            <?php //Hiển thị thông báo thành công?>
-            @if ( Session::has('success') )
+            <?php //Hiển thị thông báo thành công
+            ?>
+            @if (Session::has('success'))
                 <div class="alert alert-success alert-dismissible" role="alert">
                     <strong>{{ Session::get('success') }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -107,8 +111,9 @@
                     </button>
                 </div>
             @endif
-            <?php //Hiển thị thông báo lỗi?>
-            @if ( Session::has('error') )
+            <?php //Hiển thị thông báo lỗi
+            ?>
+            @if (Session::has('error'))
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <strong>{{ Session::get('error') }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -131,7 +136,7 @@
                 </div>
             @endif
         </div>
-        @if(count($list)<=0)
+        @if (count($list) <= 0)
             <p class="alert alert-warning">
                 Không có dữ liệu phù hợp
             </p>
@@ -140,7 +145,7 @@
             <form action="" method="post">
                 @csrf
                 <span class="pull-right">Tổng số bản ghi tìm thấy: <span
-                            style="font-size: 15px;font-weight: bold;">{{ $list->count() }}</span></span>
+                        style="font-size: 15px;font-weight: bold;">{{ $list->count() }}</span></span>
                 <div class="clearfix"></div>
                 <div class="double-scroll">
                     <table class="table table-bordered">
@@ -158,24 +163,24 @@
                             <th width="50px" class="text-center">Công Cự</th>
                         </tr>
 
-                        @foreach($list as  $item)
-
+                        @foreach ($list as $item)
                             <tr>
-                                <td class="text-center">{{$item->id}}</td>
-                                <td class="text-center"> {{$item->ma_khuyen_mai }}</td>
-                                <td class="text-center"> {{$item->ten_khuyen_mai  }}</td>
-                                <td class="text-center"> {{$item->phan_tram_khuyen_mai }}%</td>
-                                <td class="text-center"> {{$item->ngay_bat_dau }}</td>
-                                <td class="text-center"> {{$item->ngay_ket_thuc }}</td>
-                                <td class="image-clean"><img src="{{ $item->hinh_anh_khuyen_mai?Storage::url($item->hinh_anh_khuyen_mai):'http://placehold.it/100x100' }}" style="max-width: 50px"></td>
-                                <td class="text-center" style="background-color:
-                                @if($item->trang_thai == 0)
-                                        red
+                                <td class="text-center">{{ $item->id }}</td>
+                                <td class="text-center"> {{ $item->ma_khuyen_mai }}</td>
+                                <td class="text-center"> {{ $item->ten_khuyen_mai }}</td>
+                                <td class="text-center"> {{ $item->phan_tram_khuyen_mai }}%</td>
+                                <td class="text-center"> {{ $item->ngay_bat_dau }}</td>
+                                <td class="text-center"> {{ $item->ngay_ket_thuc }}</td>
+                                <td class="image-clean"><img
+                                        src="{{ $item->hinh_anh_khuyen_mai ? Storage::url($item->hinh_anh_khuyen_mai) : 'http://placehold.it/100x100' }}"
+                                        style="max-width: 50px"></td>
+                                <td class="text-center"
+                                    style="background-color:
+                                @if ($item->trang_thai == 0) red
                                 @else
-                                        green
-                                @endif;
+                                        green @endif;
                                         color: white">
-                                    @if($item->trang_thai == 0)
+                                    @if ($item->trang_thai == 0)
                                         Khóa
                                     @else
                                         Mở
@@ -191,11 +196,9 @@
         </div>
         <br>
         <div class="text-center">
-            {{  $list->appends($extParams)->links() }}
+            {{ $list->appends($extParams)->links() }}
         </div>
         <index-cs ref="index_cs"></index-cs>
     </section>
 
 @endsection
-
-
