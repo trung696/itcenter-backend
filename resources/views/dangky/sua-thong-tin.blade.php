@@ -138,17 +138,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="id_lop_hoc" class="col-md-3 col-sm-4 control-label">Lớp Học</label>
+                            <label for="email" class="col-md-3 col-sm-4 control-label">Khoá Học <span
+                                    class="text-danger">(*)</span></label>
+
                             <div class="col-md-9 col-sm-8">
-                                <select name="id_khoa_hoc" id="id_khoa_hoc" class="form-control select2" style="width: 100%"
-                                    data-placeholder="Chọn lớp học">
-                                    <option value="">== Chọn Lớp học==</option>
-                                    @foreach ($listKH as $item)
-                                        <option value="{{ $item->id }}"
-                                            @if ($item->id == $itemKH) selected @endif>{{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" name="email" id="email" class="form-control"
+                                    value="{{ $itemKH->name }}" disabled>
+                                <span id="mes_sdt"></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -219,6 +215,5 @@
     <script src="{{ asset('js/khoahoc.js') }} "></script>
     {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
     {{-- <script src="public/js/taisan.js"></script> --}}
-    <script src="{{ asset('/js/addDangky.js') }}"></script>
 
 @endsection

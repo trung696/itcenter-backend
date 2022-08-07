@@ -239,5 +239,4 @@ return [
     'status_giang_vien' => [0 => 'Dừng Giảng Dạy', 1 => 'Đang giảng Dạy'],
     'status_dang_ky' => [0 => 'Chưa Thanh Toán', 1 => 'Đã Thanh Toán'],
     'status_danh_muc' => [0 => 'Dừng Hoạt Động', 1 => 'Đang Hoạt Động'],
-    'status_chien_dich' => [0 => 'Chưa Sử Dụng', 1 => 'Đã Sử Dụng'],
 ];
