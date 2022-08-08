@@ -99,4 +99,19 @@ class ApiCourceController extends Controller
     {
         //
     }
+
+    public function searchCourse($key){
+        $result = Course::where('name', 'LIKE', '%'. $key. '%')->get();
+        if(count($result)){
+            return response()->json([
+                'status' => true,
+                'heading' => 'Bản ghi tìm thấy',
+                'data' => $result
+            ],200);
+        }
+        return response()->json([
+            'status' => true,
+            'heading' => 'Không tìm thấy bản ghi nào',
+        ],200);
+    }
 }
