@@ -88,13 +88,7 @@
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="price" class="col-md-3 col-sm-4 control-label">Giá <span class="text-danger">(*)</span></label>
-                            <div class="col-md-9 col-sm-8">
-                                <input type="text" name="price" id="ten_danh_muc" class="form-control" value="@isset($request['price'])  {{ $request['price'] }} @else {{ $objItemClass->price }} @endisset" @if($objItemClass->price != '')  @endif>
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
+                        
                         <div class="form-group">
                             <label for="slot" class="col-md-3 col-sm-4 control-label">Số chỗ <span class="text-danger">(*)</span></label>
                             <div class="col-md-9 col-sm-8">
@@ -167,6 +161,24 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="course" class="col-md-3 col-sm-4 control-label">Ca Học</label>
+                            <div class="col-md-9 col-sm-8">
+                                <select name="id_ca" id="id_danh_muc" class="form-control select2"
+                                        data-placeholder="Chọn ca học">
+                                    <option value="">==chọn ca học ==</option>
+                                    @foreach($ca_id as $item)
+                                        <option value="{{ $item->id }}"
+                                                @isset($request['course_id']) @if($request['course_id'] == $item->id) selected
+                                                @endif @else @if($objItemClass->course_id == $item->id) selected @endif @endisset>
+                                            {{ $item->ca_hoc }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
 
                     </div>
                     {{--                    tab2--}}

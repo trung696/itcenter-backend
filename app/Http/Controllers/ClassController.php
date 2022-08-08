@@ -14,6 +14,7 @@ use App\User;
 use App\CentralFacility;
 use App\Course;
 use App\ClassModel;
+use App\Ca;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
@@ -113,7 +114,18 @@ class ClassController extends  Controller
         }
         $this->v['arrFacility'] = $arrFacility;
         // dd( $this->v['arrUser']);
-
+        
+        $objCa = new Ca();
+        $this->v['ca'] = $objCa->loadListIdAndName();
+        $ca = $this->v['ca'];
+        // dd($user);
+        $arrCa = [];
+        foreach ($ca as $index => $item) {
+            // dd($item);
+            $arrCa[$item->id] = $item->ca_hoc;
+        }
+        $this->v['arrCaHoc'] = $arrCa;
+        // dd( $this->v['arrCaHoc']);
         return view('class.list-class', $this->v);
     }
 
@@ -178,6 +190,10 @@ class ClassController extends  Controller
 
         $objCourse = new  Course();
         $this->v['course'] = $objCourse->loadListIdAndName(['status', 1]);
+
+        $objCaHoc = new Ca();
+        $this->v['Ca'] = $objCaHoc->loadListIdAndName(['trang_thai',1]);
+
         return view('class.add-class', $this->v);
     }
 
@@ -202,6 +218,8 @@ class ClassController extends  Controller
             return redirect()->back();
         }
         $this->v['extParams'] = $request->all();
+
+        
         $user = $this->v['user'];
         // dd($user);
         $arrUser = [];
@@ -221,12 +239,20 @@ class ClassController extends  Controller
         $course = $this->v['course_id'];
         // dd($user);
         $arrCourse = [];
+        $arrCoursePrice = [];
         foreach ($course as $index => $item) {
             // dd($item);
             $arrCourse[$item->id] = $item->name;
         }
-        $this->v['arrCourse'] = $arrCourse;
 
+        foreach ($course as $index => $item) {
+            // dd($item);
+            $arrCoursePrice[$item->id] = $item->price;
+            
+        }
+        // dd($arrCoursePrice);
+        $this->v['arrCourse'] = $arrCourse;
+        $this->v['arrCoursePrice'] = $arrCoursePrice;
         $this->v['extParams'] = $request->all();
         $this->v['status'] = config('app.status_user');
 
@@ -253,6 +279,17 @@ class ClassController extends  Controller
         }
         $this->v['arrFacility'] = $arrFacility;
         // dd( $this->v['arrUser']);
+
+        $objCa = new Ca();
+        $objItem = $objCa->loadOne($id);
+        
+        $this->v['ca_id'] = $objCa->loadListIdAndName();
+
+        $course = $this->v['ca_id'];
+        // dd($objCa);
+
+     
+
 
         return view('class.update-class', $this->v);
     }
