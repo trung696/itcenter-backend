@@ -59,6 +59,7 @@ Route::apiResource('payment','Api\ApiPayMentController');
 
 //api chuyển lớp
 Route::apiResource('doiLop','Api\ApiDoiLopController');
+Route::apiResource('lich-su-doi-lop','Api\ApiLichSuDoiLopController')->middleware('checkTokenUp');
 
 // // Lấy thông tin sản phẩm theo id
 // Route::get('products/{id}', 'Api\ProductController@show')->name('products.show');
