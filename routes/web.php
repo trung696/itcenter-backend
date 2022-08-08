@@ -58,7 +58,7 @@ Route::post('/store_ca', 'CaController@store')->name('route_BackEnd_ca_store');
 
 //list_đổi lớp
 Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop');
-Route::get('/doiLop/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
+Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
 
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');

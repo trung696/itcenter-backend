@@ -45,9 +45,12 @@
     <div class="box box-primary" style="margin-top: 50px">
         <div class="box-header with-border">
             <div class="box-title">
-                Danh Sách Lớp Học
+                Danh Sách Đăng ký chuyển lớp
             </div>
         </div>
+        @if($errors->any())
+        <h4>{{$errors->first()}}</h4>
+        @endif
         <div class="box-body">
             <!-- <form action="" method="post"> -->
             <!-- @csrf -->
@@ -96,9 +99,16 @@
 
                             <td>{{ $item->liDo }}</td>
                             <td>
-                                <p style="color: red "> Chờ duyệt</p>
+                                @php if($item->trang_thai ==0){
+                                echo " <p style='color:red'>Chờ duyệt </p>" ;
+                                }else{
+                                echo " <p style='color:#00c300	'>Đã duyệt </p>";
+                                }
+
+                                @endphp
+
                             </td>
-                            <td> <a href=" {{route('route_BackEnd_doi_lop',['email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}"> <button>Đồng ý</button> </a>
+                            <td> <a href=" {{route('route_BackEnd_doi_lop',[ 'id'=>$item->id,'email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}"> <button>Đồng ý</button> </a>
                             </td>
                         </tr>
                         @endforeach
