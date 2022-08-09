@@ -46,6 +46,10 @@ Route::get('/register/detail/{id}', 'DangKyController@chiTietDangKy')
 Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Update');
+Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_AdminDangKyIn_Detail');
+
 //ca học 
 //role(doanh)   
 Route::get('/list_ca', 'CaController@index')->name('route_BackEnd_ca_list');

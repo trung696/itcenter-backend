@@ -40,17 +40,17 @@ class HocVienController extends Controller
         $this->v['routeIndexText'] = 'Danh sách học viên';
 
         $objDanhSachHocVien = new HocVien();
-
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
-        $this->v['list'] = $objDanhSachHocVien->loadListWithPager($this->v['extParams']);
-        // dd($objDanhSachHocVien->loadListWithPager($this->v['extParams']));
+        $list = $objDanhSachHocVien->loadListWithPager($this->v['extParams']);
+        $this->v['list'] = $list;
         $danhSachGuiGmai[] =  $this->v['list'];
         foreach ($danhSachGuiGmai as $value) {
             $emailGui[] = $value->items();
         }
         $objDanhSachChienDich = new ChienDich();
         $this->v['chien_dich'] = $objDanhSachChienDich->loadListWithPager($this->v['extParams']);
+
 
         if (isset($_GET['btnGuiMa'])) {
             if ($request->id_khuyen_mai == '') {
@@ -79,12 +79,13 @@ class HocVienController extends Controller
                         }
                     } else {
                         $thieu = count($emailGui[0]) - count($ma);
-                        // Session::flash('success', 'Mã khuyến mại bị thiếu ' . $thieu . ' mã vui lòng tạo thêm mã');
+                        Session::flash('success', 'Mã khuyến mại bị thiếu ' . $thieu . ' mã vui lòng tạo thêm mã');
                         return redirect()->route('route_BackEnd_DanhSachHocVien_index');
                     }
                 }
             }
         }
+
         return view('hocvien.danh-sach-hoc-vien', $this->v);
     }
     public function chiTietHocVien($id, Request $request)

@@ -85,7 +85,7 @@ return [
 
     'from' => [
         'address' => 'phamdoanh225@gmail.com',
-        'name' => 'Demo gửi mail khi đang kí form',
+        'name' => 'Thanh Trung Academics',
     ],
 
     /*
@@ -107,6 +107,6 @@ return [
         ],
     ],
 
-    
+
 
 ];

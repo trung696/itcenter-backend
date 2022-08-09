@@ -65,7 +65,9 @@ class HocVien extends Model
         if (!empty($params['cols']['id_lop_hoc'])) {
             unset($params['cols']['id_khoa_hoc']);
             unset($params['cols']['id_lop_hoc']);
+            unset($params['cols']['pham_tram_giam']);
         }
+
         if (isset($params['cols']['hinh_anh'])) {
             $data = array_merge($params['cols'], [
                 'ho_ten' => $params['cols']['ho_ten'],

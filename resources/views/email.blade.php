@@ -23,7 +23,7 @@
             <th style="border: 1px solid #dddddd; text-align: left;padding: 8px">Trạng Thái</th>
         </tr>
         <tr>
-            <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->hoc_phi }}</td>
+            <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->price }}</td>
 
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->so_dien_thoai }}%</td>
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->gia_tien }}</td>
@@ -42,8 +42,8 @@
         <p>Vui lòng thanh toán trước khi khai giảng </p>
     @endif
 
-    <p><strong>Nếu có vấn đề về thông tin học phí, khoá học, lịch học vui lòng bạn liên hệ Mr. Nguyễn Thành Trung -Số
-            điện thoại: 0898555917</strong></p>
+    <p><strong>Nếu có vấn đề về thông tin học phí, khoá học, lịch học vui lòng bạn liên hệ Mr. Bùi Văn Trung -Số
+            điện thoại: 0973001430</strong></p>
     <p><strong>Chúc bạn có một khoá học thật tốt</strong></p>
     <p><strong>Bộ phận kế toán Trung tâm văn hoá Thanh Trung Academics xin trân trọng cảm ơn!</strong></p>
     </table>

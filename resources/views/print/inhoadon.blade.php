@@ -37,7 +37,7 @@
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->price }}</td>
 
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>
-                {{ (($emails->hoc_phi - $emails->gia_tien) / $emails->hoc_phi) * 100 }}%</td>
+                {{ (($emails->price - $emails->gia_tien) / $emails->price) * 100 }}%</td>
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->gia_tien }}</td>
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>
                 @if ($emails->trang_thai == 0)
