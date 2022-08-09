@@ -46,6 +46,10 @@ Route::get('/register/detail/{id}', 'DangKyController@chiTietDangKy')
 Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Update');
+Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_AdminDangKyIn_Detail');
+
 //ca học 
 //role(doanh)   
 Route::get('/ca', 'CaController@index')->name('route_BackEnd_Ca_List');
@@ -252,6 +256,13 @@ Route::middleware(['auth'])->group(function () {
     //học viên
     Route::get('/danh-sach-hoc-vien', 'HocVienController@danhSachHocVien')
         ->name('route_BackEnd_DanhSachHocVien_index');
+    Route::get('/danh-sach-hoc-vien/chi-tiet/{id}', 'HocVienController@chiTietHocVien')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_DanhSachHocVien_Detail');
+    Route::post('/danh-sach-hoc-vien/update/{id}', 'HocVienController@updateThongTin')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_DanhSachHocVien_Update');
+
     //địa điểm
     Route::get('/danh-sach-dia-diem', 'DiaDiemController@danhSachDiaDiem')
         ->name('route_BackEnd_DanhSachDiaDiem_index');

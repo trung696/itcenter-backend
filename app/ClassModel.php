@@ -55,6 +55,26 @@ class ClassModel extends Model
         $obj = $query->first();
         return $obj;
     }
+    public function loadOneIDHV($id, $params = null)
+    {
+
+        $query = DB::table($this->table . ' as tb1')
+            ->select('tb1.id', 'tb1.name', 'tb1.start_date', 'tb1.end_date', 'tb1.location_id', 'tb1.course_id', 'tb1.lecturer_id', 'tb1.slot', 'tb2.trang_thai')
+            ->leftJoin('dang_ky as tb2', 'tb2.id_lop_hoc', '=', 'tb1.id')
+            ->where('tb2.id_hoc_vien', $id);
+        if (isset($params['search_ten_lop_hoc']) && strlen($params['search_ten_lop_hoc']) > 0) {
+            $query->where('tb1.name', 'like', '%' . $params['search_ten_lop_hoc'] . '%');
+        }
+        if (isset($params['search_ngay_khai_giang_array']) && count($params['search_ngay_khai_giang_array']) == 2) {
+            $query->whereBetween('tb1.start_date', $params['search_ngay_khai_giang_array']);
+        }
+        if (isset($params['trang_thai']) && strlen($params['trang_thai']) > 0) {
+            $query->where('tb2.trang_thai', $params['trang_thai']);
+        }
+        $obj = $query->paginate(10, ['tb1.id']);
+        return $obj;
+    }
+
     /** Hàm lấy danh sách có phân trang
      * @param array $params
      * @return mixed
