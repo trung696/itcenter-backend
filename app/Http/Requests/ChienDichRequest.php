@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 
-class DangKyRequest extends FormRequest
+class ChienDichRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,13 +35,13 @@ class DangKyRequest extends FormRequest
         switch ($this->method()):
             case 'POST':
                 switch ($currentAction) {
-                    case 'themDangKy':
+                    case 'themChienDich':
                         $rules = [
-                            "ho_ten" => "required",
-                            "ngay_sinh" => "required",
-                            "so_dien_thoai" => "required",
-                            "email" => "required",
-                            "pham_tram_giam" => "required"
+                            "ten_chien_dich" => "required",
+                            "ngay_bat_dau" => "required",
+                            "ngay_ket_thuc" => "required",
+                            // "email" => "required",
+
 
                         ];
                         break;
@@ -60,11 +60,10 @@ class DangKyRequest extends FormRequest
     public function messages()
     {
         return [
-            "ho_ten.required" =>  "Không được để trống tên học viện",
-            "ngay_sinh.required" =>  "Không được để trống ngày sinh",
-            "so_dien_thoai.required" =>  "Không được để trống số điện thoại",
-            "email.required" =>  "Không được để trống email",
-            "pham_tram_giam.required" => "Không được để trống phần trăm giảm giá"
+            "ten_chien_dich.required" =>  "Không được để trống tên chiến dịch",
+            "ngay_bat_dau.required" =>  "Không được để trống ngày bắt đầu chiến dịch",
+            "ngay_ket_thuc.required" =>  "Không được để trống ngày kết thúc chiến dịch",
+
         ];
     }
 }

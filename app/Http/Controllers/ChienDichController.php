@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\ChienDich;
+use App\Course;
+use App\Http\Requests\ChienDichRequest;
 use App\MaChienDich;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -35,10 +37,24 @@ class ChienDichController extends Controller
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
         $this->v['list'] = $objChienDich->loadListWithPager($this->v['extParams']);
+        $objCourse = new Course();
+        $this->v['course'] = $objCourse->loadListIdAndName(['status', 1]);
+        $course = $this->v['course'];
+        // dd($course);
+        $arrCourse = [0,];
+        foreach ($course as $index => $item) {
 
+            $arrCourse[$item->id] = $item->name;
+            // dd($arrCourse[$item->id]);
+        }
+        foreach ($arrCourse as $index => $item) {
+            $arrCourse[0] = "Tất cả khóa học";
+        }
+        $this->v['arrCourse'] = $arrCourse;
+        // dd($arrCourse);
         return view('khuyenmai.chien-dich', $this->v);
     }
-    public function themChienDich(Request $request)
+    public function themChienDich(ChienDichRequest $request)
     {
         $this->v['routeIndexText'] = 'Chiến Dịch Khuyến Mại ';
         $method_route = 'route_BackEnd_ChienDich_Add';
@@ -59,6 +75,7 @@ class ChienDichController extends Controller
             $objChienDich = new ChienDich();
             $res = $objChienDich->saveNew($params);
 
+
             if ($res == null) {
                 Session::push('post_form_data', $this->v['request']);
                 return redirect()->route($method_route);
@@ -73,6 +90,9 @@ class ChienDichController extends Controller
                 return redirect()->route($method_route);
             }
         }
+        $objCourse = new  Course();
+        $this->v['course'] = $objCourse->loadListIdAndName(['status', 1]);
+
 
         return view('khuyenmai.them-chien-dich', $this->v);
     }

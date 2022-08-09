@@ -12,8 +12,9 @@
 <body>
     <p>Xin chào học viên, {{ $email->ho_ten }}<b></b></p>
     <p>Trung tâm văn hoá Thanh Trung Academics </p>
-    <p>Xin thông báo, bạn đã đăng ký thành công lớp học: {{ $emails->name }} thuộc khoá học:
-        {{ $emails->id_khoa_hoc }}
+    <p>Xin thông báo, bạn đã đăng ký thành công lớp học: <span style="color: red">{{ $emails->name }}</span> thuộc khoá
+        học:
+        <span style="color: red">{{ $emails->course_name }}</span>
     </p>
     <table style="width: 100%; border-collapse: collapse">
         <tr style="background-color: #0f81bb;">
@@ -24,7 +25,6 @@
         </tr>
         <tr>
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->price }}</td>
-
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->so_dien_thoai }}%</td>
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>{{ $emails->gia_tien }}</td>
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>
