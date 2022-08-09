@@ -48,9 +48,18 @@ Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
     ->name('route_BackEnd_AdminDangKy_Update');
 //ca học 
 //role(doanh)   
-Route::get('/list_ca', 'CaController@index')->name('route_BackEnd_ca_list');
-Route::get('/add_ca', 'CaController@add')->name('route_BackEnd_ca_add');
-Route::post('/store_ca', 'CaController@store')->name('route_BackEnd_ca_store');
+Route::get('/ca', 'CaController@index')->name('route_BackEnd_Ca_List');
+Route::match(['get', 'post'], '/ca/add', 'CaController@addCa')
+        ->name('route_BackEnd_Ca_Add');
+Route::get('/ca/detail/{id}', 'CaController@editCa')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Ca_Edit');
+Route::post('/Ca/update/{id}', 'CaController@updateCa')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Ca_Update');
+Route::get('/Ca/delete/{id}', 'CaController@destroy')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Ca_Delete');
 // Route::get('/edit_role/{id}', 'RoleController@edit')->name('route_BackEnd_role_edit');
 // Route::post('/edit_role/{id}', 'RoleController@update')->name('route_BackEnd_role_update');
 // Route::get('/delete_role/{id}', 'RoleController@delete')->name('route_BackEnd_role_delete');
