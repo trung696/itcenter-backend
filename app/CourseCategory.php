@@ -75,7 +75,7 @@ class CourseCategory extends Model
         $dataUpdate = [];
         foreach ($params['cols'] as $colName => $val) {
             if ($colName == 'id') continue;
-
+            
             if (in_array('tb1.'.$colName, $this->fillable))
                 $dataUpdate[$colName] = (strlen($val)==0)?null:$val;
         }

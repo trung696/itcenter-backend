@@ -161,6 +161,18 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="course_id" class="col-md-3 col-sm-4 control-label">Ca Học</label>
+                                            <div class="col-md-9 col-sm-8">
+                                                <select name="id_ca" id="id_danh_muc" class="form-control select2" data-placeholder="Chọn ca học">
+                                                    <option value="">== Ca học==</option>
+                                                    @foreach($Ca as $item)
+                                                        <option value="{{ $item->id }}" @isset($request['id_ca']) @if($request['id_ca'] == $item->id) selected @endif @endisset>{{ $item->ca_hoc }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                 </div>
                     </div>
                 </div>

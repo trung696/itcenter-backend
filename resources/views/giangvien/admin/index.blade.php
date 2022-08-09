@@ -81,7 +81,7 @@
                         </button>
                         <a href="" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                             Clear </a>
-                      
+
                     </div>
                 </div>
             </div>
@@ -151,11 +151,12 @@
                         <th class="text-center">Địa chỉ</th>
                         <th class="text-center">Giới tính</th>
                         <th class="text-center">Hình ảnh giảng viên</th>
+                        <th class="text-center">Chi tiết giảng viên</th>
                         <th width="50px" class="text-center">Trạng thái</th>
                         <th width="50px" class="text-center">Hành động</th>
                     </tr>
 
-                @foreach ($teachers as $teacher)
+                    @foreach ($teachers as $teacher)
                     <tr>
                         <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="" value=""> </td>
                         <td class="text-center">{{$teacher->name}}</td>
@@ -165,16 +166,19 @@
                         <td class="text-center">{{$teacher->address}}</td>
                         <td class="text-center">
                             @if($teacher->sex == config('gioi_tinh.sex.0') )
-                                Nam
+                            Nam
                             @else
-                                Nữ
+                            Nữ
                             @endif
                         </td>
-                        <td class="image-clean"> @if(isset($teacher->avatar) &&  $teacher->avatar) 
-                                                <img src="{{$teacher->avatar}}" style="max-width: 50px"> 
-                                                @elseif (isset($teacher->avatar))
-                                                Update di
-                                                @endif </td>
+                        <td class="image-clean"> @if(isset($teacher->avatar) && $teacher->avatar)
+                            <img src="{{$teacher->avatar}}" style="max-width: 50px">
+                            @elseif (isset($teacher->avatar))
+                            Update di
+                            @endif
+                        </td>
+                        <td class="text-center">{{$teacher->detail}}</td>
+
                         <td class="text-center" style="background-color:
                                 @if($teacher->status == config('trang_thai.status.0'))
                                     red
@@ -182,18 +186,18 @@
                                     green
                                 @endif;
                                     color: white">
-                             @if($teacher->status == config('trang_thai.status.0'))
-                                     Chưa kích hoạt
-                                    @else
-                                      Kích hoạt
-                                    @endif
+                            @if($teacher->status == config('trang_thai.status.0'))
+                            Chưa kích hoạt
+                            @else
+                            Kích hoạt
+                            @endif
                         </td>
                         <td class="text-center">
                             <a href="{{route('route_BackEnd_teacher_edit',['id' => $teacher->id ])}}" title="Sửa"><i class="fa fa-edit"></i></a>
                             <a href="" title="Xóa"><i class="fa fa-remove"></i></a>
                         </td>
                     </tr>
-                @endforeach
+                    @endforeach
                 </table>
             </div>
         </form>

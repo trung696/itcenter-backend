@@ -1,6 +1,7 @@
 @extends('templates.layout')
 @section('title', $_title)
 @section('content')
+
 <section class="content-header">
     @include('templates.header-action')
 </section>
@@ -43,34 +44,56 @@
         }
     </style>
 
-    <form class="form-horizontal " action="{{route('route_BackEnd_ca_store')}}" method="post" enctype="multipart/form-data">
+    <?php //Hiển thị thông báo thành công
+    ?>
+    @if ( Session::has('success') )
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <strong>{{ Session::get('success') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    @endif
+    <?php //Hiển thị thông báo lỗi
+    ?>
+    @if ( Session::has('error') )
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <strong>{{ Session::get('error') }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    @endif
+    @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    @endif
+
+    <!-- Phần nội dung riêng của action  -->
+    <form class="form-horizontal " action="" method="post">
         @csrf
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="ca_hoc" class="col-md-3 col-sm-4 control-label">Tên ca học <span class="text-danger">(*)</span></label>
+                        <label for="ca_hoc" class="col-md-3 col-sm-4 control-label">Ca học <span class="text-danger">(*)</span></label>
+
                         <div class="col-md-9 col-sm-8">
-                            <input type="text" name="ca_hoc" @error('ca_hoc') is-invalid @enderror id="ca_hoc" value="{{old('ca_hoc')}}" class="form-control">
+                            <input type="text" name="ca_hoc" id="ten_khoa_hoc" class="form-control" value="@isset($request['ca_hoc']){{ $request['ca_hoc'] }}@endisset">
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
-                    @error('ca_hoc')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
-                    <div class="form-group">
-                        <label for="trang_thai" class="col-md-3 col-sm-4 control-label">Trạng thái <span class="text-danger">(*)</span></label>
-                        <select class="form-control" name="trang_thai">
-                            <option value="0">Chưa kích hoạt</option>
-                            <option value="1">Kích hoạt</option>
-
-                        </select>
-                    </div>
-                    @error('trang_thai')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
                 </div>
                 <div class="col-md-6">
 
@@ -78,30 +101,27 @@
             </div>
 
         </div>
-        <!-- /.box-body -->
         <div class="text-center">
             <button type="submit" class="btn btn-primary"> Save</button>
-            <a href="{{ route('route_BackEnd_NguoiDung_index') }}" class="btn btn-default">Cancel</a>
+            <a href="{{ route('route_BackEnd_Course_List') }}" class="btn btn-default">Cancel</a>
         </div>
-        <!-- /.box-footer -->
     </form>
 
 </section>
 @endsection
 @section('script')
+<script src="https://cdn.tiny.cloud/1/bhkexk64cm95nnatbec5bu38u6on5398n7wx32y4p3iq5tpu/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#default'
+    });
+</script>
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+<script src="{{ asset('js/khoahoc.js') }} "></script>
 <script src="{{ asset('js/add.js') }} "></script>
-<script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 
-<script>
-    $('#lfm').filemanager('image', {
-        prefix: route_prefix
-    });
-    // $('#lfm').filemanager('file', {prefix: route_prefix});
-</script>
-{{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
-{{-- <script src="public/js/taisan.js"></script>--}}
+
 
 @endsection

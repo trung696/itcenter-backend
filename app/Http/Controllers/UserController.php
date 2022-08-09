@@ -96,6 +96,7 @@ class UserController extends Controller
                             'phone' => $request->phone,
                             'avatar' => $request->avatar,
                             'status' => 0,
+                            'detail' => $request->detail,
                         ]);
                     }
                 }

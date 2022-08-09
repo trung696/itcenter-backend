@@ -82,18 +82,18 @@
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
-                   
+
                     @error('password')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                     <div class="form-group">
                         <label for="email" class="col-md-3 col-sm-4 control-label">Mật khẩu <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <input type="password" name="password" @error('password') is-invalid @enderror id="password" class="form-control" >
+                            <input type="password" name="password" @error('password') is-invalid @enderror id="password" class="form-control">
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
-                  
+
                     @error('address')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -104,7 +104,7 @@
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
-                    
+
                     @error('phone')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
@@ -117,16 +117,16 @@
                     </div>
 
                     <span class="mt-4">ảnh đại diện</span>
-                        <div class="input-group">
+                    <div class="input-group">
                         <span class="input-group-btn">
                             <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
-                            <i class="fa fa-picture-o"></i> Choose
+                                <i class="fa fa-picture-o"></i> Choose
                             </a>
                         </span>
                         <input id="thumbnail" class="form-control  @error('avatar') is-invalid @enderror" type="text" name="avatar" accept="image/*">
-                        </div>
-                        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-           
+                    </div>
+                    <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+
 
                     <div class="form-group">
                         <label for="quyen" class="col-md-3 col-sm-4 control-label">Quyền <span class="text-danger">(*)</span></label>
@@ -137,6 +137,14 @@
                                 <option value="{{$role->id}}">{{$role->name}}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="content" class="col-md-3 col-sm-4 control-label">Chi tiết<span class="text-danger">(*)</span></label>
+                        <div class="col-md-9 col-sm-8">
+                            <textarea id="default" name="detail" class="form-control" value="@isset($request['detail']){{ $request['detail'] }}@endisset" placeholder="Thông tin chi tiết của user"></textarea>
                         </div>
                     </div>
 
@@ -158,21 +166,32 @@
 </section>
 @endsection
 @section('script')
+<script src="https://cdn.tiny.cloud/1/bhkexk64cm95nnatbec5bu38u6on5398n7wx32y4p3iq5tpu/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#default'
+    });
+</script>
+
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
 {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
 {{-- <script src="public/js/taisan.js"></script>--}}
 <script src="{{ asset('js/add.js') }} "></script>
-<script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
- <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
- <script>
-    {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
-  </script>
-  <script>
-    $('#lfm').filemanager('image', {prefix: route_prefix});
+<!-- <script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> -->
+<script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+<script>
+    {
+        !!\File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!
+    }
+</script>
+<script>
+    $('#lfm').filemanager('image', {
+        prefix: route_prefix
+    });
     // $('#lfm').filemanager('file', {prefix: route_prefix});
-  </script>
-{{--    <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
-{{--    <script src="public/js/taisan.js"></script>--}}
+</script>
+{{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
+{{-- <script src="public/js/taisan.js"></script>--}}
 
 @endsection

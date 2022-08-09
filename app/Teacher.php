@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class Teacher extends Model
 {
     protected $table = 'teachers';
-    protected $fillable = ['user_id', 'name', 'email', 'password', 'address', 'phone', 'sex', 'status', 'avatar'];
+    protected $fillable = ['user_id', 'name', 'email', 'password', 'address', 'phone', 'sex', 'status', 'avatar','detail'];
 
     public function createStdClass()
     {
