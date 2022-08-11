@@ -49,7 +49,7 @@
             </div>
         </div>
         @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
+        <h4>{{$errors->first()}}</h4>   
         @endif
         <div class="box-body">
             <!-- <form action="" method="post"> -->
