@@ -171,4 +171,6 @@ class ClassModel extends Model
             ->update(['slot' => $udateSoCho['so_cho']]);
         return $res;
     }
+
+    
 }

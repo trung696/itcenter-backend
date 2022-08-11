@@ -7,6 +7,7 @@ use App\DangKy;
 use App\HocVien;
 use App\ThongTinChuyenLop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class DoiLopController extends Controller
@@ -69,15 +70,16 @@ class DoiLopController extends Controller
             }
         }
         //nếu khác khóa học thì gọi function doiKhoaHoc()
-        return  $this->doiKhoaHoc($dangKy,  $checkCourseClassNew, $newClass, $dangKy,  $oldClass);
+        return  $this->doiKhoaHoc($dangKy,  $checkCourseClassNew, $newClass, $dangKy,  $oldClass, $hocVien);
     }
 
-    public function doiKhoaHoc($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
+    public function doiKhoaHoc($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass, $hocVien)
     {
         $checkClass = ClassModel::where('id', $idNewClass)->first();
         if ($checkClass->slot > 0) {
             $getPayMentOfOldDangKy = DangKy::where('id', $oldDangKy->id_payment)->first();
             //Số tiền đã nộp
+            // dd($getPayMentOfOldDangKy);
             $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
             //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
             //giá tiền của lớp muốn chuyển sang
@@ -91,7 +93,7 @@ class DoiLopController extends Controller
             // dd($dangKyOld);
             //nếu có dư nợ
             if ($dangKyOld->du_no != 0) {
-                //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ
+                //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ ,gửi mail báo thiếu học phí và link đóng tiền
                 if ($dangKyOld->du_no  < 0) {
                     $dangKyOld['trang_thai'] =  0;
                     $dangKyOld->update();
@@ -99,6 +101,14 @@ class DoiLopController extends Controller
                     $classOld = ClassModel::whereId($idClassOld)->first();
                     $classOld['slot'] = $classOld->slot + 1;
                     $classOld->update();
+                    // if ($hoc_vien = $addNewStudent) {
+                    // dd($classOld, $dangKyOld,$newCourse, $dangKyOld, $oldClass);
+                    Mail::send('emailThanhToan', compact('classOld','dangKyOld'), function ($email) use ($hocVien) {
+                        // mail nhận thư, tên người dùng
+                        $email->subject("Hệ thống gửi thông tin chuyển lớp đến bạn");
+                        $email->to($hocVien->email, $hocVien->name, $hocVien);
+                    });
+                    // }
                     return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
                 //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
                 } elseif ($dangKyOld->du_no  > 0) {
