@@ -156,6 +156,7 @@
                                 <th>Giảng viên</th>
                                 <th>Địa điểm</th>
                                 <th>Khóa học</th>
+                                <th>ca học</th>
                                 <th>Công cụ</th>
                             </tr>
                             @foreach ($lists as $key => $item)
@@ -170,6 +171,7 @@
                                     <td>{{ $arrUser[$item->lecturer_id] }}</td>
                                     <td>{{ $arrFacility[$item->location_id] }}</td>
                                     <td>{{ $arrCourse[$item->course_id] }}</td>
+                                    <td>{{ $arrCaHoc[$item->id_ca] }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('route_BackEnd_Class_Detail', ['id' => $item->id]) }}"
                                             title="Sửa"><i class="fa fa-edit"></i></a>

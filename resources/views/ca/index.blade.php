@@ -29,7 +29,7 @@
                         </button>
                         <a href="" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                             Clear </a>
-                        <a href="{{route('route_BackEnd_ca_add')}}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
+                        <a href="{{route('route_BackEnd_Ca_Add')}}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                             Add new</a>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
         </div>
         @endif
     </div>
-    @if(count($listCa) == 0 )
+    @if(count($list) == 0 )
     <p class="alert alert-warning">
         Không có dữ liệu phù hợp
     </p>
@@ -91,7 +91,7 @@
         @endif
         <form action="" method="post">
             @csrf
-            <span class="pull-right">Tổng số bản ghi tìm thấy: {{count($listCa)}} <span style="font-size: 15px;font-weight: bold;"></span></span>
+            <span class="pull-right">Tổng số bản ghi tìm thấy: {{count($list)}} <span style="font-size: 15px;font-weight: bold;"></span></span>
             <div class="clearfix"></div>
             <div class="double-scroll">
                 <table class="table table-bordered">
@@ -103,14 +103,26 @@
                         <th class="text-center">Trạng Thái</th>
                         <th width="200px" class="text-center">Hành động</th>
                     </tr>
-                    @foreach ($listCa as $caItem)
+                    @foreach ($list as $caItem)
                         <tr>  
                             <td class="text-center">{{$caItem->id}}</td>
-                            <td class="text-center">{{$caItem->name}}</td>
-                            <td class="text-center">{{$caItem->description}}</td>
+                            <td class="text-center">{{$caItem->ca_hoc}}</td>
+                            <td class="text-center" style="width:180px;background-color:
+                            @if($caItem->trang_thai == 0)
+                                    red
+                            @else
+                                    green
+                            @endif;
+                                    color: white">
+                            @if($caItem->trang_thai == 0)
+                            Dừng Hoạt Động
+                            @else
+                            Đang Hoạt Động
+                            @endif
+                        </td>
                             <td class="text-center">
-                                <a href="" title="Sửa"><i class="fa fa-edit"></i></a>
-                                <a class="delete_role" data-url=""  title="Xóa"><i class="fas fa-remove"></i></a>
+                                <a href="{{ route('route_BackEnd_Ca_Edit',['id'=> $caItem->id]) }}" title="Chi tiết"><i class="fa fa-edit"></i></a>
+                                <a onclick="return confirm('Bạn có muốn xóa?')" href="{{ route('route_BackEnd_Ca_Delete', ['id' => $caItem->id]) }}" title="Xóa"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                     </tr>
                     @endforeach 
@@ -120,7 +132,7 @@
     </div>
     <br>
     <div class="text-center">
-        {!! $listCa->links() !!}
+        {!! $list->links() !!}
     </div>
     <index-cs ref="index_cs"></index-cs>
 </section>

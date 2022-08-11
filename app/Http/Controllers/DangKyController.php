@@ -52,11 +52,7 @@ class DangKyController extends Controller
         $this->v['routeIndexText'] = 'Danh mục khoa học';
         $this->v['_action'] = 'Add';
         $this->v['_title'] = 'Thêm danh mục khoá học';
-        // $this->v['status'] = config('app.status_giang_vien');
-        // dd($this->v['status']);
         $objKhoaHoc = new Course();
-
-        // $objLopHoc = new LopHoc();
         $objLopHoc = new ClassModel();
         if ($request->isMethod('post')) {
             $params = [
@@ -86,6 +82,7 @@ class DangKyController extends Controller
                 $objHocVien = new HocVien();
                 $checkEmail = $objHocVien->loadCheckHocVien($request->email);
                 //email chưa tôàn tại trên hệ thống 
+                // dd($params);
                 if (!isset($checkEmail)) {
                     // dd($checkEmail);
                     $resHocVien = $objHocVien->saveNewAdmin($params);
@@ -97,11 +94,12 @@ class DangKyController extends Controller
                     }
                 }
                 if (isset($resHocVien)) {
-                    $gia = $objLopHoc->loadOne($request->id_lop_hoc);
+                    $gia = $objKhoaHoc->loadOne($request->id_khoa_hoc);
+                    // dd($gia);
                     $arrDangKy = [];
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
                     $arrDangKy['id_hoc_vien'] = $resHocVien;
-                    $arrDangKy['gia_tien'] = $gia->price;
+                    $arrDangKy['gia_tien'] = $gia->price - ($gia->price * $request->pham_tram_giam / 100);
                     $arrDangKy['trang_thai'] = $request->trang_thai;
                     // dd($objLopHoc->slot);
                     // dd($request->trang_thai);
@@ -121,7 +119,7 @@ class DangKyController extends Controller
                     }
                     $email = $request->email;
                     $objGuiGmail = DB::table('dang_ky', 'tb1')
-                        ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+                        ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
                         ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
                         ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
                         ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
@@ -130,8 +128,8 @@ class DangKyController extends Controller
                         $objGuiGmail->so_dien_thoai = $request->pham_tram_giam;
                     }
 
-                    // dd($email);
-                    // Mail::to($email)->send(new OrderShipped($objGuiGmail));
+                    // dd($objGuiGmail);
+                    Mail::to($email)->send(new OrderShipped($objGuiGmail));
 
                     $method_route = 'route_BackEnd_DangKyAdmin_Add';
                     if ($res == null) {
@@ -191,6 +189,7 @@ class DangKyController extends Controller
         $this->v['itemGia'] = $itemDK->gia_tien;
         $objHocVien = new  HocVien();
         $this->v['itemHV'] = $objHocVien->loadOne($itemDK->id_hoc_vien);
+
         $objLopHoc = new ClassModel();
         $itemLH = $objLopHoc->loadOne($this->v['itemDK']);
         $objKhoaHoc = new Course();
@@ -326,7 +325,7 @@ class DangKyController extends Controller
             $res = $objDangKy->updateDangKy($arrDangKy);
             if ($request->trang_thai == 1) {
                 $objGuiGmail = DB::table('dang_ky', 'tb1')
-                    ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb2.email', 'tb3.name', 'tb4.hoc_phi', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+                    ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb2.email', 'tb3.name', 'tb4.price', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
                     ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
                     ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
                     ->leftJoin('khoa_hoc as tb4', 'tb3.course_id', '=', 'tb4.id')
@@ -359,12 +358,12 @@ class DangKyController extends Controller
     public function inHoaDon($id, Request $request)
     {
         $emails = DB::table('dang_ky', 'tb1')
-            ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb3.price', 'tb4.name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+            ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
             ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
             ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
             ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
             ->where('tb1.id', $id)->first();
-        dd($emails);
+        // dd($emails);
         $pdf = PDF::setOptions([
             'logOutputFile' => storage_path('logs/log.htm'),
             'tempDir' => storage_path('logs/')

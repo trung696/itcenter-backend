@@ -170,17 +170,29 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="pham_tram_giam" class="col-md-3 col-sm-4 control-label">Phần Trăm Giảm<span
+                                class="text-danger">(*)</span></label>
+                        <div class="col-md-9 col-sm-8">
+                            <input type="text" name="pham_tram_giam" id="pham_tram_giam" class="form-control"
+                                value="@isset($request['pham_tram_giam']) {{ $request['pham_tram_giam'] }} @endisset">
+                            <span id="mes_sdt"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
                         <label for="id_lop_hoc" class="col-md-3 col-sm-4 control-label">Danh sách lớp học</label>
                         <div class="col-md-9 col-sm-8">
                             <select name="id_lop_hoc" id="id_lop_hoc" class="form-control select2"
                                 data-placeholder="Chọn lớp học">
                                 <!-- @foreach ($objLopHoc as $item)
-                                    <option value="{{ $item->id }}"
+<option value="{{ $item->id }}"
                                         @isset($request['id_lop_hoc']) @if ($request['id_khoa_hoc'] == $item->id) selected @endif
-                                    @endisset>{{ $item->name }}</option>
-                            @endforeach -->
+                                @endisset>{{ $item->name }}</option>
+@endforeach -->
                         </select>
                     </div>
+
                 </div>
                 <div class="form-group">
                     <label for="nguon" class="col-md-3 col-sm-4 control-label">Trạng thái <span
@@ -218,6 +230,6 @@
 <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
 <!-- <script src="{{ asset('js/dangkyadmin.js') }} "></script> -->
 {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
-<script src="{{ asset('/js/addDangky.js')}}"></script>
+<script src="{{ asset('/js/addDangky.js') }}"></script>
 
 @endsection
