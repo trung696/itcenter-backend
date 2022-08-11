@@ -43,7 +43,7 @@ Route::get('/list-lop/{id}', 'DangKyController@getListLop')->where('id', '[0-9]+
 Route::get('/register/detail/{id}', 'DangKyController@chiTietDangKy')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Detail');
-Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
+Route::post('/register/update/{id}/{email}/{oldClass}/{newClass}', 'DangKyController@update')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Update');
 //ca học 

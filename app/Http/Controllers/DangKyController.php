@@ -19,12 +19,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\DanhMucKhoaHocRequest;
+use App\ThongTinChuyenLop;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Spipu\Html2Pdf\Html2Pdf;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Support\Facades\Redirect;
 
 class DangKyController extends Controller
 {
@@ -185,13 +187,11 @@ class DangKyController extends Controller
         $itemDK = $objDangKy->loadOne($id);
         $this->v['itemDK'] = $itemDK->id_lop_hoc;
         $this->v['itemTT'] = $itemDK->trang_thai;
-        // dd($itemDK);
         $this->v['itemDKTT'] = $itemDK->trang_thai;
         $this->v['itemGia'] = $itemDK->gia_tien;
         $objHocVien = new  HocVien();
         $this->v['itemHV'] = $objHocVien->loadOne($itemDK->id_hoc_vien);
-
-        $objLopHoc = new LopHoc();
+        $objLopHoc = new ClassModel();
         $itemLH = $objLopHoc->loadOne($this->v['itemDK']);
         $objKhoaHoc = new Course();
         $this->v['itemKH'] = $objKhoaHoc->loadOne($itemLH->course_id);
@@ -199,9 +199,112 @@ class DangKyController extends Controller
             ->where('course_id', '=', $itemLH->course_id)
             ->where('start_date', '>', $now)->get();
         $this->v['listLH'] = $list_lop_hoc;
-        // dd($list_lop_hoc);
-        return view('dangky.sua-thong-tin', $this->v);
+        $listClass = ClassModel::all();
+        // dd($this->v);
+
+        return view('dangky.sua-thong-tin', $this->v, compact('listClass'));
     }
+
+
+    public function update($id,$email, $oldClass, $newClass)
+    {
+        $hocVien = HocVien::where('email', '=', $email)->first();
+        $id_hoc_vien = $hocVien->id;
+        $dangKy = DangKy::where('id_hoc_vien', '=', $id_hoc_vien)->where('id_lop_hoc', '=', $oldClass)->first();
+        //kiểm tra xem lớp học cũ và lớp muốn chuyển có cùng 1 khóa học Không
+        //lớp cũ
+        $checkCourseClassOld = ClassModel::where('id', $oldClass)->first()->course;
+        //lớp mới
+        $checkCourseClassNew = ClassModel::where('id', $newClass)->first()->course;
+        // dd($checkCourseClassOld, $checkCourseClassNew);
+        if ($checkCourseClassOld->name === $checkCourseClassNew->name) {
+            $checkClass = ClassModel::where('id', $newClass)->first();
+            //check con slot khong
+            if ($checkClass->slot > 0) {
+                $dangKyOld = DangKy::where('id', $dangKy->id)->first();
+                $updateDangKy =  $dangKy->update([
+                    'id_lop_hoc' => $newClass,
+                ]);
+                $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
+                // dd($dangKyAfterUpdate);
+                //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
+                if ($dangKyAfterUpdate->trang_thai == 1) {
+                    if ($updateDangKy) {
+                        ClassModel::whereId($dangKyOld->class->id)->update([
+                            'slot' =>  $dangKyOld->class->slot + 1
+                        ]);
+                    }
+                }
+                //check chỗ lớp mới chuyển sang và trừ đi 1 slot
+                $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
+                if ($dangKyAfterUpdate->trang_thai == 1) {
+                    $classOfChuyenLop = $dangKyAfterUpdate->class;
+                    ClassModel::whereId($classOfChuyenLop->id)->update([
+                        'slot' =>  $classOfChuyenLop->slot - 1
+                    ]);
+                    // return 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1';
+                    return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1']);
+                } else {
+                    return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công chờ trường check thanh toán']);
+                }
+                return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công']);
+            } else {
+                return Redirect::back()->withErrors(['msg' => 'lớp đã đầy không thể chuyển lớp']);
+            }
+        }
+        //nếu khác khóa học thì gọi function doiKhoaHoc()
+        return  $this->doiKhoaHoc($dangKy,  $checkCourseClassNew, $newClass, $dangKy,  $oldClass);
+    }
+
+    public function doiKhoaHoc($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
+    {
+        $checkClass = ClassModel::where('id', $idNewClass)->first();
+        if ($checkClass->slot > 0) {
+            $getPayMentOfOldDangKy = DangKy::where('id', $oldDangKy->id_payment)->first();
+            //Số tiền đã nộp
+            $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
+            //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
+            //giá tiền của lớp muốn chuyển sang
+            $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;
+            //lưu thoong tin chuyển lớp mới
+            $idClassOld = $dangKyOld['id_lop_hoc'];
+            $dangKyOld['id_lop_hoc'] =  $idNewClass;
+            $dangKyOld['gia_tien'] =  $priceClassNew;
+            $dangKyOld['so_tien_da_dong'] =  $priceDaNop;
+            $dangKyOld['du_no'] =  $priceDaNop - $priceClassNew;
+            // dd($dangKyOld);
+            //nếu có dư nợ
+            if ($dangKyOld->du_no != 0) {
+                //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ
+                if ($dangKyOld->du_no  < 0) {
+                    $dangKyOld['trang_thai'] =  0;
+                    $dangKyOld->update();
+                    // dd($dangKyOld->class->slot);
+                    $classOld = ClassModel::whereId($idClassOld)->first();
+                    $classOld['slot'] = $classOld->slot + 1;
+                    $classOld->update();
+                    return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
+                    //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
+                } elseif ($dangKyOld->du_no  > 0) {
+                    //update xong ở bảng đăng kí thì phải +1 vào slot ở course vừa chuyển đi
+                    $dangKyOld->update();
+                    //cộng 1 slot vào lớp cũ
+                    $classOld = ClassModel::whereId($idClassOld)->first();
+                    $classOld['slot'] = $classOld->slot + 1;
+                    $classOld->update();
+
+                    //trừ 1 slot ở lớp mới (phải lấy lại cái đăng kí mới đã)
+                    $classNew = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
+                    $classNew['slot'] = $classNew->slot - 1;
+                    $classNew->update();
+                    return Redirect::back()->withErrors(['msg' => 'Bạn đã chuyển lớp thành công và thừa ' . $dangKyOld->du_no]);
+                }
+            }
+        }
+        // hết slot thì không dc đki
+        return Redirect::back()->withErrors(['msg' => 'Lớp này đã đủ sinh viên']);
+    }
+
     public function updateDangKy($id, Request $request)
     {
         $now = date('Y-m-d');
@@ -210,7 +313,6 @@ class DangKyController extends Controller
         $objLopHoc = new ClassModel();
         $lopHoc = $objLopHoc->loadOne($dangKy->id_lop_hoc);
         if ($dangKy->trang_thai == 1) {
-
             Session::flash('success', 'Đăng Ký Này Đã Thanh Toán Không Thể Thay Đổi');
             return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
         } elseif ($lopHoc->start_date < $now) {
@@ -270,4 +372,5 @@ class DangKyController extends Controller
             ->loadView('print.inhoadon', compact('emails'))->setPaper('a4');
         return $pdf->stream();
     }
+
 }

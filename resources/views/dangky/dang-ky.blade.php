@@ -212,7 +212,6 @@
 
                         @foreach ($list as $item)
                             <tr>
-                                {{-- <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td> --}}
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td class="text-center">{{ $item->ho_ten }}</td>
                                 <td class="text-center">{{ $item->so_dien_thoai }}</td>
