@@ -199,9 +199,10 @@ class DangKyController extends Controller
             ->where('start_date', '>', $now)->get();
         $this->v['listLH'] = $list_lop_hoc;
         $listClass = ClassModel::all();
+        $listCourse = Course::all();
+        $getDuNo = DangKy::whereId($id)->first()->du_no;
         // dd($this->v);
-
-        return view('dangky.sua-thong-tin', $this->v, compact('listClass'));
+        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo','listCourse'));
     }
 
 
