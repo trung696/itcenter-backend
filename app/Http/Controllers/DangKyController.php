@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\DanhMucKhoaHocRequest;
+use App\Payment;
 use App\ThongTinChuyenLop;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Session;
 use Spipu\Html2Pdf\Html2Pdf;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class DangKyController extends Controller
@@ -199,13 +201,16 @@ class DangKyController extends Controller
             ->where('start_date', '>', $now)->get();
         $this->v['listLH'] = $list_lop_hoc;
         $listClass = ClassModel::all();
+        $listCourse = Course::all();
+        $getDuNo = DangKy::whereId($id)->first()->du_no;
+        // dd($getDuNo);
         // dd($this->v);
 
-        return view('dangky.sua-thong-tin', $this->v, compact('listClass'));
+        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo','listCourse'));
     }
 
 
-    public function update($id,$email, $oldClass, $newClass)
+    public function update(Request $request, $id, $email, $oldClass, $newClass)
     {
         $hocVien = HocVien::where('email', '=', $email)->first();
         $id_hoc_vien = $hocVien->id;
@@ -252,124 +257,152 @@ class DangKyController extends Controller
             }
         }
         //nếu khác khóa học thì gọi function doiKhoaHoc()
-        return  $this->doiKhoaHoc($dangKy,  $checkCourseClassNew, $newClass, $dangKy,  $oldClass);
+        return  $this->doiKhoaHoc($request, $dangKy,  $checkCourseClassNew, $newClass, $dangKy,  $oldClass);
     }
 
-    public function doiKhoaHoc($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
+    public function doiKhoaHoc($request, $newDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
     {
-        $checkClass = ClassModel::where('id', $idNewClass)->first();
-        if ($checkClass->slot > 0) {
-            $getPayMentOfOldDangKy = DangKy::where('id', $oldDangKy->id_payment)->first();
-            //Số tiền đã nộp
-            $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
-            //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
-            //giá tiền của lớp muốn chuyển sang
-            $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;
-            //lưu thoong tin chuyển lớp mới
-            $idClassOld = $dangKyOld['id_lop_hoc'];
-            $dangKyOld['id_lop_hoc'] =  $idNewClass;
-            $dangKyOld['gia_tien'] =  $priceClassNew;
-            $dangKyOld['so_tien_da_dong'] =  $priceDaNop;
-            $dangKyOld['du_no'] =  $priceDaNop - $priceClassNew;
-            // dd($dangKyOld);
-            //nếu có dư nợ
-            if ($dangKyOld->du_no != 0) {
-                //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ
-                if ($dangKyOld->du_no  < 0) {
-                    $dangKyOld['trang_thai'] =  0;
-                    $dangKyOld->update();
-                    // dd($dangKyOld->class->slot);
-                    $classOld = ClassModel::whereId($idClassOld)->first();
-                    $classOld['slot'] = $classOld->slot + 1;
-                    $classOld->update();
-                    return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
-                    //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
-                } elseif ($dangKyOld->du_no  > 0) {
-                    //update xong ở bảng đăng kí thì phải +1 vào slot ở course vừa chuyển đi
-                    $dangKyOld->update();
-                    //cộng 1 slot vào lớp cũ
-                    $classOld = ClassModel::whereId($idClassOld)->first();
-                    $classOld['slot'] = $classOld->slot + 1;
-                    $classOld->update();
+        // dd($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass);
 
-                    //trừ 1 slot ở lớp mới (phải lấy lại cái đăng kí mới đã)
-                    $classNew = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
-                    $classNew['slot'] = $classNew->slot - 1;
-                    $classNew->update();
-                    return Redirect::back()->withErrors(['msg' => 'Bạn đã chuyển lớp thành công và thừa ' . $dangKyOld->du_no]);
+        /// check xem số tiền nộp thêm == abs(du_no)
+        if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no)==$request->dong_them  ) {
+            try{
+                DB::beginTransaction();
+                // dd($request->all(),$oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass);
+                // dd($newDangKy);
+                // dd($newDangKy->id_payment);
+                $payMentOfDangKy = Payment::where('id',$newDangKy->id_payment)->first();
+                $payMentOfDangKy['price'] = $payMentOfDangKy['price'] + $request->dong_them;
+                $payMentOfDangKy->update();
+                // dd($payMentOfDangKy);
+                $newDangKy['trang_thai'] = 1;
+                $newDangKy['paid_date']=date("Y-m-d");
+                $newDangKy['so_tien_da_dong']=null;
+                $newDangKy['du_no']=0;
+                $newDangKy->update();
+                //nếu tất cả đều thêm được vào đb thì mới cho thực hiện
+                DB::commit();
+                return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công chuyển trạng thái về ban đầu']);
+            }catch(\Exception $exception){
+                DB::rollback();
+                Log::error('message: '.$exception->getMessage() . 'line:'. $exception->getLine());
+            }
+            /// end check xem số tiền nộp thêm == abs(du_no)
+        } else {
+            dd('khong vao day');
+            $checkClass = ClassModel::where('id', $idNewClass)->first();
+            if ($checkClass->slot > 0) {
+                $getPayMentOfOldDangKy = DangKy::where('id', $newDangKy->id_payment)->first();
+                //Số tiền đã nộp
+                $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
+                //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
+                //giá tiền của lớp muốn chuyển sang
+                $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;
+                //lưu thoong tin chuyển lớp mới
+                $idClassOld = $dangKyOld['id_lop_hoc'];
+                $dangKyOld['id_lop_hoc'] =  $idNewClass;
+                $dangKyOld['gia_tien'] =  $priceClassNew;
+                $dangKyOld['so_tien_da_dong'] =  $priceDaNop;
+                $dangKyOld['du_no'] =  $priceDaNop - $priceClassNew;
+                // dd($dangKyOld);
+                //nếu có dư nợ
+                if ($dangKyOld->du_no != 0) {
+                    //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ
+                    if ($dangKyOld->du_no  < 0) {
+                        $dangKyOld['trang_thai'] =  0;
+                        $dangKyOld->update();
+                        // dd($dangKyOld->class->slot);
+                        $classOld = ClassModel::whereId($idClassOld)->first();
+                        $classOld['slot'] = $classOld->slot + 1;
+                        $classOld->update();
+                        return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
+                        //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
+                    } elseif ($dangKyOld->du_no  > 0) {
+                        //update xong ở bảng đăng kí thì phải +1 vào slot ở course vừa chuyển đi
+                        $dangKyOld->update();
+                        //cộng 1 slot vào lớp cũ
+                        $classOld = ClassModel::whereId($idClassOld)->first();
+                        $classOld['slot'] = $classOld->slot + 1;
+                        $classOld->update();
+
+                        //trừ 1 slot ở lớp mới (phải lấy lại cái đăng kí mới đã)
+                        $classNew = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
+                        $classNew['slot'] = $classNew->slot - 1;
+                        $classNew->update();
+                        return Redirect::back()->withErrors(['msg' => 'Bạn đã chuyển lớp thành công và thừa ' . $dangKyOld->du_no]);
+                    }
                 }
             }
-        }
-        // hết slot thì không dc đki
-        return Redirect::back()->withErrors(['msg' => 'Lớp này đã đủ sinh viên']);
-    }
-
-    public function updateDangKy($id, Request $request)
-    {
-        $now = date('Y-m-d');
-        $objDangKy = new DangKy();
-        $dangKy = $objDangKy->loadOne($id);
-        $objLopHoc = new ClassModel();
-        $lopHoc = $objLopHoc->loadOne($dangKy->id_lop_hoc);
-        if ($dangKy->trang_thai == 1) {
-            Session::flash('success', 'Đăng Ký Này Đã Thanh Toán Không Thể Thay Đổi');
-            return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
-        } elseif ($lopHoc->start_date < $now) {
-            Session::flash('success', 'Lớp Học Đã Khai Giảng Không Thay đổi');
-            return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
-        } else {
-            $arrDangKy = [];
-            $arrDangKy['id'] = $id;
-            $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
-            $arrDangKy['trang_thai'] = $request->trang_thai;
-            $res = $objDangKy->updateDangKy($arrDangKy);
-            if ($request->trang_thai == 1) {
-                $objGuiGmail = DB::table('dang_ky', 'tb1')
-                    ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb2.email', 'tb3.name', 'tb4.price', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
-                    ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
-                    ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
-                    ->leftJoin('khoa_hoc as tb4', 'tb3.course_id', '=', 'tb4.id')
-                    ->where('tb1.id', $id)->first();
-                $email = $objGuiGmail->email;
-                // Mail::to($email)->send(new OrderShipped($objGuiGmail));
-                $objLopHoc = new  ClassModel();
-                $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
-                $udateSoCho = [];
-                $udateSoCho['id'] = $request->id_lop_hoc;
-                $udateSoCho['so_cho'] = $socho->slot - 1;
-                $update = $objLopHoc->saveUpdateSoCho($udateSoCho);
-            }
-            if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi
-            {
-                return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
-            } elseif ($res == 1) {
-                $request->session()->forget('post_form_data'); // xóa data post
-                Session::flash('success', 'Cập nhật thành công!');
-
-                return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
-            } else {
-
-                Session::push('errors', 'Lỗi cập nhật cho bản ghi: ' . $res);
-                Session::push('post_form_data', $this->v['request']);
-                return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
-            }
+            // hết slot thì không dc đki
+            return Redirect::back()->withErrors(['msg' => 'Lớp này đã đủ sinh viên không thể đăng kí']);
         }
     }
-    public function inHoaDon($id, Request $request)
-    {
-        $emails = DB::table('dang_ky', 'tb1')
-            ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
-            ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
-            ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
-            ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
-            ->where('tb1.id', $id)->first();
-        // dd($emails);
-        $pdf = PDF::setOptions([
-            'logOutputFile' => storage_path('logs/log.htm'),
-            'tempDir' => storage_path('logs/')
-        ])
-            ->loadView('print.inhoadon', compact('emails'))->setPaper('a4');
-        return $pdf->stream();
-    }
 
+    // public function updateDangKy($id, Request $request)
+    // {
+    //     $now = date('Y-m-d');
+    //     $objDangKy = new DangKy();
+    //     $dangKy = $objDangKy->loadOne($id);
+    //     $objLopHoc = new ClassModel();
+    //     $lopHoc = $objLopHoc->loadOne($dangKy->id_lop_hoc);
+    //     if ($dangKy->trang_thai == 1) {
+    //         Session::flash('success', 'Đăng Ký Này Đã Thanh Toán Không Thể Thay Đổi');
+    //         return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
+    //     } elseif ($lopHoc->start_date < $now) {
+    //         Session::flash('success', 'Lớp Học Đã Khai Giảng Không Thay đổi');
+    //         return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
+    //     } else {
+    //         $arrDangKy = [];
+    //         $arrDangKy['id'] = $id;
+    //         $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
+    //         $arrDangKy['trang_thai'] = $request->trang_thai;
+    //         $res = $objDangKy->updateDangKy($arrDangKy);
+    //         if ($request->trang_thai == 1) {
+    //             $objGuiGmail = DB::table('dang_ky', 'tb1')
+    //                 ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb2.email', 'tb3.name', 'tb4.price', 'tb4.ten_khoa_hoc', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+    //                 ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
+    //                 ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
+    //                 ->leftJoin('khoa_hoc as tb4', 'tb3.course_id', '=', 'tb4.id')
+    //                 ->where('tb1.id', $id)->first();
+    //             $email = $objGuiGmail->email;
+    //             // Mail::to($email)->send(new OrderShipped($objGuiGmail));
+    //             $objLopHoc = new  ClassModel();
+    //             $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
+    //             $udateSoCho = [];
+    //             $udateSoCho['id'] = $request->id_lop_hoc;
+    //             $udateSoCho['so_cho'] = $socho->slot - 1;
+    //             $update = $objLopHoc->saveUpdateSoCho($udateSoCho);
+    //         }
+    //         if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi
+    //         {
+    //             return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
+    //         } elseif ($res == 1) {
+    //             $request->session()->forget('post_form_data'); // xóa data post
+    //             Session::flash('success', 'Cập nhật thành công!');
+
+    //             return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
+    //         } else {
+
+    //             Session::push('errors', 'Lỗi cập nhật cho bản ghi: ' . $res);
+    //             Session::push('post_form_data', $this->v['request']);
+    //             return redirect()->route('route_BackEnd_AdminDangKy_Detail', ['id' => $id]);
+    //         }
+    //     }
+    // }
+    // public function inHoaDon($id, Request $request)
+    // {
+    //     $emails = DB::table('dang_ky', 'tb1')
+    //         ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+    //         ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
+    //         ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
+    //         ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
+    //         ->where('tb1.id', $id)->first();
+    //     // dd($emails);
+    //     $pdf = PDF::setOptions([
+    //         'logOutputFile' => storage_path('logs/log.htm'),
+    //         'tempDir' => storage_path('logs/')
+    //     ])
+    //         ->loadView('print.inhoadon', compact('emails'))->setPaper('a4');
+    //     return $pdf->stream();
+    // }
 }

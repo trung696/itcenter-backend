@@ -139,8 +139,8 @@
                             <select name="id_lop_hoc" id="id_khoa_hoc" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
                                 <option value="">== Chọn Lớp học==</option>
                                 @foreach ($listClass as $item)
-                                <option value="{{ $item->id }}"  @if($item->id == $itemDK) selected="selected" @endif>
-                                                                {{ $item->name }}
+                                <option value="{{ $item->id }}" @if($item->id == $itemDK) selected="selected" @endif>
+                                    {{ $item->name }}
                                 </option>
 
                                 @endforeach
@@ -176,6 +176,27 @@
                         </div>
                     </div>
                     @endif
+
+
+
+                    @if($getDuNo != 0 )
+                    <div class="form-group">
+                        <label for="so_dien_thoai" class="col-md-3 col-sm-4 control-label">Còn thiếu <span class="text-danger">(*)</span></label>
+
+                        <div class="col-md-9 col-sm-8">
+                            <input type="text" name="so_dien_thoai" id="so_dien_thoai" class="form-control" value="{{ number_format($getDuNo) }}" disabled>
+                            <span id="mes_sdt"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dong_them" class="col-md-3 col-sm-4 control-label">Đóng thêm <span class="text-danger">(*)</span></label>
+                        <div class="col-md-9 col-sm-8">
+                            <input type="number" name="dong_them" id="dong_them" class="form-control">
+                            <span id="dong_them"></span>
+                        </div>
+                    </div>
+                    @endif
+
                 </div>
             </div>
         </div>

@@ -205,6 +205,7 @@
                             <th class="text-center">Email</th>
                             <th class="text-center">Lớp đăng ký</th>
                             <th class="text-center">Ngày đăng ký</th>
+                            <th class="text-center">Dư nợ</th>
                             <th width="50px" class="text-center">Trạng thái</th>
                             <th width="50px" class="text-center">Công Cụ</th>
                         </tr>
@@ -218,6 +219,9 @@
                                 <td class="text-center">{{ $item->email }}</td>
                                 <td class="text-center">{{ $item->name }}</td>
                                 <td class="text-center">{{ $item->ngay_dang_ky }}</td>
+                               
+                                <td class="text-center">{{ $item->du_no }}</td>
+
                                 <td class="text-center"
                                     style="width:180px; background-color:
                                 @if ($item->trang_thai == 0) red

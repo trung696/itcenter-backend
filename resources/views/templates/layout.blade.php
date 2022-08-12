@@ -288,6 +288,14 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     </li>
 
                     <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Danh sách hoàn tiền</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_list_hoan_tien') }}"><i class="fa fa-circle-o"></i>
+                                    Danh sách sinh viên thừa tiền</a></li>
+                        </ul>
+                    </li>
+
+                    <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-dollar"></i> <span>Cơ sở trung tâm</span></a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i

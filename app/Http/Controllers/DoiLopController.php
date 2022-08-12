@@ -101,9 +101,9 @@ class DoiLopController extends Controller
                     $classOld = ClassModel::whereId($idClassOld)->first();
                     $classOld['slot'] = $classOld->slot + 1;
                     $classOld->update();
+                    $classNews= ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
                     // if ($hoc_vien = $addNewStudent) {
-                    // dd($classOld, $dangKyOld,$newCourse, $dangKyOld, $oldClass);
-                    Mail::send('emailThanhToan', compact('classOld','dangKyOld'), function ($email) use ($hocVien) {
+                    Mail::send('emailThanhToan', compact('classOld','dangKyOld','classNews'), function ($email) use ($hocVien) {
                         // mail nhận thư, tên người dùng
                         $email->subject("Hệ thống gửi thông tin chuyển lớp đến bạn");
                         $email->to($hocVien->email, $hocVien->name, $hocVien);
