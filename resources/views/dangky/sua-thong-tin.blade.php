@@ -125,25 +125,26 @@
                             <span id="mes_sdt"></span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="email" class="col-md-3 col-sm-4 control-label">Khoá Học <span class="text-danger">(*)</span></label>
 
-                        <div class="col-md-9 col-sm-8">
-                            <input type="text" name="email" id="email" class="form-control" value="{{ $itemKH->name }}" disabled>
-                            <span id="mes_sdt"></span>
-                        </div>
-                    </div>
                     <div class="form-group">
-                        <label for="id_lop_hoc" class="col-md-3 col-sm-4 control-label">Lớp Học</label>
+                        <label for="id_khoa_hoc_cu" class="col-md-3 col-sm-4 control-label">Khoá Học cũ</label>
                         <div class="col-md-9 col-sm-8">
-                            <select name="id_lop_hoc" id="id_khoa_hoc" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
-                                <option value="">== Chọn Lớp học==</option>
-                                @foreach ($listClass as $item)
-                                <option value="{{ $item->id }}" @if($item->id == $itemDK) selected="selected" @endif>
+                            <select name="id_khoa_hoc_cu" id="id_khoa_hoc_cu" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
+                                <option value="">== Chọn khoá học==</option>
+                                @foreach ($listCourse as $item)
+                                <option value="{{ $item->id }}">
                                     {{ $item->name }}
                                 </option>
 
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_lop_hoc_cu" class="col-md-3 col-sm-4 control-label">Lớp Học cũ</label>
+                        <div class="col-md-9 col-sm-8">
+                            <select name="id_lop_hoc" id="id_lop_hoc_cu" class="form-control select2" data-placeholder="Chọn lớp học">
                             </select>
                         </div>
                     </div>
@@ -217,5 +218,6 @@
 <script src="{{ asset('js/khoahoc.js') }} "></script>
 {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
 {{-- <script src="public/js/taisan.js"></script> --}}
+<script src="{{ asset('/js/suaDangKy.js') }}"></script>
 
 @endsection
