@@ -46,7 +46,6 @@ class DangKyController extends Controller
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
         $this->v['list'] = $objDangKy->loadListWithPagers($this->v['extParams']);
-
         return view('dangky.dang-ky', $this->v);
     }
     public function themDangKy(DangKyRequest $request)
