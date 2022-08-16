@@ -84,6 +84,31 @@
         @csrf
         <div class="box-body">
             <div class="row">
+            <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="id_khoa_hoc_moi" class="col-md-3 col-sm-4 control-label">Khoá Học mới</label>
+                        <div class="col-md-9 col-sm-8">
+                            <select name="id_khoa_hoc_moi" id="id_khoa_hoc_moi" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
+                                <option value="">== Chọn khoá học==</option>
+                                @foreach ($listCourse as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->name }}
+                                </option>
+
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_lop_hoc_moi" class="col-md-3 col-sm-4 control-label">Lớp Học</label>
+                        <div class="col-md-9 col-sm-8">
+                            <select name="id_lop_hoc_moi" id="id_lop_hoc_moi" class="form-control select2" data-placeholder="Chọn lớp học">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="ten_khoa_hoc" class="col-md-3 col-sm-4 control-label">Tên học viên <span class="text-danger">(*)</span></label>
@@ -129,10 +154,10 @@
                     <div class="form-group">
                         <label for="id_khoa_hoc_cu" class="col-md-3 col-sm-4 control-label">Khoá Học cũ</label>
                         <div class="col-md-9 col-sm-8">
-                            <select name="id_khoa_hoc_cu" id="id_khoa_hoc_cu" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
+                            <select disabled name="id_khoa_hoc_cu" id="id_khoa_hoc_cu" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
                                 <option value="">== Chọn khoá học==</option>
                                 @foreach ($listCourse as $item)
-                                <option value="{{ $item->id }}">
+                                <option value="{{ $item->id }}" @if($item->id == $itemDK) selected="selected" @endif >
                                     {{ $item->name }}
                                 </option>
 
@@ -144,10 +169,16 @@
                     <div class="form-group">
                         <label for="id_lop_hoc_cu" class="col-md-3 col-sm-4 control-label">Lớp Học cũ</label>
                         <div class="col-md-9 col-sm-8">
-                            <select name="id_lop_hoc" id="id_lop_hoc_cu" class="form-control select2" data-placeholder="Chọn lớp học">
+                            <select disabled name="id_lop_hoc_cu" id="id_lop_hoc_cu" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
+                                <option value="">== Chọn Lớp học==</option>
+                                @foreach ($listClass as $item)
+                                <option value="{{ $item->id }}" @if ($item->id == $itemDK) selected @endif>{{ $item->name }}
+                                </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
+
                     @if ($itemDKTT == 1)
                     <div class="form-group">
                         <label for="email" class="col-md-3 col-sm-4 control-label">Khoá Học <span class="text-danger">(*)</span></label>
@@ -177,31 +208,27 @@
                         </div>
                     </div>
                     @endif
-                </div>
 
-                <div class="col-md-6">
+
+
+                    @if($getDuNo != 0 )
                     <div class="form-group">
-                        <label for="id_khoa_hoc_moi" class="col-md-3 col-sm-4 control-label">Khoá Học mới</label>
-                        <div class="col-md-9 col-sm-8">
-                            <select name="id_khoa_hoc_moi" id="id_khoa_hoc_moi" class="form-control select2" style="width: 100%" data-placeholder="Chọn lớp học">
-                                <option value="">== Chọn khoá học==</option>
-                                @foreach ($listCourse as $item)
-                                <option value="{{ $item->id }}">
-                                    {{ $item->name }}
-                                </option>
+                        <label for="so_dien_thoai" class="col-md-3 col-sm-4 control-label">Còn thiếu <span class="text-danger">(*)</span></label>
 
-                                @endforeach
-                            </select>
+                        <div class="col-md-9 col-sm-8">
+                            <input type="text" name="so_dien_thoai" id="so_dien_thoai" class="form-control" value="{{ number_format($getDuNo) }}" disabled>
+                            <span id="mes_sdt"></span>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="id_lop_hoc_moi" class="col-md-3 col-sm-4 control-label">Lớp Học</label>
+                        <label for="dong_them" class="col-md-3 col-sm-4 control-label">Đóng thêm <span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <select name="id_lop_hoc_moi" id="id_lop_hoc_moi" class="form-control select2" data-placeholder="Chọn lớp học">
-                            </select>
+                            <input type="number" name="dong_them" id="dong_them" class="form-control">
+                            <span id="dong_them"></span>
                         </div>
                     </div>
+                    @endif
+
                 </div>
             </div>
         </div>
