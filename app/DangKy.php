@@ -21,6 +21,11 @@ class DangKy extends Model
     {
         return $this->belongsTo(Payment::class,'id_payment','id');
     }
+
+    public function hocVien()
+    {
+        return $this->hasMany(HocVien::class,'id','id_hoc_vien');
+    }
     
     public function loadListWithPager($params = array(), $id = null)
     {
@@ -34,7 +39,7 @@ class DangKy extends Model
     public function loadListWithPagers($params = array())
     {
         $query = DB::table($this->table . ' as tb1')
-            ->select('tb1.id', 'tb2.ho_ten', 'tb2.ngay_sinh', 'tb2.so_dien_thoai', 'tb1.ngay_dang_ky', 'tb2.so_dien_thoai', 'tb2.email', 'tb1.trang_thai', 'tb3.name')
+            ->select('tb1.id', 'tb2.ho_ten', 'tb2.ngay_sinh', 'tb2.so_dien_thoai', 'tb1.ngay_dang_ky','tb1.so_tien_da_dong','tb1.du_no', 'tb2.so_dien_thoai', 'tb2.email', 'tb1.trang_thai', 'tb3.name')
             ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
             ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc');
         if (isset($params['search_ten_hoc_vien']) && strlen($params['search_ten_hoc_vien']) > 0) {

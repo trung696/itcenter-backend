@@ -77,6 +77,9 @@ Route::get('/xeplop/{id}', 'ClassController@xepLop')
 Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop');
 Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
 
+//list những đăng ký thừa tiền
+Route::get('/hoanTien', 'HoanTienController@index')->name('route_BackEnd_list_hoan_tien');
+
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');
 
