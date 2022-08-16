@@ -135,15 +135,8 @@ class ApiUserController extends Controller
     public function update(Request $request, $id)
     {
         $userUpdate = HocVien::find($id);
-        // $userAfterUpdate = HocVien::whereId($userUpdate->id);
         $userUpdate->update(
             $request->all()
-            //     [
-            //     'ho_ten' => $request->ho_ten,
-            //     'ngay_sinh' => $request->ngay_sinh  ,
-            //     'password' => Hash::make($request->password),
-            //     'gioi_tinh' => $request->gioi_tinh
-            // ]
         );
         // dd($userUpdate);
         return response()->json([

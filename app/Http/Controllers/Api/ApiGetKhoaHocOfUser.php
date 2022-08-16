@@ -23,11 +23,13 @@ class ApiGetKhoaHocOfUser extends Controller
         $tokenUp = $request->bearerToken();
         $id_user = SessionUser::where('token', $tokenUp)->first()->user_id;
         $listDangKiOfUser = DangKy::where('id_hoc_vien', $id_user)->get()->toArray();
-
         $data = [];
-        if ($listDangKiOfUser) {            
-            foreach ($listDangKiOfUser as $listDangKiOfUserItem){
-                $listDangKiOfUserItem['id_lop_hoc'] = ClassModel::where('id', $listDangKiOfUserItem['id_lop_hoc'])->first()->name;
+        if ($listDangKiOfUser) {
+            foreach ($listDangKiOfUser as $listDangKiOfUserItem) {
+                $course_data =  Course::find($listDangKiOfUserItem['id_lop_hoc']);
+                $listDangKiOfUserItem['lop_hoc'] = ClassModel::where('id', $listDangKiOfUserItem['id_lop_hoc'])->first();
+                $listDangKiOfUserItem['lop_hoc']->image = $course_data->image;
+                $listDangKiOfUserItem['lop_hoc']->course_name = $course_data->image;
                 array_push($data, $listDangKiOfUserItem);
             }
             return response()->json([
