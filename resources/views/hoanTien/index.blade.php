@@ -61,6 +61,15 @@
     </style>
 
     <!-- Phần nội dung riêng của action  -->
+
+    @if (\Session::has('searchs'))
+    <div class="alert alert-success">
+        <ul>
+            <li>{!! \Session::get('searchs') !!}</li>
+        </ul>
+    </div>
+    @endif
+
     <div class="box box-primary" style="margin-top: 50px">
         <div class="box-header with-border">
             <div class="box-title">
@@ -120,7 +129,7 @@
                         </tr>
                     </thead>
 
-                    <tbody  id="myTable">
+                    <tbody id="myTable">
 
                         @foreach($listDangKyThuaTienKhiChuyenLop as $listClassDaKhaiGiangIteam)
 
@@ -222,7 +231,7 @@
                 Danh Sách Hoàn tiền sinh viên khi không đóng đủ học phí
             </div>
         </div>
-   
+
         <div class="box-body">
             <!-- <form action="" method="post"> -->
             <!-- @csrf -->
