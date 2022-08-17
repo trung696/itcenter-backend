@@ -55,21 +55,25 @@ Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
 //role(doanh)   
 Route::get('/ca', 'CaController@index')->name('route_BackEnd_Ca_List');
 Route::match(['get', 'post'], '/ca/add', 'CaController@addCa')
-        ->name('route_BackEnd_Ca_Add');
+    ->name('route_BackEnd_Ca_Add');
 Route::get('/ca/detail/{id}', 'CaController@editCa')
-        ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Ca_Edit');
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_Ca_Edit');
 Route::post('/Ca/update/{id}', 'CaController@updateCa')
-        ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Ca_Update');
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_Ca_Update');
 Route::get('/Ca/delete/{id}', 'CaController@destroy')
-        ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Ca_Delete');
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_Ca_Delete');
 // Route::get('/edit_role/{id}', 'RoleController@edit')->name('route_BackEnd_role_edit');
 // Route::post('/edit_role/{id}', 'RoleController@update')->name('route_BackEnd_role_update');
 // Route::get('/delete_role/{id}', 'RoleController@delete')->name('route_BackEnd_role_delete');
 
+//xếp lớp
 
+Route::get('/xeplop/{id}', 'ClassController@xepLop')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_XepLop');
 //list_đổi lớp
 Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop');
 Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
