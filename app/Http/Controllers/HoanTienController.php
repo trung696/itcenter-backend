@@ -90,4 +90,13 @@ class HoanTienController extends Controller
             }
         }
     }
+
+    public function search(Request $request){
+        $result = HocVien::where('email', 'LIKE', '%'. $request->email. '%')->get();
+        foreach ($result as $resultItem){
+            $dangKyThuaTienOfHocVien = DangKy::where('id_hoc_vien',$resultItem->id)->where('du_no','<',0)->get();
+        }
+        return view('hoanTien.index', compact('dangKyThuaTienOfHocVien'));
+    }
+    
 }

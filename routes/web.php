@@ -50,6 +50,7 @@ Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKyIn_Detail');
 
+
 //ca học 
 //role(doanh)   
 Route::get('/ca', 'CaController@index')->name('route_BackEnd_Ca_List');
@@ -77,6 +78,8 @@ Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLo
 Route::get('/hoanTien', 'HoanTienController@index')->name('route_BackEnd_list_hoan_tien');
 Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien');
 Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien');
+Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search');
+
 
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');
