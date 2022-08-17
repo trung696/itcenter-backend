@@ -66,6 +66,37 @@ class DangKyController extends Controller
                     $item = trim($item);
                 return $item;
             }, $request->post());
+            //check coupon
+            $ma_khuyen_mai = $request->ma_khuyen_mai;
+            $objCheckMa = new MaChienDich();
+            $checkMa = $objCheckMa->loadCheckName($ma_khuyen_mai);
+            $objChienDich = new ChienDich();
+            $checkGiam = $objChienDich->loadOne($checkMa->id_chien_dich);
+            if (isset($checkMa)) {
+                $data = 1;
+            } else {
+                $data = 0;
+            }
+            if ($checkMa->trang_thai == 0) {
+                $trang_thai = 0;
+            } else {
+                $trang_thai = 1;
+            }
+            if ($checkGiam->trang_thai == 0) {
+                $hoat_dong = 0;
+            } else {
+                $hoat_dong = 1;
+            }
+            $now = date('Y-m-d');
+            $startDate = date('Y-m-d', strtotime($checkGiam->ngay_bat_dau));
+            $endDate = date('Y-m-d', strtotime($checkGiam->ngay_ket_thuc));
+            if (($now >= $startDate) && ($now <= $endDate)) {
+                $flag = 1;
+            } else {
+                $flag = 2;
+            }
+            //end check
+            // dd($checkGiam->phan_tram_giam);
             if (!preg_match("/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i", $request->email)) {
                 Session::flash('success', 'Email không chính xác');
                 return redirect()->route('route_BackEnd_DangKyAdmin_Add');
@@ -82,12 +113,9 @@ class DangKyController extends Controller
                 $objDangKy = new DangKy();
                 $objHocVien = new HocVien();
                 $checkEmail = $objHocVien->loadCheckHocVien($request->email);
-                //email chưa tôàn tại trên hệ thống 
-                // dd($params);
+
                 if (!isset($checkEmail)) {
-                    // dd($checkEmail);
                     $resHocVien = $objHocVien->saveNewAdmin($params);
-                    //email tồn tại trên hệ thống 
                 } else {
                     $checkHV = $objDangKy->loadCheckName($request->id_lop_hoc, $checkEmail->id);
                     if (!isset($checkHV)) {
@@ -96,20 +124,15 @@ class DangKyController extends Controller
                 }
                 if (isset($resHocVien)) {
                     $gia = $objKhoaHoc->loadOne($request->id_khoa_hoc);
-                    // dd($gia);
                     $arrDangKy = [];
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
                     $arrDangKy['id_hoc_vien'] = $resHocVien;
                     $arrDangKy['gia_tien'] = $gia->price - ($gia->price * $request->pham_tram_giam / 100);
                     $arrDangKy['trang_thai'] = $request->trang_thai;
-                    // dd($objLopHoc->slot);
-                    // dd($request->trang_thai);
                     if ($request->trang_thai == 1) {
                         $res = $objDangKy->saveNewOnline($arrDangKy);
                         if ($res) {
-                            // $objLopHoc = new  LopHoc();
                             $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
-                            // dd($socho);
                             $updateSoCho = [];
                             $updateSoCho['id'] = $request->id_lop_hoc;
                             $updateSoCho['so_cho'] = $socho->slot - 1;
@@ -128,8 +151,6 @@ class DangKyController extends Controller
                     if (isset($request->pham_tram_giam)) {
                         $objGuiGmail->so_dien_thoai = $request->pham_tram_giam;
                     }
-
-                    // dd($objGuiGmail);
                     Mail::to($email)->send(new OrderShipped($objGuiGmail));
 
                     $method_route = 'route_BackEnd_DangKyAdmin_Add';
@@ -152,12 +173,8 @@ class DangKyController extends Controller
                 }
             }
         }
-
         $this->v['objKhoaHoc'] = $objKhoaHoc->loadListWithPager();
         $this->v['objLopHoc'] = $objLopHoc->loadListWithPager();
-        // dd($objKhoaHoc);
-        // dd($trang_thai);
-
         return view('dangky.them-dang-ky', $this->v);
     }
     private function uploadFile($file)
@@ -202,8 +219,7 @@ class DangKyController extends Controller
         $listClass = ClassModel::all();
         $listCourse = Course::all();
         $getDuNo = DangKy::whereId($id)->first()->du_no;
-        // dd($this->v);
-        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo','listCourse'));
+        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse'));
     }
 
 
@@ -262,27 +278,27 @@ class DangKyController extends Controller
         // dd($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass);
 
         /// check xem số tiền nộp thêm == abs(du_no)
-        if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no)==$request->dong_them  ) {
-            try{
+        if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no) == $request->dong_them) {
+            try {
                 DB::beginTransaction();
                 // dd($request->all(),$oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass);
                 // dd($newDangKy);
                 // dd($newDangKy->id_payment);
-                $payMentOfDangKy = Payment::where('id',$newDangKy->id_payment)->first();
+                $payMentOfDangKy = Payment::where('id', $newDangKy->id_payment)->first();
                 $payMentOfDangKy['price'] = $payMentOfDangKy['price'] + $request->dong_them;
                 $payMentOfDangKy->update();
                 // dd($payMentOfDangKy);
                 $newDangKy['trang_thai'] = 1;
-                $newDangKy['paid_date']=date("Y-m-d");
-                $newDangKy['so_tien_da_dong']=null;
-                $newDangKy['du_no']=0;
+                $newDangKy['paid_date'] = date("Y-m-d");
+                $newDangKy['so_tien_da_dong'] = null;
+                $newDangKy['du_no'] = 0;
                 $newDangKy->update();
                 //nếu tất cả đều thêm được vào đb thì mới cho thực hiện
                 DB::commit();
                 return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công chuyển trạng thái về ban đầu']);
-            }catch(\Exception $exception){
+            } catch (\Exception $exception) {
                 DB::rollback();
-                Log::error('message: '.$exception->getMessage() . 'line:'. $exception->getLine());
+                Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
             }
             /// end check xem số tiền nộp thêm == abs(du_no)
         } else {

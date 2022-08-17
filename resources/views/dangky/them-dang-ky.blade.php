@@ -170,10 +170,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pham_tram_giam" class="col-md-3 col-sm-4 control-label">Phần Trăm Giảm<span
+                        <label for="pham_tram_giam" class="col-md-3 col-sm-4 control-label">Mã giảm giá<span
                                 class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
-                            <input type="text" name="pham_tram_giam" id="pham_tram_giam" class="form-control"
+                            <input type="text" name="ma_khuyen_mai" id="pham_tram_giam" class="form-control"
                                 value="@isset($request['pham_tram_giam']) {{ $request['pham_tram_giam'] }} @endisset">
                             <span id="mes_sdt"></span>
                         </div>
@@ -188,7 +188,7 @@
                                 <!-- @foreach ($objLopHoc as $item)
 <option value="{{ $item->id }}"
                                         @isset($request['id_lop_hoc']) @if ($request['id_khoa_hoc'] == $item->id) selected @endif
-                                @endisset>{{ $item->name }}</option>
+                        @endisset>{{ $item->name }}</option>
 @endforeach -->
                         </select>
                     </div>
