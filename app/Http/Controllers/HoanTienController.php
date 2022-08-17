@@ -96,7 +96,13 @@ class HoanTienController extends Controller
         foreach ($result as $resultItem){
             $dangKyThuaTienOfHocVien = DangKy::where('id_hoc_vien',$resultItem->id)->where('du_no','<',0)->get();
         }
-        return view('hoanTien.index', compact('dangKyThuaTienOfHocVien'));
+        // echo '<pre>';
+        //     print($dangKyThuaTienOfHocVien);
+        // return redirect('hoanTien')->with(compact('dangKyThuaTienOfHocVien'));
+        return redirect()->route('route_BackEnd_list_hoan_tien')->with( ['searchs' => $dangKyThuaTienOfHocVien] );
+
+        // return  view('hoanTien.index', compact('dangKyThuaTienOfHocVien'));
+
     }
     
 }
