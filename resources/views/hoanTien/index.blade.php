@@ -67,8 +67,12 @@
                 Danh Sách Sinh viên đăng kí còn thừa tiền
             </div>
         </div>
-        @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
+        @if (\Session::has('msg'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{!! \Session::get('msg') !!}</li>
+            </ul>
+        </div>
         @endif
         <div class="box-body">
             <!-- <form action="" method="post"> -->
@@ -205,23 +209,7 @@
                                 @endphp</td>
                             <td> Chưa trả </td>
                             <td>{{number_format($listClassDaKhaiGiangIteam->du_no)}} VNĐ </td>
-                            <td>
-
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Hoàn tiền
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-{{ $listClassDaKhaiGiangIteam->id }}">
-                                            Hoàn tiền thủ công
-                                        </button>
-                                        <button class="btn btn-primary mt-4">
-                                            Hoàn tiền tự động
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </td>
+                            <td> <a href="{{route('route_BackEnd_edit_thua_tien_hoan_tien',['id'=>$listClassDaKhaiGiangIteam->id])}}"> <button>Hoàn tiền</button></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -240,9 +228,7 @@
                 Danh Sách Hoàn tiền sinh viên khi không đóng đủ học phí
             </div>
         </div>
-        @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
-        @endif
+   
         <div class="box-body">
             <!-- <form action="" method="post"> -->
             <!-- @csrf -->

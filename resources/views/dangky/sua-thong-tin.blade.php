@@ -144,7 +144,6 @@
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-md-3 col-sm-4 control-label">Email <span class="text-danger">(*)</span></label>
-
                         <div class="col-md-9 col-sm-8">
                             <input type="text" name="email" id="email" class="form-control" value="{{ $itemHV->email }}" disabled>
                             <span id="mes_sdt"></span>
@@ -228,6 +227,14 @@
                         </div>
                     </div>
                     @endif
+
+                    <div class="form-group">
+                        <label for="dong_hoc_phi" class="col-md-3 col-sm-4 control-label">Đóng học phí <span class="text-danger">(*)</span></label>
+                        <div class="col-md-9 col-sm-8">
+                            <input type="number" name="dong_hoc_phi" id="dong_hoc_phi" class="form-control">
+                            <span id="dong_them"></span>
+                        </div>
+                    </div>
 
                 </div>
             </div>
