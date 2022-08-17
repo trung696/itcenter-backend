@@ -33,6 +33,7 @@ class HocVien extends Model
                 ->orWhere('tb1.email', 'like', '%' . $params['search_sdt_gmail'] . '%')
                 ->orWhere('tb1.ho_ten', 'like', '%' . $params['search_sdt_gmail'] . '%');
         }
+        // dd($query);
         $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }

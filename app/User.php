@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $table = "users";
-    protected $fillable = ['name', 'email', 'password','repassword', 'address', 'phone', 'status','avatar','tokenActive'];
+    protected $fillable = ['name', 'email', 'password', 'repassword', 'address', 'phone', 'status', 'avatar', 'tokenActive'];
 
     public function roles()
     {
@@ -69,10 +69,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function loadListIdAndName($where = null){
-        $list = DB::table($this->table)->select('id', 'name','status');
-        if($where != null)
+    public function loadListIdAndName($where = null)
+    {
+        $list = DB::table($this->table)->select('id', 'name', 'status');
+        if ($where != null)
             $list->where([$where]);
         return $list->get();
+    }
+    public function loadOne($id, $params = null)
+    {
+
+        $query = DB::table($this->table . ' as tb1')
+            ->select($this->fillable)
+            ->where('tb1.id', '=', $id);
+
+        $obj = $query->first();
+        return $obj;
     }
 }

@@ -78,7 +78,6 @@ class ClassController extends  Controller
         foreach ($course as $index => $item) {
             // dd($item);
             $arrCoursePrice[$item->id] = $item->price;
-            
         }
         // dd($arrCoursePrice);
         $this->v['arrCourse'] = $arrCourse;
@@ -114,7 +113,7 @@ class ClassController extends  Controller
         }
         $this->v['arrFacility'] = $arrFacility;
         // dd( $this->v['arrUser']);
-        
+
         $objCa = new Ca();
         $this->v['ca'] = $objCa->loadListIdAndName();
         $ca = $this->v['ca'];
@@ -192,7 +191,7 @@ class ClassController extends  Controller
         $this->v['course'] = $objCourse->loadListIdAndName(['status', 1]);
 
         $objCaHoc = new Ca();
-        $this->v['Ca'] = $objCaHoc->loadListIdAndName(['trang_thai',1]);
+        $this->v['Ca'] = $objCaHoc->loadListIdAndName(['trang_thai', 1]);
 
         return view('class.add-class', $this->v);
     }
@@ -203,23 +202,33 @@ class ClassController extends  Controller
         $this->v['routeIndexText'] = 'Chi tiết Lớp học';
         $this->v['_action'] = 'Edit';
         $this->v['_title'] = 'Chi tiết Lớp học';
-
+        $this->v['id'] = $id;
+        // dd($id);
+        // $objUser = new User();
+        // $objGV = $objUser->loadOne($id);
+        // dd($objGV);
         $objClassModel = new ClassModel();
         // $this->v['lists'] = $objClassModel->loadListWithPager($this->v['extParams'], $id);
         $objItemClass = $objClassModel->loadOne($id);
 
         $this->v['class'] = $objClassModel;
         $this->v['objItemClass'] = $objItemClass;
+        // dd($objItemClass->lecturer_id);
+        $objUser = new User();
+        $objGV = $objUser->loadOne($objItemClass->lecturer_id);
+        // dd($objGV);
+        $this->v['GV_id'] = $objItemClass->lecturer_id;
         $objUser = new User();
         $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
         // dd($this->v['arrCourse']);
+        // dd($objUser->loadListIdAndName(['status', 1]));
         if (empty($objItemClass)) {
             Session::push('errors', 'Không tồn tại class này ' . $id);
             return redirect()->back();
         }
         $this->v['extParams'] = $request->all();
 
-        
+
         $user = $this->v['user'];
         // dd($user);
         $arrUser = [];
@@ -229,7 +238,7 @@ class ClassController extends  Controller
         }
 
         $this->v['arrUser'] = $arrUser;
-        // dd( $this->v['arrUser']);
+        // dd($this->v['arrUser']);
 
         $objCourse = new Course();
         $objItem = $objCourse->loadOne($id);
@@ -248,7 +257,6 @@ class ClassController extends  Controller
         foreach ($course as $index => $item) {
             // dd($item);
             $arrCoursePrice[$item->id] = $item->price;
-            
         }
         // dd($arrCoursePrice);
         $this->v['arrCourse'] = $arrCourse;
@@ -282,13 +290,13 @@ class ClassController extends  Controller
 
         $objCa = new Ca();
         $objItem = $objCa->loadOne($id);
-        
+
         $this->v['ca_id'] = $objCa->loadListIdAndName();
 
         $course = $this->v['ca_id'];
         // dd($objCa);
 
-     
+
 
 
         return view('class.update-class', $this->v);
@@ -299,7 +307,15 @@ class ClassController extends  Controller
         // dd('abc');
         $method_route = 'route_BackEnd_Class_Detail';
         $modelClass = new ClassModel();
-        // dd($method_route);
+        $count = $modelClass->loadOne($id);
+        $idGV = [];
+        $idGV['id'] = $count->lecturer_id;
+        $idGV['id_ca'] = $count->id_ca;
+        $idGV['id_lop'] = $count->id;
+        $countrep = $modelClass->checkCa($idGV);
+        // dd($countrep);
+
+
         $params = [
             'user_edit' => Auth::user()->id
         ];
@@ -313,11 +329,11 @@ class ClassController extends  Controller
 
         unset($params['cols']['_token']);
 
-        $objItem = $modelClass->loadOne($id);
-        if (empty($objItem)) {
-            Session::push('errors', 'Không tồn tại người dùng này ' . $id);
-            return redirect()->route('route_BackEnd_NguoiDung_index');
-        }
+        // $objItem = $modelClass->loadOne($id);
+        // if (empty($objItem)) {
+        //     Session::push('errors', 'Không tồn tại người dùng này ' . $id);
+        //     return redirect()->route('route_BackEnd_NguoiDung_index');
+        // }
         $params['cols']['id'] = $id;
         // dd($params['cols']);
         $res = $modelClass->saveUpdate($params);
@@ -325,17 +341,22 @@ class ClassController extends  Controller
         {
             Session::push('post_form_data', $this->v['request']);
             return redirect()->route($method_route, ['id' => $id]);
-        } elseif ($res == 1) {
+        } elseif ($countrep == 1) {
+
+            Session::push('errorupdate', 'Giảng viên đã dạy giờ này ');
+            // Session::push('post_form_data', $this->v['request']);
+            return redirect()->route($method_route, ['id' => $id]);
+        } elseif ($res == 1 && $countrep == 0) {
             //            SpxLogUserActivity(Auth::user()->id, 'edit', $primary_table, $id, 'edit');
             $request->session()->forget('post_form_data'); // xóa data post
             Session::flash('success', 'Cập nhật thành công thông tin lớp học!');
             return redirect()->route('route_BackEnd_Class_List');
-        } else {
-
-            Session::push('errors', 'Lỗi cập nhật cho bản ghi: ' . $res);
-            Session::push('post_form_data', $this->v['request']);
-            return redirect()->route($method_route, ['id' => $id]);
         }
+        //  else {
+        //     Session::push('errors', 'Lỗi cập nhật bản ghi ' . $res);
+        //     Session::push('post_form_data', $this->v['request']);
+        //     return redirect()->route($method_route, ['id' => $id]);
+        // }
     }
 
     public function destroy($id)
@@ -353,6 +374,17 @@ class ClassController extends  Controller
 
         //Thực hiện chuyển trang
         return redirect()->route('route_BackEnd_Class_List');
+    }
+    public function xepLop($id)
+    {
+        $count = new ClassModel();
+        $lop = $count->loadOne($id);
+        $idGV = [];
+        $idGV['id'] = $lop->lecturer_id;
+        $idGV['id_ca'] = $lop->id_ca;
+        $idGV['id_lop'] = $lop->id;
+        $countrep = $count->checkCa($idGV);
+        dd($countrep);
     }
     // private function ruleClass(){
     //     return [

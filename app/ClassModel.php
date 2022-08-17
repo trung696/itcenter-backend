@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class ClassModel extends Model
 {
     protected $table = 'class';
-    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id','tb1.id_ca', 'tb1.created_at', 'tb1.updated_at'];
+    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.id_ca', 'tb1.created_at', 'tb1.updated_at'];
     public $timestamps = false;
     public function course()
     {
@@ -139,6 +139,7 @@ class ClassModel extends Model
 
     public function saveUpdate($params)
     {
+
         if (empty($params['user_edit'])) {
             Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
             Session::push('errors', 'Không xác định thông tin người cập nhật');
@@ -171,6 +172,17 @@ class ClassModel extends Model
             ->update(['slot' => $udateSoCho['so_cho']]);
         return $res;
     }
+    public function checkCa($idGV)
+    {
 
-    
+        $res = DB::table('users as tb2')
+            ->select('tb1.name', 'tb1.start_date', 'tb1.end_date', 'tb2.name', 'tb1.id_ca', 'tb1.lecturer_id')
+            ->leftJoin($this->table . ' as tb1', 'tb2.id', '=', 'tb1.lecturer_id')
+            ->where('tb2.id', $idGV['id'])
+            ->where('tb1.id_ca', $idGV['id_ca'])
+            ->where('tb1.id', '!=', $idGV['id_lop'])
+            ->count();
+        // dd($res);
+        return $res;
+    }
 }

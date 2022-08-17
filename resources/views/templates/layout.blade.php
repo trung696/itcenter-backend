@@ -225,7 +225,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
 
                 </div>
 
-                <ul class="sidebar-menu" data-widget="tree" style="height: 600px; overflow-y: auto;">
+                <ul class="sidebar-menu" data-widget="tree">
                     <li class=" active menu-open ">
                         <a href="{{ route('route_BackEnd_NguoiDung_index') }}"><i class="fa fa-user"></i> <span>Người
                                 dùng</span></a>
