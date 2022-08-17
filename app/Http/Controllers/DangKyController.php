@@ -217,7 +217,6 @@ class DangKyController extends Controller
 
         //lớp cũ
         $checkCourseClassOld = ClassModel::where('id', $oldClass)->first()->course;
-
         //lớp mới
         $checkCourseClassNew = ClassModel::where('id', $newClass)->first()->course;
 

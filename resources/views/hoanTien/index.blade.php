@@ -79,19 +79,13 @@
             <!-- @csrf -->
             <div class="clearfix"></div>
             <div style="border: 1px solid #ccc;margin-top: 10px;padding: 5px;">
-                <form action="" method="get">
+                <form action="{{route('route_BackEnd_edit_search')}}" method="post">
+                    @csrf
                     <div class="row">
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Email học viên</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">Tên học viên</label>
-                                <input type="email" class="form-control" id="search-input" placeholder="name@example.com">
+                                <input type="email" name='email' class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
                             </div>
                         </div>
 
