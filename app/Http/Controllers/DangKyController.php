@@ -203,21 +203,25 @@ class DangKyController extends Controller
         $listCourse = Course::all();
         $getDuNo = DangKy::whereId($id)->first()->du_no;
         // dd($this->v);
-        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo','listCourse'));
+        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse'));
     }
 
 
+    //chuyển lớp bình thường chưa có cập nhật tiền  
     public function update(Request $request, $id, $email, $oldClass, $newClass)
     {
+        dd($request->all());
         $hocVien = HocVien::where('email', '=', $email)->first();
         $id_hoc_vien = $hocVien->id;
         $dangKy = DangKy::where('id_hoc_vien', '=', $id_hoc_vien)->where('id_lop_hoc', '=', $oldClass)->first();
-        //kiểm tra xem lớp học cũ và lớp muốn chuyển có cùng 1 khóa học Không
+
         //lớp cũ
         $checkCourseClassOld = ClassModel::where('id', $oldClass)->first()->course;
+
         //lớp mới
         $checkCourseClassNew = ClassModel::where('id', $newClass)->first()->course;
-        // dd($checkCourseClassOld, $checkCourseClassNew);
+
+        //kiểm tra xem lớp học cũ và lớp muốn chuyển có cùng 1 khóa học Không
         if ($checkCourseClassOld->name === $checkCourseClassNew->name) {
             $checkClass = ClassModel::where('id', $newClass)->first();
             //check con slot khong
@@ -226,16 +230,16 @@ class DangKyController extends Controller
                 $updateDangKy =  $dangKy->update([
                     'id_lop_hoc' => $newClass,
                 ]);
-                $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
-                // dd($dangKyAfterUpdate);
+                $dangKyBeforeUpdate = DangKy::where('id', $dangKy->id)->first();
                 //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
-                if ($dangKyAfterUpdate->trang_thai == 1) {
+                if ($dangKyBeforeUpdate->trang_thai == 1) {
                     if ($updateDangKy) {
                         ClassModel::whereId($dangKyOld->class->id)->update([
                             'slot' =>  $dangKyOld->class->slot + 1
                         ]);
                     }
                 }
+
                 //check chỗ lớp mới chuyển sang và trừ đi 1 slot
                 $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
                 if ($dangKyAfterUpdate->trang_thai == 1) {
@@ -259,34 +263,35 @@ class DangKyController extends Controller
 
     public function doiKhoaHoc($request, $newDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
     {
-        // dd($oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass);
-
+        dd('doiKhoaHoc');
         /// check xem số tiền nộp thêm == abs(du_no)
-        if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no)==$request->dong_them  ) {
-            try{
+        if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no) == $request->dong_them) {
+            try {
                 DB::beginTransaction();
-                // dd($request->all(),$oldDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass);
-                // dd($newDangKy);
                 // dd($newDangKy->id_payment);
-                $payMentOfDangKy = Payment::where('id',$newDangKy->id_payment)->first();
+                $payMentOfDangKy = Payment::where('id', $newDangKy->id_payment)->first();
                 $payMentOfDangKy['price'] = $payMentOfDangKy['price'] + $request->dong_them;
+                $payMentOfDangKy['description'] = 'Sinh viên đóng thêm';
                 $payMentOfDangKy->update();
-                // dd($payMentOfDangKy);
+                //cập nhật bảng dang_ky
                 $newDangKy['trang_thai'] = 1;
-                $newDangKy['paid_date']=date("Y-m-d");
-                $newDangKy['so_tien_da_dong']=null;
-                $newDangKy['du_no']=0;
+                $newDangKy['paid_date'] = date("Y-m-d");
+                $newDangKy['so_tien_da_dong'] = null;
+                $newDangKy['du_no'] = 0;
                 $newDangKy->update();
-                //nếu tất cả đều thêm được vào đb thì mới cho thực hiện
+
+                //cập nhập lại slot trong lớp
+                $classOfDangKy = ClassModel::whereId($newDangKy->id_lop_hoc)->first();
+                $classOfDangKy['slot'] = $classOfDangKy->slot - 1;
+                $classOfDangKy->update();
                 DB::commit();
                 return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công chuyển trạng thái về ban đầu']);
-            }catch(\Exception $exception){
+            } catch (\Exception $exception) {
                 DB::rollback();
-                Log::error('message: '.$exception->getMessage() . 'line:'. $exception->getLine());
+                Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
             }
-            /// end check xem số tiền nộp thêm == abs(du_no)
         } else {
-            dd('khong vao day');
+            // trường hợp không nhập số tiền còn thiếu
             $checkClass = ClassModel::where('id', $idNewClass)->first();
             if ($checkClass->slot > 0) {
                 $getPayMentOfOldDangKy = DangKy::where('id', $newDangKy->id_payment)->first();
@@ -301,7 +306,6 @@ class DangKyController extends Controller
                 $dangKyOld['gia_tien'] =  $priceClassNew;
                 $dangKyOld['so_tien_da_dong'] =  $priceDaNop;
                 $dangKyOld['du_no'] =  $priceDaNop - $priceClassNew;
-                // dd($dangKyOld);
                 //nếu có dư nợ
                 if ($dangKyOld->du_no != 0) {
                     //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ
@@ -321,7 +325,6 @@ class DangKyController extends Controller
                         $classOld = ClassModel::whereId($idClassOld)->first();
                         $classOld['slot'] = $classOld->slot + 1;
                         $classOld->update();
-
                         //trừ 1 slot ở lớp mới (phải lấy lại cái đăng kí mới đã)
                         $classNew = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
                         $classNew['slot'] = $classNew->slot - 1;

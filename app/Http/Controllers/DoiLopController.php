@@ -19,10 +19,10 @@ class DoiLopController extends Controller
         $listClass = ClassModel::all();
         return view('chuyenLop.list', compact('lists', 'listClass'));
     }
-    public function doiLop(Request $request,$id, $email, $oldClass, $newClass)
+    public function doiLop(Request $request, $id, $email, $oldClass, $newClass)
     {
         //update trạng thái thành 1 (đã check)
-        $updateThongTinDoiLop = ThongTinChuyenLop::where('id',$id)->first();
+        $updateThongTinDoiLop = ThongTinChuyenLop::where('id', $id)->first();
         $updateThongTinDoiLop['trang_thai'] = 1;
         $updateThongTinDoiLop->update();
         $hocVien = HocVien::where('email', '=', $email)->first();
@@ -101,16 +101,16 @@ class DoiLopController extends Controller
                     $classOld = ClassModel::whereId($idClassOld)->first();
                     $classOld['slot'] = $classOld->slot + 1;
                     $classOld->update();
-                    $classNews= ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
+                    $classNews = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
                     // if ($hoc_vien = $addNewStudent) {
-                    Mail::send('emailThanhToan', compact('classOld','dangKyOld','classNews'), function ($email) use ($hocVien) {
+                    Mail::send('emailThanhToan', compact('classOld', 'dangKyOld', 'classNews'), function ($email) use ($hocVien) {
                         // mail nhận thư, tên người dùng
                         $email->subject("Hệ thống gửi thông tin chuyển lớp đến bạn");
                         $email->to($hocVien->email, $hocVien->name, $hocVien);
                     });
                     // }
                     return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
-                //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
+                    //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
                 } elseif ($dangKyOld->du_no  > 0) {
                     //update xong ở bảng đăng kí thì phải +1 vào slot ở course vừa chuyển đi
                     $dangKyOld->update();
@@ -118,12 +118,12 @@ class DoiLopController extends Controller
                     $classOld = ClassModel::whereId($idClassOld)->first();
                     $classOld['slot'] = $classOld->slot + 1;
                     $classOld->update();
-                   
+
                     //trừ 1 slot ở lớp mới (phải lấy lại cái đăng kí mới đã)
                     $classNew = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
                     $classNew['slot'] = $classNew->slot - 1;
                     $classNew->update();
-                    return Redirect::back()->withErrors(['msg' => 'Bạn đã chuyển lớp thành công và thừa ' .$dangKyOld->du_no]);
+                    return Redirect::back()->withErrors(['msg' => 'Bạn đã chuyển lớp thành công và thừa ' . $dangKyOld->du_no]);
                 }
             }
         }

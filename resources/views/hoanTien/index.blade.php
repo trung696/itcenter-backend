@@ -48,8 +48,12 @@
                 Danh Sách Sinh viên đăng kí còn thừa tiền
             </div>
         </div>
-        @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
+        @if (\Session::has('msg'))
+        <div class="alert alert-success">
+            <ul>
+                <li>{!! \Session::get('msg') !!}</li>
+            </ul>
+        </div>
         @endif
         <div class="box-body">
             <!-- <form action="" method="post"> -->
@@ -71,7 +75,7 @@
                             <th>Số tiền thừa</th>
                             <th>Công cụ</th>
                         </tr>
-                        
+
                         @foreach($listDangKyThuaTienKhiChuyenLop as $listClassDaKhaiGiangIteam)
                         <tr>
                             <td>{{$listClassDaKhaiGiangIteam->id}}</td>
@@ -121,7 +125,7 @@
                                 @endphp</td>
                             <td> Chưa trả </td>
                             <td>{{number_format($listClassDaKhaiGiangIteam->du_no)}} VNĐ </td>
-                            <td> <a href=""> <button>Hoàn tiền</button></td>
+                            <td> <a href="{{route('route_BackEnd_edit_thua_tien_hoan_tien',['id'=>$listClassDaKhaiGiangIteam->id])}}"> <button>Hoàn tiền</button></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -140,9 +144,7 @@
                 Danh Sách Hoàn tiền sinh viên khi không đóng đủ học phí
             </div>
         </div>
-        @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
-        @endif
+   
         <div class="box-body">
             <!-- <form action="" method="post"> -->
             <!-- @csrf -->
@@ -211,8 +213,8 @@
                                 }
                                 @endphp</td>
                             <td> Chưa trả </td>
-                            <td>{{number_format($listDangKyThuaTienItem->du_no)}} VNĐ </td>
-                            <td> <a href=""> <button>Hoàn tiền</button></td>
+                            <td>{{number_format($listDangKyThuaTienItem->so_tien_da_dong)}} VNĐ </td>
+                            <td> <a href="{{route('route_BackEnd_edit_hoan_tien',['id'=>$listDangKyThuaTienItem->id])}}"> <button>Hoàn tiền</button></td>
                         </tr>
                         @endforeach
                     </tbody>
