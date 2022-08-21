@@ -190,7 +190,9 @@ class DangKyController extends Controller
         $this->v['itemGia'] = $itemDK->gia_tien;
         $objHocVien = new  HocVien();
         $this->v['itemHV'] = $objHocVien->loadOne($itemDK->id_hoc_vien);
-
+        $this->v['checkIssetPayment'] = DangKy::where('id', $id)->first()->id_payment;
+        $this->v['trangThai'] = DangKy::where('id', $id)->first()->trang_thai;
+        $this->v['dki'] = DangKy::where('id', $id)->first();
         $objLopHoc = new ClassModel();
         $itemLH = $objLopHoc->loadOne($this->v['itemDK']);
         $objKhoaHoc = new Course();
@@ -207,27 +209,33 @@ class DangKyController extends Controller
     }
 
 
-    //chuyển lớp bình thường chưa có cập nhật tiền  
-    public function update(Request $request, $id, $email, $oldClass, $newClass)
+    public function update(Request $request, $id, $email, $oldClass)
     {
-        dd($request->all());
+        // dd($request->all(), $id, $email, $oldClass);
+        //trường hợp đóng tiền(đăng kí nhưng chưa thanh toán)
+        if ($request->dong_hoc_phi) {
+            return $this->dongHocPhi($request, $id, $email);
+        }
+        //nếu nộp thêm tiền thì gọi function updateDongThemTien
+        elseif (isset($request->trang_thai) && isset($request->dong_them)) {
+            return $this->updateDongThemTien($request, $id, $email);
+        }
+
         $hocVien = HocVien::where('email', '=', $email)->first();
         $id_hoc_vien = $hocVien->id;
         $dangKy = DangKy::where('id_hoc_vien', '=', $id_hoc_vien)->where('id_lop_hoc', '=', $oldClass)->first();
-
         //lớp cũ
         $checkCourseClassOld = ClassModel::where('id', $oldClass)->first()->course;
         //lớp mới
-        $checkCourseClassNew = ClassModel::where('id', $newClass)->first()->course;
-
+        $checkCourseClassNew = ClassModel::where('id', $request->id_lop_hoc_moi)->first()->course;
         //kiểm tra xem lớp học cũ và lớp muốn chuyển có cùng 1 khóa học Không
         if ($checkCourseClassOld->name === $checkCourseClassNew->name) {
-            $checkClass = ClassModel::where('id', $newClass)->first();
+            $checkClass = ClassModel::where('id', $request->id_lop_hoc_moi)->first();
             //check con slot khong
             if ($checkClass->slot > 0) {
                 $dangKyOld = DangKy::where('id', $dangKy->id)->first();
                 $updateDangKy =  $dangKy->update([
-                    'id_lop_hoc' => $newClass,
+                    'id_lop_hoc' => $request->id_lop_hoc_moi,
                 ]);
                 $dangKyBeforeUpdate = DangKy::where('id', $dangKy->id)->first();
                 //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
@@ -238,7 +246,6 @@ class DangKyController extends Controller
                         ]);
                     }
                 }
-
                 //check chỗ lớp mới chuyển sang và trừ đi 1 slot
                 $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
                 if ($dangKyAfterUpdate->trang_thai == 1) {
@@ -257,7 +264,84 @@ class DangKyController extends Controller
             }
         }
         //nếu khác khóa học thì gọi function doiKhoaHoc()
-        return  $this->doiKhoaHoc($request, $dangKy,  $checkCourseClassNew, $newClass, $dangKy,  $oldClass);
+        return  $this->doiKhoaHoc($request, $dangKy,  $checkCourseClassNew, $request->id_lop_hoc_moi, $dangKy,  $oldClass);
+    }
+
+    public function updateDongThemTien($request, $id, $email)
+    {
+        dd('hàm đónng thêm tiền');
+        // dd($request, $id,$email);
+        $dkiEdit = DangKy::where('id', $id)->first();
+
+        if (abs($dkiEdit->du_no) == $request->dong_them) {
+            try {
+                DB::beginTransaction();
+                $dkiEdit['trang_thai'] = 1;
+                $dkiEdit['so_tien_da_dong'] = null;
+                $dkiEdit['du_no'] = 0;
+                $dkiEdit->update();
+
+                $payMentUpdate = Payment::where('id', $dkiEdit->id_payment)->first();
+                $payMentUpdate['payment_date'] = date("Y-m-d H:i:s");
+                $payMentUpdate['price'] = $payMentUpdate->price + $request->dong_them;
+                $payMentUpdate['description'] =  "$payMentUpdate->description (đóng thêm ) ";
+                $payMentUpdate->update();
+
+                DB::commit();
+                return Redirect::back()->withErrors(['msg' => 'Nộp tiền thành công']);
+            } catch (\Exception $exception) {
+                DB::rollback();
+                Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
+            }
+        } else {
+            return Redirect::back()->withErrors(['msg' => 'Nộp tiền thừa hoặc thiếu so với số tiền phải đóng']);
+        }
+    }
+
+    public function dongHocPhi($request, $id, $email)
+    {
+        dd('hàm đónng học phí khi đăng kí chưa nộp tiền');
+        // dd($request->all(), $id, $email);
+        try {
+            $dkiEdit = DangKy::where('id', $id)->first();
+            if ($request->dong_hoc_phi != $dkiEdit->gia_tien) {
+                return Redirect::back()->withErrors(['msg' => 'Vui lòng nhập đúng số tiền là :' . $dkiEdit->gia_tien]);
+            } else {
+                DB::beginTransaction();
+                $dangKy = DangKy::where('id', $id)->first();
+                // kiểm tra xem lớp đấy còn slot không và đã khai giảng chưa
+                $checkClass = ClassModel::where('id', $dangKy->id_lop_hoc)->first();
+                // kiểm tra xem lớp đấy còn slot không và đã khai giảng chưa
+                if ($checkClass->start_date > date('Y-m-d')  && $checkClass->slot > 0) {
+                    $hocVienDangKi = HocVien::where('id', $dangKy->id_hoc_vien)->first();
+                    // tạo payment phương thức = 1 là đsong tiền trực tiếp ở trường
+                    $createPayment = Payment::create([
+                        'payment_method_id' => 1,
+                        'payment_date' => date("Y-m-d h:i:s"),
+                        'price' => $request->dong_hoc_phi,
+                        'description' => $hocVienDangKi->ho_ten . ' đóng học phí trực tiếp tại trường',
+                        'status' => 1,
+                    ]);
+
+                    //cập nhập lại đăng kí
+                    $dangKy['trang_thai'] = 1;
+                    $dangKy['id_payment'] = $createPayment->id;
+                    $dangKy['paid_date'] = date("Y-m-d H:i:s");;
+                    $dangKy->update();
+
+                    //thành công rồi thì trừ slot của lớp đi 
+                    $checkClass['slot'] = $checkClass->slot - 1;
+                    $checkClass->update();
+                    DB::commit();
+                    return Redirect::back()->withErrors(['msg' => 'Cập nhập thành công']);
+                } else {
+                    return Redirect::back()->withErrors(['msg' => 'Lớp này đã khai giảng rồi hoặc đã hết slot']);
+                }
+            }
+        } catch (\Exception $exception) {
+            DB::rollback();
+            Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
+        }
     }
 
     public function doiKhoaHoc($request, $newDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
@@ -336,6 +420,9 @@ class DangKyController extends Controller
             return Redirect::back()->withErrors(['msg' => 'Lớp này đã đủ sinh viên không thể đăng kí']);
         }
     }
+
+    // trường hợp chuyển lớp thiếu tiền sau đó đến nộp trực tiếp thì sẽ vào hàm này
+
 
     // public function updateDangKy($id, Request $request)
     // {
