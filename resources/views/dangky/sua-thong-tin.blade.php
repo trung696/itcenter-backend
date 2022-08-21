@@ -80,38 +80,10 @@
         @endif
 
         <!-- Phần nội dung riêng của action  -->
-        <form class="form-horizontal "
-            action="{{ route('route_BackEnd_AdminDangKy_Update', ['id' => request()->route('id'), 'email' => $itemHV->email, 'oldClass' => $itemDK, 'newClass' => 4]) }}"
-            method="post" enctype="multipart/form-data">
+        <form class="form-horizontal " action="{{ route('route_BackEnd_AdminDangKy_Update', ['id' => request()->route('id'),'email'=>$itemHV->email,'oldClass'=>$itemDK]) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="id_khoa_hoc_moi" class="col-md-3 col-sm-4 control-label">Khoá Học mới</label>
-                            <div class="col-md-9 col-sm-8">
-                                <select name="id_khoa_hoc_moi" id="id_khoa_hoc_moi" class="form-control select2"
-                                    style="width: 100%" data-placeholder="Chọn lớp học">
-                                    <option value="">== Chọn khoá học==</option>
-                                    @foreach ($listCourse as $item)
-                                        <option value="{{ $item->id }}">
-                                            {{ $item->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="id_lop_hoc_moi" class="col-md-3 col-sm-4 control-label">Lớp Học</label>
-                            <div class="col-md-9 col-sm-8">
-                                <select name="id_lop_hoc_moi" id="id_lop_hoc_moi" class="form-control select2"
-                                    data-placeholder="Chọn lớp học">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="ten_khoa_hoc" class="col-md-3 col-sm-4 control-label">Tên học viên <span
@@ -293,5 +265,4 @@
     {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
     {{-- <script src="public/js/taisan.js"></script> --}}
     <script src="{{ asset('/js/suaDangKy.js') }}"></script>
-
 @endsection

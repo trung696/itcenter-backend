@@ -60,12 +60,6 @@ class ApiLopController extends Controller
             // printf($listDangKiOfClassItem);
         }
         $moi =  $listDangKiOfClass;
-        // foreach($moi as $moiItem){
-        //     // echo "<pre>";
-        //     // printf($moiItem->hoc_vien);
-        //     // echo "</pre>";
-
-        // }
         return response()->json([
             'status' => true,
             'heading' => "Chi tiết lớp học",
