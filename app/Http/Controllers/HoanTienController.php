@@ -100,9 +100,7 @@ class HoanTienController extends Controller
         //     print($dangKyThuaTienOfHocVien);
         // return redirect('hoanTien')->with(compact('dangKyThuaTienOfHocVien'));
         return redirect()->route('route_BackEnd_list_hoan_tien')->with( ['searchs' => $dangKyThuaTienOfHocVien] );
-
         // return  view('hoanTien.index', compact('dangKyThuaTienOfHocVien'));
-
     }
     
 }
