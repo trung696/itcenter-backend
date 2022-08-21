@@ -123,7 +123,6 @@ class CourseController extends Controller
         $objItem = $objCourse->loadOne($id);
         $this->v['course_id'] = $objCourse->loadListIdAndName(['status', 1]);
         $this->v['objItem'] = $objItem;
-        // dd($this->v['objItem']);
         $course = $this->v['course_id'];
         // dd($user);
         $arrCourse = [];

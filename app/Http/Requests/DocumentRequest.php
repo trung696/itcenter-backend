@@ -37,13 +37,11 @@ class DocumentRequest extends FormRequest
                     case 'AddDocument':
                         $rules = [
                             "name" => "required",
-                            "file" => "required",
                         ];
                         break;
                     case 'updateKhoaHoc':
                         $rules = [
                             "name" => "required",
-                            "file" => "required",
                         ];
                         break;
 
@@ -62,7 +60,6 @@ class DocumentRequest extends FormRequest
     {
         return [
             'name.required' => 'Bắt buộc phải nhập tên tài liệu',
-            'file.required' => 'Bắt buộc phải nhập file tài liệu',
         ];
     }
 }

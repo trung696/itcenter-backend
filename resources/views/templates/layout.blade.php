@@ -122,66 +122,6 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini fixed">
-<<<<<<< HEAD
-  <script>
-    (function() {
-      if (Boolean(localStorage.getItem('sidebar-toggle-collapsed'))) {
-        var body = document.getElementsByTagName('body')[0];
-        body.className = body.className + ' sidebar-collapse';
-      }
-    })();
-  </script>
-  <!-- Site wrapper class body:  sidebar-collapse -->
-  <div class="wrapper">
-
-    <header class="main-header">
-      <!-- Logo -->
-      <a href="/apps" class="logo">
-
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini">
-          {{-- <img src="/public/img/logo-itplus-black.png" width="50"> --}}
-          <img src="/img/logo.png" width="50">
-          {{-- <img src="/public/img/lg-tet.png" width="50"> --}}
-        </span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">
-          {{-- <img src="/public/img/logo-itplus-black.png" height="40"> --}}
-          <img src="/img/logo.svg" height="40" style="width:80%;">
-          {{-- <img src="/public/img/lg-tet.png" height="45"> --}}
-          {{-- <b class="visible-lg">Quản lý Đào tạo</b> --}}
-        </span>
-      </a>
-      <!-- Header Navbar: style can be found in header.less -->
-      {{-- @inject('siteInfo', 'App\Services\SiteInformation') --}}
-
-      <nav class="navbar navbar-static-top">
-        {{-- //noel moi dung      <span class="santa"></span> --}}
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-
-        <div class="navbar-custom-menu">
-          <ul class="nav navbar-nav">
-
-            <li class="dropdown user user-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="/img/no-avartar.png" class="user-image" alt="User Image">
-                <span class="hidden-xs"> {{ $objUser->name }} </span>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <p style="padding: 10px;">
-                    <i class="fa fa-user"></i> Email: {{ $objUser->email }}<br>
-                    {{-- <i class="fa fa-envelope"></i> Email: {{ $objUser->email }} --}}
-                  </p>
-                </li>
-                <!-- <li>
-=======
     <script>
         (function() {
             if (Boolean(localStorage.getItem('sidebar-toggle-collapsed'))) {
@@ -240,7 +180,6 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                                     </p>
                                 </li>
                                 <!-- <li>
->>>>>>> 5705dffda7a5e220e5feab93a709871e4d0d70fc
                 <a href="{{ route('logout') }}" class="btn btn-default btn-flat">Sign out</a>
               </li> -->
                                 <!-- User image -->

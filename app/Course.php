@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class Course extends Model
 {
     protected $table = 'course';
-<<<<<<< HEAD
-    protected $fillable = ['tb1.id','tb1.name','tb1.description','tb1.status','tb1.image','tb1.category_id','tb1.created_at','tb1.updated_at','tb1.price'];
-=======
     protected $fillable = ['tb1.id', 'tb1.price', 'tb1.name', 'tb1.description', 'tb1.status', 'tb1.image', 'tb1.category_id', 'tb1.created_at', 'tb1.updated_at'];
->>>>>>> 5705dffda7a5e220e5feab93a709871e4d0d70fc
     public $timestamps = false;
 
     public function classRoom()
