@@ -41,8 +41,6 @@ class DangKyRequest extends FormRequest
                             "ngay_sinh" => "required",
                             "so_dien_thoai" => "required",
                             "email" => "required",
-                            "ma_khuyen_mai" => "required"
-
                         ];
                         break;
 

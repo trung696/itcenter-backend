@@ -134,6 +134,7 @@ class ClassController extends  Controller
         $method_route = 'route_BackEnd_Class_Add';
         $this->v['_action'] = 'Add';
         $this->v['_title'] = 'Thêm lớp học';
+        $this->v['request'] = $request;
         // dd($request->input('name'));
         if ($request->isMethod('post')) {
 
@@ -142,6 +143,8 @@ class ClassController extends  Controller
                 return redirect()->route($method_route); // không cho F5, chỉ có thể post 1 lần
             } else
                 Session::push($method_route, 1); // bỏ vào session để chống F5
+
+
 
             $params = [
                 'user_add' => Auth::user()->id
@@ -156,10 +159,32 @@ class ClassController extends  Controller
             }, $request->post());
 
             // dd($params['cols']);
+            $objCa = new Ca();
+            $idCa = $request->id_ca;
+            $caname = $objCa->loadOne($idCa);
+            $objGV = new User();
+            $idGV = $request->lecturer_id;
+            $gvname = $objGV->loadOne($idGV);
+
             unset($params['cols']['_token']);
             $objClass = new ClassModel();
-            $res = $objClass->saveNew($params);
-            // dd($res);
+            $idGV = [];
+            $idGV['id'] = $request->lecturer_id;
+            $idGV['id_ca'] = $request->id_ca;
+            $idGV['id_lop'] = $request->id;
+            $countrep = $objClass->checkCa($idGV);
+            // dd($countrep);
+            if ($countrep > 0) {
+
+                Session::push('erroraddnew', 'Giảng viên ' . $gvname->name . ' đã dạy ca ' . $caname->ca_hoc);
+                // Session::push('post_form_data', $this->v['request']);
+                return redirect()->route($method_route);
+            } else {
+                $res = $objClass->saveNew($params);
+                $request->session()->forget($method_route);
+            }
+
+
             if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi
             {
                 dd('thêm mới thất bại');
@@ -170,10 +195,6 @@ class ClassController extends  Controller
                 $request->session()->forget('post_form_data'); // xóa data post
                 Session::flash('success', 'Thêm mới thành công lớp học !');
                 return redirect()->route('route_BackEnd_Class_List');
-            } else {
-                Session::push('errors', 'Lỗi thêm mới: ' . $res);
-                Session::push('post_form_data', $this->v['request']);
-                return redirect()->route($method_route);
             }
         } else {
             // dd('không có method post');
