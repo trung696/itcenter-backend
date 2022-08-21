@@ -51,11 +51,25 @@ class ApiLopController extends Controller
     public function show($id)
     {
         $classDetail = ClassModel::find($id);
+        $moi = [];
+        $listDangKiOfClass = DangKy::where('id_lop_hoc',$id)->where('trang_thai','=',1)->get();
+        // dd($listDangKiOfClass);
+        foreach ($listDangKiOfClass as $listDangKiOfClassItem){
+            $listDangKiOfClassItem['hoc_vien'] = $listDangKiOfClassItem->hocVien;
+            // echo "<pre>";
+            // printf($listDangKiOfClassItem);
+        }
+        $moi =  $listDangKiOfClass;
+        // foreach($moi as $moiItem){
+        //     // echo "<pre>";
+        //     // printf($moiItem->hoc_vien);
+        //     // echo "</pre>";
 
+        // }
         return response()->json([
             'status' => true,
             'heading' => "Chi tiết lớp học",
-            'data' => $classDetail
+            'data' =>  $moi
         ], 200);
     }
 
