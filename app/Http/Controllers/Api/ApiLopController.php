@@ -50,7 +50,13 @@ class ApiLopController extends Controller
      */
     public function show($id)
     {
-        //
+        $classDetail = ClassModel::find($id);
+
+        return response()->json([
+            'status' => true,
+            'heading' => "Chi tiết lớp học",
+            'data' => $classDetail
+        ], 200);
     }
 
     /**
