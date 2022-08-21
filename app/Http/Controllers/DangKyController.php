@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ca;
 use App\ChienDich;
 use App\ClassModel;
 use App\Course;
@@ -217,10 +218,9 @@ class DangKyController extends Controller
             return $this->dongHocPhi($request, $id, $email);
         }
         //nếu nộp thêm tiền thì gọi function updateDongThemTien
-        elseif (isset($request->trang_thai) && isset($request->dong_them)) {
+        elseif (isset($request->dong_them)) {
             return $this->updateDongThemTien($request, $id, $email);
         }
-
         $hocVien = HocVien::where('email', '=', $email)->first();
         $id_hoc_vien = $hocVien->id;
         $dangKy = DangKy::where('id_hoc_vien', '=', $id_hoc_vien)->where('id_lop_hoc', '=', $oldClass)->first();
@@ -237,6 +237,7 @@ class DangKyController extends Controller
                 $updateDangKy =  $dangKy->update([
                     'id_lop_hoc' => $request->id_lop_hoc_moi,
                 ]);
+
                 $dangKyBeforeUpdate = DangKy::where('id', $dangKy->id)->first();
                 //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
                 if ($dangKyBeforeUpdate->trang_thai == 1) {
@@ -247,12 +248,20 @@ class DangKyController extends Controller
                     }
                 }
                 //check chỗ lớp mới chuyển sang và trừ đi 1 slot
+                $listClass = ClassModel::all();
                 $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
+
+                $ca = Ca::all();
                 if ($dangKyAfterUpdate->trang_thai == 1) {
                     $classOfChuyenLop = $dangKyAfterUpdate->class;
                     ClassModel::whereId($classOfChuyenLop->id)->update([
                         'slot' =>  $classOfChuyenLop->slot - 1
                     ]);
+                    Mail::send('emailThongBaoChuyenLop', compact('hocVien', 'dangKyAfterUpdate', 'listClass', 'classOfChuyenLop','ca'), function ($email) use ($hocVien) {
+                        // mail nhận thư, tên người dùng
+                        $email->subject("Hệ thống thông báo chuyển lớp thành công đến bạn");
+                        $email->to($hocVien->email, $hocVien->ho_ten);
+                    });
                     // return 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1';
                     return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1']);
                 } else {
@@ -269,7 +278,6 @@ class DangKyController extends Controller
 
     public function updateDongThemTien($request, $id, $email)
     {
-        dd('hàm đónng thêm tiền');
         // dd($request, $id,$email);
         $dkiEdit = DangKy::where('id', $id)->first();
 
@@ -287,8 +295,16 @@ class DangKyController extends Controller
                 $payMentUpdate['description'] =  "$payMentUpdate->description (đóng thêm ) ";
                 $payMentUpdate->update();
 
+                $classOld = ClassModel::whereId($dkiEdit->id_lop_hoc)->first();
+                $classOld['slot'] = $classOld->slot + 1;
+                $classOld->update();
                 DB::commit();
                 return Redirect::back()->withErrors(['msg' => 'Nộp tiền thành công']);
+                // Mail::send('emailThongBaoDaNopHocPhi', compact('hocVien', 'dangKyAfterUpdate', 'listClass', 'classOfChuyenLop','ca'), function ($email) use ($hocVien) {
+                //     // mail nhận thư, tên người dùng
+                //     $email->subject("Hệ thống thông báo chuyển lớp thành công đến bạn");
+                //     $email->to($hocVien->email, $hocVien->ho_ten);
+                // });
             } catch (\Exception $exception) {
                 DB::rollback();
                 Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
@@ -346,10 +362,11 @@ class DangKyController extends Controller
 
     public function doiKhoaHoc($request, $newDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass)
     {
-        dd('doiKhoaHoc');
         /// check xem số tiền nộp thêm == abs(du_no)
         if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no) == $request->dong_them) {
             try {
+                dd('đóng thêm tiền');
+
                 DB::beginTransaction();
                 // dd($newDangKy->id_payment);
                 $payMentOfDangKy = Payment::where('id', $newDangKy->id_payment)->first();
