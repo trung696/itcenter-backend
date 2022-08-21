@@ -64,7 +64,7 @@
                 </button>
             </div>
         @endif
-        {{-- @if ($errors->any())
+        @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -76,7 +76,7 @@
                     <span class="sr-only">Close</span>
                 </button>
             </div>
-    @endif --}}
+    @endif
 
     <!-- Phần nội dung riêng của action  -->
         <form class="form-horizontal "
@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name" class="col-md-3 col-sm-4 control-label">Tên Khoá Học <span
+                            <label for="name" class="col-md-3 col-sm-4 control-label">Tên tài liệu <span
                                         class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
@@ -97,13 +97,29 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="file" class="col-md-3 col-sm-4 control-label">tệp tài liệu <span
+                            <label for="image" class="col-md-3 col-sm-4 control-label">Tệp tài liệu <span
                                         class="text-danger">(*)</span></label>
 
-                            <div class="col-md-9 col-sm-8">
-                                <input type="file" name="file" 
+                                        
+                            {{-- <div class="col-md-9 col-sm-8">
+                                <img id="hinh_anh_khoa_hoc_preview" src="{{ $objItem->image?Storage::url($objItem->image):'http://placehold.it/100x100' }}" alt="your image"
+                                     style="max-width: 200px; height:100px; margin-bottom: 10px;" class="img-fluid"/>
+                                <input type="file" name="image" accept="image/*"
                                         id="hinh_anh_khoa_hoc">
-                            </div>
+                            </div> --}}
+
+                            
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
+                            <i class="fa fa-picture-o"></i> Choose
+                            </a>
+                        </span>
+                         
+                        <input id="thumbnail" class="form-control  @error('file') is-invalid @enderror" type="text" value="{{ $objItem->name?$objItem->name:'http://placehold.it/100x100' }}" name="file" >
+                        </div>
+
+                        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
                         </div>
                        
                         <div class="form-group">
@@ -317,7 +333,15 @@
     {{--    <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script>--}}
     <script src="{{ asset('default/bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-
+    
+    <script src="{{ asset('js/add.js') }} "></script>
+    <script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+     <script>
+        {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
+      </script>
+      <script>
+        $('#lfm').filemanager('image', {prefix: route_prefix});
 
     <script src="{{ asset('js/taisan.js') }} "></script>
     <script src="{{ asset('js/khoahoc.js') }} "></script>
