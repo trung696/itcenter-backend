@@ -11,7 +11,7 @@
 
 <body>
     <p>Xin chào học viên, {{ $email->ho_ten }}<b></b></p>
-    <p>Trung tâm NextDev </p>
+    <p>Trung tâm văn hoá Thanh Trung Academics </p>
     <p>Xin thông báo, bạn đã đăng ký thành công lớp học: <span style="color: red">{{ $emails->name }}</span> thuộc khoá
         học:
         <span style="color: red">{{ $emails->course_name }}</span>
@@ -45,7 +45,7 @@
     <p><strong>Nếu có vấn đề về thông tin học phí, khoá học, lịch học vui lòng bạn liên hệ Mr. Bùi Văn Trung -Số
             điện thoại: 0973001430</strong></p>
     <p><strong>Chúc bạn có một khoá học thật tốt</strong></p>
-    <p><strong>Bộ phận kế toán Trung tâm NextDev xin trân trọng cảm ơn!</strong></p>
+    <p><strong>Bộ phận kế toán Trung tâm văn hoá Thanh Trung Academics xin trân trọng cảm ơn!</strong></p>
     </table>
 </body>
 

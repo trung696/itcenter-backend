@@ -41,6 +41,8 @@ class DangKyRequest extends FormRequest
                             "ngay_sinh" => "required",
                             "so_dien_thoai" => "required",
                             "email" => "required",
+                            "pham_tram_giam" => "required"
+
                         ];
                         break;
 
@@ -62,6 +64,7 @@ class DangKyRequest extends FormRequest
             "ngay_sinh.required" =>  "Không được để trống ngày sinh",
             "so_dien_thoai.required" =>  "Không được để trống số điện thoại",
             "email.required" =>  "Không được để trống email",
+            "pham_tram_giam.required" => "Không được để trống phần trăm giảm giá"
         ];
     }
 }
