@@ -33,6 +33,7 @@ class HocVien extends Model
                 ->orWhere('tb1.email', 'like', '%' . $params['search_sdt_gmail'] . '%')
                 ->orWhere('tb1.ho_ten', 'like', '%' . $params['search_sdt_gmail'] . '%');
         }
+        // dd($query);
         $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }
@@ -65,7 +66,9 @@ class HocVien extends Model
         if (!empty($params['cols']['id_lop_hoc'])) {
             unset($params['cols']['id_khoa_hoc']);
             unset($params['cols']['id_lop_hoc']);
+            unset($params['cols']['pham_tram_giam']);
         }
+
         if (isset($params['cols']['hinh_anh'])) {
             $data = array_merge($params['cols'], [
                 'ho_ten' => $params['cols']['ho_ten'],

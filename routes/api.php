@@ -43,11 +43,12 @@ Route::apiResource('categories','Api\ApiCategoryController');
 // danh muc khoa hoc ( get : /api/cource -- lấy tất cả khóa học
 //            get : /api/cource/$id -- lấy tất cả các lớp học của khóa học  đó )
 Route::apiResource('course','Api\ApiCourceController');
+Route::get('searchCourse/{name}','Api\ApiCourceController@searchCourse');
 
 
 
 //xem danh muc khoa hoc ma user da dang ki
-// danhMucOfUser ( get :    /api/danhMucOfUser -- lấy danh mục khó học mà user đã đăng kí
+// danhMucOfUser ( get :    /api/danhMucOfUser -- lấy danh mục khóa học mà user đã đăng kí
 Route::apiResource('danhMucOfUser','Api\ApiGetKhoaHocOfUser')->middleware('checkTokenUp');
 
 Route::apiResource('registerClass','Api\ApiRegisterClassController');
@@ -59,6 +60,7 @@ Route::apiResource('payment','Api\ApiPayMentController');
 //api chuyển lớp
 Route::apiResource('doiLop','Api\ApiDoiLopController');
 Route::apiResource('lich-su-doi-lop','Api\ApiLichSuDoiLopController')->middleware('checkTokenUp');
+Route::apiResource('lop-hoc','Api\ApiLopController');
 
 // // Lấy thông tin sản phẩm theo id
 // Route::get('products/{id}', 'Api\ProductController@show')->name('products.show');

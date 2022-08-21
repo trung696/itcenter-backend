@@ -11,7 +11,7 @@ use App\SessionUser;
 use App\DangKy;
 
 
-class ApiLichSuDoiLopController extends Controller
+class ApiLopController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,27 +21,12 @@ class ApiLichSuDoiLopController extends Controller
     public function index(Request $request)
     {
         //
-        $tokenUp = $request->bearerToken();
-        $class = new ClassModel();
-        $id_user = SessionUser::where('token', $tokenUp)->first()->user_id;
-        $email_user = HocVien::where('id', $id_user)->first()->email;
-        $data = [];
-        $data_doi_lop = ThongTinChuyenLop::all()->toArray();
-
-        for ($i = 0; $i < count($data_doi_lop); $i++) {
-            $item = $data_doi_lop[$i];
-            $item['ten_lop_cu'] = $class->loadOne($item['oldClass'])->name;
-            $item['ten_lop_moi'] = $class->loadOne($item['newClass'])->name;
-
-            if ($item['email'] === $email_user) {
-                array_push($data, $item);
-            }
-        }
+        $classes = ClassModel::all();
 
         return response()->json([
             'status' => true,
-            'heading' => "History of changing classes",
-            'data' => $data
+            'heading' => "Classes",
+            'data' => $classes
         ], 200);
     }
 
@@ -65,7 +50,21 @@ class ApiLichSuDoiLopController extends Controller
      */
     public function show($id)
     {
-        //
+        $classDetail = ClassModel::find($id);
+        $moi = [];
+        $listDangKiOfClass = DangKy::where('id_lop_hoc',$id)->where('trang_thai','=',1)->get();
+        // dd($listDangKiOfClass);
+        foreach ($listDangKiOfClass as $listDangKiOfClassItem){
+            $listDangKiOfClassItem['hoc_vien'] = $listDangKiOfClassItem->hocVien;
+            // echo "<pre>";
+            // printf($listDangKiOfClassItem);
+        }
+        $moi =  $listDangKiOfClass;
+        return response()->json([
+            'status' => true,
+            'heading' => "Chi tiết lớp học",
+            'data' =>  $moi
+        ], 200);
     }
 
     /**

@@ -30,6 +30,7 @@ class UserAddRequest extends FormRequest
             'password' => 'bail|required|max:50|string',
             'address' => 'bail|required|max:200|min:2',
             'phone' => 'bail|required|numeric|unique:users',
+            'detail' => 'bail|required',
         ];
     }
     //câu thông báo lỗi
@@ -56,6 +57,8 @@ class UserAddRequest extends FormRequest
             'phone.required' => 'Số điện thoại không được để trống',
             'phone.numeric' => 'Số điện thoại là dạng số',
             'phone.unique' => 'Số điện thoại tồn tại',
+             //detail
+            //  'detail.required' => 'Mô tả chi tiết không được để trống',
 
           
         ];

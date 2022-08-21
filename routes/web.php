@@ -43,31 +43,47 @@ Route::get('/list-lop/{id}', 'DangKyController@getListLop')->where('id', '[0-9]+
 Route::get('/register/detail/{id}', 'DangKyController@chiTietDangKy')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Detail');
-Route::post('/register/update/{id}', 'DangKyController@updateDangKy')
+Route::post('/register/update/{id}/{email}/{oldClass}', 'DangKyController@update')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Update');
+Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_AdminDangKyIn_Detail');
+
+
 //ca học 
 //role(doanh)   
 Route::get('/ca', 'CaController@index')->name('route_BackEnd_Ca_List');
 Route::match(['get', 'post'], '/ca/add', 'CaController@addCa')
-        ->name('route_BackEnd_Ca_Add');
+    ->name('route_BackEnd_Ca_Add');
 Route::get('/ca/detail/{id}', 'CaController@editCa')
-        ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Ca_Edit');
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_Ca_Edit');
 Route::post('/Ca/update/{id}', 'CaController@updateCa')
-        ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Ca_Update');
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_Ca_Update');
 Route::get('/Ca/delete/{id}', 'CaController@destroy')
-        ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Ca_Delete');
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_Ca_Delete');
 // Route::get('/edit_role/{id}', 'RoleController@edit')->name('route_BackEnd_role_edit');
 // Route::post('/edit_role/{id}', 'RoleController@update')->name('route_BackEnd_role_update');
 // Route::get('/delete_role/{id}', 'RoleController@delete')->name('route_BackEnd_role_delete');
 
+//xếp lớp
 
+Route::get('/xeplop/{id}', 'ClassController@xepLop')
+    ->where('id', '[0-9]+')
+    ->name('route_BackEnd_XepLop');
 //list_đổi lớp
 Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop');
-Route::get('/doiLop/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
+Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
+
+//list những đăng ký thừa tiền
+Route::get('/hoanTien', 'HoanTienController@index')->name('route_BackEnd_list_hoan_tien');
+Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien');
+Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien');
+Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search');
+
 
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');
@@ -252,6 +268,13 @@ Route::middleware(['auth'])->group(function () {
     //học viên
     Route::get('/danh-sach-hoc-vien', 'HocVienController@danhSachHocVien')
         ->name('route_BackEnd_DanhSachHocVien_index');
+    Route::get('/danh-sach-hoc-vien/chi-tiet/{id}', 'HocVienController@chiTietHocVien')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_DanhSachHocVien_Detail');
+    Route::post('/danh-sach-hoc-vien/update/{id}', 'HocVienController@updateThongTin')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_DanhSachHocVien_Update');
+
     //địa điểm
     Route::get('/danh-sach-dia-diem', 'DiaDiemController@danhSachDiaDiem')
         ->name('route_BackEnd_DanhSachDiaDiem_index');

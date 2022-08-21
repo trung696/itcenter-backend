@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\ClassModel;
+use App\Course;
+use App\CourseCategory;
 use App\DangKy;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,13 +22,20 @@ class ApiGetKhoaHocOfUser extends Controller
     {
         $tokenUp = $request->bearerToken();
         $id_user = SessionUser::where('token', $tokenUp)->first()->user_id;
-        $listDangKiOfUser = DangKy::where('id_hoc_vien', $id_user)->get();
+        $listDangKiOfUser = DangKy::where('id_hoc_vien', $id_user)->get()->toArray();
+        $data = [];
         if ($listDangKiOfUser) {
-            // dd($listDangKiOfUser);
+            foreach ($listDangKiOfUser as $listDangKiOfUserItem) {
+                $course_data =  Course::find($listDangKiOfUserItem['id_lop_hoc']);
+                $listDangKiOfUserItem['lop_hoc'] = ClassModel::where('id', $listDangKiOfUserItem['id_lop_hoc'])->first();
+                $listDangKiOfUserItem['lop_hoc']->image = $course_data->image;
+                $listDangKiOfUserItem['lop_hoc']->course_name = $course_data->image;
+                array_push($data, $listDangKiOfUserItem);
+            }
             return response()->json([
                 'status' => true,
                 'heading' => "Danh sách khóa học đăng kí",
-                'data' => $listDangKiOfUser
+                'data' => $data
             ], 200);
         }
         return response()->json([

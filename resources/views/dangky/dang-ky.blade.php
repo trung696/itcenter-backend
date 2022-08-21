@@ -205,6 +205,7 @@
                             <th class="text-center">Email</th>
                             <th class="text-center">Lớp đăng ký</th>
                             <th class="text-center">Ngày đăng ký</th>
+                            <th class="text-center">Dư nợ</th>
                             <th width="50px" class="text-center">Trạng thái</th>
                             <th width="50px" class="text-center">Công Cụ</th>
                         </tr>
@@ -212,13 +213,15 @@
 
                         @foreach ($list as $item)
                             <tr>
-                                {{-- <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="chk_hv_{{$item->id}}" value="{{$item->id}}"> </td> --}}
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td class="text-center">{{ $item->ho_ten }}</td>
                                 <td class="text-center">{{ $item->so_dien_thoai }}</td>
                                 <td class="text-center">{{ $item->email }}</td>
                                 <td class="text-center">{{ $item->name }}</td>
                                 <td class="text-center">{{ $item->ngay_dang_ky }}</td>
+                               
+                                <td class="text-center">{{ $item->du_no }}</td>
+
                                 <td class="text-center"
                                     style="width:180px; background-color:
                                 @if ($item->trang_thai == 0) red

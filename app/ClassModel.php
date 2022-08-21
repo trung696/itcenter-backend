@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class ClassModel extends Model
 {
     protected $table = 'class';
-    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id','tb1.id_ca', 'tb1.created_at', 'tb1.updated_at'];
+    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.id_ca', 'tb1.created_at', 'tb1.updated_at'];
     public $timestamps = false;
     public function course()
     {
@@ -55,6 +55,26 @@ class ClassModel extends Model
         $obj = $query->first();
         return $obj;
     }
+    public function loadOneIDHV($id, $params = null)
+    {
+
+        $query = DB::table($this->table . ' as tb1')
+            ->select('tb1.id', 'tb1.name', 'tb1.start_date', 'tb1.end_date', 'tb1.location_id', 'tb1.course_id', 'tb1.lecturer_id', 'tb1.slot', 'tb2.trang_thai')
+            ->leftJoin('dang_ky as tb2', 'tb2.id_lop_hoc', '=', 'tb1.id')
+            ->where('tb2.id_hoc_vien', $id);
+        if (isset($params['search_ten_lop_hoc']) && strlen($params['search_ten_lop_hoc']) > 0) {
+            $query->where('tb1.name', 'like', '%' . $params['search_ten_lop_hoc'] . '%');
+        }
+        if (isset($params['search_ngay_khai_giang_array']) && count($params['search_ngay_khai_giang_array']) == 2) {
+            $query->whereBetween('tb1.start_date', $params['search_ngay_khai_giang_array']);
+        }
+        if (isset($params['trang_thai']) && strlen($params['trang_thai']) > 0) {
+            $query->where('tb2.trang_thai', $params['trang_thai']);
+        }
+        $obj = $query->paginate(10, ['tb1.id']);
+        return $obj;
+    }
+
     /** Hàm lấy danh sách có phân trang
      * @param array $params
      * @return mixed
@@ -119,6 +139,7 @@ class ClassModel extends Model
 
     public function saveUpdate($params)
     {
+
         if (empty($params['user_edit'])) {
             Log::warning(__METHOD__ . ' Không xác định thông tin người cập nhật');
             Session::push('errors', 'Không xác định thông tin người cập nhật');
@@ -149,6 +170,19 @@ class ClassModel extends Model
             ->where('id', $udateSoCho['id'])
             ->limit(1)
             ->update(['slot' => $udateSoCho['so_cho']]);
+        return $res;
+    }
+    public function checkCa($idGV)
+    {
+
+        $res = DB::table('users as tb2')
+            ->select('tb1.name', 'tb1.start_date', 'tb1.end_date', 'tb2.name', 'tb1.id_ca', 'tb1.lecturer_id')
+            ->leftJoin($this->table . ' as tb1', 'tb2.id', '=', 'tb1.lecturer_id')
+            ->where('tb2.id', $idGV['id'])
+            ->where('tb1.id_ca', $idGV['id_ca'])
+            ->where('tb1.id', '!=', $idGV['id_lop'])
+            ->count();
+        // dd($res);
         return $res;
     }
 }
