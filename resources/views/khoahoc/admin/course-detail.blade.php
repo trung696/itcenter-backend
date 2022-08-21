@@ -369,6 +369,13 @@
         {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
       </script>
       <script>
+        $('#lfm').filemanager('image', {prefix: route_prefix});<script src="{{ asset('js/add.js') }} "></script>
+    <script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+     <script>
+        {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/stand-alone-button.js')) !!}
+      </script>
+      <script>
         $('#lfm').filemanager('image', {prefix: route_prefix});
         // $('#lfm').filemanager('file', {prefix: route_prefix});
       </script>
