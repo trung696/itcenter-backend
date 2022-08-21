@@ -43,12 +43,13 @@ Route::get('/list-lop/{id}', 'DangKyController@getListLop')->where('id', '[0-9]+
 Route::get('/register/detail/{id}', 'DangKyController@chiTietDangKy')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Detail');
-Route::post('/register/update/{id}/{email}/{oldClass}/{newClass}', 'DangKyController@update')
+Route::post('/register/update/{id}/{email}/{oldClass}', 'DangKyController@update')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKy_Update');
 Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKyIn_Detail');
+
 
 //ca học 
 //role(doanh)   
@@ -79,6 +80,10 @@ Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLo
 
 //list những đăng ký thừa tiền
 Route::get('/hoanTien', 'HoanTienController@index')->name('route_BackEnd_list_hoan_tien');
+Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien');
+Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien');
+Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search');
+
 
 // thêm thông tin sinh mới đăng ký
 Route::match(['get', 'post'], '/dangky-thongtinsinhvien', 'LopHocController@themDangKy')->name('route_BackEnd_DangKyLopHoc_Add');

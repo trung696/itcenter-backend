@@ -156,7 +156,6 @@
                         <div class="form-group">
                             <label for="email" class="col-md-3 col-sm-4 control-label">Email <span
                                     class="text-danger">(*)</span></label>
-
                             <div class="col-md-9 col-sm-8">
                                 <input type="text" name="email" id="email" class="form-control"
                                     value="{{ $itemHV->email }}" disabled>
@@ -195,39 +194,22 @@
                             </div>
                         </div>
 
-                        @if ($itemDKTT == 1)
-                            <div class="form-group">
-                                <label for="email" class="col-md-3 col-sm-4 control-label">Khoá Học <span
-                                        class="text-danger">(*)</span></label>
 
-                                <div class="col-md-9 col-sm-8">
-                                    <input type="text" name="trang_thai" id="trang_thai" class="form-control"
-                                        value="Đã Thanh Toán" disabled>
-                                    <span id="mes_sdt"></span>
-                                </div>
+
+                        <div class="form-group">
+                            <label for="nguon" class="col-md-3 col-sm-4 control-label">Trạng thái <span
+                                    class="text-danger">(*)</span></label>
+                            <div class="col-md-9 col-sm-8">
+                                <select name="trang_thai" id="trang_thai" class="form-control select2"
+                                    data-placeholder="Chọn trạng thái" disabled>
+                                    <option value="">== Chọn trạng thái ==</option>
+                                    <option value="0" @if ($itemTT == 0) selected @endif>Chưa Thanh
+                                        Toán</option>
+                                    <option value="1" @if ($itemTT == 1) selected @endif>Đã Thanh
+                                        Toán</option>
+                                </select>
                             </div>
-                        @elseif($itemDKTT == 0)
-                            <div class="form-group">
-                                <label for="nguon" class="col-md-3 col-sm-4 control-label">Trạng thái <span
-                                        class="text-danger">(*)</span></label>
-                                <div class="col-md-9 col-sm-8">
-                                    <select name="trang_thai" id="trang_thai" class="form-control select2"
-                                        data-placeholder="Chọn trạng thái">
-                                        <option value="">== Chọn trạng thái ==</option>
-                                        <option value="0" @if ($itemTT == 0) selected @endif>Chưa Thanh
-                                            Toán</option>
-                                        <option value="1" @if ($itemTT == 1) selected @endif>Đã Thanh
-                                            Toán</option>
-                                        {{-- @foreach ($trang_thai as $index => $item)
-                                            <option value="{{ $index }}"
-                                @isset($request['trang_thai']) @if ($request['trang_thai'] == $index) selected @endif
-                                @else @if ($index == $itemDKTT) selected @endif @endisset>
-                                {{ $item }}</option>
-                                @endforeach --}}
-                                    </select>
-                                </div>
-                            </div>
-                        @endif
+                        </div>
 
 
 
@@ -251,8 +233,45 @@
                                 </div>
                             </div>
                         @endif
-
+                        @if ($checkIssetPayment == null && $trangThai == 0)
+                            <div class="form-group">
+                                <label for="dong_hoc_phi" class="col-md-3 col-sm-4 control-label">Đóng học phí (trực tiếp)
+                                    <span class="text-danger">(*)</span></label>
+                                <div class="col-md-9 col-sm-8">
+                                    <input type="number" name="dong_hoc_phi" id="dong_hoc_phi" class="form-control">
+                                    <span id="dong_them"></span>
+                                </div>
+                            </div>
+                        @endif
                     </div>
+
+                    @if ($dki->du_no == 0 && $checkIssetPayment != null)
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_khoa_hoc_moi" class="col-md-3 col-sm-4 control-label">Khoá Học mới</label>
+                                <div class="col-md-9 col-sm-8">
+                                    <select name="id_khoa_hoc_moi" id="id_khoa_hoc_moi" class="form-control select2"
+                                        style="width: 100%" data-placeholder="Chọn lớp học">
+                                        <option value="">== Chọn khoá học==</option>
+                                        @foreach ($listCourse as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_lop_hoc_moi" class="col-md-3 col-sm-4 control-label">Lớp Học</label>
+                                <div class="col-md-9 col-sm-8">
+                                    <select name="id_lop_hoc_moi" id="id_lop_hoc_moi" class="form-control select2"
+                                        data-placeholder="Chọn lớp học">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <!-- /.box-body -->

@@ -149,7 +149,7 @@ class ApiRegisterClassController extends Controller
             Mail::send('emailSendPassword', compact('hoc_vien'), function ($email) use ($hoc_vien) {
                 // mail nhận thư, tên người dùng
                 $email->subject("Hệ thống gửi password đến bạn");
-                $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
+                $email->to($hoc_vien->email, $hoc_vien->ho_ten, $hoc_vien);
             });
         }
 
