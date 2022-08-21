@@ -139,13 +139,13 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
           {{-- <img src="/public/img/logo-itplus-black.png" width="50"> --}}
-          <img src="/img/logott01.png" width="50">
+          <img src="/img/logo.png" width="50">
           {{-- <img src="/public/img/lg-tet.png" width="50"> --}}
         </span>
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg">
           {{-- <img src="/public/img/logo-itplus-black.png" height="40"> --}}
-          <img src="/img/logott01.png" height="40">
+          <img src="/img/logo.svg" height="40" style="width:80%;">
           {{-- <img src="/public/img/lg-tet.png" height="45"> --}}
           {{-- <b class="visible-lg">Quản lý Đào tạo</b> --}}
         </span>
