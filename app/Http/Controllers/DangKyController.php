@@ -101,12 +101,12 @@ class DangKyController extends Controller
                     if (isset($ma_khuyen_mai)) {
                         $objCheckMa = new MaChienDich();
                         $checkMa = $objCheckMa->loadCheckName($ma_khuyen_mai);
-                        $objChienDich = new ChienDich();
-                        $checkGiam = $objChienDich->loadOne($checkMa->id_chien_dich);
+
                         if (isset($checkMa)) {
-                            $data = 1;
+                            $objChienDich = new ChienDich();
+                            $checkGiam = $objChienDich->loadOne($checkMa->id_chien_dich);
                         } else {
-                            $data = 0;
+                            return Redirect::back()->withErrors(['msg' => 'Không tồn tại mã giảm giá này']);
                         }
                         if ($checkMa->trang_thai == 0) {
                             $trang_thai = 0;
