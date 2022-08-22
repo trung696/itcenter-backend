@@ -9,7 +9,7 @@ use App\ClassModel;
 use Illuminate\Http\Request;
 use App\SessionUser;
 use App\DangKy;
-
+use App\User;
 
 class ApiLopController extends Controller
 {
@@ -50,7 +50,11 @@ class ApiLopController extends Controller
      */
     public function show($id)
     {
+        
         $classDetail = ClassModel::find($id);
+
+        $classDetail->lecturer_name = User::where('id', $classDetail->lecturer_id)->first()->name;
+        
         $moi = [];
         $listDangKiOfClass = DangKy::where('id_lop_hoc', $id)->where('trang_thai', '=', 1)->get();
         // dd($listDangKiOfClass);
@@ -59,7 +63,7 @@ class ApiLopController extends Controller
             // echo "<pre>";
             // printf($listDangKiOfClassItem);
         }
-        $moi =  $listDangKiOfClass;
+        $moi = $listDangKiOfClass;
         return response()->json([
             'status' => true,
             'heading' => "Chi tiết lớp học",
