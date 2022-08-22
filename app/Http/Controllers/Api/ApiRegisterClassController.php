@@ -54,7 +54,7 @@ class ApiRegisterClassController extends Controller
                     return response()->json([
                         'status' => true,
                         'heading' => "Bạn đã đang kí lớp học này rồi"
-                    ]);
+                    ], 400);
                 } else {
                     //có tài khoản rồi chỉ đang kí lớp học thôi
                     //lưu thông tin thanh toán bảng momo
@@ -212,6 +212,75 @@ class ApiRegisterClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function registerCheck(Request $request)
+    {
+
+        $validated = Validator::make($request->all(), [
+            'ho_ten' => 'required',
+            'so_dien_thoai' => 'required',
+            'email' => 'required',
+            'id_lop_hoc' => 'required',
+        ]);
+        if ($validated->fails()) {
+            return response()->json([
+                'heading' => 'lỗi validate',
+                'log' => $validated->errors(),
+            ], 400);
+        }
+
+        $checkIssetEmail = HocVien::where('email', $request->email)->first();
+        $checkIssetPhone = HocVien::where('so_dien_thoai', $request->so_dien_thoai)->first();
+        $checkIdlopHoc = ClassModel::where('id', $request->id_lop_hoc)->first();
+
+        if ($checkIdlopHoc == null) {
+            return response()->json([
+                'status' => 404,
+                'heading' => "Lớp không tồn tại",
+                'data' => true,
+            ], 400);
+        }
+
+        if ($checkIssetEmail != null || $checkIssetPhone != null) {
+            $infoHocVien = '';
+
+            if ($checkIssetEmail == null) {
+                $infoHocVien = $checkIssetPhone;
+            }
+            if ($checkIssetPhone == null) {
+                $infoHocVien = $checkIssetEmail;
+            }
+            if ($checkIssetEmail != null && $checkIssetPhone != null) {
+                $infoHocVien = $checkIssetEmail;
+            }
+
+            if (isset($infoHocVien->id) && isset($request->id_lop_hoc)) {
+                $checkDk = DangKy::where('id_lop_hoc', '=', $request->id_lop_hoc)->where('id_hoc_vien', '=', $infoHocVien->id)->first();
+
+                if ($checkDk) {
+                    return response()->json([
+                        'status' => 400,
+                        'heading' => "Thông tin này đã được đăng ký",
+                        'data' => false,
+                    ], 400);
+                }
+
+                return response()->json([
+                    'status' => 200,
+                    'heading' => "Thông tin này chưa được đăng ký",
+                    'data' => true,
+                ], 200);
+            }
+            // return;
+        }
+
+        return response()->json([
+            'status' => 200,
+            'heading' => "Thông tin này chưa được đăng ký",
+            'data' => true,
+        ], 200);
+    }
+
+
     public function show($id)
     {
         $dki = DangKy::find($id)->payment;
