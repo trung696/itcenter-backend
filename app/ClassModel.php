@@ -182,7 +182,19 @@ class ClassModel extends Model
             ->where('tb1.id_ca', $idGV['id_ca'])
             ->where('tb1.id', '!=', $idGV['id_lop'])
             ->count();
-        // dd($res);
         return $res;
     }
+    // public function checkThoiGian($idGV)
+    // {
+
+    //     $res = DB::table('users as tb2')
+    //         ->select('tb1.name', 'tb1.start_date', 'tb1.end_date', 'tb2.name', 'tb1.id_ca', 'tb1.lecturer_id')
+    //         ->leftJoin($this->table . ' as tb1', 'tb2.id', '=', 'tb1.lecturer_id')
+    //         ->where('tb2.id', $idGV['id'])
+    //         ->where('tb1.id_ca', $idGV['id_ca'])
+    //         ->where('tb1.id', '!=', $idGV['id_lop'])
+    //         ->count();
+    //     // dd($res);
+    //     return $res;
+    // }
 }

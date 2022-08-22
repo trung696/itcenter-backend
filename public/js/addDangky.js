@@ -1,6 +1,7 @@
 $(document).ready(function () {
   $("#id_khoa_hoc").on("change", function () {
     const listLopHoc = $("#id_lop_hoc");
+    const listPrice = $("#price");
     const selectvalue = this.value ?? 0;
     //
 
@@ -23,6 +24,7 @@ $(document).ready(function () {
         if (result?.data?.length > 0) {
           $.each(result?.data, function (index, item) {
             listLopHoc.append(new Option(item?.name, item?.id));
+
           });
           listLopHoc.val("");
         }

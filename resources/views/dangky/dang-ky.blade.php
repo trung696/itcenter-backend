@@ -8,10 +8,10 @@
     <style>
         body {
             /*-webkit-touch-callout: none;
-                    -webkit-user-select: none;
-                    -moz-user-select: none;
-                    -ms-user-select: none;
-                    -o-user-select: none;*/
+                                                -webkit-user-select: none;
+                                                -moz-user-select: none;
+                                                -ms-user-select: none;
+                                                -o-user-select: none;*/
             user-select: none;
         }
 
@@ -219,19 +219,22 @@
                                 <td class="text-center">{{ $item->email }}</td>
                                 <td class="text-center">{{ $item->name }}</td>
                                 <td class="text-center">{{ $item->ngay_dang_ky }}</td>
-                               
+
                                 <td class="text-center">{{ $item->du_no }}</td>
 
                                 <td class="text-center"
                                     style="width:180px; background-color:
-                                @if ($item->trang_thai == 0) red
-                                @else
-                                        green @endif;
-                                        color: white">
+                                @if ($item->trang_thai == 0) red; color: white
+                                @elseif($item->trang_thai == 1)
+                                        yellow ;color: black
+                                        @else green; color: white @endif
+                                        ">
                                     @if ($item->trang_thai == 0)
                                         Chưa Thanh Toán
+                                    @elseif($item->trang_thai == 1)
+                                        Đã Thanh Toán/Chờ xác nhận
                                     @else
-                                        Đã Thanh Toán
+                                        Đã hoàn tất thủ tục
                                     @endif
                                 </td>
                                 <td class="text-center"><a

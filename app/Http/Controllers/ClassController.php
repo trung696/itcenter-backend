@@ -234,7 +234,7 @@ class ClassController extends  Controller
 
         $this->v['class'] = $objClassModel;
         $this->v['objItemClass'] = $objItemClass;
-        // dd($objItemClass->lecturer_id);
+        // dd($objItemClass->start_date->format('d/m/Y'));
         $objUser = new User();
         $objGV = $objUser->loadOne($objItemClass->lecturer_id);
         // dd($objGV);
@@ -334,7 +334,8 @@ class ClassController extends  Controller
         $idGV['id_ca'] = $count->id_ca;
         $idGV['id_lop'] = $count->id;
         $countrep = $modelClass->checkCa($idGV);
-        // dd($countrep);
+        dd($count);
+
 
 
         $params = [

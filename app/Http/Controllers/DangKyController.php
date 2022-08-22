@@ -12,6 +12,7 @@ use App\Http\Requests\DangKyRequest;
 use App\LopHoc;
 use App\MaChienDich;
 use App\Mail\OrderShipped;
+use App\Mail\PaymentCheck;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +31,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class DangKyController extends Controller
 {
@@ -71,7 +73,6 @@ class DangKyController extends Controller
                 Session::flash('success', 'Email không chính xác');
                 return redirect()->route('route_BackEnd_DangKyAdmin_Add');
             } elseif (!preg_match("/(84|0[3|5|7|8|9])+([0-9]{8})\b/", $request->so_dien_thoai)) {
-
                 Session::flash('success', 'Số điện thoại không chính xác');
                 return redirect()->route('route_BackEnd_DangKyAdmin_Add');
             } else {
@@ -79,10 +80,10 @@ class DangKyController extends Controller
                 if ($request->hasFile('hinh_anh') && $request->file('hinh_anh')->isValid()) {
                     $params['cols']['hinh_anh'] = $this->uploadFile($request->file('hinh_anh'));
                 }
-
                 $objDangKy = new DangKy();
                 $objHocVien = new HocVien();
                 unset($params['cols']['ma_khuyen_mai']);
+                unset($params['cols']['hocphi']);
                 $checkEmail = $objHocVien->loadCheckHocVien($request->email);
                 if (!isset($checkEmail)) {
                     $resHocVien = $objHocVien->saveNewAdmin($params);
@@ -95,13 +96,16 @@ class DangKyController extends Controller
                 if (isset($resHocVien)) {
                     $gia = $objKhoaHoc->loadOne($request->id_khoa_hoc);
                     $arrDangKy = [];
+                    $arrDangKy['so_tien_da_dong'] = (int)$request->hocphi;
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
+
                     //check coupon
                     $ma_khuyen_mai = $request->ma_khuyen_mai;
+                    // dd($ma_khuyen_mai);
                     if (isset($ma_khuyen_mai)) {
                         $objCheckMa = new MaChienDich();
                         $checkMa = $objCheckMa->loadCheckName($ma_khuyen_mai);
-
+                        // dd($checkMa);
                         if (isset($checkMa)) {
                             $objChienDich = new ChienDich();
                             $checkGiam = $objChienDich->loadOne($checkMa->id_chien_dich);
@@ -133,6 +137,7 @@ class DangKyController extends Controller
                         }
                         if ($flag == 1 && $hoat_dong == 1 && $trang_thai == 0 && $dung_khoa == 1) {
                             $arrDangKy['gia_tien'] = $gia->price - ($gia->price * $checkGiam->phan_tram_giam / 100);
+
                             $apma = $checkGiam->phan_tram_giam;
                         } elseif ($dung_khoa == 0) {
                             return Redirect::back()->withErrors(['msg' => 'Mã giảm giá không dành cho khóa này'])->withInput();
@@ -140,13 +145,35 @@ class DangKyController extends Controller
                             return Redirect::back()->withErrors(['msg' => 'Mã giảm giá không hợp lệ']);
                         }
                     } else {
+
                         $arrDangKy['gia_tien'] = $gia->price;
                         $apma = 0;
                     }
                     $arrDangKy['id_hoc_vien'] = $resHocVien;
-
                     $arrDangKy['trang_thai'] = $request->trang_thai;
-                    if ($request->trang_thai == 1) {
+                    // dd((int)$request->hocphi, $arrDangKy['so_tien_da_dong'], $gia->price);
+
+
+                    if ($request->trang_thai == 1 && isset($request->hocphi)) {
+                        if ($arrDangKy['gia_tien'] <= (int)$request->hocphi) {
+                            $arrDangKy['so_tien_da_dong'] = (int)$request->hocphi;
+                            $arrDangKy['du_no'] = $arrDangKy['so_tien_da_dong'] - $arrDangKy['gia_tien'];
+                        } else {
+                            return Redirect::back()->withErrors(['msg' => 'Số tiền đã đóng không đủ']);
+                        }
+                        $random = Str::random(10);
+                        // dd($random);
+                        $arrDangKy['token'] = $random;
+                        //thêm payment
+                        $objPayment = new Payment();
+                        $arrPay = [];
+                        $arrPay['payment_method_id'] = 1;
+                        $arrPay['price'] = $arrDangKy['so_tien_da_dong'];
+                        $arrPay['description'] = "Học viên đã đóng đủ học phí trực tiếp";
+                        $payment = $objPayment->saveNewAdmin($arrPay);
+                        $arrDangKy['id_payment'] = $payment;
+                        //end
+                        // dd($arrDangKy);
                         $res = $objDangKy->saveNewOnline($arrDangKy);
                         if ($res) {
                             $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
@@ -155,19 +182,25 @@ class DangKyController extends Controller
                             $updateSoCho['so_cho'] = $socho->slot - 1;
                             $update = $objLopHoc->saveUpdateSoCho($updateSoCho);
                         }
+                    } elseif ($request->trang_thai == 0 && isset($request->hocphi)) {
+                        return Redirect::back()->withErrors(['msg' => 'Không nhập số tiền đã đóng khi chưa đóng học phí']);
                     } else {
+                        $arrDangKy['so_tien_da_dong'] = 0;
                         $res = $objDangKy->saveNew($arrDangKy);
                     }
+                    // dd($arrDangKy);
+                    //gửi mail xác nhận
                     $email = $request->email;
                     $objGuiGmail = DB::table('dang_ky', 'tb1')
-                        ->select('tb1.id', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai')
+                        ->select('tb1.id', 'tb1.du_no', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai', 'tb1.token')
                         ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
-                        ->leftJoin('class as tb3', 'tb3.course_id', '=', 'tb1.id_lop_hoc')
+                        ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
                         ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
                         ->where('tb1.id', $res)->first();
                     $objGuiGmail->so_dien_thoai = $apma;
                     Mail::to($email)->send(new OrderShipped($objGuiGmail));
                     if (!empty($request->ma_khuyen_mai)) {
+                        $objCheckMa = new MaChienDich();
                         $updatett = $objCheckMa->saveUpdateTT($request->ma_khuyen_mai);
                     }
                     $method_route = 'route_BackEnd_DangKyAdmin_Add';
@@ -193,6 +226,48 @@ class DangKyController extends Controller
         $this->v['objKhoaHoc'] = $objKhoaHoc->loadListWithPager();
         $this->v['objLopHoc'] = $objLopHoc->loadListWithPager();
         return view('dangky.them-dang-ky', $this->v);
+    }
+    public function acceptDangKy($id, $token)
+    {
+        //kiểm tra xem token có trong đăng ký nào ko?
+        $objDangKy = new DangKy();
+        $objLopHoc = new ClassModel();
+        $objHocVien = new HocVien();
+        $arrDangKy = [];
+        $ttDangKy = $objDangKy->loadOne($id);
+        $lopHoc = $objLopHoc->loadOne($ttDangKy->id_lop_hoc);
+        if ($ttDangKy->token === $token) {
+            $now = date('Y-m-d');
+            if ($now > $lopHoc->start_date) {
+                dd("đã hết hạn xác nhận");
+            } else {
+                $ttDangKy->trang_thai = 3;
+                $arrDangKy['id'] = $id;
+                $arrDangKy['trang_thai'] = 3;
+                $res = $objDangKy->updateHocPhi($arrDangKy);
+
+                $objHV = $objHocVien->loadOne($ttDangKy->id_hoc_vien);
+
+                $email = $objHV->email;
+                $objGuiGmail = DB::table('dang_ky', 'tb1')
+                    ->select('tb1.id', 'tb1.du_no', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai', 'tb1.token', 'tb1.so_tien_da_dong')
+                    ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
+                    ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
+                    ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
+                    ->where('tb1.id', $id)->first();
+                $price = (int)$objGuiGmail->price;
+                $gia = (int)$objGuiGmail->price;
+                $giam_gia = (($price - $gia) / $price) * 100;
+                // dd($objGuiGmail);
+                $objGuiGmail->so_dien_thoai = $giam_gia;
+                Mail::to($email)->send(new PaymentCheck($objGuiGmail));
+                return view('dangky.thong-bao');
+            }
+        } else
+            dd('Đường dẫn không hợp lệ');
+        // ktra token còn hạn
+        //còn hạn -> cập nhật trạng thái
+
     }
     private function uploadFile($file)
     {
