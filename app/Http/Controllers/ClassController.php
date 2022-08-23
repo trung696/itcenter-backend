@@ -30,6 +30,8 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Mail\OrderShipped;
 use Stripe\Charge;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
 
 class ClassController extends  Controller
 {
@@ -143,9 +145,6 @@ class ClassController extends  Controller
                 return redirect()->route($method_route); // không cho F5, chỉ có thể post 1 lần
             } else
                 Session::push($method_route, 1); // bỏ vào session để chống F5
-
-
-
             $params = [
                 'user_add' => Auth::user()->id
             ];
@@ -159,12 +158,14 @@ class ClassController extends  Controller
             }, $request->post());
 
             // dd($params['cols']);
+            $modelClass = new ClassModel();
             $objCa = new Ca();
             $idCa = $request->id_ca;
             $caname = $objCa->loadOne($idCa);
             $objGV = new User();
             $idGV = $request->lecturer_id;
             $gvname = $objGV->loadOne($idGV);
+
 
             unset($params['cols']['_token']);
             $objClass = new ClassModel();
@@ -173,11 +174,27 @@ class ClassController extends  Controller
             $idGV['id_ca'] = $request->id_ca;
             $idGV['id_lop'] = $request->id;
             $countrep = $objClass->checkCa($idGV);
+            $check = $modelClass->getDate($idGV);
+            $newst = strtotime($request->start_date);
+            $newend = strtotime($request->end_date);
+            $trungngay = 0;
+            foreach ($check as $key => $val) {
+                $soloptrung = $key + 1;
+                $start = strtotime($val->start_date);
+                $end = strtotime($val->end_date);
+                $time = ($newst >= $start && $newst <= $end) || ($newend >= $start && $newend <= $end);
+                // dd($time);
+                // var_dump($time);
+                if ($time) {
+                    $trungngay = 1;
+                    // var_dump($trungngay);
+                }
+            }
             // dd($countrep);
-            if ($countrep > 0) {
-
-                Session::push('erroraddnew', 'Giảng viên ' . $gvname->name . ' đã dạy ca ' . $caname->ca_hoc);
+            if ($trungngay == 1) {
                 // Session::push('post_form_data', $this->v['request']);
+                return Redirect::back()->withErrors(['msg' => 'Giảng viên ' . $gvname->name . ' đã dạy giờ này']);
+
                 return redirect()->route($method_route);
             } else {
                 $res = $objClass->saveNew($params);
@@ -316,28 +333,38 @@ class ClassController extends  Controller
 
         $course = $this->v['ca_id'];
         // dd($objCa);
-
-
-
-
         return view('class.update-class', $this->v);
     }
 
     public function updateClass($id, ClassRequest $request)
     {
+        $this->v['request'] = $request;
         // dd('abc');
         $method_route = 'route_BackEnd_Class_Detail';
         $modelClass = new ClassModel();
-        $count = $modelClass->loadOne($id);
+        $lophientai = $modelClass->loadOne($id);
         $idGV = [];
-        $idGV['id'] = $count->lecturer_id;
-        $idGV['id_ca'] = $count->id_ca;
-        $idGV['id_lop'] = $count->id;
+        $idGV['id'] = $request->lecturer_id;
+        $idGV['id_ca'] = $request->id_ca;
+        $idGV['id_lop'] = $request->id;
         $countrep = $modelClass->checkCa($idGV);
-        dd($count);
-
-
-
+        $check = $modelClass->getDate($idGV);
+        $newst = strtotime($request->start_date);
+        $newend = strtotime($request->end_date);
+        $trungngay = 0;
+        foreach ($check as $key => $val) {
+            $soloptrung = $key + 1;
+            $start = strtotime($val->start_date);
+            $end = strtotime($val->end_date);
+            $time = ($newst >= $start && $newst <= $end) || ($newend >= $start && $newend <= $end);
+            // dd($time);
+            // var_dump($time);
+            if ($time) {
+                $trungngay = 1;
+                // var_dump($trungngay);
+            }
+        }
+        // var_dump($trungngay);
         $params = [
             'user_edit' => Auth::user()->id
         ];
@@ -350,12 +377,6 @@ class ClassController extends  Controller
         }, $request->post());
 
         unset($params['cols']['_token']);
-
-        // $objItem = $modelClass->loadOne($id);
-        // if (empty($objItem)) {
-        //     Session::push('errors', 'Không tồn tại người dùng này ' . $id);
-        //     return redirect()->route('route_BackEnd_NguoiDung_index');
-        // }
         $params['cols']['id'] = $id;
         // dd($params['cols']);
         $res = $modelClass->saveUpdate($params);
@@ -363,12 +384,12 @@ class ClassController extends  Controller
         {
             Session::push('post_form_data', $this->v['request']);
             return redirect()->route($method_route, ['id' => $id]);
-        } elseif ($countrep == 1) {
+        } elseif ($trungngay == 1) {
 
-            Session::push('errorupdate', 'Giảng viên đã dạy giờ này ');
+            return Redirect::back()->withErrors(['msg' => 'Giảng viên đã dạy giờ này']);
             // Session::push('post_form_data', $this->v['request']);
             return redirect()->route($method_route, ['id' => $id]);
-        } elseif ($res == 1 && $countrep == 0) {
+        } elseif ($res == 1 && $trungngay == 0) {
             //            SpxLogUserActivity(Auth::user()->id, 'edit', $primary_table, $id, 'edit');
             $request->session()->forget('post_form_data'); // xóa data post
             Session::flash('success', 'Cập nhật thành công thông tin lớp học!');
@@ -406,7 +427,26 @@ class ClassController extends  Controller
         $idGV['id_ca'] = $lop->id_ca;
         $idGV['id_lop'] = $lop->id;
         $countrep = $count->checkCa($idGV);
-        dd($countrep);
+        $check = $count->getDate($idGV);
+        $newst = strtotime($lop->start_date);
+        $newend = strtotime($lop->end_date);
+        // dd($check);
+        foreach ($check as $item => $value) {
+            var_dump($value->start_date);
+        }
+        foreach ($check as $key => $val) {
+            $soloptrung = $key + 1;
+            $start = strtotime($val->start_date);
+            $end = strtotime($val->end_date);
+            $time = ($newst >= $start && $newst <= $end) || ($newend >= $start && $newend <= $end);
+            if ($time) {
+                $trungngay = 1;
+                dd("trùng ngày");
+            } else {
+                dd("KHÔNG trùng ngày");
+                $trungngay = 0;
+            }
+        }
     }
     // private function ruleClass(){
     //     return [

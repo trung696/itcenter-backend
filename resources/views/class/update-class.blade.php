@@ -118,7 +118,7 @@
                                     class="text-danger">(*)</span></label>
                             <div class="col-md-9 col-sm-8">
                                 <input type="date" name="start_date" id="ten_danh_muc" class="form-control"
-                                    value="@isset($request['start_date']) {{ $request['start_date'] }} @else {{ $objItemClass->start_date->format('d/m/Y') }} @endisset"
+                                    value="@isset($request['start_date']) {{ $request['start_date'] }} @else {{ $objItemClass->start_date }} @endisset"
                                     @if ($objItemClass->start_date != '')  @endif>
                                 <span id="mes_sdt"></span>
                             </div>
@@ -128,7 +128,7 @@
                                     class="text-danger">(*)</span></label>
                             <div class="col-md-9 col-sm-8">
                                 <input type="date" name="end_date" id="ten_danh_muc" class="form-control"
-                                    value="@isset($request['end_date']) {{ $request['end_date'] }} @else {{ $objItemClass->end_date->format('d/m/Y') }} @endisset"
+                                    value="@isset($request['end_date']) {{ $request['end_date'] }} @else {{ $objItemClass->end_date }} @endisset"
                                     @if ($objItemClass->end_date != '')  @endif>
                                 <span id="mes_sdt"></span>
                             </div>

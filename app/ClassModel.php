@@ -174,7 +174,6 @@ class ClassModel extends Model
     }
     public function checkCa($idGV)
     {
-
         $res = DB::table('users as tb2')
             ->select('tb1.name', 'tb1.start_date', 'tb1.end_date', 'tb2.name', 'tb1.id_ca', 'tb1.lecturer_id')
             ->leftJoin($this->table . ' as tb1', 'tb2.id', '=', 'tb1.lecturer_id')
@@ -183,6 +182,17 @@ class ClassModel extends Model
             ->where('tb1.id', '!=', $idGV['id_lop'])
             ->count();
         return $res;
+    }
+    public function getDate($idGV)
+    {
+        $check = DB::table($this->table . ' as tb1')
+            ->select('tb1.name as Classname', 'tb1.start_date', 'tb1.end_date', 'tb2.name as Ten_giang_vien', 'tb1.id_ca', 'tb1.lecturer_id')
+            ->leftJoin('users as tb2', 'tb1.lecturer_id', '=', 'tb2.id')
+            ->where('tb2.id', $idGV['id'])
+            ->where('tb1.id_ca', $idGV['id_ca'])
+            ->where('tb1.id', '!=', $idGV['id_lop']);
+
+        return $check->get()->all();
     }
     // public function checkThoiGian($idGV)
     // {
