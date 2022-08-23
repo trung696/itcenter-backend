@@ -77,7 +77,7 @@ class DoiLopController extends Controller
     {
         $checkClass = ClassModel::where('id', $idNewClass)->first();
         if ($checkClass->slot > 0) {
-            $getPayMentOfOldDangKy = DangKy::where('id', $oldDangKy->id_payment)->first();
+            $getPayMentOfOldDangKy = DangKy::where('id', $oldDangKy->id)->first();
             //Số tiền đã nộp
             // dd($getPayMentOfOldDangKy);
             $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
@@ -103,13 +103,13 @@ class DoiLopController extends Controller
                     $classOld->update();
                     $classNews = ClassModel::whereId($dangKyOld->id_lop_hoc)->first();
                     // if ($hoc_vien = $addNewStudent) {
-                    Mail::send('emailThanhToan', compact('classOld', 'dangKyOld', 'classNews'), function ($email) use ($hocVien) {
-                        // mail nhận thư, tên người dùng
-                        $email->subject("Hệ thống gửi thông tin chuyển lớp đến bạn");
+                    Mail::send('emailThanhToan', compact('classOld', 'dangKyOld', 'classNews','dangKyOld'), function ($email) use ($hocVien) {
+                        $email->subject("Hệ thống gửi thông tin chuyển lớp đến bạn, Yêu cầu bạn đóng thêm học phí");
                         $email->to($hocVien->email, $hocVien->name, $hocVien);
                     });
                     // }
-                    return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
+                    return Redirect::back()->withErrors(['msg' => "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học"]);
+                    // return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
                     //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
                 } elseif ($dangKyOld->du_no  > 0) {
                     //update xong ở bảng đăng kí thì phải +1 vào slot ở course vừa chuyển đi

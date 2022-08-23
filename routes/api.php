@@ -53,7 +53,7 @@ Route::apiResource('danhMucOfUser','Api\ApiGetKhoaHocOfUser')->middleware('check
 
 Route::apiResource('registerClass','Api\ApiRegisterClassController');
 Route::get('checkPayMent','Api\ApiRegisterClassController@checkPayMent')->name('checkPayment');
-Route::post('registerCheck','Api\ApiRegisterClassController@registerCheck');
+Route::post('dongThem','Api\ApiRegisterClassController@dongThem')->name('dongThem');
 
 Route::apiResource('teacher','Api\ApiTeacherController');
 Route::apiResource('payment','Api\ApiPayMentController');

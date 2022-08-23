@@ -387,7 +387,6 @@ class DangKyController extends Controller
     {
         // dd($request, $id,$email);
         $dkiEdit = DangKy::where('id', $id)->first();
-
         if (abs($dkiEdit->du_no) == $request->dong_them) {
             try {
                 DB::beginTransaction();
@@ -403,9 +402,10 @@ class DangKyController extends Controller
                 $payMentUpdate->update();
 
                 $classOld = ClassModel::whereId($dkiEdit->id_lop_hoc)->first();
-                $classOld['slot'] = $classOld->slot + 1;
+                $classOld['slot'] = $classOld->slot - 1;
                 $classOld->update();
                 DB::commit();
+
                 return Redirect::back()->withErrors(['msg' => 'Nộp tiền thành công']);
                 // Mail::send('emailThongBaoDaNopHocPhi', compact('hocVien', 'dangKyAfterUpdate', 'listClass', 'classOfChuyenLop','ca'), function ($email) use ($hocVien) {
                 //     // mail nhận thư, tên người dùng
@@ -423,7 +423,7 @@ class DangKyController extends Controller
 
     public function dongHocPhi($request, $id, $email)
     {
-        dd('hàm đónng học phí khi đăng kí chưa nộp tiền');
+        // dd('hàm đónng học phí khi đăng kí chưa nộp tiền');
         // dd($request->all(), $id, $email);
         try {
             $dkiEdit = DangKy::where('id', $id)->first();
@@ -456,6 +456,7 @@ class DangKyController extends Controller
                     $checkClass['slot'] = $checkClass->slot - 1;
                     $checkClass->update();
                     DB::commit();
+                    
                     return Redirect::back()->withErrors(['msg' => 'Cập nhập thành công']);
                 } else {
                     return Redirect::back()->withErrors(['msg' => 'Lớp này đã khai giảng rồi hoặc đã hết slot']);
@@ -472,8 +473,7 @@ class DangKyController extends Controller
         /// check xem số tiền nộp thêm == abs(du_no)
         if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no) == $request->dong_them) {
             try {
-                dd('đóng thêm tiền');
-
+                // dd('đóng thêm tiền');
                 DB::beginTransaction();
                 // dd($newDangKy->id_payment);
                 $payMentOfDangKy = Payment::where('id', $newDangKy->id_payment)->first();
@@ -498,10 +498,10 @@ class DangKyController extends Controller
                 Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
             }
         } else {
-            // trường hợp không nhập số tiền còn thiếu
+            // chuyển lớp sang khóa đắt tiền hơn
             $checkClass = ClassModel::where('id', $idNewClass)->first();
             if ($checkClass->slot > 0) {
-                $getPayMentOfOldDangKy = DangKy::where('id', $newDangKy->id_payment)->first();
+                $getPayMentOfOldDangKy = DangKy::where('id', $dangKyOld->id)->first();
                 //Số tiền đã nộp
                 $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
                 //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
@@ -523,7 +523,7 @@ class DangKyController extends Controller
                         $classOld = ClassModel::whereId($idClassOld)->first();
                         $classOld['slot'] = $classOld->slot + 1;
                         $classOld->update();
-                        return "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để học";
+                        return Redirect::back()->withErrors(['msg' => "Bạn đã chuyển lớp thành công và nợ   . $dangKyOld->du_no. vui lòng đóng tiền để họ"]);
                         //nếu dư nợ lớn hơn 0 thì trạng thái vẫn là 1, cộng slot ở lớp cũ và  trừ 1 slot ở lớp mới
                     } elseif ($dangKyOld->du_no  > 0) {
                         //update xong ở bảng đăng kí thì phải +1 vào slot ở course vừa chuyển đi

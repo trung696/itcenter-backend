@@ -8,7 +8,10 @@ use App\HocVien;
 use App\Http\Controllers\Controller;
 use App\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -162,6 +165,8 @@ class ApiRegisterClassController extends Controller
                     'price' => $request->price,
                     'description' => $request->description,
                     'status' => 1,
+                    'id_don_hang' => $request->id_don_hang,
+                    'id_giao_dich' => $request->id_giao_dich,
                 ]);
                 //nếu thêm thành công thanh toán momo vào bảng  payment
                 if ($payment) {
@@ -352,8 +357,55 @@ class ApiRegisterClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function dongThem(Request $request)
     {
-        //
+        // dd(123);
+
+        // try {
+        //     DB::beginTransaction();
+            if (isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
+                // dd('có pay men momo');
+                $paymentUpdate = [
+                    'payment_date' => date("Y-m-d h:i:s"),
+                    'price' => $request->price,
+                    'description' => "(đóng thêm)",
+                    'status' => 1,
+                ];
+                // dd($paymentUpdate);
+                $dangKy = DangKy::find($request->idDangKy);
+                //cập nhập ở đăng kí
+                $dangKy['trang_thai'] = 1;
+                $dangKy['so_tien_da_dong'] = null;
+                $dangKy['du_no'] = 0;
+                $dangKy->update();
+                
+                //cập nhập slots
+                $class =  ClassModel::find($dangKy->id_lop_hoc);
+                $class['slot'] = $class['slot'] - 1 ;
+                $class->update();
+                
+                //cập nhập ở payment
+                $payment = Payment::find($dangKy->id_payment);
+                $payment['payment_date'] = $paymentUpdate['payment_date'];
+                $payment['price'] = $payment['price'] + $paymentUpdate['price'];
+                $payment['description'] = $payment->description . $paymentUpdate['description'];
+                $payment->update();
+                // dd($dangKy,$payment);
+
+                return response()->json([
+                    'status' => true,
+                    'heading' => 'Thanh toán thành công, vui lòng kiểm tra email',
+                    'data' => $dangKy,
+                    'data_2' => $payment,
+                ],200);
+            }
+        //     DB::commit();
+        // } catch (\Exception $exception) {
+        //     DB::rollback();
+        //     return response()->json([
+        //         'status' => false,
+        //         'heading' => 'Lỗi'
+        //     ],500);
+        // }
     }
 }
