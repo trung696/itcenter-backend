@@ -170,7 +170,7 @@
 
 
 
-                    @if($getDuNo != 0 )
+                    @if($getDuNo != 0  && $getDuNo < 0 )
                     <div class="form-group">
                         <label for="so_dien_thoai" class="col-md-3 col-sm-4 control-label">Còn thiếu <span class="text-danger">(*)</span></label>
 
