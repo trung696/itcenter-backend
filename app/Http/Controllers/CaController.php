@@ -18,7 +18,8 @@ use Dompdf\Options;
 require_once __DIR__ . '/../../SLib/functions.php';
 class CaController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $this->v['_title'] = 'Ca học';
         $this->v['routeIndexText'] = 'Ca học';
         $objCa = new Ca();
@@ -30,7 +31,8 @@ class CaController extends Controller
         return view('ca.index', $this->v);
     }
 
-    public function addCa(CaHocRequest $request){
+    public function addCa(CaHocRequest $request)
+    {
         $this->v['_title'] = 'Thêm ca học';
         $method_route = 'route_BackEnd_Ca_Add';
         $this->v['_action'] = 'Add';
@@ -38,12 +40,33 @@ class CaController extends Controller
         $this->v['trang_thai'] = config('app.status_user');
         // dd(123);
         if ($request->isMethod('post')) {
-            // dd(456);
+            $mangNgayGio = $request->ca_hoc;
+            $ts = trim($mangNgayGio, "Thứ");
+            $tss = (explode(" ", $ts));
+            $mangSo = [];
+            $mangGio = [];
+            foreach ($tss as $item) {
+                if (is_numeric($item)) {
+                    $mangSo[] = $item;
+                }
+            }
+            $mangGioEnd = array_pop($mangSo);
+            $mangGio[] = $mangGioEnd;
+            $mangGioFirst = array_pop($mangSo);
+            $mangGio[] = $mangGioFirst;
+            $reversed = array_reverse($mangGio);
+            $chuoiNgay = implode('-', $mangSo);
+            $chuoiGio = implode('-', $reversed);
+            $name_info = array($chuoiNgay, $chuoiGio);
+
+            //thêm $fullArray này vào đb
+            $fullArray = implode(',', $name_info);
+
+            // dd( $fullArray );
             if (Session::has($method_route)) {
                 return redirect()->route($method_route); // không cho F5, chỉ có thể post 1 lần
             } else
                 Session::push($method_route, 1); // bỏ vào session để chống F5
-
             $params = [
                 'user_add' => Auth::user()->id
             ];
@@ -54,6 +77,7 @@ class CaController extends Controller
                     $item = trim($item);
                 return $item;
             }, $request->post());
+            $params['cols']['key_ca']= $fullArray;
 
             // dd($params['cols']);
             unset($params['cols']['_token']);
@@ -69,13 +93,11 @@ class CaController extends Controller
                 $request->session()->forget('post_form_data'); // xóa data post
                 Session::flash('success', 'Thêm mới thành công ca học !');
                 return redirect()->route('route_BackEnd_Ca_List');
-
             } else {
                 Session::push('errors', 'Lỗi thêm mới: ' . $res);
                 Session::push('post_form_data', $this->v['request']);
                 return redirect()->route($method_route);
             }
-
         } else {
             // không phải post
             $request->session()->forget($method_route); // hủy session nếu vào bằng sự kiện get
@@ -84,7 +106,8 @@ class CaController extends Controller
         return view('ca.add', $this->v);
     }
 
-    public function editCa($id, Request $request){
+    public function editCa($id, Request $request)
+    {
         $this->v['routeIndexText'] = 'chỉnh sửa ca học';
         $this->v['_action'] = 'Edit';
         $this->v['_title'] = 'chỉnh sửa ca học';
@@ -94,11 +117,12 @@ class CaController extends Controller
 
         $this->v['extParams'] = $request->all();
         $this->v['trang_thai'] = config('app.status_user');
-        
-        return view('ca.edit',$this->v);
+
+        return view('ca.edit', $this->v);
     }
 
-    public function updateCa($id, CaHocRequest $request){
+    public function updateCa($id, CaHocRequest $request)
+    {
 
         $method_route = 'route_BackEnd_Ca_Edit';
         $modelCa = new Ca();
@@ -106,9 +130,9 @@ class CaController extends Controller
             'user_edit' => Auth::user()->id
         ];
         $params['cols'] = array_map(function ($item) {
-            if($item == '')
+            if ($item == '')
                 $item = null;
-            if(is_string($item))
+            if (is_string($item))
                 $item = trim($item);
             return $item;
         }, $request->post());
@@ -130,7 +154,7 @@ class CaController extends Controller
             return redirect()->route($method_route, ['id' => $id]);
         } elseif ($res == 1) {
             // dd('đã vào đây');
-//            SpxLogUserActivity(Auth::user()->id, 'edit', $primary_table, $id, 'edit');
+            //            SpxLogUserActivity(Auth::user()->id, 'edit', $primary_table, $id, 'edit');
             $request->session()->forget('post_form_data'); // xóa data post
             Session::flash('success', 'Cập nhật thành công thông tin ca học!');
             // dd('vào lần 2');
@@ -144,19 +168,19 @@ class CaController extends Controller
     }
 
     public function destroy($id)
-{
-	//Xoa hoc sinh
-	//Thực hiện câu lệnh xóa với giá trị id = $id trả về
-	$deleteData = DB::table('cas')->where('id', '=', $id)->delete();
-	
-	//Kiểm tra lệnh delete để trả về một thông báo
-	if ($deleteData) {
-		Session::flash('success', 'Xóa ca học thành công!');
-	}else {                        
-		Session::flash('error', 'Xóa thất bại!');
-	}
-	
-	//Thực hiện chuyển trang
-	return redirect()->route('route_BackEnd_Ca_List');
-}
+    {
+        //Xoa hoc sinh
+        //Thực hiện câu lệnh xóa với giá trị id = $id trả về
+        $deleteData = DB::table('cas')->where('id', '=', $id)->delete();
+
+        //Kiểm tra lệnh delete để trả về một thông báo
+        if ($deleteData) {
+            Session::flash('success', 'Xóa ca học thành công!');
+        } else {
+            Session::flash('error', 'Xóa thất bại!');
+        }
+
+        //Thực hiện chuyển trang
+        return redirect()->route('route_BackEnd_Ca_List');
+    }
 }

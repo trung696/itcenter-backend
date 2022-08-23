@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class Ca extends Model
 {
     protected $table = 'cas';
-    protected $fillable =[ 'tb1.id','tb1.ca_hoc','tb1.trang_thai','tb1.created_at','tb1.updated_at'];
+    protected $fillable =[ 'tb1.id','tb1.ca_hoc','tb1.trang_thai','tb1.key_ca','tb1.created_at','tb1.updated_at'];
 
     public function createStdClass(){
         $objItem = new \stdClass();
@@ -54,6 +54,7 @@ class Ca extends Model
         $data =  array_merge($params['cols'],[
             'ca_hoc' => $params['cols']['ca_hoc'],
             'trang_thai' => 1,
+            'key_ca' => $params['cols']['key_ca'],
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
