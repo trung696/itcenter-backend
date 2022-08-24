@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\ClassModel;
+use App\Ca;
 use App\Course;
 use App\CourseCategory;
 use App\DangKy;
@@ -26,16 +27,17 @@ class ApiGetKhoaHocOfUser extends Controller
         $data = [];
         if ($listDangKiOfUser) {
             foreach ($listDangKiOfUser as $listDangKiOfUserItem) {
-                $course_data =  Course::find($listDangKiOfUserItem['id_lop_hoc']);
                 $listDangKiOfUserItem['lop_hoc'] = ClassModel::where('id', $listDangKiOfUserItem['id_lop_hoc'])->first();
-                $listDangKiOfUserItem['lop_hoc']->image = $course_data->image;
-                $listDangKiOfUserItem['lop_hoc']->course_name = $course_data->image;
+                $course_data = Course::find($listDangKiOfUserItem['lop_hoc']->course_id);
+                $listDangKiOfUserItem['lop_hoc']->image = $course_data->image || "";
+                $listDangKiOfUserItem['lop_hoc']->course_name = $course_data->image || "";
+                $listDangKiOfUserItem['ca_hoc'] = Ca::find($listDangKiOfUserItem['lop_hoc']->id_ca);
                 array_push($data, $listDangKiOfUserItem);
             }
             return response()->json([
                 'status' => true,
                 'heading' => "Danh sách khóa học đăng kí",
-                'data' => $data
+                'data' => $data,
             ], 200);
         }
         return response()->json([
