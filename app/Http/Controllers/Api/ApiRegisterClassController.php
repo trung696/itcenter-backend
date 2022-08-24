@@ -382,9 +382,24 @@ class ApiRegisterClassController extends Controller
     public function dongThem(Request $request)
     {
         // dd(123);
+
+        $validated = Validator::make($request->all(), [
+            'payment_date' => 'required',
+            'price' => 'required',
+            'status' => 'required',
+            'idDangKy' => 'required'
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json([
+                'heading' => 'lỗi validate',
+                'log' => $validated->errors(),
+            ], 400);
+        }
+        
         // try {
         //     DB::beginTransaction();
-            if (isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
+            if (isset($request->payment_date) && isset($request->price) && isset($request->status)) {
                 // dd('có pay men momo');
                 $paymentUpdate = [
                     'payment_date' => date("Y-m-d h:i:s"),
