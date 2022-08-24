@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Ca;
 use App\ClassModel;
 use App\DangKy;
 use App\HocVien;
@@ -89,6 +90,12 @@ class ApiRegisterClassController extends Controller
                                 ]);
                             }
                         }
+                        $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
+                        // gửi mail thông báo
+                        Mail::send('emailThongBaoDangKiLopHoc', compact('classDk', 'payment'), function ($email) use ($infoHocVien) {
+                            $email->subject("Hệ thống thông báo bạn đã đăng kí và đóng học phí và yêu cầu bạn xác nhận giao dịch ");
+                            $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
+                        });
                         return response()->json([
                             'status' => true,
                             'heading' => 'đang kí thành công và đã chuyển tiền thành công qua momo',
@@ -96,8 +103,8 @@ class ApiRegisterClassController extends Controller
                             'data_payment' => $addDangKiIssetStudent->payment
                         ], 200);
                     }
-                    //không có payment momo
 
+                    //không có payment momo
                     $addDangKiIssetStudent = DangKy::create([
                         'ngay_dang_ky' => date("Y-m-d"),
                         'id_lop_hoc' => $request->id_lop_hoc,
@@ -107,6 +114,12 @@ class ApiRegisterClassController extends Controller
                         'id_payment' => null,
                         'paid_date' => null,
                     ]);
+                    $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
+
+                    Mail::send('emailThongBaoDangKiLopHoc', compact('classDk'), function ($email) use ($infoHocVien) {
+                        $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
+                        $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
+                    });
                     return response()->json([
                         'status' => true,
                         'heading' => 'đang kí thành công chờ hệ thống kiểm tra xem bạn đã thanh toán hay chưa',
@@ -154,6 +167,7 @@ class ApiRegisterClassController extends Controller
                 $email->subject("Hệ thống gửi password đến bạn");
                 $email->to($hoc_vien->email, $hoc_vien->ho_ten, $hoc_vien);
             });
+          
         }
 
         if ($addNewStudent) {
@@ -186,6 +200,10 @@ class ApiRegisterClassController extends Controller
                         ]);
                     }
                 }
+                Mail::send('emailThongBaoDangKiLopHoc', compact('classDk','payment'), function ($email) use ($addNewStudent) {
+                    $email->subject("Hệ thống thông báo bạn đã đăng kí");
+                    $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
+                });
                 return response()->json([
                     'status' => true,
                     'heading' => 'tạo thành công tài koản, đang kí thành công và đã chuyển tiền thành công qua momo',
@@ -203,6 +221,11 @@ class ApiRegisterClassController extends Controller
                 'id_payment' => null,
                 'paid_date' => null,
             ]);
+            $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
+            Mail::send('emailThongBaoDangKiLopHoc', compact('classDk'), function ($email) use ($addNewStudent) {
+                $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
+                $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
+            });
             return response()->json([
                 'status' => true,
                 'heading' => 'đang kí thành công tài khoản và thêm được vào bảng đang kí, chờ hệ thống kiểm tra xem bạn đã thanh toán hay chưa',
@@ -310,7 +333,6 @@ class ApiRegisterClassController extends Controller
                 'id_lop_hoc' => $request->id_lop_hoc,
             ]);
             $dangKyAfterUpdate = DangKy::where('id', $id)->first();
-
             // dd($dangKyAfterUpdate);
             //nếu trạng thái là đã thanh toán khi chuyển đi rồi thì phải cộng thêm 1 slot
             if ($dangKyAfterUpdate->trang_thai == 1) {
@@ -360,7 +382,6 @@ class ApiRegisterClassController extends Controller
     public function dongThem(Request $request)
     {
         // dd(123);
-
         // try {
         //     DB::beginTransaction();
             if (isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
@@ -392,6 +413,12 @@ class ApiRegisterClassController extends Controller
                 $payment->update();
                 // dd($dangKy,$payment);
 
+                $hoc_vien = HocVien::where('id',$dangKy->id_hoc_vien)->first();
+                //gửi email là đóng thêm học phí thành công
+                Mail::send('emailThongBaoDongThemThanhCong.blade', compact('paymentUpdate', 'class'), function ($email) use ($hoc_vien) {
+                    $email->subject("Hệ thống gửi thông báo bạn đã đóng đủ học phí");
+                    $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
+                });
                 return response()->json([
                     'status' => true,
                     'heading' => 'Thanh toán thành công, vui lòng kiểm tra email',
