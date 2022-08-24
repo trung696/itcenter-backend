@@ -186,15 +186,7 @@
                     </div>
 
                 </div>
-                <div class="form-group">
-                    <label for="Giá niêm yết" class="col-md-3 col-sm-4 control-label">Học phí đã đóng</label>
-                    <div class="col-md-9 col-sm-8">
-                        <input type="number" name="hocphi" id="price" class="form-control"
-                            value="">
 
-                        <span id="mes_sdt"></span>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="nguon" class="col-md-3 col-sm-4 control-label">Trạng thái <span
                             class="text-danger">(*)</span></label>

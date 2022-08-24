@@ -104,7 +104,13 @@ class ClassModel extends Model
         $lists = $query->paginate(6, ['tb1.id']);
         return $lists;
     }
-
+    // public function loadActiveClass($where = null)
+    // {
+    //     $list = DB::table($this->table)->select('id', 'name', 'status');
+    //     if ($where != null)
+    //         $list->where([$where]);
+    //     return $list->get();
+    // }
     public function loadListIdAndName($where = null)
     {
         dd('đã vào đây');

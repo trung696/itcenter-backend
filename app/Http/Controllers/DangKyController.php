@@ -96,7 +96,7 @@ class DangKyController extends Controller
                 if (isset($resHocVien)) {
                     $gia = $objKhoaHoc->loadOne($request->id_khoa_hoc);
                     $arrDangKy = [];
-                    $arrDangKy['so_tien_da_dong'] = (int)$request->hocphi;
+
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
 
                     //check coupon
@@ -154,13 +154,8 @@ class DangKyController extends Controller
                     // dd((int)$request->hocphi, $arrDangKy['so_tien_da_dong'], $gia->price);
 
 
-                    if ($request->trang_thai == 1 && isset($request->hocphi)) {
-                        if ($arrDangKy['gia_tien'] <= (int)$request->hocphi) {
-                            $arrDangKy['so_tien_da_dong'] = (int)$request->hocphi;
-                            $arrDangKy['du_no'] = $arrDangKy['so_tien_da_dong'] - $arrDangKy['gia_tien'];
-                        } else {
-                            return Redirect::back()->withErrors(['msg' => 'Số tiền đã đóng không đủ']);
-                        }
+                    if ($request->trang_thai == 1) {
+
                         $random = Str::random(10);
                         // dd($random);
                         $arrDangKy['token'] = $random;
@@ -168,7 +163,7 @@ class DangKyController extends Controller
                         $objPayment = new Payment();
                         $arrPay = [];
                         $arrPay['payment_method_id'] = 1;
-                        $arrPay['price'] = $arrDangKy['so_tien_da_dong'];
+                        $arrPay['price'] = $arrDangKy['gia_tien'];
                         $arrPay['description'] = "Học viên đã đóng đủ học phí trực tiếp";
                         $payment = $objPayment->saveNewAdmin($arrPay);
                         $arrDangKy['id_payment'] = $payment;
@@ -182,10 +177,8 @@ class DangKyController extends Controller
                             $updateSoCho['so_cho'] = $socho->slot - 1;
                             $update = $objLopHoc->saveUpdateSoCho($updateSoCho);
                         }
-                    } elseif ($request->trang_thai == 0 && isset($request->hocphi)) {
-                        return Redirect::back()->withErrors(['msg' => 'Không nhập số tiền đã đóng khi chưa đóng học phí']);
                     } else {
-                        $arrDangKy['so_tien_da_dong'] = 0;
+                        $arrDangKy['gia_tien'] = $gia->price;
                         $res = $objDangKy->saveNew($arrDangKy);
                     }
                     // dd($arrDangKy);
@@ -256,7 +249,7 @@ class DangKyController extends Controller
                     ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
                     ->where('tb1.id', $id)->first();
                 $price = (int)$objGuiGmail->price;
-                $gia = (int)$objGuiGmail->price;
+                $gia = (int)$objGuiGmail->gia_tien;
                 $giam_gia = (($price - $gia) / $price) * 100;
                 // dd($objGuiGmail);
                 $objGuiGmail->so_dien_thoai = $giam_gia;
@@ -456,7 +449,7 @@ class DangKyController extends Controller
                     $checkClass['slot'] = $checkClass->slot - 1;
                     $checkClass->update();
                     DB::commit();
-                    
+
                     return Redirect::back()->withErrors(['msg' => 'Cập nhập thành công']);
                 } else {
                     return Redirect::back()->withErrors(['msg' => 'Lớp này đã khai giảng rồi hoặc đã hết slot']);
