@@ -237,7 +237,7 @@ return [
     'roles' => [1 => 'Quản lý', 2 => 'Nhân viên'],
     'status_user' => [0 => 'Khóa', 1 => 'Mở'],
     'status_giang_vien' => [0 => 'Dừng Giảng Dạy', 1 => 'Đang giảng Dạy'],
-    'status_dang_ky' => [0 => 'Chưa Thanh Toán', 1 => 'Đã Thanh Toán'],
+    'status_dang_ky' => [0 => 'Chưa Thanh Toán', 1 => 'Đã Thanh Toán', 3 => 'Hoàn tất thủ tục'],
     'status_danh_muc' => [0 => 'Dừng Hoạt Động', 1 => 'Đang Hoạt Động'],
     'status_chien_dich' => [0 => 'Chưa Sử Dụng', 1 => 'Đã Sử Dụng'],
 ];

@@ -85,7 +85,7 @@ return [
 
     'from' => [
         'address' => 'phamdoanh225@gmail.com',
-        'name' => 'Thanh Trung Academics',
+        'name' => 'NextDev',
     ],
 
     /*

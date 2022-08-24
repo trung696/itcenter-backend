@@ -19,6 +19,12 @@ Route::get('/', function () {
 //trang chủ
 Route::get('/home', 'UserController@home');
 
+//thống kê
+Route::get('/thongke', 'ThongKeController@thongKeCung');
+//mail xác nhận 
+Route::get('/accept-payment/{id}/{token}', 'DangKyController@acceptDangKy')
+    ->name('route_accept');
+
 // fontend khoá học
 Route::get('/khoa-hoc/detail/{id}', 'KhoaHocController@fontendDanhSachKhoaHoc')
     ->where('id', '[0-9]+')

@@ -11,35 +11,35 @@ use Illuminate\Support\Facades\Session;
 class DangKy extends Model
 {
     protected $table = 'dang_ky';
-    protected $fillable = ['ngay_dang_ky', 'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai','id_payment','paid_date', 'created_at', 'updated_at'];
+    protected $fillable = ['ngay_dang_ky', 'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai', 'id_payment', 'paid_date', 'created_at', 'updated_at', 'token'];
     public function class()
     {
-        return $this->belongsTo(ClassModel::class,'id_lop_hoc','id');
+        return $this->belongsTo(ClassModel::class, 'id_lop_hoc', 'id');
     }
 
     public function payment()
     {
-        return $this->belongsTo(Payment::class,'id_payment','id');
+        return $this->belongsTo(Payment::class, 'id_payment', 'id');
     }
 
     public function hocVien()
     {
-        return $this->hasMany(HocVien::class,'id','id_hoc_vien');
+        return $this->hasMany(HocVien::class, 'id', 'id_hoc_vien');
     }
-    
+
     public function loadListWithPager($params = array(), $id = null)
     {
         $query = DB::table($this->table . ' as tb1')
             ->select('tb2.id', 'tb2.ho_ten', 'tb2.ngay_sinh', 'tb1.ngay_dang_ky', 'tb2.so_dien_thoai', 'tb2.email', 'tb1.trang_thai')
             ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
             ->where('tb1.id_lop_hoc', $id);
-        $lists = $query->where('tb1.trang_thai', '=', 1)->paginate(10, ['tb1.id']);
+        $lists = $query->where('tb1.trang_thai', '=', 1)->orderBy('tb1.id', 'desc')->paginate(10, ['tb1.id']);
         return $lists;
     }
     public function loadListWithPagers($params = array())
     {
         $query = DB::table($this->table . ' as tb1')
-            ->select('tb1.id', 'tb2.ho_ten', 'tb2.ngay_sinh', 'tb2.so_dien_thoai', 'tb1.ngay_dang_ky','tb1.so_tien_da_dong','tb1.du_no', 'tb2.so_dien_thoai', 'tb2.email', 'tb1.trang_thai', 'tb3.name')
+            ->select('tb1.id', 'tb2.ho_ten', 'tb2.ngay_sinh', 'tb2.so_dien_thoai', 'tb1.ngay_dang_ky', 'tb1.so_tien_da_dong', 'tb1.du_no', 'tb2.so_dien_thoai', 'tb2.email', 'tb1.trang_thai', 'tb3.name')
             ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
             ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc');
         if (isset($params['search_ten_hoc_vien']) && strlen($params['search_ten_hoc_vien']) > 0) {
@@ -48,7 +48,7 @@ class DangKy extends Model
         if (isset($params['search_ngay_dang_ky']) && strlen($params['search_ngay_dang_ky']) > 0) {
             $query->where('tb1.ngay_dang_ky', $params['search_ngay_dang_ky']);
         }
-        $lists = $query->paginate(10, ['tb1.id']);
+        $lists = $query->orderBy('tb1.id', 'desc')->paginate(10, ['tb1.id']);
         return $lists;
     }
 
@@ -88,6 +88,8 @@ class DangKy extends Model
             'gia_tien' => $params['gia_tien'],
             'id_hoc_vien' => $params['id_hoc_vien'],
             'trang_thai' => 1,
+            'id_payment' => $params['id_payment'],
+            'paid_date' => date('Y-m-d'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -134,6 +136,14 @@ class DangKy extends Model
             ->where('id', $arrDangKy['id'])
             ->limit(1)
             ->update(['id_lop_hoc' => $arrDangKy['id_lop_hoc'], 'trang_thai' => $arrDangKy['trang_thai']]);
+        return $res;
+    }
+    public function updateHocPhi($arrDangKy)
+    {
+        $res = DB::table($this->table)
+            ->where('id', $arrDangKy['id'])
+            ->limit(1)
+            ->update(['trang_thai' => $arrDangKy['trang_thai']]);
         return $res;
     }
 }
