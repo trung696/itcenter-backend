@@ -156,15 +156,17 @@
                                 <th>Giảng viên</th>
                                 <th>Địa điểm</th>
                                 <th>Khóa học</th>
-                                <th>ca học</th>
+                                <th>Ca học</th>
                                 <th>Công cụ</th>
                             </tr>
                             @foreach ($lists as $key => $item)
                                 <tr>
 
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $arrCoursePrice[$item->course_id]}}</td>
+                                    <td> <a
+                                            href="{{ route('route_danhsachlop', ['id' => $item->id]) }}">{{ $item->name }}</a>
+                                    </td>
+                                    <td>{{ $arrCoursePrice[$item->course_id] }}</td>
                                     <td>{{ $item->slot }}</td>
                                     <td>{{ $item->start_date }}</td>
                                     <td>{{ $item->end_date }}</td>

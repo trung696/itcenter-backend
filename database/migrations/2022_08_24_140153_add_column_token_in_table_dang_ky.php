@@ -25,7 +25,7 @@ class AddColumnTokenInTableDangKy extends Migration
      */
     public function down()
     {
-        Schema::table('ưdang_ky', function (Blueprint $table) {
+        Schema::table('dang_ky', function (Blueprint $table) {
             //
             $table->dropColumn('token');
         });
