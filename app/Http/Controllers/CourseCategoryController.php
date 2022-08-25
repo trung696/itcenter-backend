@@ -129,7 +129,7 @@ class CourseCategoryController extends Controller
         $res = $modelDanhMuc->saveUpdate($params);
         if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi
         {
-            Session::push('post_form_data', $this->v['request']);
+            Session::push('post_form_data', isset($this->v['request']) ? $this->v['request'] : '');
             return redirect()->route($method_route, ['id' => $id]);
         } elseif ($res == 1) {
 //            SpxLogUserActivity(Auth::user()->id, 'edit', $primary_table, $id, 'edit');
