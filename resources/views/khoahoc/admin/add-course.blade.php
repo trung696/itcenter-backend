@@ -113,7 +113,7 @@
 
                     <div class="form-group">
                         <label for="price" class="col-md-3 col-sm-4 control-label">Ảnh <span class="text-danger">(*)</span></label>
-                        <div class="col-md-9 col-sm-8">
+                        <div class="col-md-9 col-sm-8 input-group">
                             <span class="input-group-btn">
                                 <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
                                     <i class="fa fa-picture-o"></i> Choose
@@ -122,6 +122,7 @@
                             <input id="thumbnail" class="form-control  @error('image') is-invalid @enderror" type="text" name="image" accept="image/*">
                         </div>
                     </div>
+                    <div id="holder" style="margin-top:15px;max-height:100px;"></div>
 
                     <div class="form-group">
                         <label for="category_id" class="col-md-3 col-sm-4 control-label">Danh Mục Khoá Học</label>
@@ -149,7 +150,7 @@
                             <textarea id="default" name="result" class="form-control" value="@isset($request['result']){{ $request['result'] }}@endisset" placeholder="Kết quả đạt được"></textarea>
                         </div>
                     </div>
-
+                    
 
                 </div>
                 <div class="col-md-6">
@@ -167,7 +168,7 @@
 </section>
 @endsection
 @section('script')
-<script src="https://cdn.tiny.cloud/1/bhkexk64cm95nnatbec5bu38u6on5398n7wx32y4p3iq5tpu/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
         selector: 'textarea#default'

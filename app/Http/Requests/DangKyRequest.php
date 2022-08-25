@@ -37,9 +37,9 @@ class DangKyRequest extends FormRequest
                 switch ($currentAction) {
                     case 'themDangKy':
                         $rules = [
-                            "ho_ten" => "required",
+                            "ho_ten" => "required|min:5",
                             "ngay_sinh" => "required",
-                            "so_dien_thoai" => "required",
+                            "so_dien_thoai" => "required|max:10",
                             "email" => "required",
                         ];
                         break;
@@ -59,8 +59,10 @@ class DangKyRequest extends FormRequest
     {
         return [
             "ho_ten.required" =>  "Không được để trống tên học viện",
+            "ho_ten.min" => "Họ tên nhập tối thiểu 5 kí tự",
             "ngay_sinh.required" =>  "Không được để trống ngày sinh",
             "so_dien_thoai.required" =>  "Không được để trống số điện thoại",
+            "so_dien_thoai.max" => "Số điện thoại không được vượt quá 10 kí tự",
             "email.required" =>  "Không được để trống email",
         ];
     }

@@ -37,24 +37,26 @@ class ClassRequest extends FormRequest
                 switch ($currentAction) {
                     case 'addClass':
                         $rules = [
-                            "name" => "required",
-                            "slot" => "required",
+                            "name" => "required|min:5|max:199|unique:class",
+                            "slot" => "required|numeric",
                             "start_date" => "required",
                             "end_date" => "required",
                             "lecturer_id" => "required",
                             "location_id" => "required",
                             "course_id" => "required",
+                            'id_ca' => 'required',
                         ];
                         break;
                     case 'updateClass':
                         $rules = [
-                            "name" => "required",
-                            "slot" => "required",
+                            "name" => "required|min:5|max:199|unique:class",
+                            "slot" => "required|numeric",
                             "start_date" => "required",
                             "end_date" => "required",
                             "lecturer_id" => "required",
                             "location_id" => "required",
                             "course_id" => "required",
+                            'id_ca' => 'required',
                         ];
                         break;
 
@@ -73,12 +75,16 @@ class ClassRequest extends FormRequest
     {
         return [
             'name.required' => 'Bắt buộc phải nhập lớp học',
+            'name.min' => 'Tên lớp học phải nhập tối thiểu 5 kí tự',
+            'name.max' => 'Tên lớp học phải nhập tối đa 199 kí tự',
+            'name.unique' => 'Tên lớp học đã tồn tại trên hệ thống',
             'slot.required' => 'Bắt buộc phải nhập số chỗ',
             'start_date.required' => 'Bắt buộc phải nhập ngày bắt đầu',
             'end_date.required' => 'Bắt buộc phải nhập ngày kết thúc',
             'lecturer_id.required' => 'Bắt buộc phải nhập giảng viên',
             'location_id.required' => 'Bắt buộc phải nhập địa điểm',
             'course_id.required' => 'Bắt buộc phải nhập khóa học',
+            'id_ca.required' => 'Bắt buộc phải chọn ca học',
         ];
     }
 }
