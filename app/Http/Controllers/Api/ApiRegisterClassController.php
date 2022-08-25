@@ -399,7 +399,7 @@ class ApiRegisterClassController extends Controller
         
         // try {
         //     DB::beginTransaction();
-            if (isset($request->payment_date) && isset($request->price) && isset($request->status)) {
+            if (isset($request->payment_date) && isset($request->price) && isset($request->status) && isset($request->idDangKy)) {
                 // dd('có pay men momo');
                 $paymentUpdate = [
                     'payment_date' => date("Y-m-d h:i:s"),
@@ -430,7 +430,7 @@ class ApiRegisterClassController extends Controller
 
                 $hoc_vien = HocVien::where('id',$dangKy->id_hoc_vien)->first();
                 //gửi email là đóng thêm học phí thành công
-                Mail::send('emailThongBaoDongThemThanhCong.blade', compact('paymentUpdate', 'class'), function ($email) use ($hoc_vien) {
+                Mail::send('emailThongBaoDongThemThanhCong', compact('paymentUpdate', 'class'), function ($email) use ($hoc_vien) {
                     $email->subject("Hệ thống gửi thông báo bạn đã đóng đủ học phí");
                     $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
                 });
