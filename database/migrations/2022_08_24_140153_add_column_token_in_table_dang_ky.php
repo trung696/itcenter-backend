@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnSenduserInTableMaKhuyenMai extends Migration
+class AddColumnTokenInTableDangKy extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddColumnSenduserInTableMaKhuyenMai extends Migration
      */
     public function up()
     {
-        Schema::table('ma_khuyen_mai', function (Blueprint $table) {
-            $table->integer('senduser');
+        Schema::table('dang_ky', function (Blueprint $table) {
+            $table->string('token')->nullable();
         });
     }
 
@@ -25,8 +25,9 @@ class AddColumnSenduserInTableMaKhuyenMai extends Migration
      */
     public function down()
     {
-        Schema::table('ma_khuyen_mai', function (Blueprint $table) {
-            $table->dropColumn('senduser');
+        Schema::table('ưdang_ky', function (Blueprint $table) {
+            //
+            $table->dropColumn('token');
         });
     }
 }

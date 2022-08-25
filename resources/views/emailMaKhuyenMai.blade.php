@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <p>Trung tâm văn hoá Thanh Trung Academics </p>
+    <p>Trung tâm NextDev </p>
     <p>Xin gửi tới bạn mã khuyến mãi: {{ $emails['ma'] }}</p>
     </table>
 </body>
