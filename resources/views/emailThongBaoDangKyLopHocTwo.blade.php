@@ -295,7 +295,7 @@
                                           font-size: 14px;
                                           text-align: center;
                                         ">
-                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đang kí tham gia lớp học </span></strong></span>
+                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đăng kí tham gia lớp học </span></strong></span>
                                     </p>
                                   </div>
                                 </div>
@@ -330,7 +330,7 @@
                                           font-size: 14px;
                                           text-align: center;
                                         ">
-                                      ĐÂY LÀ THÔNG TIN ĐĂNG KÝ LỚP VÀ TÀI KHOẢN ĐĂNG NHẬP CỦA BẠN
+                                      ĐÂY LÀ THÔNG TIN ĐĂNG KÝ LỚP CỦA BẠN
                                     </p>
                                   </div>
                                 </div>
@@ -372,63 +372,6 @@
                               </tr>
                             </tbody>
                           </table>
-
-
-                          @if(isset($addNewStudent))
-                          <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
-                                mso-table-lspace: 0pt;
-                                mso-table-rspace: 0pt;
-                                word-break: break-word;
-                              " width="100%">
-                            <tr>
-                              <td class="pad" style="
-                                    padding-bottom: 15px;
-                                    padding-left: 10px;
-                                    padding-right: 10px;
-                                    padding-top: 25px;
-                                  ">
-                                <div style="font-family: sans-serif">
-                                  <div class="txtTinyMce-wrapper" style="
-                                        font-size: 12px;
-                                        padding: 10px;
-                                        mso-line-height-alt: 18px;
-                                        color: #71777d;
-                                        line-height: 1.5;
-                                        font-family: Lato, Tahoma, Verdana,
-                                          Segoe, sans-serif;
-                                      ">
-                                    <p style="
-                                          margin: 0;
-                                          font-size: 16px;
-                                          text-align: left;
-                                          mso-line-height-alt: 21px;
-                                        ">
-                                      <span style="
-                                            color: #000000;
-                                            font-size: 16px;
-                                          "><strong>Tên đăng nhập:{{$addNewStudent->email}} </strong>
-                                      </span>
-                                    </p>
-                                    <p style="
-                                          margin: 0;
-                                          font-size: 16px;
-                                          text-align: left;
-                                          mso-line-height-alt: 21px;
-                                        ">
-                                      <span style="
-                                            color: #000000;
-                                            font-size: 16px;
-                                          "><strong>Mật khẩu đăng nhập: {{$addNewStudent->password}}</strong>
-                                      </span>
-                                    </p>
-
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          </table>                            
-                          @endif
-
 
                           <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
                                 mso-table-lspace: 0pt;
@@ -481,7 +424,6 @@
                                         ">
                                       Ngày khai giảng : {{ date("d-m-Y", strtotime($classDk->start_date)) }}
                                     </p>
-
                                   </div>
                                 </div>
                               </td>
@@ -524,7 +466,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Tên khách hàng : {{$addNewStudent->ho_ten}}
+                                      Tên khách hàng : {{$infoHocVien->ho_ten}}
                                     </p>
 
                                     <p style="
@@ -533,7 +475,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Địa chỉ : {{$addNewStudent->address}}
+                                      Địa chỉ : {{$infoHocVien->address}}
                                     </p>
 
                                     <p style="
@@ -542,7 +484,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Số tiền đã đóng : {{number_format($payment->price)}} VNĐ
+                                      Số tiền đã đóng : {{ number_format($payment->price)}} VNĐ
                                     </p>
 
                                     <p style="
@@ -611,15 +553,16 @@
                               </tr>
                             </tbody>
                           </table>
-                          @if($classDk->du_no < 0 ) <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
+
+                          <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
                               " width="100%">
-                      <tr>
-                        <td class="pad">
-                          <div style="font-family: sans-serif">
-                            <div class="txtTinyMce-wrapper" style="
+                            <tr>
+                              <td class="pad">
+                                <div style="font-family: sans-serif">
+                                  <div class="txtTinyMce-wrapper" style="
                                         font-size: 12px;
                                         mso-line-height-alt: 18px;
                                         color: #71777d;
@@ -627,37 +570,34 @@
                                         font-family: Lato, Tahoma, Verdana,
                                           Segoe, sans-serif;
                                       ">
-                              <p style="
+                                    <p style="
                                           margin: 0;
                                           font-size: 16px;
                                           text-align: center;
                                           mso-line-height-alt: 21px;
                                         ">
-                                <span style="
+                                      <span style="
                                             color: #000000;
                                             font-size: 16px;
                                           ">
-                                  <strong>Do giá tiền của lớp bạn chuyển sang
-                                    cao hơn lớp học bạn đã đăng kí trước
-                                    kia vui lòng đóng thêm số tiền 10000
-                                    trước ngày 2022-08-27</strong>
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                  </table>
+                                        <strong>Bạn vui lòng kiểm tra lịch học của mình trong profile</strong>
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
 
-                  <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
+                          <!-- <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
                               " width="100%">
-                    <tr>
-                      <td class="pad">
-                        <div style="font-family: sans-serif">
-                          <div class="txtTinyMce-wrapper" style="
+                            <tr>
+                              <td class="pad">
+                                <div style="font-family: sans-serif">
+                                  <div class="txtTinyMce-wrapper" style="
                                         font-size: 12px;
                                         mso-line-height-alt: 18px;
                                         color: #71777d;
@@ -665,40 +605,39 @@
                                         font-family: Lato, Tahoma, Verdana,
                                           Segoe, sans-serif;
                                       ">
-                            <p style="
+                                    <p style="
                                           margin: 0;
                                           font-size: 14px;
                                           text-align: center;
                                           mso-line-height-alt: 21px;
                                         ">
-                              <span style="
+                                      <span style="
                                             color: #000000;
                                             font-size: 14px;
                                           ">
-                                Có thể đóng trực tiếp tại trường hoặc
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
+                                        Có thể đóng trực tiếp tại trường hoặc
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table> -->
 
-                  <table border="0" cellpadding="0" cellspacing="0" class="button_block block-4" role="presentation" style="
+                          <!-- <table border="0" cellpadding="0" cellspacing="0" class="button_block block-4" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                               " width="100%">
-                    <tr>
-                      <td class="pad" style="
+                            <tr>
+                              <td class="pad" style="
                                     padding-bottom: 50px;
                                     padding-left: 10px;
                                     padding-right: 10px;
                                     padding-top: 25px;
                                     text-align: center;
                                   ">
-                        <div align="center" class="alignment">
-                          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:62px;width:223px;v-text-anchor:middle;" arcsize="7%" stroke="false" fillcolor="#a8bf6f"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, sans-serif; font-size:16px"><![endif]-->
-                          <div style="
+                                <div align="center" class="alignment">
+                                  <div style="
                                         text-decoration: none;
                                         display: inline-block;
                                         color: #ffffff;
@@ -719,7 +658,7 @@
                                         mso-border-alt: none;
                                         word-break: keep-all;
                                       ">
-                            <span style="
+                                    <span style="
                                           padding-left: 15px;
                                           padding-right: 15px;
                                           font-size: 16px;
@@ -730,37 +669,35 @@
                                               line-height: 32px;
                                               cursor: pointer;
                                             ">Đóng trực tiếp tại đây</span>
-                              </a></span>
-                          </div>
-                          <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                  @endif
+                                      </a></span>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table> -->
 
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
             </tbody>
           </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-4" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt" width="100%">
-    <tbody>
-      <tr>
-        <td>
-          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content" role="presentation" style="
+          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-4" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt" width="100%">
+            <tbody>
+              <tr>
+                <td>
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content" role="presentation" style="
                         mso-table-lspace: 0pt;
                         mso-table-rspace: 0pt;
                         background-color: #525252;
                         color: #000000;
                         width: 600px;
                       " width="600">
-            <tbody>
-              <tr>
-                <td class="column column-1" style="
+                    <tbody>
+                      <tr>
+                        <td class="column column-1" style="
                               mso-table-lspace: 0pt;
                               mso-table-rspace: 0pt;
                               font-weight: 400;
@@ -771,53 +708,53 @@
                               border-bottom: 0px;
                               border-left: 0px;
                             " width="33.333333333333336%">
-                  <table border="0" cellpadding="0" cellspacing="0" class="social_block block-2" role="presentation" style="
+                          <table border="0" cellpadding="0" cellspacing="0" class="social_block block-2" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                               " width="100%">
-                    <tr>
-                      <td class="pad" style="
+                            <tr>
+                              <td class="pad" style="
                                     padding-top: 15px;
                                     text-align: center;
                                     padding-right: 0px;
                                     padding-left: 0px;
                                   ">
-                        <div class="alignment" style="text-align: center">
-                          <table border="0" cellpadding="0" cellspacing="0" class="social-table" role="presentation" style="
+                                <div class="alignment" style="text-align: center">
+                                  <table border="0" cellpadding="0" cellspacing="0" class="social-table" role="presentation" style="
                                         mso-table-lspace: 0pt;
                                         mso-table-rspace: 0pt;
                                         display: inline-block;
                                       " width="111px">
-                            <tr>
-                              <td style="padding: 0 5px 0 0px">
-                                <a href="https://www.facebook.com/" target="_blank"><img alt="Facebook" height="32" src="images/facebook2x.png" style="
+                                    <tr>
+                                      <td style="padding: 0 5px 0 0px">
+                                        <a href="https://www.facebook.com/" target="_blank"><img alt="Facebook" height="32" src="images/facebook2x.png" style="
                                                 display: block;
                                                 height: auto;
                                                 border: 0;
                                               " title="Facebook" width="32" /></a>
-                              </td>
-                              <td style="padding: 0 5px 0 0px">
-                                <a href="https://twitter.com/" target="_blank"><img alt="Twitter" height="32" src="images/twitter2x.png" style="
+                                      </td>
+                                      <td style="padding: 0 5px 0 0px">
+                                        <a href="https://twitter.com/" target="_blank"><img alt="Twitter" height="32" src="images/twitter2x.png" style="
                                                 display: block;
                                                 height: auto;
                                                 border: 0;
                                               " title="Twitter" width="32" /></a>
-                              </td>
-                              <td style="padding: 0 5px 0 0px">
-                                <a href="https://plus.google.com/" target="_blank"><img alt="Google+" height="32" src="images/googleplus2x.png" style="
+                                      </td>
+                                      <td style="padding: 0 5px 0 0px">
+                                        <a href="https://plus.google.com/" target="_blank"><img alt="Google+" height="32" src="images/googleplus2x.png" style="
                                                 display: block;
                                                 height: auto;
                                                 border: 0;
                                               " title="Google+" width="32" /></a>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
                               </td>
                             </tr>
                           </table>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <td class="column column-2" style="
+                        </td>
+                        <td class="column column-2" style="
                               mso-table-lspace: 0pt;
                               mso-table-rspace: 0pt;
                               font-weight: 400;
@@ -828,15 +765,15 @@
                               border-bottom: 0px;
                               border-left: 0px;
                             " width="33.333333333333336%">
-                  <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
+                          <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
                               " width="100%">
-                    <tr>
-                      <td class="pad" style="padding-top: 25px; padding-bottom: 5px">
-                        <div style="font-family: sans-serif">
-                          <div class="txtTinyMce-wrapper" style="
+                            <tr>
+                              <td class="pad" style="padding-top: 25px; padding-bottom: 5px">
+                                <div style="font-family: sans-serif">
+                                  <div class="txtTinyMce-wrapper" style="
                                         font-size: 12px;
                                         mso-line-height-alt: 14.399999999999999px;
                                         color: #a8bf6f;
@@ -845,27 +782,27 @@
                                           Lucida Grande, Lucida Sans Unicode,
                                           Lucida Sans, Tahoma, sans-serif;
                                       ">
-                            <p style="
+                                    <p style="
                                           margin: 0;
                                           font-size: 12px;
                                           text-align: center;
                                         ">
-                              <span style="
+                                      <span style="
                                             color: #ffffff;
                                             font-size: 12px;
                                           "><span style="
                                               font-size: 12px;
                                               color: #a8bf6f;
                                             ">Tel.:</span>
-                                +84 .399926888</span><br />
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <td class="column column-3" style="
+                                        +84 .399926888</span><br />
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td class="column column-3" style="
                               mso-table-lspace: 0pt;
                               mso-table-rspace: 0pt;
                               font-weight: 400;
@@ -876,15 +813,15 @@
                               border-bottom: 0px;
                               border-left: 0px;
                             " width="33.333333333333336%">
-                  <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
+                          <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
                               " width="100%">
-                    <tr>
-                      <td class="pad" style="padding-top: 25px; padding-bottom: 5px">
-                        <div style="font-family: sans-serif">
-                          <div class="txtTinyMce-wrapper" style="
+                            <tr>
+                              <td class="pad" style="padding-top: 25px; padding-bottom: 5px">
+                                <div style="font-family: sans-serif">
+                                  <div class="txtTinyMce-wrapper" style="
                                         font-size: 12px;
                                         mso-line-height-alt: 14.399999999999999px;
                                         color: #a8bf6f;
@@ -893,43 +830,43 @@
                                           Lucida Grande, Lucida Sans Unicode,
                                           Lucida Sans, Tahoma, sans-serif;
                                       ">
-                            <p style="
+                                    <p style="
                                           margin: 0;
                                           font-size: 12px;
                                           text-align: center;
                                         ">
-                              Email:
-                              <span style="
+                                      Email:
+                                      <span style="
                                             color: #ffffff;
                                             font-size: 12px;
                                           ">nextdev@gmail.com</span>
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </td>
               </tr>
             </tbody>
           </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-5" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt" width="100%">
-    <tbody>
-      <tr>
-        <td>
-          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content" role="presentation" style="
+          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-5" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt" width="100%">
+            <tbody>
+              <tr>
+                <td>
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content" role="presentation" style="
                         mso-table-lspace: 0pt;
                         mso-table-rspace: 0pt;
                         color: #000000;
                         width: 600px;
                       " width="600">
-            <tbody>
-              <tr>
-                <td class="column column-1" style="
+                    <tbody>
+                      <tr>
+                        <td class="column column-1" style="
                               mso-table-lspace: 0pt;
                               mso-table-rspace: 0pt;
                               font-weight: 400;
@@ -942,50 +879,50 @@
                               border-bottom: 0px;
                               border-left: 0px;
                             " width="100%">
-                  <table border="0" cellpadding="0" cellspacing="0" class="image_block block-1" role="presentation" style="
+                          <table border="0" cellpadding="0" cellspacing="0" class="image_block block-1" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                               " width="100%">
-                    <tr>
-                      <td class="pad" style="
+                            <tr>
+                              <td class="pad" style="
                                     width: 100%;
                                     padding-right: 0px;
                                     padding-left: 0px;
                                     padding-bottom: 60px;
                                   ">
-                        <div align="center" class="alignment" style="line-height: 10px">
-                          <img alt="Image" class="big" src="images/rounder-dwn.png" style="
+                                <div align="center" class="alignment" style="line-height: 10px">
+                                  <img alt="Image" class="big" src="images/rounder-dwn.png" style="
                                         display: block;
                                         height: auto;
                                         border: 0;
                                         width: 600px;
                                         max-width: 100%;
                                       " title="Image" width="600" />
-                        </div>
-                      </td>
-                    </tr>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </td>
               </tr>
             </tbody>
           </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-6" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt" width="100%">
-    <tbody>
-      <tr>
-        <td>
-          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="
+          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-6" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt" width="100%">
+            <tbody>
+              <tr>
+                <td>
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content stack" role="presentation" style="
                         mso-table-lspace: 0pt;
                         mso-table-rspace: 0pt;
                         color: #000000;
                         width: 600px;
                       " width="600">
-            <tbody>
-              <tr>
-                <td class="column column-1" style="
+                    <tbody>
+                      <tr>
+                        <td class="column column-1" style="
                               mso-table-lspace: 0pt;
                               mso-table-rspace: 0pt;
                               font-weight: 400;
@@ -998,12 +935,12 @@
                               border-bottom: 0px;
                               border-left: 0px;
                             " width="100%">
-                  <table border="0" cellpadding="0" cellspacing="0" class="icons_block block-1" role="presentation" style="
+                          <table border="0" cellpadding="0" cellspacing="0" class="icons_block block-1" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                               " width="100%">
-                    <tr>
-                      <td class="pad" style="
+                            <tr>
+                              <td class="pad" style="
                                     vertical-align: middle;
                                     color: #9d9d9d;
                                     font-family: inherit;
@@ -1012,22 +949,26 @@
                                     padding-top: 5px;
                                     text-align: center;
                                   ">
-                        <table cellpadding="0" cellspacing="0" role="presentation" style="
+                                <table cellpadding="0" cellspacing="0" role="presentation" style="
                                       mso-table-lspace: 0pt;
                                       mso-table-rspace: 0pt;
                                     " width="100%">
-                          <tr>
-                            <td class="alignment" style="
+                                  <tr>
+                                    <td class="alignment" style="
                                           vertical-align: middle;
                                           text-align: center;
                                         ">
-                              <!--[if vml]><table align="left" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;padding-left:0px;padding-right:0px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;"><![endif]-->
-                              <!--[if !vml]><!-->
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
+                                      <!--[if vml]><table align="left" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;padding-left:0px;padding-right:0px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;"><![endif]-->
+                                      <!--[if !vml]><!-->
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                 </td>
               </tr>
@@ -1036,10 +977,6 @@
         </td>
       </tr>
     </tbody>
-  </table>
-  </td>
-  </tr>
-  </tbody>
   </table>
   <!-- End -->
 </body>

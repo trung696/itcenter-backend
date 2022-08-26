@@ -40,7 +40,6 @@ class User extends Authenticatable
         foreach ($roles as $role) {
             //lấy các permission của role
             $permissions = $role->permission;
-            // dd($permissions);
             //kiểm tra các permission có trường 'key_code' trùng với $permissionCheck(key_code) truyền từ policy sang hay không
             if ($permissions->contains('key_code', $permissionCheck)) {
                 //trùng thì cho phép truy cập màn hình

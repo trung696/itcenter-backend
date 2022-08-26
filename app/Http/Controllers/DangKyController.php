@@ -145,17 +145,13 @@ class DangKyController extends Controller
                             return Redirect::back()->withErrors(['msg' => 'Mã giảm giá không hợp lệ']);
                         }
                     } else {
-
                         $arrDangKy['gia_tien'] = $gia->price;
                         $apma = 0;
                     }
                     $arrDangKy['id_hoc_vien'] = $resHocVien;
                     $arrDangKy['trang_thai'] = $request->trang_thai;
                     // dd((int)$request->hocphi, $arrDangKy['so_tien_da_dong'], $gia->price);
-
-
                     if ($request->trang_thai == 1) {
-
                         $random = Str::random(10);
                         // dd($random);
                         $arrDangKy['token'] = $random;
@@ -181,6 +177,7 @@ class DangKyController extends Controller
                         $arrDangKy['gia_tien'] = $gia->price;
                         $res = $objDangKy->saveNew($arrDangKy);
                     }
+
                     // dd($arrDangKy);
                     //gửi mail xác nhận
                     $email = $request->email;

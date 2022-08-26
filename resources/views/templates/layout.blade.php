@@ -326,7 +326,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     </li>
 
 
-                    {{-- <li class=" active menu-open ">
+                 <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-users"></i> <span>Role</span></a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_role_list') }}"><i class="fa fa-circle-o"></i>Danh
@@ -339,7 +339,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     <ul class="treeview-menu">
                         <li><a href="{{ route('route_BackEnd_permission_add') }}"><i class="fa fa-circle-o"></i>Thêm Permission</a></li>
                     </ul>
-                </li> --}}
+                </li>
 
 
 
