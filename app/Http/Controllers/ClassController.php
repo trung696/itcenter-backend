@@ -32,6 +32,9 @@ use App\Mail\OrderShipped;
 use Stripe\Charge;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
+use App\Exports\ClassesExport;
+use App\Exports\StudentExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClassController extends  Controller
 {
@@ -40,7 +43,10 @@ class ClassController extends  Controller
     {
         $this->v = [];
     }
-
+    public function export()
+    {
+        return Excel::download(new StudentExport, 'class.xlsx');
+    }
     public function classList(Request $request)
     {
         $this->v['routeIndexText'] = 'Danh sách lớp học';
@@ -447,6 +453,31 @@ class ClassController extends  Controller
                 $trungngay = 0;
             }
         }
+    }
+    public function inDanhSachLop($id, Request $request)
+    {
+        // $emails = DB::table('hoc_vien', 'tb1')
+        //     ->select('tb1.id as MSV', 'tb1.ho_ten as Họ tên sinh viên', 'tb3.name as Tên Lớp',  'tb4.name as Tên Khóa', 'tb1.so_dien_thoai', 'tb1.email', 'tb1.ngay_sinh', 'tb1.gioi_tinh')
+        //     ->leftJoin('dang_ky as tb2', 'tb2.id_hoc_vien', '=', 'tb1.id')
+        //     ->leftJoin('class as tb3', 'tb2.id_lop_hoc', '=', 'tb3.id')
+        //     ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
+        //     ->where('tb3.id', $id)->toSql();
+
+
+        $emails = DB::table('dang_ky', 'tb2')
+            ->select('tb1.id as MSV', 'tb1.ho_ten as sv_name', 'tb3.name as class_name',  'tb4.name as course_name', 'tb1.so_dien_thoai', 'tb1.email', 'tb1.ngay_sinh', 'tb1.gioi_tinh')
+            ->leftJoin('hoc_vien as tb1', 'tb1.id', '=', 'tb2.id_hoc_vien')
+            ->leftJoin('class as tb3', 'tb3.id', '=', 'tb2.id_lop_hoc')
+            ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
+            ->where('tb3.id', $id)->get();
+        $classname = DB::table('class', 'tb3')->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')->select('tb3.name as className', 'tb4.name as courseName')->where('tb3.id', $id)->first();
+        // dd($emails);
+        $pdf = PDF::setOptions([
+            'logOutputFile' => storage_path('logs/log.htm'),
+            'tempDir' => storage_path('logs/')
+        ])
+            ->loadView('print.indanhsach', compact('emails', 'classname'))->setPaper('a4');
+        return $pdf->stream();
     }
     // private function ruleClass(){
     //     return [

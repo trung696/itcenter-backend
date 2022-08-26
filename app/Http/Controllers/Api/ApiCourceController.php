@@ -26,6 +26,18 @@ class ApiCourceController extends Controller
         //
     }
 
+    public function courseDetail($id)
+    {
+        $courseDetail = Course::find($id);
+
+        return response()->json([
+            'status' => true,
+            'heading' => 'success',
+            'data' => $courseDetail,
+        ], 200);
+        //
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,14 +63,14 @@ class ApiCourceController extends Controller
 
         if (isset($listClass) &&  count($listClass)) {
             foreach ($listClass as $key => $listClassItem) {
-                if(strtotime($today) < strtotime($listClassItem->end_date)){
+                if (strtotime($today) < strtotime($listClassItem->end_date)) {
                     //lấy danh sách các đăng kí đã thanh toán tiền để cập nhập số chỗ trong lớp
                     $countStudentInClass = count($listClassItem->dangKi->where('trang_thai', '=', 1));
                     $listClassNew[] = $listClassItem;
-                }                
-               $listClassItem->lecturer_id = User::where('id', $listClassItem->lecturer_id,)->first()->name;
+                }
+                $listClassItem->lecturer_id = User::where('id', $listClassItem->lecturer_id,)->first()->name;
             }
-            
+
             // return response()->json([
             //     'status' => true,
             //     'heading' => 'Lấy thành công danh sách class của course',
@@ -100,18 +112,19 @@ class ApiCourceController extends Controller
         //
     }
 
-    public function searchCourse($key){
-        $result = Course::where('name', 'LIKE', '%'. $key. '%')->get();
-        if(count($result)){
+    public function searchCourse($key)
+    {
+        $result = Course::where('name', 'LIKE', '%' . $key . '%')->get();
+        if (count($result)) {
             return response()->json([
                 'status' => true,
                 'heading' => 'Bản ghi tìm thấy',
                 'data' => $result
-            ],200);
+            ], 200);
         }
         return response()->json([
             'status' => true,
             'heading' => 'Không tìm thấy bản ghi nào',
-        ],200);
+        ], 200);
     }
 }

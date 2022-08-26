@@ -21,6 +21,13 @@ Route::get('/home', 'UserController@home');
 
 //thống kê
 Route::get('/thongke', 'ThongKeController@thongKeCung');
+//export class
+Route::get('/class/in-danh-sach/{id}', 'ClassController@inDanhSachLop')
+    ->where(
+        'id',
+        '[0-9]+'
+    )
+    ->name('route_danhsachlop');
 //mail xác nhận 
 Route::get('/accept-payment/{id}/{token}', 'DangKyController@acceptDangKy')
     ->name('route_accept');

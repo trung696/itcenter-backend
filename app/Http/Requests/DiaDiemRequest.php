@@ -37,7 +37,7 @@ class DiaDiemRequest extends FormRequest
                 switch ($currentAction) {
                     case 'themDiaDiem':
                         $rules = [
-                            "ten_dia_diem" => "required",
+                            "ten_dia_diem" => "required|min:5",
                             "trang_thai" => "required|integer",
                         ];
                         break;
@@ -63,7 +63,9 @@ class DiaDiemRequest extends FormRequest
     {
         return [
             'ten_dia_diem.required' => 'Bắt buộc phải nhập tên địa điểm',
-            'trang_thai.required' => 'Bắt buộc phải nhập trạng thái địa điểm'
+            'ten_dia_diem.min' => 'Tên địa điểm phải nhập tối thiểu 5 kí tự trở lên',
+            'trang_thai.required' => 'Bắt buộc phải nhập trạng thái địa điểm',
+
         ];
     }
 }

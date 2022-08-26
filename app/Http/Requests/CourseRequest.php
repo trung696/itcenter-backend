@@ -36,18 +36,23 @@ class CourseRequest extends FormRequest
                 switch ($currentAction) {
                     case 'AddCourse':
                         $rules = [
-                            "name" => "required",
-                            "price" => "required",
+                            "name" => "required|min:10|max:255|unique:course",
+                            "price" => "required|numeric",
                             "image" => "required",
-                            "description" => "required",
+                            "description" => "required|max:255",
+                            'category_id' => 'required',
+                            'content' => "required",
+                            'result' => "required"
                         ];
                         break;
                     case 'updateCourse':
                         $rules = [
-                            "name" => "required",
-                            "price" => "required",
+                            "name" => "required|min:10|max:255|unique:course",
+                            "price" => "required|numeric",
                             "image" => "required",
-                            "description" => "required",
+                            "description" => "required|max:255",
+                            'content' => "required",
+                            'result' => "required"
                         ];
                         break;
 
@@ -66,9 +71,18 @@ class CourseRequest extends FormRequest
     {
         return [
             'name.required' => 'Bắt buộc phải nhập tên khoá học',
+            'name.min' => 'Tên khóa học bắt buộc phải nhập 10 kí tự trở lên',
+            'name.max' => 'Tên khóa học không được nhập vượt quá 255 kí tự',
+            'name.unique' => 'Tên khóa học đã tồn tại trên hệ thống',
             "price.required" => "Bắt buộc phải nhập giá khóa học",
-            'description.required' => 'Bắt buộc phải nhập thông tin khóa học',
+            'price.numeric' => 'Giá nhập vào phải là số',
+            'description.required' => 'Bắt buộc phải nhập mô tả khóa học',
+            'description.max' => 'chỉ có thể nhập tối đa 255 kí tự',
             'image.required' => 'Bắt buộc phải nhập ảnh khóa học',
+            'content.required' => 'Bắt buộc phải nhập nội dung khóa học',
+            'result.required' =>'Bắt buộc phải nhập kết quả khóa học',
+            'category_id.required' => 'Bắt buộc phải chọn danh mục khóa học'
+            // 'image.image' => 'Dữ liệu nhập vào phải là file ảnh(jpeg, png, bmp, gif, or svg)',
         ];
     }
 }

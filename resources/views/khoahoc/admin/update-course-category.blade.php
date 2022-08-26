@@ -59,7 +59,7 @@
                 </button>
             </div>
         @endif
-        {{-- @if ($errors->any())
+        @if ($errors->any())
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -71,7 +71,7 @@
                     <span class="sr-only">Close</span>
                 </button>
             </div>
-    @endif --}}
+    @endif
 
     <!-- Phần nội dung riêng của action  -->
         <form class="form-horizontal " action="{{ route('route_BackEnd_CourseCategory_Update',['id'=>request()->route('id')]) }}" method="post" enctype="multipart/form-data">
@@ -80,7 +80,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name" class="col-md-3 col-sm-4 control-label">Tên Danh Muc <span class="text-danger">(*)</span></label>
+                            <label for="name" class="col-md-3 col-sm-4 control-label">Tên Danh Mục <span class="text-danger">(*)</span></label>
 
                             <div class="col-md-9 col-sm-8">
                                 <input type="text" name="name" id="ten_danh_muc" class="form-control" value="@isset($request['name'])  {{ $request['name'] }} @else {{ $objItem->name }} @endisset" @if($objItem->name != '')  @endif>
