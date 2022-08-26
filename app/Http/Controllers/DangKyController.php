@@ -48,6 +48,7 @@ class DangKyController extends Controller
         $objDangKy = new DangKy();
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
+        // dd($request->all());
         $this->v['list'] = $objDangKy->loadListWithPagers($this->v['extParams']);
         return view('dangky.dang-ky', $this->v);
     }
@@ -80,6 +81,8 @@ class DangKyController extends Controller
                 if ($request->hasFile('hinh_anh') && $request->file('hinh_anh')->isValid()) {
                     $params['cols']['hinh_anh'] = $this->uploadFile($request->file('hinh_anh'));
                 }
+
+
                 $objDangKy = new DangKy();
                 $objHocVien = new HocVien();
                 unset($params['cols']['ma_khuyen_mai']);
@@ -98,7 +101,6 @@ class DangKyController extends Controller
                     $arrDangKy = [];
 
                     $arrDangKy['id_lop_hoc'] = $request->id_lop_hoc;
-
                     //check coupon
                     $ma_khuyen_mai = $request->ma_khuyen_mai;
                     // dd($ma_khuyen_mai);
@@ -170,13 +172,13 @@ class DangKyController extends Controller
                         //end
                         // dd($arrDangKy);
                         $res = $objDangKy->saveNewOnline($arrDangKy);
-                        if ($res) {
-                            $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
-                            $updateSoCho = [];
-                            $updateSoCho['id'] = $request->id_lop_hoc;
-                            $updateSoCho['so_cho'] = $socho->slot - 1;
-                            $update = $objLopHoc->saveUpdateSoCho($updateSoCho);
-                        }
+                        // if ($res) {
+                        //     $socho = $objLopHoc->loadOneID($request->id_lop_hoc);
+                        //     $updateSoCho = [];
+                        //     $updateSoCho['id'] = $request->id_lop_hoc;
+                        //     $updateSoCho['so_cho'] = $socho->slot - 1;
+                        //     $update = $objLopHoc->saveUpdateSoCho($updateSoCho);
+                        // }
                     } else {
                         $arrDangKy['gia_tien'] = $gia->price;
                         $res = $objDangKy->saveNew($arrDangKy);
@@ -253,6 +255,12 @@ class DangKyController extends Controller
                 $giam_gia = (($price - $gia) / $price) * 100;
                 // dd($objGuiGmail);
                 $objGuiGmail->so_dien_thoai = $giam_gia;
+                //trừ chỗ
+                $socho = $objLopHoc->loadOneID($lopHoc->id);
+                $updateSoCho = [];
+                $updateSoCho['id'] = $lopHoc->id;
+                $updateSoCho['so_cho'] = $socho->slot - 1;
+                $update = $objLopHoc->saveUpdateSoCho($updateSoCho);
                 Mail::to($email)->send(new PaymentCheck($objGuiGmail));
                 return view('dangky.thong-bao');
             }

@@ -469,7 +469,9 @@ class ClassController extends  Controller
             ->leftJoin('hoc_vien as tb1', 'tb1.id', '=', 'tb2.id_hoc_vien')
             ->leftJoin('class as tb3', 'tb3.id', '=', 'tb2.id_lop_hoc')
             ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
-            ->where('tb3.id', $id)->get();
+            ->where('tb3.id', $id)
+            ->where('tb2.trang_thai', 3)->get();
+        // dd($emails->toSql());
         $classname = DB::table('class', 'tb3')->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')->select('tb3.name as className', 'tb4.name as courseName')->where('tb3.id', $id)->first();
         // dd($emails);
         $pdf = PDF::setOptions([
