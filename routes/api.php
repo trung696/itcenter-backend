@@ -44,6 +44,7 @@ Route::apiResource('categories','Api\ApiCategoryController');
 //            get : /api/cource/$id -- lấy tất cả các lớp học của khóa học  đó )
 Route::apiResource('course','Api\ApiCourceController');
 Route::get('searchCourse/{name}','Api\ApiCourceController@searchCourse');
+Route::get('detail-course/{id}','Api\ApiCourceController@courseDetail');
 
 
 

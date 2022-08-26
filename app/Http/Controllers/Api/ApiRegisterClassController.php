@@ -98,7 +98,7 @@ class ApiRegisterClassController extends Controller
                         });
                         return response()->json([
                             'status' => true,
-                            'heading' => 'đang kí thành công và đã chuyển tiền thành công qua momo',
+                            'heading' => 'đang kí thành công và đã chuyển tiền thành công',
                             'data' => $addDangKiIssetStudent,
                             'data_payment' => $addDangKiIssetStudent->payment
                         ], 200);
