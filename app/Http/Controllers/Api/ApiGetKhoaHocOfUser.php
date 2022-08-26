@@ -29,8 +29,7 @@ class ApiGetKhoaHocOfUser extends Controller
             foreach ($listDangKiOfUser as $listDangKiOfUserItem) {
                 $listDangKiOfUserItem['lop_hoc'] = ClassModel::where('id', $listDangKiOfUserItem['id_lop_hoc'])->first();
                 $course_data = Course::find($listDangKiOfUserItem['lop_hoc']->course_id);
-                $listDangKiOfUserItem['lop_hoc']->image = $course_data->image || "";
-                $listDangKiOfUserItem['lop_hoc']->course_name = $course_data->image || "";
+                $listDangKiOfUserItem['lop_hoc']->image = $course_data->image;
                 $listDangKiOfUserItem['ca_hoc'] = Ca::find($listDangKiOfUserItem['lop_hoc']->id_ca);
                 array_push($data, $listDangKiOfUserItem);
             }

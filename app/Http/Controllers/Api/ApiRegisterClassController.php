@@ -98,7 +98,7 @@ class ApiRegisterClassController extends Controller
                         });
                         return response()->json([
                             'status' => true,
-                            'heading' => 'đang kí thành công và đã chuyển tiền thành công qua momo',
+                            'heading' => 'đang kí thành công và đã chuyển tiền thành công',
                             'data' => $addDangKiIssetStudent,
                             'data_payment' => $addDangKiIssetStudent->payment
                         ], 200);
@@ -136,7 +136,7 @@ class ApiRegisterClassController extends Controller
             'gioi_tinh' => 'required',
             'so_dien_thoai' => 'required',
             'email' => 'required',
-            'hinh_anh' => 'required',
+            // 'hinh_anh' => 'required',
         ]);
         if ($validated->fails()) {
             return response()->json([
@@ -156,7 +156,7 @@ class ApiRegisterClassController extends Controller
             'gioi_tinh' => $request->gioi_tinh,
             'so_dien_thoai' => $request->so_dien_thoai,
             'email' => $request->email,
-            'hinh_anh' => $request->hinh_anh,
+            // 'hinh_anh' => $request->hinh_anh,
             'trang_thai' => 1,
             'password' => Str::random(6),
             'tokenActive' => Str::random(20),
@@ -206,7 +206,7 @@ class ApiRegisterClassController extends Controller
                 });
                 return response()->json([
                     'status' => true,
-                    'heading' => 'tạo thành công tài koản, đang kí thành công và đã chuyển tiền thành công qua momo',
+                    'heading' => 'tạo thành công tài koản, đang kí thành công và đã chuyển tiền thành công',
                     'data' => $addDangKiIssetStudent,
                     'data_payment' => $addDangKiIssetStudent->payment
                 ], 200);
