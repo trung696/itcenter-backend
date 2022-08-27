@@ -53,7 +53,7 @@ class ThongKeController extends Controller
         $tong_hoc_phi = $objPayment->sumPay();
 
         //THỐNG KÊ MỀM
-        $input = "2022/09/01 - 2022/09/30";
+        $input = "2022/08/25 - 2022/09/30";
         $time = explode(
             ' - ',
             $input
@@ -62,6 +62,10 @@ class ThongKeController extends Controller
         $a = $objPayment->loadpayDay($time);
         //giảng viên đã dạy trong quãng thời gian
         $b = $objTeacher->loadDay($time);
+        // số học sinh đã đăng kí lớp trong tgian đó
+        $c = $objPayment->loadstd($time);
+        echo ('<pre>');
+        var_dump($c);
         $batdau = Carbon::createFromFormat('Y/m/d', $time[0]);
         $ketthuc = Carbon::createFromFormat('Y/m/d', $time[1]);
         $i = -1;

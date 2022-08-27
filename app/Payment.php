@@ -43,4 +43,14 @@ class Payment extends Model
         // $query = DB::table('payment')->select('payment_date');
         return $query;
     }
+    public function loadstd($time)
+    {
+        $query = DB::table('payment as tb1')
+            ->select('tb3.ho_ten as hv_name', 'tb2.id as id đăng ký', 'tb1.id as id payment')
+            ->leftJoin('dang_ky as tb2', 'tb1.id', '=', 'tb2.id_payment')
+            ->leftJoin('hoc_vien as tb3', 'tb3.id', '=', 'tb2.id_hoc_vien')
+            ->whereBetween('tb1.payment_date', $time);
+        // $query = DB::table('payment')->select('payment_date');
+        return $query->get();
+    }
 }
