@@ -2,7 +2,7 @@
 @section('content')
 
 
-    <div class="content-wrapper">
+    <div class="content-wrappers">
     <!-- Content Header (Page header) -->
     <!-- /.content-header -->
 

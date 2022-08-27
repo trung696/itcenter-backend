@@ -88,14 +88,14 @@ Route::get('/xeplop/{id}', 'ClassController@xepLop')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_XepLop');
 //list_đổi lớp
-Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop');
-Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
+Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop')->middleware(['can:danh-sach-doi-lop-list']);
+Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop')->middleware(['can:danh-sach-doi-lop-edit']);
 
 //list những đăng ký thừa tiền
-Route::get('/hoanTien', 'HoanTienController@index')->name('route_BackEnd_list_hoan_tien');
-Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien');
-Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien');
-Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search');
+Route::get('/hoanTien','HoanTienController@index')->name('route_BackEnd_list_hoan_tien')->middleware(['can:hoan-tien-list']);
+Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien')->middleware(['can:hoan-tien-edit']);
+Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien')->middleware(['hoan-tien-edit']);
+Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search')->middleware(['can:hoan-tien-list']);
 
 
 // thêm thông tin sinh mới đăng ký
@@ -395,16 +395,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/course', 'CourseController@course')
         ->name('route_BackEnd_Course_List')->middleware(['can:course-list']);
     Route::match(['get', 'post'], '/course/add', 'CourseController@AddCourse')
-        ->name('route_BackEnd_Course_Add')->middleware(['can:course-list']);
+        ->name('route_BackEnd_Course_Add')->middleware(['can:course-add']);
     Route::get('/Course-Class/detail/{id}', 'CourseController@CourseDetail')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Course_Detail')->middleware(['can:course-list']);
+        ->name('route_BackEnd_Course_Detail')->middleware(['can:course-edit']);
     Route::post('/Course/update/{id}', 'CourseController@updateCourse')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Course_Update');
+        ->name('route_BackEnd_Course_Update')->middleware(['can:course-edit']);
     Route::get('/Course/delete/{id}', 'CourseController@destroy')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Course_Delete')->middleware(['can:course-list']);
+        ->name('route_BackEnd_Course_Delete')->middleware(['can:course-delete']);
 
     //class 
     Route::get('/class', 'ClassController@classList')
