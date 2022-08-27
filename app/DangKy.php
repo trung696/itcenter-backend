@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class DangKy extends Model
 {
     protected $table = 'dang_ky';
-    protected $fillable = ['ngay_dang_ky', 'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai', 'id_payment', 'paid_date', 'created_at', 'updated_at', 'token'];
+    protected $fillable = ['ngay_dang_ky',  'id_lop_hoc', 'gia_tien', 'id_hoc_vien', 'trang_thai', 'id_payment', 'paid_date', 'created_at', 'updated_at', 'token'];
     public function class()
     {
         return $this->belongsTo(ClassModel::class, 'id_lop_hoc', 'id');
@@ -46,7 +46,7 @@ class DangKy extends Model
             $query->where('tb2.ho_ten', 'like', '%' . $params['search_ten_hoc_vien'] . '%');
         }
         if (isset($params['search_ngay_dang_ky']) && strlen($params['search_ngay_dang_ky']) > 0) {
-            $query->where('tb1.ngay_dang_ky', $params['search_ngay_dang_ky']);
+            $query->where('tb1.ngay_dang_ky', 'like', $params['search_ngay_dang_ky']);
         }
         $lists = $query->orderBy('tb1.id', 'desc')->paginate(10, ['tb1.id']);
         return $lists;
@@ -60,6 +60,7 @@ class DangKy extends Model
             'gia_tien' => $params['gia_tien'],
             'id_hoc_vien' => $params['id_hoc_vien'],
             'trang_thai' => 0,
+
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -73,6 +74,7 @@ class DangKy extends Model
             'id_lop_hoc' => $params['id_lop_hoc'],
             'gia_tien' => $params['gia_tien'],
             'id_hoc_vien' => $params['id_hoc_vien'],
+
             'trang_thai' => $params['trang_thai'],
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
@@ -88,6 +90,7 @@ class DangKy extends Model
             'gia_tien' => $params['gia_tien'],
             'id_hoc_vien' => $params['id_hoc_vien'],
             'trang_thai' => 1,
+
             'id_payment' => $params['id_payment'],
             'paid_date' => date('Y-m-d'),
             'created_at' => date('Y-m-d H:i:s'),

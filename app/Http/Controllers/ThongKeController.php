@@ -16,11 +16,13 @@ use App\Http\Requests\CourseCateGoryRequest;
 use App\CourseCategory;
 use App\Course;
 use App\HocVien;
+use App\Payment;
 use App\Thongke;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Spipu\Html2Pdf\Html2Pdf;
 use Dompdf\Dompdf;
+use Carbon\Carbon;
 use Dompdf\Options;
 
 
@@ -39,12 +41,24 @@ class ThongKeController extends Controller
         $objClass = new ClassModel();
         $objCourse = new Course();
         $objHS = new HocVien();
+        $objTeacher = new User();
+        $objPayment = new Payment();
         $activeCourse = $objCourse->loadListIdAndName(['status', 1])->count(); //số khóa học đang hoạt động
         $activeHS = $objHS->loadCountHV(); //tổng số học sinh
         //tổng số giảng viên
-
+        $teacher = $objTeacher->loadActive();
         //số giảng viên đang có lớp
-        dd($activeHS);
+        $teacherInClass = $objTeacher->loadInClass();
+        //tổng học phí đã thu
+        $tong_hoc_phi = $objPayment->sumPay();
+
+        //THỐNG KÊ MỀM
+
+
+
         return view('thongke', $this->v);
+    }
+    public function thongke() {
+        return view('thongke.index');
     }
 }

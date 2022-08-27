@@ -4,14 +4,17 @@
 @section('script')
     <link rel="stylesheet" href="{{ asset('default/bower_components/select2/dist/css/select2.min.css') }} ">
     <link rel="stylesheet" href="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.css') }} ">
+    <link rel="stylesheet"
+        href="{{ asset('default/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css') }} ">
+
 @section('css')
     <style>
         body {
             /*-webkit-touch-callout: none;
-                                                -webkit-user-select: none;
-                                                -moz-user-select: none;
-                                                -ms-user-select: none;
-                                                -o-user-select: none;*/
+                                                                                                                                                -webkit-user-select: none;
+                                                                                                                                                -moz-user-select: none;
+                                                                                                                                                -ms-user-select: none;
+                                                                                                                                                -o-user-select: none;*/
             user-select: none;
         }
 
@@ -110,17 +113,17 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <input type="text" name="search_ten_hoc_vien" class="form-control"
-                                placeholder="Tên học viên/Số điện thoại/Gmail"
+                            <input type="text" name="search_ten_hoc_vien" class="form-control" placeholder="Tên học viên"
                                 value="@isset($extParams['search_ten_hoc_vien']) {{ $extParams['search_ten_hoc_vien'] }} @endisset">
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="form-group">
-                            <input type="text" name="search_ngay_dang_ky" class="form-control daterangepicker-click"
+                            <input type="date" name="search_ngay_dang_ky" class="form-control  "
                                 placeholder="Chọn ngày đăng ký"
                                 value="@isset($extParams['search_ngay_dang_ky']) {{ $extParams['search_ngay_dang_ky'] }} @endisset"
                                 autocomplete="off">
+
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -262,7 +265,21 @@
     {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
     <script src="{{ asset('default/bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-
+    <script src="{{ asset('default/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') }}"></script>
+    {{-- <script>
+        $(function() {
+            $('input[name="search_ngay_dang_ky"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'), 10),
+                autoApply: false,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        });
+    </script> --}}
 
     <script src="{{ asset('js/taisan.js') }} "></script>
 
