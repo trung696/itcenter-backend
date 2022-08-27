@@ -49,7 +49,7 @@ class ClassRequest extends FormRequest
                         break;
                     case 'updateClass':
                         $rules = [
-                            "name" => "required|min:5|max:199|unique:class",
+                            // "name" => "required|min:5|max:199|unique:class",
                             "slot" => "required|numeric",
                             "start_date" => "required",
                             "end_date" => "required",
@@ -77,7 +77,7 @@ class ClassRequest extends FormRequest
             'name.required' => 'Bắt buộc phải nhập lớp học',
             'name.min' => 'Tên lớp học phải nhập tối thiểu 5 kí tự',
             'name.max' => 'Tên lớp học phải nhập tối đa 199 kí tự',
-            'name.unique' => 'Tên lớp học đã tồn tại trên hệ thống',
+            // 'name.unique' => 'Tên lớp học đã tồn tại trên hệ thống',
             'slot.required' => 'Bắt buộc phải nhập số chỗ',
             'start_date.required' => 'Bắt buộc phải nhập ngày bắt đầu',
             'end_date.required' => 'Bắt buộc phải nhập ngày kết thúc',
