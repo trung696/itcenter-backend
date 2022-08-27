@@ -33,6 +33,9 @@ Route::delete('logout','Api\ApiLoginController@deleteToken');
 //            get :  /api/user/{id} -- lấy thông tin user đó )
 Route::apiResource('user', 'Api\ApiUserController');
 Route::patch('user/update/{id}','Api\ApiUserController@update')->middleware('checkTokenUp');
+Route::post('change-password','Api\ApiUserController@changePassword');
+
+
 // Route::patch('user/update/{id}','App\Http\Controllers\Api\ApiUserController@update')->middleware('checkTokenUp');
 
 
