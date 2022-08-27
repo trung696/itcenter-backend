@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\ThongTinChuyenLop;
 use App\HocVien;
 use App\ClassModel;
+use App\Course;
 use Illuminate\Http\Request;
 use App\SessionUser;
 use App\DangKy;
@@ -23,6 +24,13 @@ class ApiLopController extends Controller
         //
         $classes = ClassModel::all();
 
+        foreach ($classes as $classItem) {
+            if ($classItem->course_id) {
+                $course = Course::find($classItem->course_id);
+                $classItem->price_of_class = optional($course)->price;
+                $classItem->course_name = optional($course)->name;
+            }
+        }
         return response()->json([
             'status' => true,
             'heading' => "Classes",
@@ -50,11 +58,11 @@ class ApiLopController extends Controller
      */
     public function show($id)
     {
-        
+
         $classDetail = ClassModel::find($id);
 
         $classDetail->lecturer_name = User::where('id', $classDetail->lecturer_id)->first()->name;
-        
+
         $moi = [];
         $listDangKiOfClass = DangKy::where('id_lop_hoc', $id)->where('trang_thai', '=', 1)->get();
         // dd($listDangKiOfClass);
