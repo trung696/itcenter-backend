@@ -147,7 +147,7 @@
                                     padding-left: 0px;
                                   ">
                                 <div align="center" class="alignment" style="line-height: 10px">
-                                  <img alt="Image" class="big" src="images/rounder-up.png" style="
+                                  <img alt="Image" class="big" src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2Frounder-up.png?alt=media&token=81a5bf56-6eb0-40d0-926e-33be2f0b0a54" style="
                                         display: block;
                                         height: auto;
                                         border: 0;
@@ -206,7 +206,8 @@
                                     padding-left: 0px;
                                   ">
                                 <div align="center" class="alignment" style="line-height: 10px">
-                                  <img alt="Image" src="images/Logo.png" style="
+                                  <img alt="Image" src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2F039a4513e60823567a19.jpg?alt=media&token=d3828d51-df27-4f9b-802b-f7dd2eb050e5
+" style="
                                         display: block;
                                         height: auto;
                                         border: 0;
@@ -409,7 +410,7 @@
                                         font-family: Lato, Tahoma, Verdana,
                                           Segoe, sans-serif;
                                       ">
-                                    <p style="
+                                       <p style="
                                           margin: 0;
                                           font-size: 16px;
                                           text-align: left;
@@ -418,7 +419,8 @@
                                       <span style="
                                             color: #000000;
                                             font-size: 16px;
-                                          "><strong>Tên l</strong>
+                                          ">
+                                        <strong>Thông tin lớp cũ</strong>
                                       </span>
                                     </p>
                                     <p style="
@@ -427,7 +429,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Tên khóa học : {{ $checkClassOld->course->name }}
+                                      Tên khóa học : {{ $checkCourseClassOld->course->name }}
                                     </p>
                                     <p style="
                                           margin: 0;
@@ -435,7 +437,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Lớp bạn đầu : {{ $checkClassOld->name }}
+                                      Lớp bạn đầu : {{ $checkCourseClassOld->name }}
                                     </p>
                                     <p style="
                                           margin: 0;
@@ -443,7 +445,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Giá tiền : {{ number_format($checkClassOld->course->price) }} VNĐ
+                                      Giá tiền : {{ number_format($checkCourseClassOld->course->price) }} VNĐ
                                     </p>
                                   </div>
                                 </div>
@@ -488,7 +490,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Tên khóa học : {{ $classNew->course->name }}
+                                      Tên khóa học : {{ $checkClass->course->name }}
                                     </p>
                                     <p style="
                                           margin: 0;
@@ -496,7 +498,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Tên lớp mới : {{ $classNew->name }}
+                                      Tên lớp mới : {{ $checkClass->name }}
                                     </p>
                                     <p style="
                                           margin: 0;
@@ -504,7 +506,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Giá tiền lớp mới : {{ number_format($classNew->course->price ) }} VNĐ
+                                      Giá tiền lớp mới : {{ number_format($checkClass->course->price ) }} VNĐ
                                     </p>
 
                                     <p style="
@@ -649,7 +651,7 @@
                                     <tr>
                                       <td style="padding: 0 5px 0 0px">
                                         <a href="https://www.facebook.com/" target="_blank"><img alt="Facebook"
-                                            height="32" src="images/facebook2x.png" style="
+                                            height="32" src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2Ffacebook2x.png?alt=media&token=c0596f89-38b8-4748-9f04-93bbdfd6380f" style="
                                                 display: block;
                                                 height: auto;
                                                 border: 0;
@@ -657,7 +659,7 @@
                                       </td>
                                       <td style="padding: 0 5px 0 0px">
                                         <a href="https://twitter.com/" target="_blank"><img alt="Twitter" height="32"
-                                            src="images/twitter2x.png" style="
+                                            src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2Ftwitter2x.png?alt=media&token=f37946c8-7332-4651-9211-9b76e3f71100" style="
                                                 display: block;
                                                 height: auto;
                                                 border: 0;
@@ -665,7 +667,7 @@
                                       </td>
                                       <td style="padding: 0 5px 0 0px">
                                         <a href="https://plus.google.com/" target="_blank"><img alt="Google+"
-                                            height="32" src="images/googleplus2x.png" style="
+                                            height="32" src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2Fgoogleplus2x.png?alt=media&token=081e7fca-7d42-4000-94b1-5dfba4b0792f" style="
                                                 display: block;
                                                 height: auto;
                                                 border: 0;
@@ -820,7 +822,7 @@
                                     padding-bottom: 60px;
                                   ">
                                 <div align="center" class="alignment" style="line-height: 10px">
-                                  <img alt="Image" class="big" src="images/rounder-dwn.png" style="
+                                  <img alt="Image" class="big" src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2Frounder-dwn.png?alt=media&token=b94854f9-cdbe-4bcd-a1d7-21ec32ac0415" style="
                                         display: block;
                                         height: auto;
                                         border: 0;

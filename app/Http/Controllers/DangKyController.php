@@ -356,8 +356,8 @@ class DangKyController extends Controller
                         ]);
                     }
                 }
-                $listClass = ClassModel::all();
-                $ca = Ca::all();
+                $checkCourseClassOld = ClassModel::where('id', $oldClass)->first();
+
                 //check chỗ lớp mới chuyển sang và trừ đi 1 slot
                 $dangKyAfterUpdate = DangKy::where('id', $dangKy->id)->first();
                 if ($dangKyAfterUpdate->trang_thai == 1) {
@@ -365,7 +365,7 @@ class DangKyController extends Controller
                     ClassModel::whereId($classOfChuyenLop->id)->update([
                         'slot' =>  $classOfChuyenLop->slot - 1
                     ]);
-                    Mail::send('emailThongBaoChuyenLop', compact('classOfChuyenLop', 'ca'), function ($email) use ($hocVien) {
+                    Mail::send('emailThongBaoChuyenLop', compact('checkClass', 'checkCourseClassOld'), function ($email) use ($hocVien) {
                         // mail nhận thư, tên người dùng
                         $email->subject("Hệ thống thông báo chuyển lớp thành công đến bạn");
                         $email->to($hocVien->email, $hocVien->ho_ten);
@@ -457,9 +457,9 @@ class DangKyController extends Controller
                 $dangKy['paid_date'] = date("Y-m-d H:i:s");;
                 $dangKy->update();
                 //thành công rồi thì trừ slot của lớp đi 
-                // $checkClass['slot'] = $checkClass->slot - 1;
-                // $checkClass->update();
-                // $classOld = ClassModel::where('id', $dangKy->id_lop_hoc)->first();
+                $checkClass['slot'] = $checkClass->slot - 1;
+                $checkClass->update();
+                $classOld = ClassModel::where('id', $dangKy->id_lop_hoc)->first();
                 $hocVien = HocVien::where('email', '=', $email)->first();
                 Mail::send('emailThongBaoDongThemThanhCong', compact('hocVien', 'soTienDaDongThem', 'createPayment', 'classOld'), function ($email) use ($hocVien) {
                     $email->subject("Hệ thống gửi thông báo bạn đã đóng học phí (trực tiếp)");
@@ -588,7 +588,7 @@ class DangKyController extends Controller
             $classNew->update();
 
             $hoc_vien = HocVien::where('id', $updateDky->id_hoc_vien)->first();
-            Mail::send('emailThongBaoChuyenLop', compact('checkClassOld', 'classNew'), function ($email) use ($hoc_vien) {
+            Mail::send('emailChuyenLopKhacKhoaCungGiaTien', compact('checkClassOld', 'classNew'), function ($email) use ($hoc_vien) {
                 $email->subject("Hệ thống gửi thông báo bạn đã chuyển lớp");
                 $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
             });
