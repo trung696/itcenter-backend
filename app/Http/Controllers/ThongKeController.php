@@ -58,4 +58,7 @@ class ThongKeController extends Controller
 
         return view('thongke', $this->v);
     }
+    public function thongke() {
+        return view('thongke.index');
+    }
 }

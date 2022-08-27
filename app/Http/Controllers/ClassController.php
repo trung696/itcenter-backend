@@ -470,8 +470,15 @@ class ClassController extends  Controller
             ->leftJoin('class as tb3', 'tb3.id', '=', 'tb2.id_lop_hoc')
             ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
             ->where('tb3.id', $id)
-            ->where('tb2.trang_thai', 3)->get();
-        // dd($emails->toSql());
+            ->where('tb2.trang_thai', 3);
+            $test = DB::table('dang_ky', 'tb2')
+            ->select('tb1.id as MSV', 'tb1.ho_ten as sv_name', 'tb3.name as class_name',  'tb4.name as course_name', 'tb1.so_dien_thoai', 'tb1.email', 'tb1.ngay_sinh', 'tb1.gioi_tinh')
+            ->leftJoin('hoc_vien as tb1', 'tb1.id', '=', 'tb2.id_hoc_vien')
+            ->leftJoin('class as tb3', 'tb3.id', '=', 'tb2.id_lop_hoc')
+            ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
+            ->where('tb3.id', $id)
+            ->where('tb2.trang_thai', 3);
+        dd($test->toSql());
         $classname = DB::table('class', 'tb3')->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')->select('tb3.name as className', 'tb4.name as courseName')->where('tb3.id', $id)->first();
         // dd($emails);
         $pdf = PDF::setOptions([
