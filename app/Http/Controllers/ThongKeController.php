@@ -53,7 +53,14 @@ class ThongKeController extends Controller
         $tong_hoc_phi = $objPayment->sumPay();
 
         //THỐNG KÊ MỀM
-
+        $bat_dau = "2022/08/23 - 2022/08/27";
+        $time = explode(
+            ' - ',
+            $bat_dau
+        );
+        $a = $objPayment->loadpayDay($time);
+        $b = $objTeacher->loadDay($time);
+        dd($b);
 
 
         return view('thongke', $this->v);

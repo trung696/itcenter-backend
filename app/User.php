@@ -102,4 +102,12 @@ class User extends Authenticatable
         // ->where('tb1.status', '=', 1)->get();
         return $query;
     }
+    public function loadDay($time)
+    {
+        $query = DB::table('class as tb1')
+            ->select('tb1.name as Tên lớp', 'tb2.name as Tên giáo viên', 'tb1.start_date', 'tb1.end_date')
+            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1.lecturer_id')->whereBetween('tb1.start_date', $time)->get();
+        // 
+        return $query;
+    }
 }
