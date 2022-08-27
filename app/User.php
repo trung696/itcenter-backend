@@ -106,8 +106,8 @@ class User extends Authenticatable
     {
         $query = DB::table('class as tb1')
             ->select('tb1.name as Tên lớp', 'tb2.name as Tên giáo viên', 'tb1.start_date', 'tb1.end_date')
-            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1.lecturer_id')->whereBetween('tb1.start_date', $time)->get();
+            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1.lecturer_id')->get();
         // 
-        return $query;
+        return $query->all();
     }
 }

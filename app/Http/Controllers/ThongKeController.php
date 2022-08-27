@@ -53,15 +53,34 @@ class ThongKeController extends Controller
         $tong_hoc_phi = $objPayment->sumPay();
 
         //THỐNG KÊ MỀM
-        $bat_dau = "2022/08/23 - 2022/08/27";
+        $input = "2022/09/01 - 2022/09/30";
         $time = explode(
             ' - ',
-            $bat_dau
+            $input
         );
+        //số học phí đã thu
         $a = $objPayment->loadpayDay($time);
+        //giảng viên đã dạy trong quãng thời gian
         $b = $objTeacher->loadDay($time);
-        dd($b);
-
+        $batdau = Carbon::createFromFormat('Y/m/d', $time[0]);
+        $ketthuc = Carbon::createFromFormat('Y/m/d', $time[1]);
+        $i = -1;
+        $loparr = [];
+        foreach ($b as $key => $item) {
+            $x = $item->start_date;
+            $y = $item->end_date;
+            $lopBD = Carbon::createFromFormat('Y-m-d', $x);
+            $lopKT = Carbon::createFromFormat('Y-m-d', $y);
+            if ($batdau->gt($lopBD) && $lopKT->gt($batdau)) {
+                $i++;
+                $loparr[$i] = $item;
+            } elseif ($lopBD->gt($batdau) && $ketthuc->gt($lopBD)) {
+                $i++;
+                $loparr[$i] = $item;
+            };
+        }
+        // echo ('<pre>');
+        // var_dump($loparr);
 
         return view('thongke', $this->v);
     }
