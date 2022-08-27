@@ -295,7 +295,7 @@
                                           font-size: 14px;
                                           text-align: center;
                                         ">
-                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đóng tiền vào lớp học đã đăng kí </span></strong></span>
+                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đăng kí tham gia lớp học </span></strong></span>
                                     </p>
                                   </div>
                                 </div>
@@ -404,7 +404,7 @@
                                       <span style="
                                             color: #000000;
                                             font-size: 16px;
-                                          "><strong>Tên lớp học : {{$classOld->name}}</strong>
+                                          "><strong>Tên lớp học : {{$classDk->name}}</strong>
                                       </span>
                                     </p>
                                     <p style="
@@ -413,7 +413,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Giá tiền : {{ number_format($classOld->course->price) }} VNĐ
+                                      Giá tiền : {{ number_format($classDk->course->price) }} VNĐ
                                     </p>
 
                                     <p style="
@@ -422,7 +422,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Ngày khai giảng : {{ date("d-m-Y", strtotime($classOld->start_date)) }}
+                                      Ngày khai giảng : {{ date("d-m-Y", strtotime($classDk->start_date)) }}
                                     </p>
                                   </div>
                                 </div>
@@ -457,7 +457,7 @@
                                             color: #000000;
                                             font-size: 16px;
                                           ">
-                                        <strong>Thông tin thanh toán (đã thu trực tiếp)</strong>
+                                        <strong>Thông tin thanh toán (đã thu)</strong>
                                       </span>
                                     </p>
                                     <p style="
@@ -466,7 +466,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Tên khách hàng : {{$hocVien->ho_ten}}
+                                      Tên khách hàng : {{$infoHocVien->ho_ten}}
                                     </p>
 
                                     <p style="
@@ -475,7 +475,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Địa chỉ : {{$hocVien->address}}
+                                      Địa chỉ : {{$infoHocVien->address}}
                                     </p>
 
                                     <p style="
@@ -484,34 +484,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Email : {{$hocVien->email}}
-                                    </p>
-
-                                    <p style="
-                                          margin: 0;
-                                          font-size: 14px;
-                                          text-align: left;
-                                          margin-left: 10px;
-                                        ">
-                                      Số điện thoại : {{$hocVien->so_dien_thoai}}
-                                    </p>
-
-                                    <p style="
-                                          margin: 0;
-                                          font-size: 14px;
-                                          text-align: left;
-                                          margin-left: 10px;
-                                        ">
-                                      Số cccd/cmt : {{$hocVien->cccd}}
-                                    </p>
-
-                                    <p style="
-                                          margin: 0;
-                                          font-size: 14px;
-                                          text-align: left;
-                                          margin-left: 10px;
-                                        ">
-                                      Số tiền đã đóng : {{ number_format($soTienDaDongThem)}} VNĐ
+                                      Số tiền đã đóng : {{ number_format($payment->price)}} VNĐ
                                     </p>
 
                                     <p style="
@@ -529,7 +502,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Mã giao dịch : {{$createPayment->id_giao_dich}}
+                                      Mã giao dịch : {{$payment->id_giao_dich}}
                                     </p>
 
                                     <p style="
@@ -538,7 +511,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Mã đơn hàng : {{$createPayment->id_don_hang}}
+                                      Mã đơn hàng : {{$payment->id_don_hang}}
                                     </p>
                                   </div>
                                 </div>
@@ -985,6 +958,8 @@
                                           vertical-align: middle;
                                           text-align: center;
                                         ">
+                                      <!--[if vml]><table align="left" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;padding-left:0px;padding-right:0px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;"><![endif]-->
+                                      <!--[if !vml]><!-->
                                     </td>
                                   </tr>
                                 </table>
