@@ -382,7 +382,6 @@ class ApiRegisterClassController extends Controller
     public function dongThem(Request $request)
     {
         // dd(123);
-
         $validated = Validator::make($request->all(), [
             'payment_date' => 'required',
             'price' => 'required',
