@@ -36,17 +36,18 @@ class UserController extends Controller
         $this->v['_title'] = 'Danh sách Người dùng';
         $this->v['routeIndexText'] = 'Danh sách người dùng';
         // $objNguoiDung = new NguoiDung();
-        if(isset($request->search_ten_nguoi_dung) && $request->search_ten_nguoi_dung){
+        if (isset($request->search_ten_nguoi_dung) && $request->search_ten_nguoi_dung) {
             $listUser = User::where('name', 'LIKE', "%{$request->search_ten_nguoi_dung}%")->get();
-        }else{
+        } else {
             $listUser = User::paginate(5);
         }
         $roles = Role::all();
         return view('user.index', $this->v, compact('listUser', 'roles'));
     }
 
-    public function search(Request $request){
-        $user = User::where('name', 'like', '%' .$request->get('search').'%' )->get();
+    public function search(Request $request)
+    {
+        $user = User::where('name', 'like', '%' . $request->get('search') . '%')->get();
         return json_encode($user);
     }
 
@@ -79,12 +80,12 @@ class UserController extends Controller
                 'phone' => $request->phone,
                 'avatar' => $request->avatar,
             ]);
-            if(isset($request->role_id) && count($request->role_id) ){
+            if (isset($request->role_id) && count($request->role_id)) {
                 $user->roles()->attach($request->role_id);
             }
             // dd($user);
             //check nếu edit mà quyền là giảng viên thì insert vào bảng teacher
-            if (isset($request->role_id) && $request->role_id )  {
+            if (isset($request->role_id) && $request->role_id) {
                 foreach ($request->role_id as $role) {
                     if ($role == 2) {
                         Teacher::create([
@@ -167,7 +168,7 @@ class UserController extends Controller
     {
         try {
             User::find($id)->delete();
-            Teacher::where('user_id',$id)->delete();
+            Teacher::where('user_id', $id)->delete();
             return response()->json([
                 'code' => 200,
                 'message' => 'success'
@@ -191,7 +192,7 @@ class UserController extends Controller
                     'code' => 200,
                     'message' => 'success'
                 ]);
-            }  
+            }
         } catch (\Exception $exception) {
             Log::error('Message:' . $exception->getMessage() . '---Line: ' . $exception->getLine());
             return response()->json([
@@ -319,19 +320,21 @@ class UserController extends Controller
     //             return redirect()->route($method_route, ['id' => $id]);
     //         }
     //     }
-    public function active(HocVien $hocVien, $token){
+    public function active(HocVien $hocVien, $token)
+    {
         dd(123);
         $tokens =  rtrim($token, '}');
-    
-         if($hocVien->tokenActive === $tokens){
-             $hocVien->update(['status'=>1,
-                            'tokenActive' => null]);
+
+        if ($hocVien->tokenActive === $tokens) {
+            $hocVien->update([
+                'status' => 1,
+                'tokenActive' => null
+            ]);
             return "Cập nhập thành công";
             //  return redirect()->route('')->with('yes','xác thực tài khoản thành công');
-         }else{
+        } else {
             //  return redirect()->route('')->with('NO','chưa xác thực đưuọc tài khoản');
             return "Lủng rồi xem lại đê";
-
-         }
-     }
+        }
+    }
 }

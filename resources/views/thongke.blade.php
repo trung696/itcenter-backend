@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    Số lớp đang active là:{{ $activeClass }}
+    Số lớp đang active là:
 </body>
 
 </html> --}}

@@ -39,8 +39,7 @@ class Payment extends Model
     public function loadpayDay($time)
     {
         $query = DB::table('payment')
-            ->sum('payment.price')
-            ->whereBetween('payment_date', $time);
+            ->whereBetween('payment_date', $time)->sum('payment.price');
         // $query = DB::table('payment')->select('payment_date');
         return $query;
     }
