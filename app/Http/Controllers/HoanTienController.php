@@ -36,6 +36,7 @@ class HoanTienController extends Controller
     //trường hợp hoàn trả học phí cho sinh viên chuyển lớp nhưng thừa tiền
     public function hoanTienDu($id)
     {
+        // dd(1);
         $itemEdit = DangKy::where('id', $id)->first();
         if ($itemEdit->trang_thai == 1) {
             try {
@@ -91,16 +92,16 @@ class HoanTienController extends Controller
         }
     }
 
-    public function search(Request $request){
-        $result = HocVien::where('email', 'LIKE', '%'. $request->email. '%')->get();
-        foreach ($result as $resultItem){
-            $dangKyThuaTienOfHocVien = DangKy::where('id_hoc_vien',$resultItem->id)->where('du_no','>',0)->get();
+    public function search(Request $request)
+    {
+        $result = HocVien::where('email', 'LIKE', '%' . $request->email . '%')->get();
+        foreach ($result as $resultItem) {
+            $dangKyThuaTienOfHocVien = DangKy::where('id_hoc_vien', $resultItem->id)->where('du_no', '>', 0)->get();
         }
         // echo '<pre>';
         //     print($dangKyThuaTienOfHocVien);
         // return redirect('hoanTien')->with(compact('dangKyThuaTienOfHocVien'));
-        return redirect()->route('route_BackEnd_list_hoan_tien')->with( ['searchs' => $dangKyThuaTienOfHocVien] );
+        return redirect()->route('route_BackEnd_list_hoan_tien')->with(['searchs' => $dangKyThuaTienOfHocVien]);
         // return  view('hoanTien.index', compact('dangKyThuaTienOfHocVien'));
     }
-    
 }
