@@ -30,4 +30,18 @@ class Payment extends Model
         $res = DB::table('payment')->insertGetId($data);
         return $res;
     }
+    public function sumPay()
+    {
+        $query = DB::table('payment')
+            ->sum('payment.price');
+        return $query;
+    }
+    public function loadpayDay($time)
+    {
+        $query = DB::table('payment')
+            ->sum('payment.price')
+            ->whereBetween('payment_date', $time);
+        // $query = DB::table('payment')->select('payment_date');
+        return $query;
+    }
 }
