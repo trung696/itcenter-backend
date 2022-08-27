@@ -134,6 +134,23 @@ class ApiUserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $rules = [
+            'ho_ten' => 'bail|required|string',
+            'ngay_sinh' => 'bail|required|date',
+            'gioi_tinh' => 'bail|required|numeric',
+            'hinh_anh' => 'nullable',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'heading' => 'Chưa qua được validate',
+                'error' => $validator->errors()
+            ], 400);
+        }
+
         $userUpdate = HocVien::find($id);
         $userUpdate->update(
             $request->all()
@@ -145,6 +162,56 @@ class ApiUserController extends Controller
             'data' => $userUpdate
         ]);
     }
+
+    public function changePassword(Request $request)
+    {
+
+        $tokenUp = $request->bearerToken();
+        $checkToken = SessionUser::where('token', $tokenUp)->first();
+
+
+        if (empty($tokenUp)) {
+            return response()->json([
+                'status' => 401,
+                'heading' => "Không gửi token lên",
+            ], 401);
+        }
+
+        $rules = [
+            'oldPassword' => 'required',
+            'newPassword' => 'required',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'heading' => 'Chưa qua được validate',
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+        $userUpdate = HocVien::find($checkToken->user_id);
+
+        if ($request->oldPassword != $userUpdate->password) {
+            return response()->json([
+                'status' => 400,
+                'heading' => 'Mật khẩu cũ không đúng',
+                'data' => false
+            ], 400);
+        }
+
+        $userUpdate['password'] = $request->newPassword;
+        $userUpdate->update();
+
+        return response()->json([
+            'status' => 200,
+            'heading' => 'Đổi mật khẩu thành công',
+            'data' => true
+        ], 200);
+    }
+
 
     /**
      * Remove the specified resource from storage.
