@@ -108,7 +108,11 @@
                                 @endphp
 
                             </td>
-                            <td> <a href=" {{route('route_BackEnd_doi_lop',[ 'id'=>$item->id,'email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}"> <button>Đồng ý</button> </a>
+                            @if( $item->trang_thai == 0 )
+                            <td> <a href="{{route('route_BackEnd_doi_lop',[ 'id'=>$item->id,'email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}" onclick="return  confirm('Bạn có chắc chắn duyệt')" > <button>Đồng ý</button> </a>
+                            @else
+                            <td> <a> <button disabled >Đã duyệt</button> </a>
+                            @endif
                             </td>
                         </tr>
                         @endforeach

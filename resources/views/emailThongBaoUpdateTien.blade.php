@@ -295,7 +295,7 @@
                                           font-size: 14px;
                                           text-align: center;
                                         ">
-                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đóng tiền vào lớp học đã đăng kí </span></strong></span>
+                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đóng số tiền còn thiếu sau khi chuyển lớp </span></strong></span>
                                     </p>
                                   </div>
                                 </div>
@@ -429,6 +429,45 @@
                               </td>
                             </tr>
                           </table>
+                          <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
+                                mso-table-lspace: 0pt;
+                                mso-table-rspace: 0pt;
+                                word-break: break-word;
+                              " width="100%">
+                            <tr>
+                              <td class="pad" style="
+                                    padding-bottom: 15px;
+                                    padding-left: 10px;
+                                    padding-right: 10px;
+                                    padding-top: 25px;
+                                  ">
+                                <div style="font-family: sans-serif">
+                                  <div class="txtTinyMce-wrapper" style="
+                                        font-size: 12px;
+                                        padding: 10px;
+                                        mso-line-height-alt: 18px;
+                                        color: #71777d;
+                                        line-height: 1.5;
+                                        font-family: Lato, Tahoma, Verdana,
+                                          Segoe, sans-serif;
+                                      ">
+                                    <p style="
+                                          margin: 0;
+                                          font-size: 16px;
+                                          text-align: left;
+                                          mso-line-height-alt: 21px;
+                                        ">
+                                      <span style="
+                                            color: #000000;
+                                            font-size: 16px;
+                                          "><strong>Số tiền vừa đóng thêm : {{ number_format($soTienDaDongThem) }} VNĐ</strong>
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
 
                           <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
                                 mso-table-lspace: 0pt;
@@ -457,7 +496,7 @@
                                             color: #000000;
                                             font-size: 16px;
                                           ">
-                                        <strong>Thông tin thanh toán (đã thu)</strong>
+                                        <strong>Thông tin thanh toán (đã thu trực tiếp)</strong>
                                       </span>
                                     </p>
                                     <p style="
@@ -466,7 +505,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Tên khách hàng : {{$hocVien->ho_ten}}
+                                      Tên khách hàng : {{$hoc_vien->ho_ten}}
                                     </p>
 
                                     <p style="
@@ -475,7 +514,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Địa chỉ : {{$hocVien->address}}
+                                      Địa chỉ : {{$hoc_vien->address}}
                                     </p>
 
                                     <p style="
@@ -484,7 +523,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Email : {{$hocVien->email}}
+                                      Email : {{$hoc_vien->email}}
                                     </p>
 
                                     <p style="
@@ -493,7 +532,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Số điện thoại : {{$hocVien->so_dien_thoai}}
+                                      Số điện thoại : {{$hoc_vien->so_dien_thoai}}
                                     </p>
 
                                     <p style="
@@ -502,7 +541,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Số cccd/cmt : {{$hocVien->cccd}}
+                                      Số cccd/cmt : {{$hoc_vien->cccd}}
                                     </p>
 
                                     <p style="
@@ -511,7 +550,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Số tiền đã đóng : {{ number_format($soTienDaDongThem)}} VNĐ
+                                      Tổng số tiền đã đóng : {{ number_format($payMentUpdate->price)}} VNĐ
                                     </p>
 
                                     <p style="
@@ -529,7 +568,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Mã giao dịch : {{$createPayment->id_giao_dich}}
+                                      Mã giao dịch : {{$payMentUpdate->id_giao_dich}}
                                     </p>
 
                                     <p style="
@@ -538,7 +577,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Mã đơn hàng : {{$createPayment->id_don_hang}}
+                                      Mã đơn hàng : {{$payMentUpdate->id_don_hang}}
                                     </p>
                                   </div>
                                 </div>

@@ -9,6 +9,7 @@ use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class HoanTienController extends Controller
@@ -37,26 +38,30 @@ class HoanTienController extends Controller
     public function hoanTienDu($id)
     {
         $itemEdit = DangKy::where('id', $id)->first();
+        $so_tien_thua = $itemEdit->du_no;
         if ($itemEdit->trang_thai == 1) {
-            try {
-                DB::beginTransaction();
-                $payMentEdit = Payment::where('id', $itemEdit->id_payment)->first();
-                $payMentEdit['price'] = $payMentEdit->price - $itemEdit->du_no;
-                $payMentEdit->update();
-                //sau đó cập nhập bảng dki
-                $itemEdit['so_tien_da_dong']  = null;
-                $itemEdit['du_no']  = 0;
-                //trạng thái = 1 là đăng kí 
-                $itemEdit['trang_thai']  = 1;
-                $itemEdit->update();
-
-                //lưu thông tin vào 1 bảng mới (suy nghĩ thêm)
-                DB::commit();
-                return redirect()->back()->with('msg', 'Đã hoàn trả cho sinh viên số tiền thừa');
-            } catch (\Exception $exception) {
-                DB::rollback();
-                Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
-            }
+            // try {
+            //     DB::beginTransaction();
+            $payMentEdit = Payment::where('id', $itemEdit->id_payment)->first();
+            $payMentEdit['price'] = $payMentEdit->price - $itemEdit->du_no;
+            $payMentEdit->update();
+            //sau đó cập nhập bảng dki
+            $itemEdit['so_tien_da_dong']  = null;
+            $itemEdit['du_no']  = 0;
+            //trạng thái = 1 là đăng kí 
+            $itemEdit['trang_thai']  = 1;
+            $itemEdit->update();
+            // DB::commit();
+            $hoc_vien = HocVien::where('id', $itemEdit->id_hoc_vien)->first();
+            Mail::send('emailThongBaoHoanTien', compact('hoc_vien','so_tien_thua'), function ($email) use ($hoc_vien) {
+                $email->subject("Hệ thống gửi thông báo đã hoàn tiền thừa đến bạn");
+                $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
+            });
+            return redirect()->back()->with('msg', 'Đã hoàn trả cho sinh viên số tiền thừa');
+            // } catch (\Exception $exception) {
+            //     DB::rollback();
+            //     Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
+            // }
         }
     }
 
@@ -91,16 +96,16 @@ class HoanTienController extends Controller
         }
     }
 
-    public function search(Request $request){
-        $result = HocVien::where('email', 'LIKE', '%'. $request->email. '%')->get();
-        foreach ($result as $resultItem){
-            $dangKyThuaTienOfHocVien = DangKy::where('id_hoc_vien',$resultItem->id)->where('du_no','>',0)->get();
+    public function search(Request $request)
+    {
+        $result = HocVien::where('email', 'LIKE', '%' . $request->email . '%')->get();
+        foreach ($result as $resultItem) {
+            $dangKyThuaTienOfHocVien = DangKy::where('id_hoc_vien', $resultItem->id)->where('du_no', '>', 0)->get();
         }
         // echo '<pre>';
         //     print($dangKyThuaTienOfHocVien);
         // return redirect('hoanTien')->with(compact('dangKyThuaTienOfHocVien'));
-        return redirect()->route('route_BackEnd_list_hoan_tien')->with( ['searchs' => $dangKyThuaTienOfHocVien] );
+        return redirect()->route('route_BackEnd_list_hoan_tien')->with(['searchs' => $dangKyThuaTienOfHocVien]);
         // return  view('hoanTien.index', compact('dangKyThuaTienOfHocVien'));
     }
-    
 }

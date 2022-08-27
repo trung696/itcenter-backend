@@ -41,7 +41,7 @@ class ApiDoiLopController extends Controller
         if($t){
             return response()->json([
                 'status' => true,
-                'heading' => 'đang kí chuyển lớp thành công'
+                'heading' => 'Đăng kí chuyển lớp thành công'
             ],200);
         }
     }

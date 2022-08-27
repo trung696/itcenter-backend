@@ -70,6 +70,7 @@ class UserController extends Controller
     public function store(UserAddRequest $request)
     {
         try {
+            // dd($request->all());
             DB::beginTransaction();
             $user = User::create([
                 'name' => $request->name,
@@ -82,26 +83,26 @@ class UserController extends Controller
             if(isset($request->role_id) && count($request->role_id) ){
                 $user->roles()->attach($request->role_id);
             }
-            // dd($user);
-            //check nếu edit mà quyền là giảng viên thì insert vào bảng teacher
-            if (isset($request->role_id) && $request->role_id )  {
-                foreach ($request->role_id as $role) {
-                    if ($role == 2) {
-                        Teacher::create([
-                            'user_id' => $user->id,
-                            'name' => $request->name,
-                            'email' => $request->email,
-                            'password' => Hash::make($request->password),
-                            'address' => $request->address,
-                            'phone' => $request->phone,
-                            'avatar' => $request->avatar,
-                            'status' => 0,
-                            'detail' => $request->detail,
-                        ]);
+                // dd($user);
+                // check nếu edit mà quyền là giảng viên thì insert vào bảng teacher
+                if (isset($request->role_id) && $request->role_id )  {
+                    foreach ($request->role_id as $role) {
+                        if ($role == 3) {
+                            Teacher::create([
+                                'user_id' => $user->id,
+                                'name' => $request->name,
+                                'email' => $request->email,
+                                'password' => Hash::make($request->password),
+                                'address' => $request->address,
+                                'phone' => $request->phone,
+                                'avatar' => $request->avatar,
+                                'status' => 1,
+                                'detail' => $request->detail,
+                            ]);
+                        }
                     }
                 }
-            }
-            //end check
+                // end check
             DB::commit();
             session()->flash('success', 'Thêm thành công user ');
             return redirect()->route('route_BackEnd_NguoiDung_index');

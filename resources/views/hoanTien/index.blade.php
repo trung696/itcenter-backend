@@ -206,13 +206,13 @@
                             <td> @php
                                 foreach($listHocVien as $listHocVienItem){
                                 if($listClassDaKhaiGiangIteam->id_hoc_vien == $listHocVienItem->id){
-                                echo $listHocVienItem->hinh_anh;
+                                echo $listHocVienItem->address;
                                 }
                                 }
                                 @endphp</td>
                             <td> Chưa trả </td>
                             <td>{{number_format($listClassDaKhaiGiangIteam->du_no)}} VNĐ </td>
-                            <td> <a href="{{route('route_BackEnd_edit_thua_tien_hoan_tien',['id'=>$listClassDaKhaiGiangIteam->id])}}"> <button>Hoàn tiền</button></td>
+                            <td> <a href="{{route('route_BackEnd_edit_thua_tien_hoan_tien',['id'=>$listClassDaKhaiGiangIteam->id])}}"  onclick="return confirm('Bạn chắc chắn thực hiện giao dịch?');"> <button>Hoàn tiền</button></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -327,15 +327,15 @@
                             <td> @php
                                 foreach($listHocVien as $listHocVienItem){
                                 if($listDangKyThuaTienItem->id_hoc_vien == $listHocVienItem->id){
-                                echo $listHocVienItem->hinh_anh;
+                                echo $listHocVienItem->address;
                                 }
                                 }
                                 @endphp</td>
-                            <td> Chưa trả </td>
+                            <td> Chưa hoàn trả </td>
                             <td>{{number_format($listDangKyThuaTienItem->du_no)}} VNĐ </td>
                             <td>
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn btn-secondary dropdown-toggle"   type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Hoàn tiền
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
