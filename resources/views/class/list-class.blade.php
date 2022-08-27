@@ -104,14 +104,32 @@
                                         value="@isset($extParams['search_name_class']) {{ $extParams['search_name_class'] }} @endisset">
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-6">
+                            <div class="col-md-3 col-sm-6">   
                                 <div class="form-group">
-                                    <input type="text" name="search_ngay_khai_giang"
-                                        class="form-control daterangepicker-click" placeholder="Ngày khai giảng"
-                                        value="@isset($extParams['search_ngay_khai_giang']) {{ $extParams['search_ngay_khai_giang'] }} @endisset"
-                                        autocomplete="off">
+                                    <select name="search_khoa_hoc" id="id_danh_muc" class="form-control select2"
+                                        data-placeholder="Chọn khoá học">
+                                        <option value="">== khoá học==</option>
+                                        @foreach ($course as $item)
+                                            <option value="{{ $item->id }}"
+                                             @isset($extParams['search_khoa_hoc']) {{ $extParams['search_khoa_hoc'] }} @endisset>{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                    <select name="search_giang_vien" id="id_danh_muc" class="form-control select2"
+                                        data-placeholder="Chọn giảng viên">
+                                        <option value="">== Giảng viên ==</option>
+                                        @foreach ($user as $item)
+                                            <option value="{{ $item->id }}"
+                                                @isset($request['lecturer_id']) @if ($request['lecturer_id'] == $item->id) selected @endif
+                                            @endisset>{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                             {{-- <div class="col-md-4 col-sm-6">
                                 <div class="form-group" style="margin-top: 5px">
                                     <select name="trang_thai" id="trang_thai" class="form-control select2"

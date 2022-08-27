@@ -132,7 +132,9 @@ class ClassController extends  Controller
             $arrCa[$item->id] = $item->ca_hoc;
         }
         $this->v['arrCaHoc'] = $arrCa;
-        // dd( $this->v['arrCaHoc']);
+        // dd( $this->v['arrCaHoc']);\
+        $objCourse = new  Course();
+        $this->v['course'] = $objCourse->loadListIdAndName(['status', 1]);
         return view('class.list-class', $this->v);
     }
 

@@ -47,4 +47,8 @@ class ThongKeController extends Controller
         dd($activeHS);
         return view('thongke', $this->v);
     }
+
+    public function listThongKe() {
+        return view('thongke.list_thong_ke');
+    }
 }

@@ -1,3 +1,4 @@
+
 @extends('templates.layout')
 @section('title', '1233')
 

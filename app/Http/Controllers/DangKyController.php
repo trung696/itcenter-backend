@@ -49,6 +49,9 @@ class DangKyController extends Controller
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
         $this->v['list'] = $objDangKy->loadListWithPagers($this->v['extParams']);
+        // $bat_dau = "08/09/2022 - 21/10/2022";
+        // $explode_fullname = explode(' - ', $bat_dau);
+        // dd($explode_fullname);
         return view('dangky.dang-ky', $this->v);
     }
     public function themDangKy(DangKyRequest $request)

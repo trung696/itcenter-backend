@@ -86,8 +86,13 @@ class ClassModel extends Model
         if (isset($params['search_name_class']) && strlen($params['search_name_class']) > 0) {
             $query->where('tb1.name', 'like', '%' . $params['search_name_class'] . '%');
         }
-        if (isset($params['search_danh_muc_khoa_hoc']) && $params['search_danh_muc_khoa_hoc']) {
-            $query->where('tb1.category_id', $params['search_danh_muc_khoa_hoc']);
+        if (isset($params['search_khoa_hoc']) && $params['search_khoa_hoc']) {
+            $query->where('tb1.course_id', 'like', '%' .$params['search_khoa_hoc']);
+            // dd($query->where('tb1.course_id', 'like', '%' .$params['search_khoa_hoc']));
+        }
+        if (isset($params['search_giang_vien']) && $params['search_giang_vien']) {
+            $query->where('tb1.lecturer_id', 'like', '%' .$params['search_giang_vien']);
+            
         }
         $list = $query->paginate(10, ['tb1.id']);
         return $list;

@@ -37,12 +37,12 @@ class CourseCategoryRequest extends FormRequest
                 switch ($currentAction) {
                     case 'AddCourseCategory':
                         $rules = [
-                            "name" => "required|min:10|max:255|unique:course_categories",
+                            "name" => "required|min:3|max:255|unique:course_categories",
                         ];
                         break;
                     case 'updateCourseCategory':
                         $rules = [
-                            "name" => "required|min:10|max:255|unique:course_categories",
+                            "name" => "required|min:3|max:255|unique:course_categories",
                         ];
                         break;
 
@@ -61,8 +61,9 @@ class CourseCategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'Bắt buộc phải nhập tên danh mục khóa học',
-            'name.min' => 'Tên danh mục khóa học phải nhập 10 ký tự trở lên',
-            'name.unique' => 'Danh mục khóa này đã tồn tại trên hệ thống'
+            'name.min' => 'Tên danh mục khóa học phải nhập 3 kí tự trở lên',
+            'name.unique' => 'Danh mục khóa học này đã tồn tại trên hệ thống',
+            'name.max' => 'Danh mục không được nhập quá 255 kí tự',
         ];
     }
 }
