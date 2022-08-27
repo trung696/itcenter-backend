@@ -131,7 +131,6 @@ class ApiRegisterClassController extends Controller
                 }
             }
         }
-
         //check validate khi chuan bi them moi hoc vien
         $validated = Validator::make($request->all(), [
             'ho_ten' => 'required',
@@ -220,16 +219,15 @@ class ApiRegisterClassController extends Controller
                 'id_payment' => null,
                 'paid_date' => null,
                 'token' => Str::random(10),
-
             ]);
             $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-            Mail::send('emailThongBaoDangKiLopHoc', compact('classDk'), function ($email) use ($addNewStudent) {
+            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk','addNewStudent'), function ($email) use ($addNewStudent) {
                 $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                 $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
             });
             return response()->json([
                 'status' => true,
-                'heading' => 'đang kí thành công tài khoản và thêm được vào bảng đang kí, chờ hệ thống kiểm tra xem bạn đã thanh toán hay chưa',
+                'heading' => 'Đang kí thành công tài khoản và đăng kí thành công. Vui lòng thanh toán để tham gia lớp học',
                 'data' => $addDangKiIssetStudent,
             ], 200);
         }

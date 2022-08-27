@@ -421,6 +421,10 @@ Route::middleware(['auth'])->group(function () {
         ->where('id', '[0-9]+')
         ->name('route_BackEnd_Class_Delete')->middleware(['can:class-delete']);
 
+    Route::get('/class/danhsach/{id}', 'ClassController@showDanhSachLop')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Class_danh_sach');
+
     //central facility
     Route::get('/central-facility', 'CentralFacilityController@listCentralFacility')
         ->name('route_BackEnd_CentralFacility_List')->middleware(['can:co-so-list']);

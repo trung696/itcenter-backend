@@ -406,7 +406,7 @@
                                       <span style="
                                             color: #000000;
                                             font-size: 16px;
-                                          "><strong>Tên đăng nhập:{{$addNewStudent->email}} </strong>
+                                          "><strong>Tên đăng nhập : {{$addNewStudent->email}} </strong>
                                       </span>
                                     </p>
                                     <p style="

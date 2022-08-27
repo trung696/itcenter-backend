@@ -69,7 +69,6 @@ class ClassController extends  Controller
             $arrUser[$item->id] = $item->name;
         }
         $this->v['arrUser'] = $arrUser;
-        // dd( $this->v['arrUser']);
         $objCourse = new Course();
 
         // $objItem = $objCourse->loadOne($id);
@@ -479,6 +478,22 @@ class ClassController extends  Controller
             ->loadView('print.indanhsach', compact('emails', 'classname'))->setPaper('a4');
         return $pdf->stream();
     }
+
+    public function showDanhSachLop($idClass){
+        $listDangKiClass = DangKy::where('trang_thai','=','1')->where('id_lop_hoc',$idClass)->get();
+        // dd($listDangKiClass);
+        $idUsers = [];
+        foreach($listDangKiClass as $listDangKiClassItem){
+            $idUsers[]=$listDangKiClassItem->id_hoc_vien;
+        }
+        $hocViens = [];
+        foreach($idUsers as $id){
+            $hocViens[] = HocVien::where('id',$id)->first();
+        }
+        // dd($hocViens);
+        return view('class.list-hoc-vien',compact('hocViens') );
+    }
+
     // private function ruleClass(){
     //     return [
     //         'name' => "required",

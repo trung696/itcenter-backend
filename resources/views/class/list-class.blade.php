@@ -158,6 +158,8 @@
                                 <th>Khóa học</th>
                                 <th>Ca học</th>
                                 <th>Công cụ</th>
+                                <!-- <th>Công cụ</th> -->
+
                             </tr>
                             @foreach ($lists as $key => $item)
                                 <tr>
@@ -170,7 +172,7 @@
                                     <td>{{ $item->slot }}</td>
                                     <td>{{ $item->start_date }}</td>
                                     <td>{{ $item->end_date }}</td>
-                                    <td>{{ $arrUser[$item->lecturer_id] }}</td>
+                                    <td>Lỗi err</td>
                                     <td>{{ $arrFacility[$item->location_id] }}</td>
                                     <td>{{ $arrCourse[$item->course_id] }}</td>
                                     <td>{{ $arrCaHoc[$item->id_ca] }}</td>
