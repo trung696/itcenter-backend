@@ -157,8 +157,9 @@
                                 <th>Địa điểm</th>
                                 <th>Khóa học</th>
                                 <th>Ca học</th>
+                                <th>Trạng thái</th>
+
                                 <th>Công cụ</th>
-                                <!-- <th>Công cụ</th> -->
 
                             </tr>
                             @foreach ($lists as $key => $item)
@@ -176,6 +177,15 @@
                                     <td>{{ $arrFacility[$item->location_id] }}</td>
                                     <td>{{ $arrCourse[$item->course_id] }}</td>
                                     <td>{{ $arrCaHoc[$item->id_ca] }}</td>
+                                    <td>
+                                        @php
+                                            if( $item->end_date < date('Y-m-d')  ){
+                                                    echo "<p style='color:red;'> Đã kết thúc </p>"  ;
+                                            }else{
+                                                echo "<p style='color:green;'> Đang hoạt động </p> ";
+                                            }
+                                        @endphp
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{ route('route_BackEnd_Class_Detail', ['id' => $item->id]) }}"
                                             title="Sửa"><i class="fa fa-edit"></i></a>

@@ -145,9 +145,10 @@
                                     <option value="">== Chọn khoá học==</option>
                                     @foreach ($listCourse as $item)
                                         <option value="{{ $item->id }}"
-                                            @if ($item->id == $itemDK) selected="selected" @endif>
-                                            {{ $item->name }}
-                                        </option>
+                                            @if ($item->id == $id_course->id) selected="selected"
+                                                      
+                                            @endif>
+                                            {{ $item->name }} </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -181,6 +182,8 @@
                                         Toán</option>
                                     <option value="1" @if ($itemTT == 1) selected @endif>Đã Thanh
                                         Toán</option>
+                                        <option value="3" @if ($itemTT == 3) selected @endif>Đã Thanh
+                                        Toán/Chờ xác nhận</option>
                                 </select>
                             </div>
                         </div>

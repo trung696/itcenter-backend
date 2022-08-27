@@ -335,18 +335,17 @@
                             <td>{{number_format($listDangKyThuaTienItem->du_no)}} VNĐ </td>
                             <td>
                                 <div class="dropdown">
-                                    
                                     <button class="btn btn-secondary dropdown-toggle"   type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Hoàn tiền
                                     </button>
-                                    <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#notPayModal-{{ $listDangKyThuaTienItem->id }}">
                                             Hoàn tiền thủ công
                                         </button>
                                         <button class="btn btn-primary mt-4">
                                             Hoàn tiền tự động
                                         </button>
-                                    </div> -->
+                                    </div>
                                 </div>
 
                             </td>

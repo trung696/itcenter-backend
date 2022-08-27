@@ -311,8 +311,10 @@ class DangKyController extends Controller
         $listClass = ClassModel::all();
         $listCourse = Course::all();
         $getDuNo = DangKy::whereId($id)->first()->du_no;
-        // dd($this->v);
-        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse'));
+        $id_course = ClassModel::whereId( $this->v['itemDK'])->first();
+        // $getCourseOfClass = Course::whereId($id_course)->first();
+        // dd($id_course->course);
+        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse','id_course'));
     }
 
 
@@ -454,12 +456,10 @@ class DangKyController extends Controller
                 $dangKy['id_payment'] = $createPayment->id;
                 $dangKy['paid_date'] = date("Y-m-d H:i:s");;
                 $dangKy->update();
-
                 //thành công rồi thì trừ slot của lớp đi 
-                $checkClass['slot'] = $checkClass->slot - 1;
-                $checkClass->update();
-                $classOld = ClassModel::where('id', $dangKy->id_lop_hoc)->first();
-
+                // $checkClass['slot'] = $checkClass->slot - 1;
+                // $checkClass->update();
+                // $classOld = ClassModel::where('id', $dangKy->id_lop_hoc)->first();
                 $hocVien = HocVien::where('email', '=', $email)->first();
                 Mail::send('emailThongBaoDongThemThanhCong', compact('hocVien', 'soTienDaDongThem', 'createPayment', 'classOld'), function ($email) use ($hocVien) {
                     $email->subject("Hệ thống gửi thông báo bạn đã đóng học phí (trực tiếp)");
@@ -490,7 +490,7 @@ class DangKyController extends Controller
                 $payMentOfDangKy['description'] = 'Sinh viên đóng thêm';
                 $payMentOfDangKy->update();
                 //cập nhật bảng dang_ky
-                $newDangKy['trang_thai'] = 1;
+                $newDangKy['trang_thai'] = 3;
                 $newDangKy['paid_date'] = date("Y-m-d");
                 $newDangKy['so_tien_da_dong'] = null;
                 $newDangKy['du_no'] = 0;

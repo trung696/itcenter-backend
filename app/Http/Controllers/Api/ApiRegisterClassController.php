@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Ca;
+use App\ChienDich;
 use App\ClassModel;
 use App\DangKy;
 use App\HocVien;
 use App\Http\Controllers\Controller;
+use App\MaChienDich;
 use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +51,6 @@ class ApiRegisterClassController extends Controller
             } elseif ($checkIssetEmail != null && $checkIssetPhone != null) {
                 $infoHocVien = $checkIssetEmail;
             }
-
             //kiểm tra xem đã đăng kí lớp học Chưa
             if (isset($infoHocVien->id) && isset($request->id_lop_hoc)) {
                 //đã đang kí thì thông báo là đăng kí rồi
