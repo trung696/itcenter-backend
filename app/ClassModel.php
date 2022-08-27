@@ -113,8 +113,8 @@ class ClassModel extends Model
     // }
     public function loadListIdAndName($where = null)
     {
-        dd('đã vào đây');
-        $list = DB::table($this->table)->select('id', 'name', 'status');
+        // dd('đã vào đây');
+        $list = DB::table($this->table)->select('id', 'name');
         if ($where != null)
             $list->where([$where]);
         return $list->get();
@@ -199,6 +199,17 @@ class ClassModel extends Model
             ->where('tb1.id', '!=', $idGV['id_lop']);
 
         return $check->get()->all();
+    }
+    public function loadActiveClass()
+    {
+        $now = date('Y-m-d');
+        $query = DB::table('class as tb1')
+            ->select('tb1.name as Tên lớp')
+            ->where('tb1.start_date', '<=', $now)
+            ->where('tb1.end_date', '>=', $now)
+            ->groupBy('tb1.lecturer_id')->get();
+        // ->where('tb1.status', '=', 1)->get();
+        return $query;
     }
     // public function checkThoiGian($idGV)
     // {

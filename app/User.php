@@ -95,10 +95,13 @@ class User extends Authenticatable
     }
     public function loadInClass()
     {
-
+        $now = date('Y-m-d');
         $query = DB::table('class as tb1')
             ->select('tb1.name as Tên lớp', 'tb2.name as Tên giáo viên')
-            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1.lecturer_id')->groupBy('tb1.lecturer_id')->get();
+            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1.lecturer_id')
+            ->where('tb1.start_date', '<=', $now)
+            ->where('tb1.end_date', '>=', $now)
+            ->groupBy('tb1.lecturer_id')->get();
         // ->where('tb1.status', '=', 1)->get();
         return $query;
     }

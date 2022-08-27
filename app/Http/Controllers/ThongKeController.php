@@ -43,15 +43,30 @@ class ThongKeController extends Controller
         $objHS = new HocVien();
         $objTeacher = new User();
         $objPayment = new Payment();
-        $activeCourse = $objCourse->loadListIdAndName(['status', 1])->count(); //số khóa học đang hoạt động
-        $activeHS = $objHS->loadCountHV(); //tổng số học sinh
+
+        //số khóa học đang hoạt động
+        $activeCourse = $objCourse->loadListIdAndName(['status', 1])->count();
+        $this->v['khoahoc_danghoatdong'] = $activeCourse;
+        // số lớp đang học
+        $lopdanghoc = $objClass->loadActiveClass()->count();
+        $this->v['lop_dang_hoc'] = $lopdanghoc;
+        //tổng số lớp học
+        $lophoc = $objClass->loadListIdAndName();
+        $this->v['lop_hoc'] = $lophoc->count();
+        //tổng số học sinh
+        $activeHS = $objHS->loadCountHV();
+        $this->v['tong_so_hoc_vien'] = $activeHS;
         //tổng số giảng viên
-        $teacher = $objTeacher->loadActive();
+        $teacher = $objTeacher->loadActive()->count();
+        // dd($teacher->count());
+        $this->v['tong_so_giang_vien'] = $teacher;
         //số giảng viên đang có lớp
-        $teacherInClass = $objTeacher->loadInClass();
+        $teacherInClass = $objTeacher->loadInClass()->count();
+        $this->v['so_giang_vien_dang_trong_lop'] = $teacherInClass;
+        // dd($teacherInClass);
         //tổng học phí đã thu
         $tong_hoc_phi = $objPayment->sumPay();
-
+        $this->v['tong_hoc_phi'] = number_format($tong_hoc_phi);
         //THỐNG KÊ MỀM
         $input = "2022/08/25 - 2022/09/30";
         $time = explode(
@@ -64,8 +79,8 @@ class ThongKeController extends Controller
         $b = $objTeacher->loadDay($time);
         // số học sinh đã đăng kí lớp trong tgian đó
         $c = $objPayment->loadstd($time);
-        echo ('<pre>');
-        var_dump($c);
+        // echo ('<pre>');
+        // var_dump($c);
         $batdau = Carbon::createFromFormat('Y/m/d', $time[0]);
         $ketthuc = Carbon::createFromFormat('Y/m/d', $time[1]);
         $i = -1;
@@ -88,7 +103,8 @@ class ThongKeController extends Controller
 
         return view('thongke', $this->v);
     }
-    public function thongke() {
+    public function thongke()
+    {
         return view('thongke.index');
     }
 }
