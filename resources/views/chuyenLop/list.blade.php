@@ -101,8 +101,10 @@
                             <td>
                                 @php if($item->trang_thai ==0){
                                 echo " <p style='color:red'>Chờ duyệt </p>" ;
-                                }else{
-                                echo " <p style='color:#00c300	'>Đã duyệt </p>";
+                                }elseif($item->trang_thai == 2){
+                                echo " <p style='color:#0000ff	'>Đã từ chối </p>";
+                                }elseif($item->trang_thai == 1){
+                                    echo " <p style='color:#00c300	'>Đã duyệt </p>";
                                 }
 
                                 @endphp
@@ -110,8 +112,11 @@
                             </td>
                             @if( $item->trang_thai == 0 )
                             <td> <a href="{{route('route_BackEnd_doi_lop',[ 'id'=>$item->id,'email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}" onclick="return  confirm('Bạn có chắc chắn duyệt')" > <button>Đồng ý</button> </a>
-                            @else
+                                 <a href="{{route('route_BackEnd_doi_lop_er',[ 'id'=>$item->id,'email'=>$item->email,'oldClass'=>$item->oldClass,'newClass'=>$item->newClass])}}" onclick="return  confirm('Bạn có chắc chắn duyệt')" > <button>Từ chối</button> </a>
+                            @elseif($item->trang_thai == 1)
                             <td> <a> <button disabled >Đã duyệt</button> </a>
+                            @elseif($item->trang_thai == 2)
+                            <td> <a> <button disabled >Đã từ chối</button> </a>
                             @endif
                             </td>
                         </tr>
