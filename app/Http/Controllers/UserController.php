@@ -141,7 +141,7 @@ class UserController extends Controller
             //check nếu edit mà quyền là giảng viên thì insert vào bảng teacher
             if ($request->role_id) {
                 foreach ($request->role_id as $role) {
-                    if ($role == 1) {
+                    if ($role == 3) {
                         Teacher::create([
                             'user_id' => $id,
                             'name' => $request->name,

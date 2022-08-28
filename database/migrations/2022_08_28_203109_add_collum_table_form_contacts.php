@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnCccdInHocVien extends Migration
+class AddCollumTableFormContacts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddColumnCccdInHocVien extends Migration
      */
     public function up()
     {
-        Schema::table('hoc_vien', function (Blueprint $table) {
-            // $table->string('cccd');
+        Schema::table('form_contacts', function (Blueprint $table) {
+            $table->string('note');
         });
     }
 
@@ -25,8 +25,8 @@ class AddColumnCccdInHocVien extends Migration
      */
     public function down()
     {
-        Schema::table('hoc_vien', function (Blueprint $table) {
-            $table->dropColumn('cccd');
+        Schema::table('form_contacts', function (Blueprint $table) {
+            $table->dropColumn('note');
         });
     }
 }

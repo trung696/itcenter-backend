@@ -30,7 +30,7 @@ class HoanTienPolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess('teacher_list');
+        return $user->checkPermissionAccess('hoan_tien_list');
     }
 
     /**
@@ -52,7 +52,7 @@ class HoanTienPolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess('hoan_tien_list');
+        return $user->checkPermissionAccess('hoan_tien_edit');
     }
 
     /**

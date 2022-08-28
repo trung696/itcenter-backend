@@ -34,36 +34,20 @@ class ApiContactController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
-        $validated = Validator::make($request->all(), [
-            'name' => 'bail|required',
-            'email' => 'bail|required',
-            'birthday' => 'bail|required',
-            'phone' => 'bail|required'
-        ]);
-        // if (! $request->name or ! $request->email or ! $request->birthday or ! $request->phone )   
-        // {
-        //      return ('Nhập lỗi 1 trong 4 trường');
-        // }
-        if ($validated->fails()) {
-            return response()->json([
-                'status' => false,
-                'heading' => 'Chưa qua được validate',
-                'error' => $validated->errors()
-            ], 500);
-        } else {
-            $con = FormContact::create($request->all());
-            Mail::send('frontend.home.form.contentMail', compact('con'), function ($email) {
-                // mail nhận thư, tên người dùng
-                $email->subject("Có người đăng kí tư vấn");
-                $email->to('doanhptph10742@fpt.edu.vn', 'Phạm Tiến Doanh');
-            });
-            return response()->json([
-                'status' => true,
-                'message' => "Thêm thành công contact",
-                'contact' => $request->all()
-            ], 200);
-        }
+        // dd($request->all());
+        $con = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'birthday' => $request->birthday,
+            'phone' => $request->phone,
+            'note' => $request->note,
+        ];
+        FormContact::create($con);
+        return response()->json([
+            'status' => true,
+            'heading' => "Thêm thành công contact",
+            'contact' => $request->all()
+        ], 200);
     }
 
     /**

@@ -112,7 +112,7 @@ class ClassModel extends Model
     public function loadListIdAndName($where = null)
     {
         // dd('đã vào đây');
-        $list = DB::table($this->table)->select('id', 'name', 'status');
+        $list = DB::table($this->table)->select('id', 'name');
         if ($where != null)
             $list->where([$where]);
         return $list->get();
