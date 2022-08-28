@@ -186,6 +186,7 @@ class DangKyController extends Controller
                         $res = $objDangKy->saveNew($arrDangKy);
                     }
 
+
                     // dd($arrDangKy);
                     //gửi mail xác nhận
                     $email = $request->email;
@@ -333,6 +334,7 @@ class DangKyController extends Controller
         //nếu nộp thêm tiền thì gọi function updateDongThemTien
         elseif (isset($request->dong_them)) {
 
+
             return $this->updateDongThemTien($request, $id, $email);
         }
         $hocVien = HocVien::where('email', '=', $email)->first();
@@ -343,6 +345,7 @@ class DangKyController extends Controller
         //lớp mới
         $checkCourseClassNew = ClassModel::where('id', $request->id_lop_hoc_moi)->first()->course;
         //kiểm tra xem lớp học cũ và lớp muốn chuyển có cùng 1 khóa học Không
+        //cùng khóa
         //cùng khóa
         if ($checkCourseClassOld->name === $checkCourseClassNew->name) {
             $checkClass = ClassModel::where('id', $request->id_lop_hoc_moi)->first();
