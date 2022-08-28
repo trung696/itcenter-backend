@@ -32,6 +32,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
     <link rel="stylesheet" href="{{ asset('default/dist/css/spx.css') }}">
     <link rel="stylesheet" href="{{ asset('css/SpxApp.css') }}?b={{ config('app.build_version') }}">
     <link rel="stylesheet" href="{{ asset('css/backend.css') }}?b={{ config('app.build_version') }}">
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -7,9 +7,11 @@ use App\ChienDich;
 use App\ClassModel;
 use App\HocVien;
 use App\MaChienDich;
+use App\DangKy;
 use App\Mail\OrderShipped;
 use App\Mail\SendMaKhuyenMai;
 use App\User;
+use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
@@ -85,6 +87,49 @@ class HocVienController extends Controller
                 }
             }
         }
+
+        // $objHocVien = new HocVien();
+        // $objLop = new ClassModel();
+        // $objDangky = new DangKy();
+
+        // $input_time = isset($request['search_ngay_khai_giang']) ? $request['search_ngay_khai_giang'] : '';
+        // // dd($input_time);
+        
+        // $time = explode(
+        //     ' - ',
+        //     $input_time
+        // );
+        
+        
+       
+        // dd($time);
+        //lấy học viên theo ngày
+       
+        // $hocvien= $objHocVien->loadDate();
+        // dd($hocvien);
+        // $batdau = Carbon::createFromFormat('d/m/Y', isset($time[0]) ? $time[0] : '' );
+        // $ketthuc = Carbon::createFromFormat('d/m/Y', isset($time[1]) ? $time[1] : '');
+        // // dd($batdau.'-'.$ketthuc);
+        // $i = -1;
+        // $hocVienArr = [];
+        // foreach ($hocvien as $key => $item) {
+        //     // dd($item);
+        //     $x = $item->start_date;
+        //     // dd($x);
+        //     $y = $item->end_date;
+        //     $lopBD = Carbon::createFromFormat('Y-m-d', $x);
+        //     $lopKT = Carbon::createFromFormat('Y-m-d', $y);
+        //     if ($batdau->gt($lopBD) && $lopKT->gt($batdau)) {
+        //         $i++;
+        //         $hocVienArr[$i] = $item;
+        //     } elseif ($lopBD->gt($batdau) && $ketthuc->gt($lopBD)) {
+        //         $i++;
+        //         $hocVienArr[$i] = $item;
+        //     };
+        // }
+
+        // dd($hocVienArr);
+
 
         return view('hocvien.danh-sach-hoc-vien', $this->v);
     }

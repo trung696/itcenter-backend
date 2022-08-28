@@ -29,8 +29,8 @@ class Ca extends Model
     public function loadListWithPager($params = array()){
         $query = DB::table($this->table.' as tb1')
             ->select($this->fillable);
-        if(isset($params['search_ten_ca_hoc']) && strlen($params['search_ten_ca_hoc'])>0){
-            $query->where('tb1.ca_hoc', 'like', '%' .$params['search_ten_ca_hoc'].'%');
+        if(isset($params['search_ca_hoc']) && strlen($params['search_ca_hoc'])>0){
+            $query->where('tb1.ca_hoc', 'like', '%' .$params['search_ca_hoc'].'%');
         }
         $list = $query->where('tb1.trang_thai', '=', 1)->paginate(10, ['tb1.id']);
         return $list;

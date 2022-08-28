@@ -116,17 +116,17 @@
                         </div>
                     </div>
 
-                    <span class="mt-4">ảnh đại diện</span>
+                    
+                    <label for="phone" class="col-md-3 col-sm-4 control-label">Ảnh đại diện <span class="text-danger">(*)</span></label>
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
+                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white" >
                                 <i class="fa fa-picture-o"></i> Choose
                             </a>
                         </span>
                         <input id="thumbnail" class="form-control  @error('avatar') is-invalid @enderror" type="text" name="avatar" accept="image/*">
                     </div>
                     <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-
 
                     <div class="form-group">
                         <label for="quyen" class="col-md-3 col-sm-4 control-label">Quyền <span class="text-danger">(*)</span></label>
@@ -140,7 +140,9 @@
                         </div>
                     </div>
 
-
+                    @error('detail')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <div class="form-group">
                         <label for="content" class="col-md-3 col-sm-4 control-label">Chi tiết<span class="text-danger">(*)</span></label>
                         <div class="col-md-9 col-sm-8">
@@ -166,7 +168,7 @@
 </section>
 @endsection
 @section('script')
-<script src="https://cdn.tiny.cloud/1/bhkexk64cm95nnatbec5bu38u6on5398n7wx32y4p3iq5tpu/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/xht20xn6skuyq83j2zuka7ftxnsw0g9mazxzwbcjfedylq9r/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
         selector: 'textarea#default'

@@ -86,7 +86,7 @@ class CaController extends Controller
             // dd($res);
             if ($res == null) // chuyển trang vì trong session đã có sẵn câu thông báo lỗi rồi
             {
-                Session::push('post_form_data', $this->v['request']);
+                Session::push('post_form_data', isset($this->v['request']) ? $this->v['request'] : '');
                 return redirect()->route($method_route);
             } elseif ($res > 0) {
                 $this->v['request'] = [];

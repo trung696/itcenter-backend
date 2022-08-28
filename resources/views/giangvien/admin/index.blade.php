@@ -71,7 +71,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="form-group">
-                        <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên danh mục khoá học" value="">
+                        <input type="text" name="search_ten_giang_vien" class="form-control" placeholder="Tên giảng viên" value="">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -130,9 +130,9 @@
         </div>
         @endif
     </div>
-    <p class="alert alert-warning">
+    {{-- <p class="alert alert-warning">
         Không có dữ liệu phù hợp
-    </p>
+    </p> --}}
     <div class="box-body table-responsive no-padding">
         <form action="" method="post">
             @csrf

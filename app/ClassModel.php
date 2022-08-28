@@ -83,12 +83,10 @@ class ClassModel extends Model
     {
         $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable);
-        if (isset($params['search_name_class']) && strlen($params['search_name_class']) > 0) {
-            $query->where('tb1.name', 'like', '%' . $params['search_name_class'] . '%');
+        if (isset($params['search_ca']) && strlen($params['search_ca']) > 0) {
+            $query->where('tb1.ca_hoc', 'like', '%' . $params['search_ca'] . '%');
         }
-        if (isset($params['search_danh_muc_khoa_hoc']) && $params['search_danh_muc_khoa_hoc']) {
-            $query->where('tb1.category_id', $params['search_danh_muc_khoa_hoc']);
-        }
+
         $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }
@@ -113,7 +111,7 @@ class ClassModel extends Model
     // }
     public function loadListIdAndName($where = null)
     {
-        dd('đã vào đây');
+        // dd('đã vào đây');
         $list = DB::table($this->table)->select('id', 'name', 'status');
         if ($where != null)
             $list->where([$where]);
@@ -189,14 +187,10 @@ class ClassModel extends Model
             ->count();
         return $res;
     }
-    public function getDate($idGV)
+    public function getAllInforClass()
     {
         $check = DB::table($this->table . ' as tb1')
-            ->select('tb1.name as Classname', 'tb1.start_date', 'tb1.end_date', 'tb2.name as Ten_giang_vien', 'tb1.id_ca', 'tb1.lecturer_id')
-            ->leftJoin('users as tb2', 'tb1.lecturer_id', '=', 'tb2.id')
-            ->where('tb2.id', $idGV['id'])
-            ->where('tb1.id_ca', $idGV['id_ca'])
-            ->where('tb1.id', '!=', $idGV['id_lop']);
+            ->select('tb1.name as Classname', 'tb1.start_date', 'tb1.end_date');
 
         return $check->get()->all();
     }

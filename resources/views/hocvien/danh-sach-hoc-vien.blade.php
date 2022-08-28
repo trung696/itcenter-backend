@@ -1,6 +1,9 @@
 @extends('templates.layout')
 @section('title', '1233')
+
 @section('css')
+<link rel="stylesheet" href="{{ asset('default/bower_components/select2/dist/css/select2.min.css') }} ">
+<link rel="stylesheet" href="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.css') }} ">
     <style>
         body {
             /*-webkit-touch-callout: none;
@@ -62,6 +65,7 @@
     </style>
 @endsection
 @section('content')
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         @include('templates.header-action')
@@ -90,6 +94,15 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <input type="text" name="search_ngay_khai_giang"
+                                class="form-control daterangepicker-click" placeholder="Ngày khai giảng"
+                                value="@isset($extParams['search_ngay_khai_giang']) {{ $extParams['search_ngay_khai_giang'] }} @endisset"
+                                autocomplete="off">
+                        </div>
+                    </div>
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <button type="submit" name="btnGuiMa" class="btn btn-primary btn-sm "> Gửi mã khuyến mãi
@@ -116,6 +129,7 @@
 
     <!-- Main content -->
     <section class="content appTuyenSinh">
+
         <div id="msg-box">
             <?php //Hiển thị thông báo thành công
             ?>
@@ -187,5 +201,18 @@
         </div>
         <index-cs ref="index_cs"></index-cs>
     </section>
+
+@endsection
+@section('script')
+    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+    {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
+    <script src="{{ asset('default/bower_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+
+
+    <script src="{{ asset('js/taisan.js') }} "></script>
+    <script src="{{ asset('js/khoahoc.js') }} "></script>
+
 
 @endsection

@@ -139,4 +139,14 @@ class HocVien extends Model
             ->update($dataUpdate);
         return $res;
     }
+
+    public function loadDay($time)
+    {
+        $query = DB::table('class as tb1')
+            ->select('tb1.name as Tên lớp', 'tb2.name as Tên Học Viên', 'tb1.start_date', 'tb1.end_date')
+            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1._id')->get();
+        // 
+        return $query->all();
+    }
+
 }
