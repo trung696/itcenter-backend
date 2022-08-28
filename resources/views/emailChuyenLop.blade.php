@@ -650,7 +650,7 @@
                                           font-size: 16px;
                                           display: inline-block;
                                           letter-spacing: normal;
-                                        "><a href=""><span dir="ltr" style="
+                                        "><a href="http://localhost:3000/vi/re-payment/?lop-cu={{$classOld->name}}&lop-moi={{$classNew->name}}&amount={{$dangKyOld->du_no}}&id={{$dangKyOld->id}}"><span dir="ltr" style="
                                               word-break: break-word;
                                               line-height: 32px;
                                               cursor: pointer;
