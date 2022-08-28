@@ -11,7 +11,6 @@ use App\DangKy;
 use App\Mail\OrderShipped;
 use App\Mail\SendMaKhuyenMai;
 use App\User;
-use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
