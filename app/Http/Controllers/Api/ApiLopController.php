@@ -12,6 +12,8 @@ use App\SessionUser;
 use App\DangKy;
 use App\Teacher;
 use App\User;
+use App\Ca;
+
 
 class ApiLopController extends Controller
 {
@@ -28,7 +30,10 @@ class ApiLopController extends Controller
         foreach ($classes as $classItem) {
             if ($classItem->course_id) {
                 $course = Course::find($classItem->course_id);
+                $ca = Ca::find($classItem->id_ca);
                 $classItem->price_of_class = optional($course)->price;
+                $classItem->course_name = optional($course)->name;
+                $classItem->ca_name = optional($ca)->ca_hoc;
                 $classItem->course_name = optional($course)->name;
             }
         }
