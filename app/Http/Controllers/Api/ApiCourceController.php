@@ -18,11 +18,15 @@ class ApiCourceController extends Controller
      */
     public function index()
     {
-        $course = Course::all();
+        $courses = Course::all();
+        foreach ($courses as $courseItem) {
+            $listClass = optional(Course::find($courseItem->id))->classRoom;
+            $courseItem->classes = $listClass;
+        }
         return response()->json([
             'status' => true,
             'heading' => 'success',
-            'data' => $course,
+            'data' => $courses,
         ], 200);
         //
     }
@@ -58,11 +62,11 @@ class ApiCourceController extends Controller
      */
     public function show($id)
     {
-        $listClass = Course::find($id)->classRoom;
+        $listClass = optional(Course::find($id))->classRoom;
         $listClassNew = [];
         $today = date("Y-m-d");
 
-        if (isset($listClass) &&  count($listClass)) {
+        if (isset($listClass) && count($listClass)) {
             foreach ($listClass as $key => $listClassItem) {
                 if (strtotime($today) < strtotime($listClassItem->end_date)) {
                     //lấy danh sách các đăng kí đã thanh toán tiền để cập nhập số chỗ trong lớp
