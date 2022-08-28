@@ -11,10 +11,10 @@
     <style>
         body {
             /*-webkit-touch-callout: none;
-                                                                                                                                                -webkit-user-select: none;
-                                                                                                                                                -moz-user-select: none;
-                                                                                                                                                -ms-user-select: none;
-                                                                                                                                                -o-user-select: none;*/
+                                                                                                                                                        -webkit-user-select: none;
+                                                                                                                                                        -moz-user-select: none;
+                                                                                                                                                        -ms-user-select: none;
+                                                                                                                                                        -o-user-select: none;*/
             user-select: none;
         }
 
@@ -228,13 +228,13 @@
                                 <td class="text-center"
                                     style="width:180px; background-color:
                                 @if ($item->trang_thai == 0) red; color: white
-                                @elseif($item->trang_thai == 1)
+                                @elseif($item->trang_thai == 3)
                                         yellow ;color: black
                                         @else green; color: white @endif
                                         ">
                                     @if ($item->trang_thai == 0)
                                         Chưa Thanh Toán
-                                    @elseif($item->trang_thai == 1)
+                                    @elseif($item->trang_thai == 3)
                                         Đã Thanh Toán/Chờ xác nhận
                                     @else
                                         Đã hoàn tất thủ tục

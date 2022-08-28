@@ -207,10 +207,23 @@ class ClassModel extends Model
             ->select('tb1.name as Tên lớp')
             ->where('tb1.start_date', '<=', $now)
             ->where('tb1.end_date', '>=', $now)
-            ->groupBy('tb1.lecturer_id')->get();
+            ->get();
         // ->where('tb1.status', '=', 1)->get();
         return $query;
     }
+    public function loadActiveHvien()
+    {
+        $now = date('Y-m-d');
+        $query = DB::table('dang_ky as tb1')
+            ->select('tb1.id as id_dang_ky', 'tb2.name as tenlop')
+            ->leftJoin('class as tb2', 'tb1.id_lop_hoc', '=', 'tb2.id')
+            ->where('tb2.start_date', '<=', $now)
+            ->where('tb2.end_date', '>=', $now)
+            ->get();
+        // ->where('tb1.status', '=', 1)->get();
+        return $query;
+    }
+
     // public function checkThoiGian($idGV)
     // {
 

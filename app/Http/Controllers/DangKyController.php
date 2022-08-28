@@ -76,7 +76,7 @@ class DangKyController extends Controller
             } elseif (!preg_match("/(84|0[3|5|7|8|9])+([0-9]{8})\b/", $request->so_dien_thoai)) {
                 Session::flash('success', 'Số điện thoại không chính xác');
                 return redirect()->route('route_BackEnd_DangKyAdmin_Add');
-            } elseif (!preg_match("/(1|0+([0-9]{8}|[0-9]{10})\b/", $request->cccd)) {
+            } elseif (!preg_match("/(1|0+([0-9]{8,11}))\b/", $request->cccd)) {
                 Session::flash('success', 'Căn cước công dân không chính xác');
                 return redirect()->route('route_BackEnd_DangKyAdmin_Add');
             } else {
@@ -159,7 +159,7 @@ class DangKyController extends Controller
                     // dd((int)$request->hocphi, $arrDangKy['so_tien_da_dong'], $gia->price);
 
 
-                    if ($request->trang_thai == 1) {
+                    if ($request->trang_thai == 3) {
 
                         $random = Str::random(10);
                         // dd($random);
@@ -519,7 +519,8 @@ class DangKyController extends Controller
             if ($checkClass->slot > 0) {
                 $getPayMentOfOldDangKy = DangKy::where('id', $dangKyOld->id)->first();
                 //Số tiền đã nộp
-                $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
+                // $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
+                $priceDaNop = ClassModel::where('id', $getPayMentOfOldDangKy->id_lop_hoc)->first()->course->price;
                 //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
                 //giá tiền của lớp muốn chuyển sang
                 $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;

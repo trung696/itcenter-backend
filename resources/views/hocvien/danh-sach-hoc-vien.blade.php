@@ -1,13 +1,17 @@
 @extends('templates.layout')
 @section('title', '1233')
+@section('script')
+    <link rel="stylesheet" href="{{ asset('default/bower_components/select2/dist/css/select2.min.css') }} ">
+    <link rel="stylesheet" href="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.css') }} ">
+
 @section('css')
     <style>
         body {
             /*-webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                -o-user-select: none;*/
+                                        -webkit-user-select: none;
+                                        -moz-user-select: none;
+                                        -ms-user-select: none;
+                                        -o-user-select: none;*/
             user-select: none;
         }
 
@@ -90,6 +94,15 @@
                             </select>
                         </div>
                     </div>
+                    {{-- <div class="col-md-4 col-sm-6">
+                        <div class="form-group">
+                            <input type="text" name="search_ngay_hoc" class="form-control daterangepicker-click "
+                                placeholder="Chọn ngày hoc"
+                                value="@isset($extParams['search_ngay_dang_ky']) {{ $extParams['search_ngay_dang_ky'] }} @endisset"
+                                autocomplete="off">
+
+                        </div>
+                    </div> --}}
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <button type="submit" name="btnGuiMa" class="btn btn-primary btn-sm "> Gửi mã khuyến mãi
@@ -187,5 +200,31 @@
         </div>
         <index-cs ref="index_cs"></index-cs>
     </section>
+
+@endsection
+@section('script')
+    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('default/plugins/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+    {{-- <script src="public/default/plugins/input-mask/jquery.inputmask.extensions.js"></script> --}}
+    <script src="{{ asset('default/bower_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('default/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') }}"></script>
+    {{-- <script>
+        $(function() {
+            $('input[name="search_ngay_dang_ky"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'), 10),
+                autoApply: false,
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        });
+    </script> --}}
+
+    <script src="{{ asset('js/taisan.js') }} "></script>
+
 
 @endsection

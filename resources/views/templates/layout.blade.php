@@ -41,7 +41,8 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
     <![endif]-->
 
     <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link rel="icon" type="image/png" sizes="16x16" href="/public/img/favicon.png">
     <link rel="stylesheet" href="{{ asset('default/bower_components/select2/dist/css/select2.min.css') }}">
     @yield('css')
@@ -246,15 +247,18 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-users"></i> <span>Học viên</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_DanhSachHocVien_index') }}"><i class="fa fa-circle-o"></i>Danh sách học viên</a></li>
-                            <li><a href="{{ route('route_BackEnd_DanhSachDangKy_index') }}"><i class="fa fa-circle-o"></i>Danh sách đăng ký</a></li>
+                            <li><a href="{{ route('route_BackEnd_DanhSachHocVien_index') }}"><i
+                                        class="fa fa-circle-o"></i>Danh sách học viên</a></li>
+                            <li><a href="{{ route('route_BackEnd_DanhSachDangKy_index') }}"><i
+                                        class="fa fa-circle-o"></i>Danh sách đăng ký</a></li>
                         </ul>
                     </li>
 
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-dollar"></i> <span>Khóa học</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_CourseCategory_List') }}"><i class="fa fa-circle-o"></i> Danh mục khóa học</a></li>
+                            <li><a href="{{ route('route_BackEnd_CourseCategory_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh mục khóa học</a></li>
                             <li><a href="{{ route('route_BackEnd_Course_List') }}"><i class="fa fa-circle-o"></i>
                                     Khóa học</a></li>
                         </ul>
@@ -294,7 +298,8 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-dollar"></i> <span>Cơ sở trung tâm</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i class="fa fa-circle-o"></i> Danh sách cơ sở trung tâm</a></li>
+                            <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh sách cơ sở trung tâm</a></li>
                         </ul>
                     </li>
 
@@ -308,23 +313,25 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-dollar"></i> <span>Phương thức thanh toán</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_PaymentMethod_List') }}"><i class="fa fa-circle-o"></i> Danh sách phương thức thanh toán</a></li>
+                            <li><a href="{{ route('route_BackEnd_PaymentMethod_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh sách phương thức thanh toán</a></li>
                         </ul>
                     </li>
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-users"></i> <span>Khuyến mãi</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_ChienDich_index') }}"><i class="fa fa-circle-o"></i>Danh
+                            <li><a href="{{ route('route_BackEnd_ChienDich_index') }}"><i
+                                        class="fa fa-circle-o"></i>Danh
                                     sách Chiến dịch </a>
                             </li>
                         </ul>
-                        <ul class="treeview-menu">
+                        {{-- <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_DanhSachKhhuyenMai_index') }}"><i class="fa fa-circle-o"></i>Danh sách khuyến mãi</a>
                             </li>
-                        </ul>
+                        </ul> --}}
 
                     </li>
-                </li>
+                    </li>
 
 
                     {{-- <li class=" active menu-open ">
@@ -345,13 +352,17 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
 
 
 
-                {{-- <li class=" active menu-open "> --}}
-                {{-- </a> --}}
-                {{-- </li> --}}
-                {{-- <li class=" active menu-open "> --}}
-                {{-- <a href="#"><i class="fa fa-paperclip"></i> <span>Biên Bản</span></a> --}}
-                {{-- <ul class="treeview-menu"> --}}
-                {{-- <li><a href="{{ route('route_BackEnd_BienBan_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Bàn Giao</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}} {{-- <li><a href="{{ route('route_BackEnd_BienBanKiemKe_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Kiểm Kê</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}} {{-- <li><a href="{{ route('route_BackEnd_BienBanThanhLi_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Thanh Lí</a></li> --}} {{-- </ul> --}} {{-- </li> --}} {{-- <li class=" active menu-open "> --}} {{-- </a> --}} {{-- </li> --}} </ul>
+                    {{-- <li class=" active menu-open "> --}}
+                    {{-- </a> --}}
+                    {{-- </li> --}}
+                    {{-- <li class=" active menu-open "> --}}
+                    {{-- <a href="#"><i class="fa fa-paperclip"></i> <span>Biên Bản</span></a> --}}
+                    {{-- <ul class="treeview-menu"> --}}
+                    {{-- <li><a href="{{ route('route_BackEnd_BienBan_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Bàn Giao</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}}
+                    {{-- <li><a href="{{ route('route_BackEnd_BienBanKiemKe_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Kiểm Kê</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}}
+                    {{-- <li><a href="{{ route('route_BackEnd_BienBanThanhLi_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Thanh Lí</a></li> --}} {{-- </ul> --}} {{-- </li> --}}
+                    {{-- <li class=" active menu-open "> --}} {{-- </a> --}} {{-- </li> --}}
+                </ul>
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -389,7 +400,8 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
             <div class="modal-content">
                 <div class="modal-header" style="padding-bottom: 0px;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="font-size: 24px; color:red; margin-top: -10px" class="fa fa-close"></span></button>
+                        <span aria-hidden="true" style="font-size: 24px; color:red; margin-top: -10px"
+                            class="fa fa-close"></span></button>
                     <h4 class="modal-title" id="app-modal-dialog-title">Default Modal</h4>
                 </div>
                 <div class="modal-body" id="app-modal-dialog-body">
@@ -452,7 +464,7 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
 
     {{-- @yield('script') --}}
     @isset($include_file)
-    @include($include_file)
+        @include($include_file)
     @endisset
 
 

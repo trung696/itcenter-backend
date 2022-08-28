@@ -200,7 +200,7 @@
                                     data-placeholder="Chọn lớp học">
                                     <!-- @foreach ($objLopHoc as $item)
     <option value="{{ $item->id }}"
-                                                                                                @isset($request['id_lop_hoc']) @if ($request['id_khoa_hoc'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
+                                                                                                    @isset($request['id_lop_hoc']) @if ($request['id_khoa_hoc'] == $item->id) selected @endif @endisset>{{ $item->name }}</option>
     @endforeach -->
                                 </select>
                             </div>
@@ -217,7 +217,7 @@
                                     <option value="0"
                                         @isset($request['trang_thai']) @if ($request['trang_thai'] == 0) selected @endif @endisset>
                                         Chưa thanh toán</option>
-                                    <option value="1"
+                                    <option value="3"
                                         @isset($request['trang_thai']) @if ($request['trang_thai'] == 1) selected @endif @endisset>
                                         Đã thanh toán</option>
 

@@ -50,12 +50,15 @@ class ThongKeController extends Controller
         // số lớp đang học
         $lopdanghoc = $objClass->loadActiveClass()->count();
         $this->v['lop_dang_hoc'] = $lopdanghoc;
-        //tổng số lớp học
+        //tổng số lớp
         $lophoc = $objClass->loadListIdAndName();
         $this->v['lop_hoc'] = $lophoc->count();
         //tổng số học sinh
         $activeHS = $objHS->loadCountHV();
         $this->v['tong_so_hoc_vien'] = $activeHS;
+        //số học viên đang học:
+        $hvdanghoc = $objClass->loadActiveHvien()->count();
+        $this->v['hoc_vien_dang_hoc'] = $hvdanghoc;
         //tổng số giảng viên
         $teacher = $objTeacher->loadActive()->count();
         $this->v['tong_so_giang_vien'] = $teacher;
@@ -63,16 +66,20 @@ class ThongKeController extends Controller
         $teacherInClass = $objTeacher->loadInClass()->count();
         $this->v['so_giang_vien_dang_trong_lop'] = $teacherInClass;
         // dd($teacherInClass);
+        //tổng học phí
+        $hoc_phi = $objPayment->sumAllPay();
+        $this->v['hoc_phi'] = number_format($hoc_phi);
+        // dd($hoc_phi);
         //tổng học phí đã thu
         $tong_hoc_phi = $objPayment->sumPay();
         $this->v['tong_hoc_phi'] = number_format($tong_hoc_phi);
 
         // *************************************************************************************************************************
         //THỐNG KÊ MỀM
-        if (isset($request->search_ngay_khai_giang)) {
+        if (isset($request->search_ngay)) {
 
 
-            $input = $request->search_ngay_khai_giang;
+            $input = $request->search_ngay;
             $explo = explode(
                 ' - ',
                 $input
@@ -82,6 +89,9 @@ class ThongKeController extends Controller
             //số học phí đã thu
             $a = $objPayment->loadpayDay($time);
             $this->v['so_hoc_phi'] = number_format($a);
+            //tổng học phí
+            $timehocphi = $objPayment->loadAllPayDay($time);
+            $this->v['so_hoc_phi_all'] = number_format($timehocphi);
             //giảng viên đã dạy trong quãng thời gian
             $b = $objTeacher->loadDay($time);
             // số học sinh đã đăng kí lớp trong tgian đó
