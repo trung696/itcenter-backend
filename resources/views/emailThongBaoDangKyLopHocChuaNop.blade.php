@@ -330,7 +330,7 @@
                                           font-size: 14px;
                                           text-align: center;
                                         ">
-                                      ĐÂY LÀ THÔNG TIN ĐĂNG KÝ LỚP VÀ TÀI KHOẢN ĐĂNG NHẬP CỦA BẠN
+                                      ĐÂY LÀ THÔNG TIN ĐĂNG KÝ LỚP  CỦA BẠN
                                     </p>
                                   </div>
                                 </div>
@@ -373,61 +373,6 @@
                             </tbody>
                           </table>
 
-
-                          @if(isset($addNewStudent))
-                          <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
-                                mso-table-lspace: 0pt;
-                                mso-table-rspace: 0pt;
-                                word-break: break-word;
-                              " width="100%">
-                            <tr>
-                              <td class="pad" style="
-                                    padding-bottom: 15px;
-                                    padding-left: 10px;
-                                    padding-right: 10px;
-                                    padding-top: 25px;
-                                  ">
-                                <div style="font-family: sans-serif">
-                                  <div class="txtTinyMce-wrapper" style="
-                                        font-size: 12px;
-                                        padding: 10px;
-                                        mso-line-height-alt: 18px;
-                                        color: #71777d;
-                                        line-height: 1.5;
-                                        font-family: Lato, Tahoma, Verdana,
-                                          Segoe, sans-serif;
-                                      ">
-                                    <p style="
-                                          margin: 0;
-                                          font-size: 16px;
-                                          text-align: left;
-                                          mso-line-height-alt: 21px;
-                                        ">
-                                      <span style="
-                                            color: #000000;
-                                            font-size: 16px;
-                                          "><strong>Tên đăng nhập : {{$addNewStudent->email}} </strong>
-                                      </span>
-                                    </p>
-                                    <p style="
-                                          margin: 0;
-                                          font-size: 16px;
-                                          text-align: left;
-                                          mso-line-height-alt: 21px;
-                                        ">
-                                      <span style="
-                                            color: #000000;
-                                            font-size: 16px;
-                                          "><strong>Mật khẩu đăng nhập: {{$addNewStudent->password}}</strong>
-                                      </span>
-                                    </p>
-
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          </table>                            
-                          @endif
 
 
                           <table border="0" cellpadding="0" cellspacing="0" class="text_block block-2" role="presentation" style="
@@ -481,14 +426,13 @@
                                         ">
                                       Ngày khai giảng : {{ date("d-m-Y", strtotime($classDk->start_date)) }}
                                     </p>
-
                                   </div>
                                 </div>
                               </td>
                             </tr>
                           </table>
 
-                          <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
+                          <!-- <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
@@ -524,7 +468,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Tên khách hàng : {{$addNewStudent->ho_ten}}
+                                      Tên khách hàng : 
                                     </p>
 
                                     <p style="
@@ -533,7 +477,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Địa chỉ : {{$addNewStudent->address}}
+                                      Địa chỉ : 
                                     </p>
 
                                     <p style="
@@ -542,7 +486,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Số tiền đã đóng : {{number_format($payment->price)}} VNĐ
+                                      Số tiền đã đóng : 
                                     </p>
 
                                     <p style="
@@ -560,7 +504,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Mã giao dịch : {{$payment->id_giao_dich}}
+                                      Mã giao dịch : 
                                     </p>
 
                                     <p style="
@@ -569,13 +513,13 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Mã đơn hàng : {{$payment->id_don_hang}}
+                                      Mã đơn hàng : 
                                     </p>
                                   </div>
                                 </div>
                               </td>
                             </tr>
-                          </table>
+                          </table> -->
 
                           <table border="0" cellpadding="0" cellspacing="0" class="divider_block block-1" role="presentation" style="
                                 mso-table-lspace: 0pt;
@@ -611,7 +555,7 @@
                               </tr>
                             </tbody>
                           </table>
-                          @if($classDk->du_no < 0 ) <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
+                    <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
@@ -637,9 +581,7 @@
                                             color: #000000;
                                             font-size: 16px;
                                           ">
-                                  <strong>Do giá tiền của lớp bạn chuyển sang
-                                    cao hơn lớp học bạn đã đăng kí trước
-                                    kia vui lòng đóng thêm tiền để tham gia lớp học</strong>
+                                  <strong>Bạn vui lòng đóng học phí trước ngày {{ date("d-m-Y", strtotime($classDk->start_date)) }} để tham gia lớp học này</strong>
                                 </span>
                               </p>
                             </div>
@@ -648,7 +590,7 @@
                       </tr>
                   </table>
 
-                  <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
+                  <!-- <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
@@ -696,7 +638,6 @@
                                     text-align: center;
                                   ">
                         <div align="center" class="alignment">
-                          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:62px;width:223px;v-text-anchor:middle;" arcsize="7%" stroke="false" fillcolor="#a8bf6f"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, sans-serif; font-size:16px"><![endif]-->
                           <div style="
                                         text-decoration: none;
                                         display: inline-block;
@@ -731,12 +672,10 @@
                                             ">Đóng trực tiếp tại đây</span>
                               </a></span>
                           </div>
-                          <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
                         </div>
                       </td>
                     </tr>
-                  </table>
-                  @endif
+                  </table> -->
 
                 </td>
               </tr>
@@ -803,7 +742,7 @@
                                               " title="Twitter" width="32" /></a>
                               </td>
                               <td style="padding: 0 5px 0 0px">
-                                <a href="" target="_blank"><img alt="Google+" height="32" src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2Fgoogleplus2x.png?alt=media&token=081e7fca-7d42-4000-94b1-5dfba4b0792f" style="
+                                <a href="https://plus.google.com/" target="_blank"><img alt="Google+" height="32" src="https://firebasestorage.googleapis.com/v0/b/next-dev-bf57d.appspot.com/o/images%2Fgoogleplus2x.png?alt=media&token=081e7fca-7d42-4000-94b1-5dfba4b0792f" style="
                                                 display: block;
                                                 height: auto;
                                                 border: 0;

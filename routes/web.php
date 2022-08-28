@@ -49,16 +49,16 @@ Route::get('/dang-ky-khong-thanh-cong', 'LopHocController@frontendDangKyKhongTha
 
 //back-end đăng kí lớp
 Route::get('/registerlist', 'DangKyController@danhSachDangKy')
-    ->name('route_BackEnd_DanhSachDangKy_index');
+    ->name('route_BackEnd_DanhSachDangKy_index')->middleware(['can:dang-ky-list']);
 Route::match(['get', 'post'], '/register/add', 'DangKyController@themDangKy')
-    ->name('route_BackEnd_DangKyAdmin_Add');
+    ->name('route_BackEnd_DangKyAdmin_Add')->middleware(['can:dang-ky-add']);
 Route::get('/list-lop/{id}', 'DangKyController@getListLop')->where('id', '[0-9]+')->name('route_BackEnd_admin_getListLop'); //->middleware(['can:BackEnd_Admin_getListHuyen']);
 Route::get('/register/detail/{id}', 'DangKyController@chiTietDangKy')
     ->where('id', '[0-9]+')
-    ->name('route_BackEnd_AdminDangKy_Detail');
+    ->name('route_BackEnd_AdminDangKy_Detail')->middleware(['can:dang-ky-edit']);
 Route::post('/register/update/{id}/{email}/{oldClass}', 'DangKyController@update')
     ->where('id', '[0-9]+')
-    ->name('route_BackEnd_AdminDangKy_Update');
+    ->name('route_BackEnd_AdminDangKy_Update')->middleware(['can:dang-ky-edit']);
 Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_AdminDangKyIn_Detail');
@@ -66,18 +66,18 @@ Route::get('/dang-ky/in-hoa-don/{id}', 'DangKyController@inHoaDon')
 
 //ca học 
 //role(doanh)   
-Route::get('/ca', 'CaController@index')->name('route_BackEnd_Ca_List');
+Route::get('/ca', 'CaController@index')->name('route_BackEnd_Ca_List')->middleware(['can:ca-list']);
 Route::match(['get', 'post'], '/ca/add', 'CaController@addCa')
-    ->name('route_BackEnd_Ca_Add');
+    ->name('route_BackEnd_Ca_Add')->middleware(['can:ca-add']);
 Route::get('/ca/detail/{id}', 'CaController@editCa')
     ->where('id', '[0-9]+')
-    ->name('route_BackEnd_Ca_Edit');
+    ->name('route_BackEnd_Ca_Edit')->middleware(['can:ca-edit']);
 Route::post('/Ca/update/{id}', 'CaController@updateCa')
     ->where('id', '[0-9]+')
-    ->name('route_BackEnd_Ca_Update');
+    ->name('route_BackEnd_Ca_Update')->middleware(['can:ca-edit']);
 Route::get('/Ca/delete/{id}', 'CaController@destroy')
     ->where('id', '[0-9]+')
-    ->name('route_BackEnd_Ca_Delete');
+    ->name('route_BackEnd_Ca_Delete')->middleware(['can:ca-delete']);
 // Route::get('/edit_role/{id}', 'RoleController@edit')->name('route_BackEnd_role_edit');
 // Route::post('/edit_role/{id}', 'RoleController@update')->name('route_BackEnd_role_update');
 // Route::get('/delete_role/{id}', 'RoleController@delete')->name('route_BackEnd_role_delete');
@@ -88,14 +88,16 @@ Route::get('/xeplop/{id}', 'ClassController@xepLop')
     ->where('id', '[0-9]+')
     ->name('route_BackEnd_XepLop');
 //list_đổi lớp
-Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop');
-Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop');
+Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop')->middleware(['can:danh-sach-doi-lop-list']);
+Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop')->middleware(['can:danh-sach-doi-lop-edit']);
+Route::get('/doiLopEr/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLopEr')->name('route_BackEnd_doi_lop_er')->middleware(['can:danh-sach-doi-lop-edit']);
+
 
 //list những đăng ký thừa tiền
-Route::get('/hoanTien', 'HoanTienController@index')->name('route_BackEnd_list_hoan_tien');
-Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien');
-Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien');
-Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search');
+Route::get('/hoanTien','HoanTienController@index')->name('route_BackEnd_list_hoan_tien')->middleware(['can:hoan-tien-list']);
+Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien')->middleware(['can:hoan-tien-edit']);
+Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien')->middleware(['hoan-tien-edit']);
+Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search')->middleware(['can:hoan-tien-list']);
 
 
 // thêm thông tin sinh mới đăng ký
@@ -280,13 +282,13 @@ Route::middleware(['auth'])->group(function () {
         ->name('route_BackEnd_MaChienDich_Add');
     //học viên
     Route::get('/danh-sach-hoc-vien', 'HocVienController@danhSachHocVien')
-        ->name('route_BackEnd_DanhSachHocVien_index');
+        ->name('route_BackEnd_DanhSachHocVien_index')->middleware(['can:student-list']);
     Route::get('/danh-sach-hoc-vien/chi-tiet/{id}', 'HocVienController@chiTietHocVien')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_DanhSachHocVien_Detail');
+        ->name('route_BackEnd_DanhSachHocVien_Detail')->middleware(['can:student-edit']);
     Route::post('/danh-sach-hoc-vien/update/{id}', 'HocVienController@updateThongTin')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_DanhSachHocVien_Update');
+        ->name('route_BackEnd_DanhSachHocVien_Update')->middleware(['can:can:student-edit']);
 
     //địa điểm
     Route::get('/danh-sach-dia-diem', 'DiaDiemController@danhSachDiaDiem')
@@ -318,26 +320,26 @@ Route::middleware(['auth'])->group(function () {
     //end role(doanh)
 
     //user(doanh)
-    Route::get('/user/add', 'UserController@formAdd')->name('route_BackEnd_user_add');
-    Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index');
+    Route::get('/user/add', 'UserController@formAdd')->name('route_BackEnd_user_add')->middleware(['can:user-add']);
+    Route::get('/user', 'UserController@index')->name('route_BackEnd_NguoiDung_index')->middleware(['can:user-list']);
     Route::post('/user/search', 'UserController@search')->name('route_BackEnd_user_search');
 
 
-    Route::post('/user/add', 'UserController@store')->name('route_BackEnd_user_store');
-    Route::get('/user/edit/{id}', 'UserController@edit')->name('route_BackEnd_user_edit');
-    Route::post('/user/edit/{id}', 'UserController@update')->name('route_BackEnd_user_update');
-    Route::get('/user/delete/{id}', 'UserController@delete')->name('route_BackEnd_user_delete');
-    Route::get('/user/deleteSelect', 'UserController@deleteCheckbox')->name('route_BackEnd_user_delete_checkbox');
+    Route::post('/user/add', 'UserController@store')->name('route_BackEnd_user_store')->middleware(['can:user-add']);
+    Route::get('/user/edit/{id}', 'UserController@edit')->name('route_BackEnd_user_edit')->middleware(['can:user-edit']);
+    Route::post('/user/edit/{id}', 'UserController@update')->name('route_BackEnd_user_update')->middleware(['can:user-edit']);
+    Route::get('/user/delete/{id}', 'UserController@delete')->name('route_BackEnd_user_delete')->middleware(['can:user-delete']);
+    Route::get('/user/deleteSelect', 'UserController@deleteCheckbox')->name('route_BackEnd_user_delete_checkbox')->middleware(['can:user-delete']);
 
     Route::get('api/user/{user}/{token}', [App\Http\Controllers\ActiveUserController::class, 'active'])->where(['id' => '[0-9]+,[a-z]+'])->name('active.user');
 
     //end user
 
     //teacher (doanh)
-    Route::get('/teacher', 'TeacherController@index')->name('route_BackEnd_teacher_list');
-    Route::get('/teacher/edit/{id}', 'TeacherController@edit')->name('route_BackEnd_teacher_edit');
-    Route::post('/teacher/edit/{id}', 'TeacherController@update')->name('route_BackEnd_teacher_update');
-    //end teachr(doanh)
+    Route::get('/teacher', 'TeacherController@index')->name('route_BackEnd_teacher_list')->middleware(['can:teacher-list']);
+    Route::get('/teacher/edit/{id}', 'TeacherController@edit')->name('route_BackEnd_teacher_edit')->middleware(['can:teacher-edit']);
+    Route::post('/teacher/edit/{id}', 'TeacherController@update')->name('route_BackEnd_teacher_update')->middleware(['can:teacher-edit']);
+    //end student(doanh)
     Route::get('/student', 'StudentController@index')->name('route_BackEnd_student_list');
     Route::get('/student/edit/{id}', 'StudentController@edit')->name('route_BackEnd_student_edit');
     Route::post('/student/edit/{id}', 'StudentController@update')->name('route_BackEnd_student_update');
@@ -379,62 +381,66 @@ Route::middleware(['auth'])->group(function () {
 
     //course category(dai)
     Route::get('/course-category', 'CourseCategoryController@courseCategory')
-        ->name('route_BackEnd_CourseCategory_List');
+        ->name('route_BackEnd_CourseCategory_List')->middleware(['can:course-category-list']);
     Route::match(['get', 'post'], '/course-category/add', 'CourseCategoryController@AddCourseCategory')
-        ->name('route_BackEnd_CourseCategory_Add');
+        ->name('route_BackEnd_CourseCategory_Add')->middleware(['can:course-category-add']);
     Route::get('/course-category/detail/{id}', 'CourseCategoryController@courseCategoryDetail')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CourseCategory_Detail');
+        ->name('route_BackEnd_CourseCategory_Detail')->middleware(['can:course-category-edit']);;
     Route::post('/course-category/edit/{id}', 'CourseCategoryController@updateCourseCategory')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CourseCategory_Update');
+        ->name('route_BackEnd_CourseCategory_Update')->middleware(['can:course-category-edit']);
     Route::get('/course-category/delete/{id}', 'CourseCategoryController@destroy')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CourseCategory_Delete');
+        ->name('route_BackEnd_CourseCategory_Delete')->middleware(['can:course-category-delete']);
     //course
     Route::get('/course', 'CourseController@course')
-        ->name('route_BackEnd_Course_List');
+        ->name('route_BackEnd_Course_List')->middleware(['can:course-list']);
     Route::match(['get', 'post'], '/course/add', 'CourseController@AddCourse')
-        ->name('route_BackEnd_Course_Add');
+        ->name('route_BackEnd_Course_Add')->middleware(['can:course-add']);
     Route::get('/Course-Class/detail/{id}', 'CourseController@CourseDetail')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Course_Detail');
+        ->name('route_BackEnd_Course_Detail')->middleware(['can:course-edit']);
     Route::post('/Course/update/{id}', 'CourseController@updateCourse')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Course_Update');
+        ->name('route_BackEnd_Course_Update')->middleware(['can:course-edit']);
     Route::get('/Course/delete/{id}', 'CourseController@destroy')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Course_Delete');
+        ->name('route_BackEnd_Course_Delete')->middleware(['can:course-delete']);
 
     //class 
     Route::get('/class', 'ClassController@classList')
-        ->name('route_BackEnd_Class_List');
+        ->name('route_BackEnd_Class_List')->middleware(['can:class-list']);
     Route::match(['get', 'post'], '/class/add', 'ClassController@addClass')
-        ->name('route_BackEnd_Class_Add');
+        ->name('route_BackEnd_Class_Add')->middleware(['can:class-add']);
     Route::get('/class/detail/{id}', 'ClassController@classDetail')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Class_Detail');
+        ->name('route_BackEnd_Class_Detail')->middleware(['can:class-edit']);
     Route::post('/class/update/{id}', 'ClassController@updateClass')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Class_Update');
+        ->name('route_BackEnd_Class_Update')->middleware(['can:class-edit']);
     Route::get('/class/delete/{id}', 'ClassController@destroy')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_Class_Delete');
+        ->name('route_BackEnd_Class_Delete')->middleware(['can:class-delete']);
+
+    Route::get('/class/danhsach/{id}', 'ClassController@showDanhSachLop')
+        ->where('id', '[0-9]+')
+        ->name('route_BackEnd_Class_danh_sach');
 
     //central facility
     Route::get('/central-facility', 'CentralFacilityController@listCentralFacility')
-        ->name('route_BackEnd_CentralFacility_List');
+        ->name('route_BackEnd_CentralFacility_List')->middleware(['can:co-so-list']);
     Route::match(['get', 'post'], '/central-facility/add', 'CentralFacilityController@AddCentralFacility')
-        ->name('route_BackEnd_CentralFacility_Add');
+        ->name('route_BackEnd_CentralFacility_Add')->middleware(['can:co-so-add']);
     Route::get('/central-facility/detail/{id}', 'CentralFacilityController@centralFacilityDetail')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CentralFacility_Detail');
+        ->name('route_BackEnd_CentralFacility_Detail')->middleware(['can:co-so-edit']);
     Route::post('/central-facility/update/{id}', 'CentralFacilityController@updateCentralFacility')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CentralFacility_Update');
+        ->name('route_BackEnd_CentralFacility_Update')->middleware(['can:co-so-edit']);
     Route::get('/central-facility/delete/{id}', 'CentralFacilityController@destroy')
         ->where('id', '[0-9]+')
-        ->name('route_BackEnd_CentralFacility_Delete');
+        ->name('route_BackEnd_CentralFacility_Delete')->middleware(['can:co-so-delete']);
 
     //document
     Route::get('/document', 'DocumentController@document')

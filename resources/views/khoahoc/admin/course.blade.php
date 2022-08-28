@@ -93,8 +93,11 @@
                         </button>
                         <a href="{{ url('/course') }}" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
                             Clear </a>
+                        @can('course-add')
                         <a href="{{ route('route_BackEnd_Course_Add') }}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                             Add new</a>
+                        @endcan
+                        
                     </div>
                 </div>
             </div>
