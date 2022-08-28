@@ -34,7 +34,7 @@ class ThongKeController extends Controller
     {
         $this->v = [];
     }
-    public function thongKeCung()
+    public function thongKeCung(Request $request)
     {
         //thống kê số lớp active
         $now = date('Y-m-d');
@@ -43,7 +43,7 @@ class ThongKeController extends Controller
         $objHS = new HocVien();
         $objTeacher = new User();
         $objPayment = new Payment();
-
+        // dd($request->search_ngay_khai_giang);
         //số khóa học đang hoạt động
         $activeCourse = $objCourse->loadListIdAndName(['status', 1])->count();
         $this->v['khoahoc_danghoatdong'] = $activeCourse;
@@ -58,7 +58,6 @@ class ThongKeController extends Controller
         $this->v['tong_so_hoc_vien'] = $activeHS;
         //tổng số giảng viên
         $teacher = $objTeacher->loadActive()->count();
-        // dd($teacher->count());
         $this->v['tong_so_giang_vien'] = $teacher;
         //số giảng viên đang có lớp
         $teacherInClass = $objTeacher->loadInClass()->count();
@@ -67,39 +66,48 @@ class ThongKeController extends Controller
         //tổng học phí đã thu
         $tong_hoc_phi = $objPayment->sumPay();
         $this->v['tong_hoc_phi'] = number_format($tong_hoc_phi);
+
+        // *************************************************************************************************************************
         //THỐNG KÊ MỀM
-        $input = "2022/08/25 - 2022/09/30";
-        $time = explode(
-            ' - ',
-            $input
-        );
-        //số học phí đã thu
-        $a = $objPayment->loadpayDay($time);
-        //giảng viên đã dạy trong quãng thời gian
-        $b = $objTeacher->loadDay($time);
-        // số học sinh đã đăng kí lớp trong tgian đó
-        $c = $objPayment->loadstd($time);
-        // echo ('<pre>');
-        // var_dump($c);
-        $batdau = Carbon::createFromFormat('Y/m/d', $time[0]);
-        $ketthuc = Carbon::createFromFormat('Y/m/d', $time[1]);
-        $i = -1;
-        $loparr = [];
-        foreach ($b as $key => $item) {
-            $x = $item->start_date;
-            $y = $item->end_date;
-            $lopBD = Carbon::createFromFormat('Y-m-d', $x);
-            $lopKT = Carbon::createFromFormat('Y-m-d', $y);
-            if ($batdau->gt($lopBD) && $lopKT->gt($batdau)) {
-                $i++;
-                $loparr[$i] = $item;
-            } elseif ($lopBD->gt($batdau) && $ketthuc->gt($lopBD)) {
-                $i++;
-                $loparr[$i] = $item;
-            };
+        if (isset($request->search_ngay_khai_giang)) {
+
+
+            $input = $request->search_ngay_khai_giang;
+            $explo = explode(
+                ' - ',
+                $input
+            );
+            $time[0] = Carbon::createFromFormat('d/m/Y', $explo[0])->format('Y/m/d');
+            $time[1] = Carbon::createFromFormat('d/m/Y', $explo[1])->format('Y/m/d');
+            //số học phí đã thu
+            $a = $objPayment->loadpayDay($time);
+            $this->v['so_hoc_phi'] = number_format($a);
+            //giảng viên đã dạy trong quãng thời gian
+            $b = $objTeacher->loadDay($time);
+            // số học sinh đã đăng kí lớp trong tgian đó
+            $c = $objPayment->loadstd($time)->count();
+            $this->v['hs_dk_moi'] = $c;
+            // dd($b, $c);
+            $batdau = Carbon::createFromFormat('Y/m/d', $time[0]);
+            $ketthuc = Carbon::createFromFormat('Y/m/d', $time[1]);
+            $i = -1;
+            $loparr = [];
+            foreach ($b as $key => $item) {
+                $x = $item->start_date;
+                $y = $item->end_date;
+                $lopBD = Carbon::createFromFormat('Y-m-d', $x);
+                $lopKT = Carbon::createFromFormat('Y-m-d', $y);
+                if ($batdau->gt($lopBD) && $lopKT->gt($batdau)) {
+                    $i++;
+                    $loparr[$i] = $item;
+                } elseif ($lopBD->gt($batdau) && $ketthuc->gt($lopBD)) {
+                    $i++;
+                    $loparr[$i] = $item;
+                };
+            }
+            // echo ('<pre>');
+            // var_dump($loparr);
         }
-        // echo ('<pre>');
-        // var_dump($loparr);
 
         return view('thongke', $this->v);
     }

@@ -133,7 +133,7 @@
                     <div class="inner">
                         <h3>{{ $lop_hoc }}</h3>
 
-                        <p>Tất cả khóa học</p>
+                        <p>Tất cả lớp học</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -258,9 +258,9 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{ $so_hoc_phi }}</h3>
 
-                        <p>New Orders</p>
+                        <p>Số học phí đã thu</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -273,9 +273,9 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>{{ $hs_dk_moi }}</h3>
 
-                        <p>Bounce Rate</p>
+                        <p>Học sinh đăng kí mới</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>

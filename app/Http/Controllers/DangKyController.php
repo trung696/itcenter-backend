@@ -76,6 +76,9 @@ class DangKyController extends Controller
             } elseif (!preg_match("/(84|0[3|5|7|8|9])+([0-9]{8})\b/", $request->so_dien_thoai)) {
                 Session::flash('success', 'Số điện thoại không chính xác');
                 return redirect()->route('route_BackEnd_DangKyAdmin_Add');
+            } elseif (!preg_match("/(1|0+([0-9]{8}|[0-9]{10})\b/", $request->cccd)) {
+                Session::flash('success', 'Căn cước công dân không chính xác');
+                return redirect()->route('route_BackEnd_DangKyAdmin_Add');
             } else {
                 unset($params['cols']['_token']);
                 if ($request->hasFile('hinh_anh') && $request->file('hinh_anh')->isValid()) {
