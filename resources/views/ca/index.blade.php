@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="form-group">
-                        <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên chức vụ" value="@isset($extParams['search_ten_dia_diem']){{$extParams['search_ten_dia_diem']}}@endisset">
+                        <input type="text" name="search_ca_hoc" class="form-control" placeholder="ca học" value="@isset($extParams['search_ca']){{$extParams['search_ca']}}@endisset">
                     </div>
                 </div>
                 <div class="clearfix"></div>

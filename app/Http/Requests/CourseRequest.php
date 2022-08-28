@@ -36,7 +36,7 @@ class CourseRequest extends FormRequest
                 switch ($currentAction) {
                     case 'AddCourse':
                         $rules = [
-                            "name" => "required|min:10|max:255|unique:course",
+                            "name" => "required|min:4|max:255|unique:course",
                             "price" => "required|numeric",
                             "image" => "required",
                             "description" => "required|max:255",
@@ -71,7 +71,7 @@ class CourseRequest extends FormRequest
     {
         return [
             'name.required' => 'Bắt buộc phải nhập tên khoá học',
-            'name.min' => 'Tên khóa học bắt buộc phải nhập 10 kí tự trở lên',
+            'name.min' => 'Tên khóa học bắt buộc phải nhập 4 kí tự trở lên',
             'name.max' => 'Tên khóa học không được nhập vượt quá 255 kí tự',
             'name.unique' => 'Tên khóa học đã tồn tại trên hệ thống',
             "price.required" => "Bắt buộc phải nhập giá khóa học",

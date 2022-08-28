@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.css') }} ">
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('default/bower_components/select2/dist/css/select2.min.css') }} ">
+<link rel="stylesheet" href="{{ asset('default/bower_components/bootstrap-daterangepicker/daterangepicker.css') }} ">
     <style>
         body {
             /*-webkit-touch-callout: none;
@@ -66,6 +68,7 @@
     </style>
 @endsection
 @section('content')
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         @include('templates.header-action')
@@ -129,6 +132,7 @@
 
     <!-- Main content -->
     <section class="content appTuyenSinh">
+
         <div id="msg-box">
             <?php //Hiển thị thông báo thành công
             ?>
