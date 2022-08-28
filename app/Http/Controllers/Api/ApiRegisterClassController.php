@@ -326,7 +326,7 @@ class ApiRegisterClassController extends Controller
                                 'id_payment' => $payment->id,
                                 'paid_date' => $payment->payment_date,
                                 'token' => Str::random(10),
-        
+
                             ]);
                             if ($addDangKiIssetStudent->trang_thai == 1) {
                                 $classOfDangKi = $addDangKiIssetStudent->class;
@@ -735,7 +735,7 @@ class ApiRegisterClassController extends Controller
             ], 400);
         }
 
-        if ($dangKy->du_no == 0) {
+        if (isset($dangKy->id_payment) && $dangKy->du_no == 0) {
             return response()->json([
                 'status' => 400,
                 'heading' => 'Giao dịch này đã hiện thực hiện vui lòng check lại Email hoặc liên lạc với trung tâm đào tạo',

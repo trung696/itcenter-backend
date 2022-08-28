@@ -17,6 +17,7 @@ use App\CourseCategory;
 use App\Course;
 use App\HocVien;
 use App\Payment;
+use App\Teacher;
 use App\Thongke;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -41,7 +42,7 @@ class ThongKeController extends Controller
         $objClass = new ClassModel();
         $objCourse = new Course();
         $objHS = new HocVien();
-        $objTeacher = new User();
+        $objTeacher = new Teacher();
         $objPayment = new Payment();
         // dd($request->search_ngay_khai_giang);
         //số khóa học đang hoạt động
@@ -64,6 +65,7 @@ class ThongKeController extends Controller
         $this->v['tong_so_giang_vien'] = $teacher;
         //số giảng viên đang có lớp
         $teacherInClass = $objTeacher->loadInClass()->count();
+        // dd($teacherInClass);
         $this->v['so_giang_vien_dang_trong_lop'] = $teacherInClass;
         // dd($teacherInClass);
         //tổng học phí
@@ -97,7 +99,8 @@ class ThongKeController extends Controller
             // số học sinh đã đăng kí lớp trong tgian đó
             $c = $objPayment->loadstd($time)->count();
             $this->v['hs_dk_moi'] = $c;
-            // dd($b, $c);
+
+            $this->v['time'] = $request->search_ngay;
             $batdau = Carbon::createFromFormat('Y/m/d', $time[0]);
             $ketthuc = Carbon::createFromFormat('Y/m/d', $time[1]);
             $i = -1;
