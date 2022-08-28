@@ -90,6 +90,8 @@ Route::get('/xeplop/{id}', 'ClassController@xepLop')
 //list_đổi lớp
 Route::get('/doiLop', 'DoiLopController@index')->name('route_BackEnd_list_doi_lop')->middleware(['can:danh-sach-doi-lop-list']);
 Route::get('/doiLop/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLop')->name('route_BackEnd_doi_lop')->middleware(['can:danh-sach-doi-lop-edit']);
+Route::get('/doiLopEr/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doiLopEr')->name('route_BackEnd_doi_lop_er')->middleware(['can:danh-sach-doi-lop-edit']);
+
 
 //list những đăng ký thừa tiền
 Route::get('/hoanTien','HoanTienController@index')->name('route_BackEnd_list_hoan_tien')->middleware(['can:hoan-tien-list']);
