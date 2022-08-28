@@ -34,6 +34,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use App\Exports\ClassesExport;
 use App\Exports\StudentExport;
+use App\Teacher;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClassController extends  Controller
@@ -56,7 +57,7 @@ class ClassController extends  Controller
         $this->v['lists'] = $objClassModel->loadListWithPager($this->v['extParams']);
         // dd($this->v['lists']);
         $this->v['objItemClass'] = $objClassModel;
-        $objUser = new User();
+        $objUser = new Teacher();
         $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
         $user = $this->v['user'];
         // dd($user);
@@ -221,7 +222,7 @@ class ClassController extends  Controller
             $request->session()->forget($method_route); // hủy session nếu vào bằng sự kiện get
         }
 
-        $objUser = new  User();
+        $objUser = new  Teacher();
         $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
 
         $objCentralFacility = new  CentralFacility();
@@ -254,7 +255,7 @@ class ClassController extends  Controller
         $this->v['class'] = $objClassModel;
         $this->v['objItemClass'] = $objItemClass;
         // dd($objItemClass->start_date->format('d/m/Y'));
-        $objUser = new User();
+        $objUser = new Teacher();
         $objGV = $objUser->loadOne($objItemClass->lecturer_id);
         // dd($objGV);
         $this->v['GV_id'] = $objItemClass->lecturer_id;

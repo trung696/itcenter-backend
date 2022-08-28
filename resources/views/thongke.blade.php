@@ -70,9 +70,7 @@
 
                         <p>Doanh thu tổng</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -85,9 +83,7 @@
 
                         <p>Khóa học</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -100,9 +96,7 @@
 
                         <p>Số học viên tại trung tâm</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -115,9 +109,7 @@
 
                         <p>Tổng số Giảng Viên</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -135,9 +127,7 @@
 
                         <p>Doanh thu thực tế</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -150,9 +140,7 @@
 
                         <p>Lớp đang học</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -165,9 +153,7 @@
 
                         <p>Số học viên đang học</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -180,9 +166,7 @@
 
                         <p>Số giảng viên đang có lớp</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
+
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -194,7 +178,9 @@
         <div class="box box-primary" style="margin-top: 50px">
             <div class="box-header with-border">
                 <div class="box-title">
-                    Dữ liệu theo thời gian
+                    Dữ liệu theo thời gian từ @if (isset($time))
+                        {{ $time }}
+                    @endif
                 </div>
             </div>
             <div class="box-body">
