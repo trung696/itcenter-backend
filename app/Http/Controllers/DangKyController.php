@@ -319,9 +319,10 @@ class DangKyController extends Controller
         $listClass = ClassModel::all();
         $listCourse = Course::all();
         $getDuNo = DangKy::whereId($id)->first()->du_no;
-        $id_course = ClassModel::whereId($this->v['itemDK'])->first();
+        $id_course = ClassModel::whereId($this->v['itemDK'])->first()->course;
         // $getCourseOfClass = Course::whereId($id_course)->first();
-        // dd($id_course->course);
+        // dd($this->v, $id_course);
+
         return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse', 'id_course'));
     }
 
