@@ -40,7 +40,6 @@ class User extends Authenticatable
         foreach ($roles as $role) {
             //lấy các permission của role
             $permissions = $role->permission;
-            // dd($permissions);
             //kiểm tra các permission có trường 'key_code' trùng với $permissionCheck(key_code) truyền từ policy sang hay không
             if ($permissions->contains('key_code', $permissionCheck)) {
                 //trùng thì cho phép truy cập màn hình
@@ -95,10 +94,13 @@ class User extends Authenticatable
     }
     public function loadInClass()
     {
-
+        $now = date('Y-m-d');
         $query = DB::table('class as tb1')
             ->select('tb1.name as Tên lớp', 'tb2.name as Tên giáo viên')
-            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1.lecturer_id')->groupBy('tb1.lecturer_id')->get();
+            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1.lecturer_id')
+            ->where('tb1.start_date', '<=', $now)
+            ->where('tb1.end_date', '>=', $now)
+            ->groupBy('tb1.lecturer_id')->get();
         // ->where('tb1.status', '=', 1)->get();
         return $query;
     }

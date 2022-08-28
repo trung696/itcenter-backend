@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class HocVien extends Model
 {
     protected $table = 'hoc_vien';
-    protected $fillable = ['id', 'ho_ten', 'ngay_sinh', 'gioi_tinh', 'so_dien_thoai', 'email', 'hinh_anh', 'trang_thai', 'password', 'tokenActive', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'ho_ten', 'ngay_sinh', 'gioi_tinh', 'so_dien_thoai', 'email', 'hinh_anh', 'trang_thai', 'password','cccd','imgTruocCccd','imgSauCccd','address', 'tokenActive', 'created_at', 'updated_at'];
     public $timestamps = false;
     public function createStdClass()
     {
@@ -33,7 +33,6 @@ class HocVien extends Model
                 ->orWhere('tb1.email', 'like', '%' . $params['search_sdt_gmail'] . '%')
                 ->orWhere('tb1.ho_ten', 'like', '%' . $params['search_sdt_gmail'] . '%');
         }
-        // dd($query);
         $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }
@@ -139,14 +138,20 @@ class HocVien extends Model
             ->update($dataUpdate);
         return $res;
     }
-
-    public function loadDay($time)
+    public function loadAllClass()
     {
         $query = DB::table('class as tb1')
-            ->select('tb1.name as Tên lớp', 'tb2.name as Tên Học Viên', 'tb1.start_date', 'tb1.end_date')
-            ->leftJoin('users as tb2', 'tb2.id', '=', 'tb1._id')->get();
+            ->select('tb1.name as Tên lớp',  'tb1.start_date', 'tb1.end_date', 'tb1.id as id')->get();
         // 
         return $query->all();
     }
-
+    public function loadStinclass($idclass)
+    {
+        $query = DB::table('dang_ky as tb1')
+            ->select('tb3.ho_ten as Tên học viên')
+            ->leftJoin('class as tb2', 'tb1.id_lop_hoc', '=', 'tb2.id')
+            ->leftJoin('hoc_vien as tb3', 'tb1.id_hoc_vien', '=', 'tb3.id')
+            ->where('tb2.id', '=', $idclass)->get();
+        return $query;
+    }
 }

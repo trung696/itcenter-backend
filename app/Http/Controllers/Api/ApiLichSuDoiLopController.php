@@ -30,8 +30,8 @@ class ApiLichSuDoiLopController extends Controller
 
         for ($i = 0; $i < count($data_doi_lop); $i++) {
             $item = $data_doi_lop[$i];
-            $item['ten_lop_cu'] = $class->loadOne($item['oldClass'])->name;
-            $item['ten_lop_moi'] = $class->loadOne($item['newClass'])->name;
+            $item['ten_lop_cu'] = optional($class->loadOne($item['oldClass']))->name;
+            $item['ten_lop_moi'] = optional($class->loadOne($item['newClass']))->name;
 
             if ($item['email'] === $email_user) {
                 array_push($data, $item);

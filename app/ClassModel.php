@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 class ClassModel extends Model
 {
     protected $table = 'class';
-    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.id_ca', 'tb1.created_at', 'tb1.updated_at'];
+    protected $fillable = ['tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.id_ca','tb1.slotBanDau', 'tb1.created_at', 'tb1.updated_at'];
     public $timestamps = false;
     public function course()
     {
@@ -49,7 +49,7 @@ class ClassModel extends Model
     {
 
         $query = DB::table($this->table . ' as tb1')
-            ->select('tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.id_ca')
+            ->select('tb1.id', 'tb1.name', 'tb1.slot', 'tb1.start_date', 'tb1.end_date', 'tb1.lecturer_id', 'tb1.location_id', 'tb1.course_id', 'tb1.id_ca','tb1.slotBanDau')
             ->where('tb1.id', '=', $id);
 
         $obj = $query->first();
@@ -134,6 +134,7 @@ class ClassModel extends Model
             'location_id' => $params['cols']['location_id'],
             'course_id' => $params['cols']['course_id'],
             'id_ca' => $params['cols']['id_ca'],
+            'slotBanDau' => $params['cols']['slot'],
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -194,6 +195,30 @@ class ClassModel extends Model
 
         return $check->get()->all();
     }
+    public function loadActiveClass()
+    {
+        $now = date('Y-m-d');
+        $query = DB::table('class as tb1')
+            ->select('tb1.name as Tên lớp')
+            ->where('tb1.start_date', '<=', $now)
+            ->where('tb1.end_date', '>=', $now)
+            ->get();
+        // ->where('tb1.status', '=', 1)->get();
+        return $query;
+    }
+    public function loadActiveHvien()
+    {
+        $now = date('Y-m-d');
+        $query = DB::table('dang_ky as tb1')
+            ->select('tb1.id as id_dang_ky', 'tb2.name as tenlop')
+            ->leftJoin('class as tb2', 'tb1.id_lop_hoc', '=', 'tb2.id')
+            ->where('tb2.start_date', '<=', $now)
+            ->where('tb2.end_date', '>=', $now)
+            ->get();
+        // ->where('tb1.status', '=', 1)->get();
+        return $query;
+    }
+
     // public function checkThoiGian($idGV)
     // {
 

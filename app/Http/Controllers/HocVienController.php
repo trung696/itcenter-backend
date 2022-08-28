@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Spipu\Html2Pdf\Html2Pdf;
 use Dompdf\Dompdf;
+use Carbon\Carbon;
 use Dompdf\Options;
 
 class HocVienController extends Controller
@@ -44,6 +45,7 @@ class HocVienController extends Controller
         $objDanhSachHocVien = new HocVien();
         //Nhận dữ liệu lọc từ view
         $this->v['extParams'] = $request->all();
+        // dd($request->all());
         $list = $objDanhSachHocVien->loadListWithPager($this->v['extParams']);
         $this->v['list'] = $list;
         $danhSachGuiGmai[] =  $this->v['list'];
@@ -52,6 +54,7 @@ class HocVienController extends Controller
         }
         $objDanhSachChienDich = new ChienDich();
         $this->v['chien_dich'] = $objDanhSachChienDich->loadListWithPager($this->v['extParams']);
+        // dd($request->search_ngay_hoc);
 
 
         if (isset($_GET['btnGuiMa'])) {
