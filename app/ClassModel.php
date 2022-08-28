@@ -82,7 +82,8 @@ class ClassModel extends Model
     public function loadListWithPager($params = array())
     {
         $query = DB::table($this->table . ' as tb1')
-            ->select($this->fillable);
+            ->leftJoin('teachers as tb2', 'tb1.lecturer_id', '=', 'tb2.id')
+            ->select($this->fillable, 'tb2.name as teacher_name');
         if (isset($params['search_ca']) && strlen($params['search_ca']) > 0) {
             $query->where('tb1.ca_hoc', 'like', '%' . $params['search_ca'] . '%');
         }

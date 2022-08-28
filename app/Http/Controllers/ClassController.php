@@ -55,10 +55,14 @@ class ClassController extends  Controller
         $objClassModel = new ClassModel();;
         // dd($objClassModel);
         $this->v['extParams'] = $request->all();
-        $this->v['lists'] = $objClassModel->loadListWithPager($this->v['extParams']);
+        $a = $objClassModel->loadListWithPager($this->v['extParams']);
+        $this->v['lists'] = $a;
         // dd($this->v['lists']);
         $this->v['objItemClass'] = $objClassModel;
         $objUser = new Teacher();
+        // $objUserid = $a->lecturer_id;
+        // $b = $a->all();
+        // dd($b->lecturer_id);
         $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
         $user = $this->v['user'];
         $this->v['lecturer'] = $this->v['user'];
