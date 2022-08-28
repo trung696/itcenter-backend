@@ -590,7 +590,7 @@
                       </tr>
                   </table>
 
-                  <!-- <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
+                   <table border="0" cellpadding="10" cellspacing="0" class="text_block block-3" role="presentation" style="
                                 mso-table-lspace: 0pt;
                                 mso-table-rspace: 0pt;
                                 word-break: break-word;
@@ -665,7 +665,7 @@
                                           font-size: 16px;
                                           display: inline-block;
                                           letter-spacing: normal;
-                                        "><a href=""><span dir="ltr" style="
+                                        "><a href="http://localhost:3000/vi/re-payment/?lop-cu=&lop-moi=&lop-can-dong={{$classDk->name}}&amount={{$classDk->course->price}}&id={{$idDangKy}}"><span dir="ltr" style="
                                               word-break: break-word;
                                               line-height: 32px;
                                               cursor: pointer;
@@ -675,7 +675,7 @@
                         </div>
                       </td>
                     </tr>
-                  </table> -->
+                  </table> 
 
                 </td>
               </tr>

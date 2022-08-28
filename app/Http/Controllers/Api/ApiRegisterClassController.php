@@ -217,7 +217,7 @@ class ApiRegisterClassController extends Controller
                     ]);
                     $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
                     $idDangKy = $addDangKiIssetStudent->id;
-                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk', 'infoHocVien','idDangKy'), function ($email) use ($infoHocVien) {
+                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk', 'infoHocVien', 'idDangKy'), function ($email) use ($infoHocVien) {
                         $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                         $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
                     });
@@ -326,7 +326,7 @@ class ApiRegisterClassController extends Controller
                                 'id_payment' => $payment->id,
                                 'paid_date' => $payment->payment_date,
                                 'token' => Str::random(10),
-        
+
                             ]);
                             if ($addDangKiIssetStudent->trang_thai == 1) {
                                 $classOfDangKi = $addDangKiIssetStudent->class;
@@ -413,7 +413,7 @@ class ApiRegisterClassController extends Controller
             ]);
             $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
             $idDangKy = $addDangKiIssetStudent->id;
-            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk', 'addNewStudent','addDangKiIssetStudent','idDangKy'), function ($email) use ($addNewStudent) {
+            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk', 'addNewStudent', 'addDangKiIssetStudent', 'idDangKy'), function ($email) use ($addNewStudent) {
                 $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                 $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
             });
@@ -735,7 +735,7 @@ class ApiRegisterClassController extends Controller
             ], 400);
         }
 
-        if ($dangKy->du_no == 0) {
+        if (isset($dangKy->id_payment) && $dangKy->du_no == 0) {
             return response()->json([
                 'status' => 400,
                 'heading' => 'Giao dịch này đã hiện thực hiện vui lòng check lại Email hoặc liên lạc với trung tâm đào tạo',
