@@ -263,99 +263,100 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-dollar"></i> <span>Khóa học</span></a>
                         <ul class="treeview-menu">
-                            @can('course-category-list')
-                                <li><a href="{{ route('route_BackEnd_CourseCategory_List') }}"><i
-                                            class="fa fa-circle-o"></i> Danh mục khóa học</a></li>
-                            @endcan
+                            <li><a href="{{ route('route_BackEnd_CourseCategory_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh mục khóa học</a></li>
+                            <li><a href="{{ route('route_BackEnd_Course_List') }}"><i class="fa fa-circle-o"></i>
+                                    Khóa học</a></li>
+                        @endcan
 
-                            @can('course-list')
-                                <li><a href="{{ route('route_BackEnd_Course_List') }}"><i class="fa fa-circle-o"></i>
-                                        Khóa học</a></li>
-                            @endcan
+                    </ul>
+                </li>
 
-                        </ul>
-                    </li>
-
-                    @can('class-list')
-                        <li class=" active menu-open ">
-                            <a href="#"><i class="fa fa-dollar"></i> <span>Lớp học</span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ route('route_BackEnd_Class_List') }}"><i class="fa fa-circle-o"></i>
-                                        Danh sách lớp học</a></li>
-                            </ul>
-                        </li>
-
-                        <li class=" active menu-open ">
-                            <a href="#"><i class="fa fa-dollar"></i> <span>Ca học</span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ route('route_BackEnd_Ca_List') }}"><i class="fa fa-circle-o"></i>
-                                        Danh sách ca học</a></li>
-                            </ul>
-                        </li>
-
-                        <li class=" active menu-open ">
-                            <a href="#"><i class="fa fa-dollar"></i> <span>Chuyển lớp</span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ route('route_BackEnd_list_doi_lop') }}"><i class="fa fa-circle-o"></i>
-                                        Danh sách chuyển lớp</a></li>
-                            </ul>
-                        </li>
-
-                        <li class=" active menu-open ">
-                            <a href="#"><i class="fa fa-dollar"></i> <span>Danh sách hoàn tiền</span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ route('route_BackEnd_list_hoan_tien') }}"><i class="fa fa-circle-o"></i>
-                                        Danh sách sinh viên thừa tiền</a></li>
-                            </ul>
-                        </li>
-
-                        <li class=" active menu-open ">
-                            <a href="#"><i class="fa fa-dollar"></i> <span>Cơ sở trung tâm</span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i
-                                            class="fa fa-circle-o"></i> Danh sách cơ sở trung tâm</a></li>
-                            </ul>
-                        </li>
-                    @endcan
-
+                @can('class-list')
                     <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-dollar"></i> <span>Tài Liệu</span></a>
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Lớp học</span></a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_Document_List') }}"><i class="fa fa-circle-o"></i>
-                                    Danh sách tài liệu</a></li>
+                            <li><a href="{{ route('route_BackEnd_Class_List') }}"><i class="fa fa-circle-o"></i>
+                                    Danh sách lớp học</a></li>
                         </ul>
                     </li>
+                @endcan
 
-                    @can('phuong-thuc-thanh-toan-list')
-                        <li class=" active menu-open ">
-                            <a href="#"><i class="fa fa-dollar"></i> <span>Phương thức thanh toán</span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ route('route_BackEnd_PaymentMethod_List') }}"><i
-                                            class="fa fa-circle-o"></i> Danh sách phương thức thanh toán</a></li>
-                            </ul>
-                        </li>
-                    @endcan
+                @can('ca-list')
+                    <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Ca học</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_Ca_List') }}"><i class="fa fa-circle-o"></i>
+                                    Danh sách ca học</a></li>
+                        </ul>
+                    </li>
+                @endcan
 
-                    @can('khuyen-mai-list')
-                    @endcan
+                @can('hoan-tien-list')
+                    <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Chuyển lớp</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_list_doi_lop') }}"><i class="fa fa-circle-o"></i>
+                                    Danh sách chuyển lớp</a></li>
+                        </ul>
+                    </li>
+                @endcan
 
-                    @can('khuyen-mai-list')
-                        <li class=" active menu-open ">
-                            <a href="#"><i class="fa fa-users"></i> <span>Khuyến mãi</span></a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ route('route_BackEnd_ChienDich_index') }}"><i
-                                            class="fa fa-circle-o"></i>Danh
-                                        sách Chiến dịch </a>
-                                </li>
-                            </ul>
-                            {{-- <ul class="treeview-menu">
+                @can('danh-sach-doi-lop-list')
+                    <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Danh sách hoàn tiền</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_list_hoan_tien') }}"><i class="fa fa-circle-o"></i>
+                                    Danh sách sinh viên thừa tiền</a></li>
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('co-so-list')
+                    <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Cơ sở trung tâm</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_CentralFacility_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh sách cơ sở trung tâm</a></li>
+                        </ul>
+                    </li>
+                @endcan
+
+                <li class=" active menu-open ">
+                    <a href="#"><i class="fa fa-dollar"></i> <span>Tài Liệu</span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('route_BackEnd_Document_List') }}"><i class="fa fa-circle-o"></i>
+                                Danh sách tài liệu</a></li>
+                    </ul>
+                </li>
+
+                @can('phuong-thuc-thanh-toan-list')
+                    <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-dollar"></i> <span>Phương thức thanh toán</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_PaymentMethod_List') }}"><i
+                                        class="fa fa-circle-o"></i> Danh sách phương thức thanh toán</a></li>
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('khuyen-mai-list')
+                    <li class=" active menu-open ">
+                        <a href="#"><i class="fa fa-users"></i> <span>Khuyến mãi</span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('route_BackEnd_ChienDich_index') }}"><i
+                                        class="fa fa-circle-o"></i>Danh
+                                    sách Chiến dịch </a>
+                            </li>
+                        </ul>
+                        {{-- <ul class="treeview-menu">
                             <li><a href="{{ route('route_BackEnd_DanhSachKhhuyenMai_index') }}"><i class="fa fa-circle-o"></i>Danh sách khuyến mãi</a>
                             </li>
                         </ul>
                     </li>
-                    @endcan
+                @endcan
 
-                    @can('role-list')
+                @can('role-list')
                     <li class=" active menu-open ">
                         <a href="#"><i class="fa fa-users"></i> <span>Role</span></a>
                         <ul class="treeview-menu">
@@ -363,82 +364,83 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                                     sách Role</a></li>
                         </ul>
                     </li>
-                    @endcan
+                @endcan
 
 
-                    <li class=" active menu-open ">
-                        <a href="#"><i class="fa fa-users"></i> <span>Permission</span></a>
-                        <ul class="treeview-menu">
-                            <li><a href="{{ route('route_BackEnd_permission_add') }}"><i class="fa fa-circle-o"></i>Thêm Permission</a></li>
-                        </ul>
-                    </li>
+                <li class=" active menu-open ">
+                    <a href="#"><i class="fa fa-users"></i> <span>Permission</span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('route_BackEnd_permission_add') }}"><i
+                                    class="fa fa-circle-o"></i>Thêm Permission</a></li>
+                    </ul>
+                </li>
 
 
 
 <<<<<<< HEAD
 
                     {{-- <li class=" active menu-open "> --}}
-                            {{-- </a> --}}
-                            {{-- </li> --}}
-                            {{-- <li class=" active menu-open "> --}}
-                            {{-- <a href="#"><i class="fa fa-paperclip"></i> <span>Biên Bản</span></a> --}}
-                            {{-- <ul class="treeview-menu"> --}}
-                            {{-- <li><a href="{{ route('route_BackEnd_BienBan_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Bàn Giao</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}}
-                            {{-- <li><a href="{{ route('route_BackEnd_BienBanKiemKe_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Kiểm Kê</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}}
-                            {{-- <li><a href="{{ route('route_BackEnd_BienBanThanhLi_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Thanh Lí</a></li> --}} {{-- </ul> --}} {{-- </li> --}}
-                            {{-- <li class=" active menu-open "> --}} {{-- </a> --}} {{-- </li> --}}
-                    </ul>
-                </section>
-                <!-- /.sidebar -->
+                        {{-- </a> --}}
+                        {{-- </li> --}}
+                        {{-- <li class=" active menu-open "> --}}
+                        {{-- <a href="#"><i class="fa fa-paperclip"></i> <span>Biên Bản</span></a> --}}
+                        {{-- <ul class="treeview-menu"> --}}
+                        {{-- <li><a href="{{ route('route_BackEnd_BienBan_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Bàn Giao</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}}
+                        {{-- <li><a href="{{ route('route_BackEnd_BienBanKiemKe_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Kiểm Kê</a></li> --}} {{-- </ul> --}} {{-- <ul class="treeview-menu"> --}}
+                        {{-- <li><a href="{{ route('route_BackEnd_BienBanThanhLi_index') }}"><i --}} {{-- class="fa fa-circle-o"></i>Biên Bản Thanh Lí</a></li> --}} {{-- </ul> --}} {{-- </li> --}}
+                        {{-- <li class=" active menu-open "> --}} {{-- </a> --}} {{-- </li> --}}
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+
+        <div id="app" class="content-wrapper" style="background-color: #ecf0f5;">
+
+            <div class="clearfix"></div>
+            </ul>
+            </section>
+            <!-- /.sidebar -->
             </aside>
 
-
-            <div id="app" class="content-wrapper" style="background-color: #ecf0f5;">
-
-                <div class="clearfix"></div>
-                </ul>
-                </section>
-                <!-- /.sidebar -->
-                </aside>
-
-                @yield('content')
-                <div class="clearfix"></div>
-
-            </div>
-            <!-- /.content-wrapper -->
-            <footer class="main-footer">
-                <div class="pull-right hidden-xs">
-                    {{-- <b>Version</b> {{ config('app.app_version') }} by MRS --}}
-                </div>
-                <strong>Copyright &copy; 2018-<?php echo date('Y'); ?>
-            </footer>
-
-            <!-- Add the sidebar's background. This div must be placed
-                                                                                   immediately after the control sidebar -->
-            <div class="control-sidebar-bg"></div>
-
+            @yield('content')
+            <div class="clearfix"></div>
 
         </div>
-        <!-- ./wrapper -->
-        <div class="modal fade" id="app-modal-dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" style="padding-bottom: 0px;">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" style="font-size: 24px; color:red; margin-top: -10px"
-                                class="fa fa-close"></span></button>
-                        <h4 class="modal-title" id="app-modal-dialog-title">Default Modal</h4>
-                    </div>
-                    <div class="modal-body" id="app-modal-dialog-body">
-                        <p>Loading...</p>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                {{-- <b>Version</b> {{ config('app.app_version') }} by MRS --}}
             </div>
-            <!-- /.modal-dialog -->
+            <strong>Copyright &copy; 2018-<?php echo date('Y'); ?>
+        </footer>
+
+        <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+
+    </div>
+    <!-- ./wrapper -->
+    <div class="modal fade" id="app-modal-dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-bottom: 0px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 24px; color:red; margin-top: -10px"
+                            class="fa fa-close"></span></button>
+                    <h4 class="modal-title" id="app-modal-dialog-title">Default Modal</h4>
+                </div>
+                <div class="modal-body" id="app-modal-dialog-body">
+                    <p>Loading...</p>
+                </div>
+            </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- template for the modal component -->
-        <script type="text/x-template" id="modal-template"><transition name="modal">
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- template for the modal component -->
+    <script type="text/x-template" id="modal-template"><transition name="modal">
                     <div class="modal-mask">
                         <div class="modal-wrapper">
                             <div class="modal-container">
@@ -463,116 +465,116 @@ $objUser = \Illuminate\Support\Facades\Auth::user();
                     </div>
                 </transition></script>
 
-        <!-- jQuery 3 -->
+    <!-- jQuery 3 -->
 
-        <!-- Bootstrap 3.3.7 -->
-        <script src="{{ asset('default/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        <!-- SlimScroll -->
-        <script src="{{ asset('default/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-        <!-- FastClick -->
-        <script src="{{ asset('default/bower_components/fastclick/lib/fastclick.js') }}"></script>
-        <!-- iCheck 1.0.1 -->
-        <script src="{{ asset('default/plugins/iCheck/icheck.min.js') }}"></script>
-        <!-- jquery cookie -->
-        <script src="{{ asset('default/plugins/jquery-cookie/jquery.cookie.js') }}"></script>
-        {{-- <script src="/public/default/plugins/iCheck/icheck.min.js"></script> --}}
-        <script src="{{ asset('default/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ asset('default/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- SlimScroll -->
+    <script src="{{ asset('default/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('default/bower_components/fastclick/lib/fastclick.js') }}"></script>
+    <!-- iCheck 1.0.1 -->
+    <script src="{{ asset('default/plugins/iCheck/icheck.min.js') }}"></script>
+    <!-- jquery cookie -->
+    <script src="{{ asset('default/plugins/jquery-cookie/jquery.cookie.js') }}"></script>
+    {{-- <script src="/public/default/plugins/iCheck/icheck.min.js"></script> --}}
+    <script src="{{ asset('default/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
 
-        <!-- AdminLTE App -->
-        <script src="{{ asset('default/dist/js/adminlte.min.js') }}"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="{{ asset('default/dist/js/demo.js') }}"></script>
-        <script src="{{ asset('js/jquery.doubleScroll.js') }}?b=1 "></script>
-        <script src="{{ asset('js/SpxApp.js') }}?b=1"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('default/dist/js/adminlte.min.js') }}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ asset('default/dist/js/demo.js') }}"></script>
+    <script src="{{ asset('js/jquery.doubleScroll.js') }}?b=1 "></script>
+    <script src="{{ asset('js/SpxApp.js') }}?b=1"></script>
 
-        {{-- <script src="{{ taisan('/public/js/backend.js')}}?b={{config('app.build_version')}}"></script> --}}
+    {{-- <script src="{{ taisan('/public/js/backend.js')}}?b={{config('app.build_version')}}"></script> --}}
 
-        {{-- @yield('script') --}}
-        @isset($include_file)
-            @include($include_file)
-        @endisset
-
-
-        <script>
-            $(document).ready(function() {
-                $('.select2').select2();
-                $('.sidebar-menu').tree();
-
-                // //iCheck for checkbox and radio inputs
-                $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                    checkboxClass: 'icheckbox_minimal-blue',
-                    radioClass: 'iradio_minimal-blue'
-                });
-
-                $('.sidebar-toggle').click(function(event) {
-                    event.preventDefault();
-                    console.log('toggle');
-                    if (Boolean(localStorage.getItem('sidebar-toggle-collapsed'))) {
-                        localStorage.setItem('sidebar-toggle-collapsed', '');
-                    } else {
-                        localStorage.setItem('sidebar-toggle-collapsed', '1');
-                    }
-                });
+    {{-- @yield('script') --}}
+    @isset($include_file)
+        @include($include_file)
+    @endisset
 
 
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+            $('.sidebar-menu').tree();
 
-                $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
-                });
-
-                function getMessage() {
-
-                    $.get('/apps/ajax-get-help-desk')
-                        .done(function(data, status) {
-                            if (status == 'success') {
-                                // console.log(data);
-                                $('#getMessage').html('(<span class="text-bold" style="color: #f1b351;">' + data +
-                                    '</span>)');
-                            }
-                        })
-                        .fail(function(err) {
-                            // console.log(err)
-                        });
-                    // setTimeout(getMessage,10000);
-                }
-
-                getMessage();
-
-
-            })
-        </script>
-        <script>
-            $(function() {
-                $('.btnCloseAllNotify').click(function() {
-                    if ($('.btnCloseNotification').length > 0) {
-                        $('.btnCloseNotification').each(function(item) {
-                            $(this).trigger('click');
-                        });
-                        $(this).parent().hide();
-                    }
-                });
-                $('.btnCloseNotification').click(function(e) {
-                    e.preventDefault();
-                    let id = $(this).attr('data-id');
-                    $.post('/apps/alert/readed-alert/' + id, {
-                            _token: $('meta[name=_token]').attr('content')
-                        })
-                        .done(data => {
-                            if (data.status == 1) {
-                                $(this).parent().hide();
-                            } else {
-                                if (data.errors.length > 0)
-                                    alert(data.errors.join(', '));
-                            }
-                        })
-                        .fail(function(err) {
-                            console.log(err);
-                        })
-                });
+            // //iCheck for checkbox and radio inputs
+            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
             });
-        </script>
-        @yield('script')
-    </body>
 
-    </html>
+            $('.sidebar-toggle').click(function(event) {
+                event.preventDefault();
+                console.log('toggle');
+                if (Boolean(localStorage.getItem('sidebar-toggle-collapsed'))) {
+                    localStorage.setItem('sidebar-toggle-collapsed', '');
+                } else {
+                    localStorage.setItem('sidebar-toggle-collapsed', '1');
+                }
+            });
+
+
+
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass: 'iradio_flat-green'
+            });
+
+            function getMessage() {
+
+                $.get('/apps/ajax-get-help-desk')
+                    .done(function(data, status) {
+                        if (status == 'success') {
+                            // console.log(data);
+                            $('#getMessage').html('(<span class="text-bold" style="color: #f1b351;">' + data +
+                                '</span>)');
+                        }
+                    })
+                    .fail(function(err) {
+                        // console.log(err)
+                    });
+                // setTimeout(getMessage,10000);
+            }
+
+            getMessage();
+
+
+        })
+    </script>
+    <script>
+        $(function() {
+            $('.btnCloseAllNotify').click(function() {
+                if ($('.btnCloseNotification').length > 0) {
+                    $('.btnCloseNotification').each(function(item) {
+                        $(this).trigger('click');
+                    });
+                    $(this).parent().hide();
+                }
+            });
+            $('.btnCloseNotification').click(function(e) {
+                e.preventDefault();
+                let id = $(this).attr('data-id');
+                $.post('/apps/alert/readed-alert/' + id, {
+                        _token: $('meta[name=_token]').attr('content')
+                    })
+                    .done(data => {
+                        if (data.status == 1) {
+                            $(this).parent().hide();
+                        } else {
+                            if (data.errors.length > 0)
+                                alert(data.errors.join(', '));
+                        }
+                    })
+                    .fail(function(err) {
+                        console.log(err);
+                    })
+            });
+        });
+    </script>
+    @yield('script')
+</body>
+
+</html>
