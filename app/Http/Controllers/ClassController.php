@@ -34,6 +34,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use App\Exports\ClassesExport;
 use App\Exports\StudentExport;
+use App\Teacher;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClassController extends  Controller
@@ -43,27 +44,21 @@ class ClassController extends  Controller
     {
         $this->v = [];
     }
-    public function export()
-    {
-        return Excel::download(new StudentExport, 'class.xlsx');
-    }
+
     public function classList(Request $request)
     {
-        
+
         $this->v['routeIndexText'] = 'Danh sách lớp học';
         $this->v['_action'] = 'List';
         $this->v['_title'] = 'danh sách lớp học';
 
-        $objClassModel = new ClassModel();
-        ;
+        $objClassModel = new ClassModel();;
         // dd($objClassModel);
         $this->v['extParams'] = $request->all();
         $this->v['lists'] = $objClassModel->loadListWithPager($this->v['extParams']);
         // dd($this->v['lists']);
         $this->v['objItemClass'] = $objClassModel;
-        $objHocVien = new HocVien();
-        $objClass = new ClassModel();
-        $objUser = new User();
+        $objUser = new Teacher();
         $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
         $user = $this->v['user'];
         $this->v['lecturer'] = $this->v['user'];
@@ -140,8 +135,8 @@ class ClassController extends  Controller
         $this->v['course'] = $objCourse->loadListIdAndName(['status', 1]);
         // dd( $this->v['arrCaHoc']);
 
-        
-        
+
+
         return view('class.list-class', $this->v);
     }
 
@@ -234,7 +229,7 @@ class ClassController extends  Controller
             $request->session()->forget($method_route); // hủy session nếu vào bằng sự kiện get
         }
 
-        $objUser = new  User();
+        $objUser = new  Teacher();
         $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
 
         $objCentralFacility = new  CentralFacility();
@@ -267,7 +262,7 @@ class ClassController extends  Controller
         $this->v['class'] = $objClassModel;
         $this->v['objItemClass'] = $objItemClass;
         // dd($objItemClass->start_date->format('d/m/Y'));
-        $objUser = new User();
+        $objUser = new Teacher();
         $objGV = $objUser->loadOne($objItemClass->lecturer_id);
         // dd($objGV);
         $this->v['GV_id'] = $objItemClass->lecturer_id;
@@ -479,15 +474,9 @@ class ClassController extends  Controller
             ->leftJoin('class as tb3', 'tb3.id', '=', 'tb2.id_lop_hoc')
             ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
             ->where('tb3.id', $id)
-            ->where('tb2.trang_thai', 3);
-            $test = DB::table('dang_ky', 'tb2')
-            ->select('tb1.id as MSV', 'tb1.ho_ten as sv_name', 'tb3.name as class_name',  'tb4.name as course_name', 'tb1.so_dien_thoai', 'tb1.email', 'tb1.ngay_sinh', 'tb1.gioi_tinh')
-            ->leftJoin('hoc_vien as tb1', 'tb1.id', '=', 'tb2.id_hoc_vien')
-            ->leftJoin('class as tb3', 'tb3.id', '=', 'tb2.id_lop_hoc')
-            ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
-            ->where('tb3.id', $id)
-            ->where('tb2.trang_thai', 3);
-        dd($test->toSql());
+            ->where('tb2.trang_thai', 3)->get();
+
+        // dd($test->toSql());
         $classname = DB::table('class', 'tb3')->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')->select('tb3.name as className', 'tb4.name as courseName')->where('tb3.id', $id)->first();
         // dd($emails);
         $pdf = PDF::setOptions([
@@ -498,19 +487,20 @@ class ClassController extends  Controller
         return $pdf->stream();
     }
 
-    public function showDanhSachLop($idClass){
-        $listDangKiClass = DangKy::where('trang_thai','=','1')->where('id_lop_hoc',$idClass)->get();
+    public function showDanhSachLop($idClass)
+    {
+        $listDangKiClass = DangKy::where('trang_thai', '=', '1')->where('id_lop_hoc', $idClass)->get();
         // dd($listDangKiClass);
         $idUsers = [];
-        foreach($listDangKiClass as $listDangKiClassItem){
-            $idUsers[]=$listDangKiClassItem->id_hoc_vien;
+        foreach ($listDangKiClass as $listDangKiClassItem) {
+            $idUsers[] = $listDangKiClassItem->id_hoc_vien;
         }
         $hocViens = [];
-        foreach($idUsers as $id){
-            $hocViens[] = HocVien::where('id',$id)->first();
+        foreach ($idUsers as $id) {
+            $hocViens[] = HocVien::where('id', $id)->first();
         }
         // dd($hocViens);
-        return view('class.list-hoc-vien',compact('hocViens') );
+        return view('class.list-hoc-vien', compact('hocViens'));
     }
 
     // private function ruleClass(){

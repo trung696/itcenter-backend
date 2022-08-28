@@ -97,7 +97,15 @@
                         <td class="center">{{ $value->MSV }}</td>
                         <td>{{ $value->sv_name }}</td>
                         <td>{{ $value->ngay_sinh }}</td>
-                        <td>{{ $value->gioi_tinh }}</td>
+                        <td>
+                            @if ($value->gioi_tinh == 1)
+                                Nam
+                            @elseif($value->gioi_tinh == 2)
+                                Nữ
+                            @else
+                                Khác
+                            @endif
+                        </td>
                         <td>{{ $value->so_dien_thoai }}</td>
                         <td>{{ $value->email }}</td>
 

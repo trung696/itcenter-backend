@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class Teacher extends Model
 {
     protected $table = 'teachers';
-    protected $fillable = ['user_id', 'name', 'email', 'password', 'address', 'phone', 'sex', 'status', 'avatar','detail'];
+    protected $fillable = ['user_id', 'name', 'email', 'password', 'address', 'phone', 'sex', 'status', 'avatar', 'detail'];
 
     public function createStdClass()
     {
@@ -34,12 +34,49 @@ class Teacher extends Model
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+
+    public function loadListIdAndName($where = null)
+    {
+        $list = DB::table($this->table)->select('id', 'name', 'status');
+        if ($where != null)
+            $list->where([$where]);
+        return $list->get();
+    }
     public function loadOne($id, $params = null)
     {
+
         $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable)
             ->where('tb1.id', '=', $id);
+
         $obj = $query->first();
         return $obj;
+    }
+    public function loadActive()
+    {
+        $query = DB::table($this->table . ' as tb1')
+            ->select($this->fillable)
+            ->where('tb1.status', '=', 1)->get();
+        return $query;
+    }
+    public function loadInClass()
+    {
+        $now = date('Y-m-d');
+        $query = DB::table('class as tb1')
+            ->select('tb1.name as Tên lớp', 'tb2.name as Tên giáo viên')
+            ->leftJoin('teachers as tb2', 'tb2.id', '=', 'tb1.lecturer_id')
+            ->where('tb1.start_date', '<=', $now)
+            ->where('tb1.end_date', '>=', $now)
+            ->groupBy('tb1.lecturer_id')->get();
+        // ->where('tb1.status', '=', 1)->get();
+        return $query;
+    }
+    public function loadDay($time)
+    {
+        $query = DB::table('class as tb1')
+            ->select('tb1.name as Tên lớp', 'tb2.name as Tên giáo viên', 'tb1.start_date', 'tb1.end_date')
+            ->leftJoin('teachers as tb2', 'tb2.id', '=', 'tb1.lecturer_id')->get();
+        // 
+        return $query->all();
     }
 }
