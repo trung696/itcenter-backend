@@ -70,17 +70,13 @@ class ApiCourceController extends Controller
             foreach ($listClass as $key => $listClassItem) {
                 if (strtotime($today) < strtotime($listClassItem->end_date)) {
                     //lấy danh sách các đăng kí đã thanh toán tiền để cập nhập số chỗ trong lớp
-                    $countStudentInClass = count($listClassItem->dangKi->where('trang_thai', '=', 1));
+                    // $countStudentInClass = count($listClassItem->dangKi->where('trang_thai', '=', 1));
                     $listClassNew[] = $listClassItem;
                 }
-                $listClassItem->lecturer_id = optional(Teacher::where('id', $listClassItem->lecturer_id,)->first())->name;
+                $listClassItem->lecturer_info = optional(Teacher::where('id', $listClassItem->lecturer_id))->first();
+                $listClassItem->lecturer_id = optional($listClassItem->lecturer_info)->name;
             }
 
-            // return response()->json([
-            //     'status' => true,
-            //     'heading' => 'Lấy thành công danh sách class của course',
-            //     'data' => $listClass,
-            // ], 200);
             return response()->json([
                 'status' => true,
                 'heading' => 'Lấy thành công danh sách class của course',
