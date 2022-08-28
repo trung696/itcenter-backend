@@ -18,6 +18,14 @@ class DoiLopController extends Controller
         $listClass = ClassModel::all();
         return view('chuyenLop.list', compact('lists', 'listClass'));
     }
+
+    public function doiLopEr(Request $request, $id, $email, $oldClass, $newClass){
+        $updateThongTinDoiLop = ThongTinChuyenLop::where('id', $id)->first();
+        $updateThongTinDoiLop['trang_thai'] = 2;
+        $updateThongTinDoiLop->update();
+        return Redirect::back()->withErrors(['msg' => 'Đã từ chối chuyển lớp']);
+
+    }
     public function doiLop(Request $request, $id, $email, $oldClass, $newClass)
     {
         //update trạng thái thành 1 (đã check)

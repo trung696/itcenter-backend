@@ -311,10 +311,10 @@ class DangKyController extends Controller
         $listClass = ClassModel::all();
         $listCourse = Course::all();
         $getDuNo = DangKy::whereId($id)->first()->du_no;
-        $id_course = ClassModel::whereId( $this->v['itemDK'])->first();
+        $id_course = ClassModel::whereId($this->v['itemDK'])->first();
         // $getCourseOfClass = Course::whereId($id_course)->first();
         // dd($id_course->course);
-        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse','id_course'));
+        return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse', 'id_course'));
     }
 
 
@@ -477,7 +477,7 @@ class DangKyController extends Controller
         // }
     }
 
-    public function doiKhoaHoc($request, $newDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass,$id)
+    public function doiKhoaHoc($request, $newDangKy, $newCourse, $idNewClass, $dangKyOld, $oldClass, $id)
     {
         /// check xem số tiền nộp thêm == abs(du_no)
         if (isset($request->dong_them) &&  $request->dong_them != 0  && abs($newDangKy->du_no) == $request->dong_them) {
@@ -578,12 +578,12 @@ class DangKyController extends Controller
             }
 
             //chuyển lớp khác khóa nhưng cùng tiền
-            $updateDky = DangKy::where('id',$id)->first();
+            $updateDky = DangKy::where('id', $id)->first();
             $updateDky['id_lop_hoc'] = $request->id_lop_hoc_moi;
             $updateDky->update();
             $checkClassOld['slot'] =  $checkClassOld['slot'] + 1;
             $checkClassOld->update();
-            $classNew = ClassModel::where('id',$request->id_lop_hoc_moi)->first();
+            $classNew = ClassModel::where('id', $request->id_lop_hoc_moi)->first();
             $classNew['slot'] = $classNew['slot'] - 1;
             $classNew->update();
 

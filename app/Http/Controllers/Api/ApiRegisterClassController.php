@@ -65,7 +65,35 @@ class ApiRegisterClassController extends Controller
                     //lưu thông tin thanh toán bảng momo
                     //check xem thanh toán phương thức gì
                     if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
-                        // dd('có pay men momo');
+                        // dd('có pay men momo', $request->all());
+
+                        $ma_khuyen_mai = $request->ma_khuyen_mai;
+                        if (isset($ma_khuyen_mai)) {
+                            $objCheckMa = new MaChienDich();
+                            $checkMa = $objCheckMa->loadCheckName($ma_khuyen_mai);
+                            if (isset($checkMa)) {
+                                $objChienDich = new ChienDich();
+                                $checkGiam = $objChienDich->loadOne($checkMa->id_chien_dich);
+                            } else {
+                                return Redirect::back()->withErrors(['msg' => 'Không tồn tại mã giảm giá này']);
+                            }
+                            if ($checkMa->trang_thai == 0) {
+                                $trang_thai = 0;
+                            } else {
+                                $trang_thai = 1;
+                            }
+                            if ($checkGiam->trang_thai == 0) {
+                                $hoat_dong = 0;
+                            } else {
+                                $hoat_dong = 1;
+                            }
+                            if ($checkGiam->course_id == 0 || $checkGiam->course_id == $request->id_khoa_hoc) {
+                                $dung_khoa = 1;
+                            } else {
+                                $dung_khoa = 0;
+                            }
+                        }
+                        dd($checkMa,$trang_thai,);
                         $payment = Payment::create([
                             'payment_method_id' => $request->payment_method_id,
                             'payment_date' => date("Y-m-d h:i:s"),
