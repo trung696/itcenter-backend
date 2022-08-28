@@ -216,7 +216,8 @@ class ApiRegisterClassController extends Controller
 
                     ]);
                     $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk', 'infoHocVien'), function ($email) use ($infoHocVien) {
+                    $idDangKy = $addDangKiIssetStudent->id;
+                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk', 'infoHocVien','idDangKy'), function ($email) use ($infoHocVien) {
                         $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                         $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
                     });
@@ -411,7 +412,8 @@ class ApiRegisterClassController extends Controller
                 'token' => Str::random(10),
             ]);
             $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk', 'addNewStudent'), function ($email) use ($addNewStudent) {
+            $idDangKy = $addDangKiIssetStudent->id;
+            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk', 'addNewStudent','addDangKiIssetStudent','idDangKy'), function ($email) use ($addNewStudent) {
                 $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                 $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
             });
