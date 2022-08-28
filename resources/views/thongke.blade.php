@@ -66,7 +66,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>{{ $tong_hoc_phi }}</h3>
+                        <h3>{{ $hoc_phi }}</h3>
 
                         <p>Doanh thu tổng</p>
                     </div>
@@ -131,9 +131,9 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>{{ $lop_hoc }}</h3>
+                        <h3>{{ $tong_hoc_phi }}</h3>
 
-                        <p>Tất cả khóa học</p>
+                        <p>Doanh thu thực tế</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -161,7 +161,7 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>{{ $hoc_vien_dang_hoc }}</h3>
 
                         <p>Số học viên đang học</p>
                     </div>
@@ -194,23 +194,20 @@
         <div class="box box-primary" style="margin-top: 50px">
             <div class="box-header with-border">
                 <div class="box-title">
-                    Danh Sách Lớp Học
+                    Dữ liệu theo thời gian
                 </div>
             </div>
             <div class="box-body">
 
-                <a v-if="marketing==0" class="btn btn-primary" href="">Thống kê</a>
-                {{-- <a href="{{ route('route_BackEnd_TaiSanCon_InNhanTaiSan_Update',['id'=>request()->route('id')]) }}" target="_blank" class="btn btn-info"><i class="fa fa-print" style="color:white;"></i>
-                    In Nhãn Tài Sản</a> --}}
+
                 <div style="border: 1px solid #ccc;margin-top: 10px;padding: 5px;">
                     <form action="" method="get">
                         <div class="row">
 
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-group">
-                                    <input type="text" name="search_ngay_khai_giang"
-                                        class="form-control daterangepicker-click" placeholder="Ngày khai giảng"
-                                        value="" autocomplete="off">
+                                    <input type="text" name="search_ngay" class="form-control daterangepicker-click"
+                                        placeholder="Ngày tìm kiếm" value="" autocomplete="off">
                                 </div>
                             </div>
                             {{-- <div class="col-md-4 col-sm-6">
@@ -258,12 +255,33 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>
+                            @if (isset($so_hoc_phi_all))
+                                {{ $so_hoc_phi_all }}
+                            @endif
+                        </h3>
 
-                        <p>New Orders</p>
+                        <p>Tổng học phí </p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>
+                            @if (isset($hs_dk_moi))
+                                {{ $hs_dk_moi }}
+                            @endif
+                        </h3>
+                        <p>Học sinh đăng kí mới</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
                     </div>
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -273,9 +291,12 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>Bounce Rate</p>
+                        <h3>
+                            @if (isset($so_hoc_phi))
+                                {{ $so_hoc_phi }}
+                            @endif
+                        </h3>
+                        <p>Học phí thực thu</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -284,20 +305,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>44</h3>
 
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
             <!-- ./col -->
             <div class="col-lg-3 col-6">
                 <!-- small box -->

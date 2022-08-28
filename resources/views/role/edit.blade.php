@@ -1,6 +1,6 @@
 @extends('templates.layout')
 @section('content')
-<div class="content-wrapper">
+<div class="content-wrappers">
     
     <div class="content">
         <div class="container-fluid">

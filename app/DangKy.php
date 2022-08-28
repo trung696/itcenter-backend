@@ -89,7 +89,7 @@ class DangKy extends Model
             'id_lop_hoc' => $params['id_lop_hoc'],
             'gia_tien' => $params['gia_tien'],
             'id_hoc_vien' => $params['id_hoc_vien'],
-            'trang_thai' => 1,
+            'trang_thai' => 3,
 
             'id_payment' => $params['id_payment'],
             'paid_date' => date('Y-m-d'),
