@@ -41,7 +41,7 @@ class ApiGetKhoaHocOfUser extends Controller
         }
         return response()->json([
             'status' => true,
-            'heading' => "Bạn chua đang kí lớp học nào",
+            'heading' => "Bạn chƯa đang kí lớp học nào",
         ], 200);
         // }
     }

@@ -180,7 +180,6 @@ class CourseController extends Controller
             
         }
         $this->v['arrFacility'] = $arrFacility;
-        // dd( $this->v['arrUser']);
         
         return view('khoahoc.admin.course-detail',$this->v);
     }
