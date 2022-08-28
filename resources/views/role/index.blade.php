@@ -7,8 +7,8 @@
         <small>
             <ol class="breadcrumb">
                 <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li><a href=""></a></li>
-                    <li lass="active"></li>
+                    <li><a href=""> Role </a></li>
+                    <li lass="active">List</li>
             </ol>
         </small>
     </h1>
@@ -17,18 +17,18 @@
     <div style="border: 1px solid #ccc;margin-top: 10px;padding: 5px;">
         <form action="" method="get">
             <div class="row">
-                <div class="col-md-3 col-sm-6">
+                <!-- <div class="col-md-3 col-sm-6">
                     <div class="form-group">
                         <input type="text" name="search_ten_danh_muc_khoa_hoc" class="form-control" placeholder="Tên chức vụ" value="@isset($extParams['search_ten_dia_diem']){{$extParams['search_ten_dia_diem']}}@endisset">
                     </div>
-                </div>
+                </div> -->
                 <div class="clearfix"></div>
                 <div class="col-xs-12" style="text-align:center;">
                     <div class="form-group">
-                        <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i class="fa fa-search" style="color:white;"></i> Search
-                        </button>
-                        <a href="" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
-                            Clear </a>
+                        <!-- <button type="submit" name="btnSearch" class="btn btn-primary btn-sm "><i class="fa fa-search" style="color:white;"></i> Search
+                        </button> -->
+                        <!-- <a href="" class="btn btn-default btn-sm "><i class="fa fa-remove"></i>
+                            Clear </a> -->
                         <a href="{{route('route_BackEnd_role_add')}}" class="btn btn-info btn-sm"><i class="fa fa-user-plus" style="color:white;"></i>
                             Add new</a>
                     </div>
@@ -44,7 +44,7 @@
     <div id="msg-box">
         <?php //Hiển thị thông báo thành công
         ?>
-        @if ( Session::has('success') )
+        @if ( Session::has('successs') )
         <div class="alert alert-success alert-dismissible" role="alert">
             <strong>{{ Session::get('success') }}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">

@@ -110,7 +110,7 @@ class ApiRegisterClassController extends Controller
                                 $payment = Payment::create([
                                     'payment_method_id' => $request->payment_method_id,
                                     'payment_date' => date("Y-m-d h:i:s"),
-                                    'price' => $request->price - (($request->price * $checkGiam->phan_tram_giam) / 100),
+                                    'price' => $request->price,
                                     'description' => $request->description,
                                     'status' => 1,
                                     'id_don_hang' => $request->id_don_hang,
@@ -122,7 +122,7 @@ class ApiRegisterClassController extends Controller
                                         'ngay_dang_ky' => date("Y-m-d"),
                                         'id_lop_hoc' => $request->id_lop_hoc,
                                         'id_hoc_vien' => $infoHocVien->id,
-                                        'gia_tien' => ($request->price - (($request->price * $checkGiam->phan_tram_giam) / 100)),
+                                        'gia_tien' => $request->price ,
                                         'trang_thai' => $payment->status,
                                         'id_payment' => $payment->id,
                                         'paid_date' => $payment->payment_date,
@@ -340,6 +340,8 @@ class ApiRegisterClassController extends Controller
                             $email->subject("Hệ thống thông báo bạn đã đăng kí");
                             $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
                         });
+                        $objCheckMa = new MaChienDich();
+                        $updatett = $objCheckMa->saveUpdateTT($request->ma_khuyen_mai);
                         return response()->json([
                             'status' => true,
                             'heading' => 'tạo thành công tài koản, đang kí thành công và đã chuyển tiền thành công',

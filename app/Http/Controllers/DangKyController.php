@@ -380,7 +380,7 @@ class DangKyController extends Controller
                         $email->to($hocVien->email, $hocVien->ho_ten);
                     });
                     // return 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1';
-                    return Redirect::back()->withErrors(['success' => 'Chuyển lớp thành công (đã thanh toán) ']);
+                    return Redirect::back()->withErrors(['successs' => 'Chuyển lớp thành công (đã thanh toán) ']);
                 } else {
                     return Redirect::back()->withErrors(['success' => 'Chuyển lớp thành công (chưa thanh toán)']);
                 }

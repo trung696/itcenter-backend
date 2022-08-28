@@ -30,8 +30,8 @@ class RoleController extends Controller
 
             $roleInsert->permission()->attach($request->permission_id);
             DB::commit();
-            session()->flash('success', 'Thêm thành công Permision.');
-            return redirect()->route('route_BackEnd_role_add');
+            session()->flash('success', 'Thêm thành công role.');
+            return redirect()->route('route_BackEnd_role_list');
         }catch(\Exception $exception){
             DB::rollback();
             Log::error('message: '.$exception->getMessage() . 'line:'. $exception->getLine());
