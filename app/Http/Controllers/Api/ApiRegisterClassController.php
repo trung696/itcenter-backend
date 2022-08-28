@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Ca;
 use App\ChienDich;
 use App\ClassModel;
+use App\Course;
 use App\DangKy;
 use App\HocVien;
 use App\Http\Controllers\Controller;
@@ -65,8 +66,7 @@ class ApiRegisterClassController extends Controller
                     //lưu thông tin thanh toán bảng momo
                     //check xem thanh toán phương thức gì
                     if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
-                        // dd('có pay men momo', $request->all());
-
+                        $courseOfClass = ClassModel::find($request->id_lop_hoc)->course;
                         $ma_khuyen_mai = $request->ma_khuyen_mai;
                         if (isset($ma_khuyen_mai)) {
                             $objCheckMa = new MaChienDich();
@@ -75,7 +75,10 @@ class ApiRegisterClassController extends Controller
                                 $objChienDich = new ChienDich();
                                 $checkGiam = $objChienDich->loadOne($checkMa->id_chien_dich);
                             } else {
-                                return Redirect::back()->withErrors(['msg' => 'Không tồn tại mã giảm giá này']);
+                                return response()->json([
+                                    'status' => false,
+                                    'heading' => 'Không tồn tại mã giảm giá này',
+                                ], 404);
                             }
                             if ($checkMa->trang_thai == 0) {
                                 $trang_thai = 0;
@@ -87,54 +90,119 @@ class ApiRegisterClassController extends Controller
                             } else {
                                 $hoat_dong = 1;
                             }
-                            if ($checkGiam->course_id == 0 || $checkGiam->course_id == $request->id_khoa_hoc) {
+                            if ($checkGiam->course_id == 0 || $checkGiam->course_id == $courseOfClass->id) {
                                 $dung_khoa = 1;
                             } else {
                                 $dung_khoa = 0;
                             }
-                        }
-                        dd($checkMa, $trang_thai,);
-                        $payment = Payment::create([
-                            'payment_method_id' => $request->payment_method_id,
-                            'payment_date' => date("Y-m-d h:i:s"),
-                            'price' => $request->price,
-                            'description' => $request->description,
-                            'status' => 1,
-                            'id_don_hang' => $request->id_don_hang,
-                            'id_giao_dich' => $request->id_giao_dich,
-                        ]);
-                        //nếu thêm thành công thanh toán momo vào bảng  payment
-                        if ($payment) {
-                            $addDangKiIssetStudent = DangKy::create([
-                                'ngay_dang_ky' => date("Y-m-d"),
-                                'id_lop_hoc' => $request->id_lop_hoc,
-                                'id_hoc_vien' => $infoHocVien->id,
-                                'gia_tien' => $request->gia_tien,
-                                'trang_thai' => $payment->status,
-                                'id_payment' => $payment->id,
-                                'paid_date' => $payment->payment_date,
-                                'token' => Str::random(10),
-                            ]);
-                            if ($addDangKiIssetStudent->trang_thai == 1) {
-                                $classOfDangKi = $addDangKiIssetStudent->class;
-                                ClassModel::whereId($classOfDangKi->id)->update([
-                                    'slot' =>  $classOfDangKi->slot - 1
-                                ]);
-                            }
-                        }
-                        $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-                        Mail::send('emailThongBaoDangKyLopHocTwo', compact('classDk', 'payment', 'infoHocVien'), function ($email) use ($infoHocVien) {
-                            $email->subject("Hệ thống thông báo bạn đã đăng kí");
-                            $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
-                        });
-                        return response()->json([
-                            'status' => true,
-                            'heading' => 'đang kí thành công và đã chuyển tiền thành công',
-                            'data' => $addDangKiIssetStudent,
-                            'data_payment' => $addDangKiIssetStudent->payment
-                        ], 200);
-                    }
+                            // dd($checkMa, $objChienDich, $checkGiam,$checkGiam->course_id);
 
+                            $now = date('Y-m-d');
+                            $startDate = date('Y-m-d', strtotime($checkGiam->ngay_bat_dau));
+                            $endDate = date('Y-m-d', strtotime($checkGiam->ngay_ket_thuc));
+                            if (($now >= $startDate) && ($now <= $endDate)) {
+                                $flag = 1;
+                            } else {
+                                $flag = 2;
+                            }
+                            if ($flag == 1 && $hoat_dong == 1 && $trang_thai == 0 && $dung_khoa == 1) {
+                                // dd($request->price - (($request->price * $checkGiam->phan_tram_giam)/100));
+                                $payment = Payment::create([
+                                    'payment_method_id' => $request->payment_method_id,
+                                    'payment_date' => date("Y-m-d h:i:s"),
+                                    'price' => $request->price - (($request->price * $checkGiam->phan_tram_giam) / 100),
+                                    'description' => $request->description,
+                                    'status' => 1,
+                                    'id_don_hang' => $request->id_don_hang,
+                                    'id_giao_dich' => $request->id_giao_dich,
+                                ]);
+                                //nếu thêm thành công thanh toán momo vào bảng  payment
+                                if ($payment) {
+                                    $addDangKiIssetStudent = DangKy::create([
+                                        'ngay_dang_ky' => date("Y-m-d"),
+                                        'id_lop_hoc' => $request->id_lop_hoc,
+                                        'id_hoc_vien' => $infoHocVien->id,
+                                        'gia_tien' => ($request->price - (($request->price * $checkGiam->phan_tram_giam) / 100)),
+                                        'trang_thai' => $payment->status,
+                                        'id_payment' => $payment->id,
+                                        'paid_date' => $payment->payment_date,
+                                        'token' => Str::random(10),
+                                    ]);
+                                    if ($addDangKiIssetStudent->trang_thai == 1) {
+                                        $classOfDangKi = $addDangKiIssetStudent->class;
+                                        ClassModel::whereId($classOfDangKi->id)->update([
+                                            'slot' =>  $classOfDangKi->slot - 1
+                                        ]);
+                                    }
+                                }
+                                $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
+                                Mail::send('emailThongBaoDangKyLopHocTwo', compact('classDk', 'payment', 'infoHocVien'), function ($email) use ($infoHocVien) {
+                                    $email->subject("Hệ thống thông báo bạn đã đăng kí");
+                                    $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
+                                });
+                                $objCheckMa = new MaChienDich();
+                                $updatett = $objCheckMa->saveUpdateTT($request->ma_khuyen_mai);
+                                return response()->json([
+                                    'status' => true,
+                                    'heading' => 'Đăng kí thành công và đã chuyển tiền thành công',
+                                    'data' => $addDangKiIssetStudent,
+                                    'data_payment' => $addDangKiIssetStudent->payment
+                                ], 200);
+                                // $arrDangKy['gia_tien'] = $gia->price - ($gia->price * $checkGiam->phan_tram_giam / 100);
+                                // $apma = $checkGiam->phan_tram_giam;
+                            } elseif ($dung_khoa == 0) {
+                                return response()->json([
+                                    'status' => false,
+                                    'heading' => 'Mã giảm giá không dành cho khóa này',
+                                ], 404);
+                            } else {
+                                return response()->json([
+                                    'status' => false,
+                                    'heading' => 'Mã giảm giá không hợp lệ',
+                                ], 404);
+                            }
+                        } else {
+                            $payment = Payment::create([
+                                'payment_method_id' => $request->payment_method_id,
+                                'payment_date' => date("Y-m-d h:i:s"),
+                                'price' => $request->price,
+                                'description' => $request->description,
+                                'status' => 1,
+                                'id_don_hang' => $request->id_don_hang,
+                                'id_giao_dich' => $request->id_giao_dich,
+                            ]);
+                            //nếu thêm thành công thanh toán momo vào bảng  payment
+                            if ($payment) {
+                                $addDangKiIssetStudent = DangKy::create([
+                                    'ngay_dang_ky' => date("Y-m-d"),
+                                    'id_lop_hoc' => $request->id_lop_hoc,
+                                    'id_hoc_vien' => $infoHocVien->id,
+                                    'gia_tien' => $request->gia_tien,
+                                    'trang_thai' => $payment->status,
+                                    'id_payment' => $payment->id,
+                                    'paid_date' => $payment->payment_date,
+                                    'token' => Str::random(10),
+                                ]);
+                                if ($addDangKiIssetStudent->trang_thai == 1) {
+                                    $classOfDangKi = $addDangKiIssetStudent->class;
+                                    ClassModel::whereId($classOfDangKi->id)->update([
+                                        'slot' =>  $classOfDangKi->slot - 1
+                                    ]);
+                                }
+                            }
+                            $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
+                            Mail::send('emailThongBaoDangKyLopHocTwo', compact('classDk', 'payment', 'infoHocVien'), function ($email) use ($infoHocVien) {
+                                $email->subject("Hệ thống thông báo bạn đã đăng kí");
+                                $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
+                            });
+                            return response()->json([
+                                'status' => true,
+                                'heading' => 'đang kí thành công và đã chuyển tiền thành công',
+                                'data' => $addDangKiIssetStudent,
+                                'data_payment' => $addDangKiIssetStudent->payment
+                            ], 200);
+                        }
+                    }
                     //không có payment momo
                     $addDangKiIssetStudent = DangKy::create([
                         'ngay_dang_ky' => date("Y-m-d"),
@@ -148,7 +216,8 @@ class ApiRegisterClassController extends Controller
 
                     ]);
                     $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk', 'infoHocVien'), function ($email) use ($infoHocVien) {
+                    $idDangKy = $addDangKiIssetStudent->id;
+                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk', 'infoHocVien','idDangKy'), function ($email) use ($infoHocVien) {
                         $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                         $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
                     });
@@ -197,6 +266,99 @@ class ApiRegisterClassController extends Controller
         if ($addNewStudent) {
             if (isset($request->payment_method_id) && isset($request->payment_date) && isset($request->price) && isset($request->description) && isset($request->status)) {
                 // dd('có pay men momo');
+                $ma_khuyen_mai = $request->ma_khuyen_mai;
+                if (isset($ma_khuyen_mai)) {
+                    $courseOfClass = ClassModel::find($request->id_lop_hoc)->course;
+                    $objCheckMa = new MaChienDich();
+                    $checkMa = $objCheckMa->loadCheckName($ma_khuyen_mai);
+                    if (isset($checkMa)) {
+                        $objChienDich = new ChienDich();
+                        $checkGiam = $objChienDich->loadOne($checkMa->id_chien_dich);
+                    } else {
+                        return response()->json([
+                            'status' => false,
+                            'heading' => 'Không tồn tại mã giảm giá này',
+                        ], 404);
+                    }
+                    if ($checkMa->trang_thai == 0) {
+                        $trang_thai = 0;
+                    } else {
+                        $trang_thai = 1;
+                    }
+                    if ($checkGiam->trang_thai == 0) {
+                        $hoat_dong = 0;
+                    } else {
+                        $hoat_dong = 1;
+                    }
+                    if ($checkGiam->course_id == 0 || $checkGiam->course_id == $courseOfClass->id) {
+                        $dung_khoa = 1;
+                    } else {
+                        $dung_khoa = 0;
+                    }
+                    // dd($checkMa, $objChienDich, $checkGiam,$checkGiam->course_id);
+
+                    $now = date('Y-m-d');
+                    $startDate = date('Y-m-d', strtotime($checkGiam->ngay_bat_dau));
+                    $endDate = date('Y-m-d', strtotime($checkGiam->ngay_ket_thuc));
+                    if (($now >= $startDate) && ($now <= $endDate)) {
+                        $flag = 1;
+                    } else {
+                        $flag = 2;
+                    }
+                    if ($flag == 1 && $hoat_dong == 1 && $trang_thai == 0 && $dung_khoa == 1) {
+                        $payment = Payment::create([
+                            'payment_method_id' => $request->payment_method_id,
+                            'payment_date' => date("Y-m-d h:i:s"),
+                            'price' => $request->price,
+                            'description' => $request->description,
+                            'status' => 1,
+                            'id_don_hang' => $request->id_don_hang,
+                            'id_giao_dich' => $request->id_giao_dich,
+                        ]);
+                        //nếu thêm thành công thanh toán momo vào bảng  payment
+                        if ($payment) {
+                            $addDangKiIssetStudent = DangKy::create([
+                                'ngay_dang_ky' => date("Y-m-d"),
+                                'id_lop_hoc' => $request->id_lop_hoc,
+                                'id_hoc_vien' => $addNewStudent->id,
+                                'gia_tien' => $request->gia_tien,
+                                'trang_thai' => $payment->status,
+                                'id_payment' => $payment->id,
+                                'paid_date' => $payment->payment_date,
+                                'token' => Str::random(10),
+        
+                            ]);
+                            if ($addDangKiIssetStudent->trang_thai == 1) {
+                                $classOfDangKi = $addDangKiIssetStudent->class;
+                                ClassModel::whereId($classOfDangKi->id)->update([
+                                    'slot' =>  $classOfDangKi->slot - 1
+                                ]);
+                            }
+                        }
+                        $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
+                        Mail::send('emailThongBaoDangKiLopHoc', compact('classDk', 'payment', 'addNewStudent'), function ($email) use ($addNewStudent) {
+                            $email->subject("Hệ thống thông báo bạn đã đăng kí");
+                            $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
+                        });
+                        return response()->json([
+                            'status' => true,
+                            'heading' => 'tạo thành công tài koản, đang kí thành công và đã chuyển tiền thành công',
+                            'data' => $addDangKiIssetStudent,
+                            'data_payment' => $addDangKiIssetStudent->payment
+                        ], 200);
+                    } elseif ($dung_khoa == 0) {
+                        return response()->json([
+                            'status' => false,
+                            'heading' => 'Mã giảm giá không dành cho khóa này',
+                        ], 404);
+                    } else {
+                        return response()->json([
+                            'status' => false,
+                            'heading' => 'Mã giảm giá không hợp lệ',
+                        ], 404);
+                    }
+                }
+                // Nếu không có mã giảm giá
                 $payment = Payment::create([
                     'payment_method_id' => $request->payment_method_id,
                     'payment_date' => date("Y-m-d h:i:s"),
@@ -250,7 +412,8 @@ class ApiRegisterClassController extends Controller
                 'token' => Str::random(10),
             ]);
             $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk', 'addNewStudent'), function ($email) use ($addNewStudent) {
+            $idDangKy = $addDangKiIssetStudent->id;
+            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk', 'addNewStudent','addDangKiIssetStudent','idDangKy'), function ($email) use ($addNewStudent) {
                 $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                 $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
             });
@@ -532,7 +695,7 @@ class ApiRegisterClassController extends Controller
 
                 $hoc_vien = HocVien::where('id', $dangKy->id_hoc_vien)->first();
                 //gửi email là đóng thêm học phí thành công
-                Mail::send('emailThongBaoDongHocPhiOnline', compact('paymentAdd', 'hoc_vien', 'class'), function ($email) use ($hoc_vien) {
+                Mail::send('emailThongBaoDongHocPhiOnline', compact('paymentAdd',  'hoc_vien',  'class'), function ($email) use ($hoc_vien) {
                     $email->subject("Hệ thống gửi thông báo bạn đã đóng đủ học phí");
                     $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
                 });

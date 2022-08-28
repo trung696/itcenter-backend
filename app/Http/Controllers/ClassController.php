@@ -47,11 +47,12 @@ class ClassController extends  Controller
 
     public function classList(Request $request)
     {
+
         $this->v['routeIndexText'] = 'Danh sách lớp học';
         $this->v['_action'] = 'List';
         $this->v['_title'] = 'danh sách lớp học';
 
-        $objClassModel = new ClassModel();
+        $objClassModel = new ClassModel();;
         // dd($objClassModel);
         $this->v['extParams'] = $request->all();
         $this->v['lists'] = $objClassModel->loadListWithPager($this->v['extParams']);
@@ -60,6 +61,7 @@ class ClassController extends  Controller
         $objUser = new Teacher();
         $this->v['user'] = $objUser->loadListIdAndName(['status', 1]);
         $user = $this->v['user'];
+        $this->v['lecturer'] = $this->v['user'];
         // dd($user);
         $arrUser = [];
         foreach ($user as $index => $item) {
@@ -95,17 +97,17 @@ class ClassController extends  Controller
         $this->v['extParams'] = $request->all();
         $this->v['status'] = config('app.status_user');
 
-        if (isset($this->v['extParams']['search_ngay_khai_giang'])) {
-            $ngaythem = explode(' - ', $this->v['extParams']['search_ngay_khai_giang']);
-            if (count($ngaythem) != 2) {
-                Session::flash('error', 'Ngày khai giảng không hợp lệ');
-                return redirect()->route($this->routeIndex);
-            }
-            $datetime = array_map('convertDateToSql', $ngaythem);
-            $datetime[0] = $datetime[0] . ' 00:00:00';
-            $datetime[1] = $datetime[1] . ' 23:59:59';
-            $this->v['extParams']['search_ngay_khai_giang_array'] = $datetime;
-        }
+        // if (isset($this->v['extParams']['search_ngay_khai_giang'])) {
+        //     $ngaythem = explode(' - ', $this->v['extParams']['search_ngay_khai_giang']);
+        //     if (count($ngaythem) != 2) {
+        //         Session::flash('error', 'Ngày khai giảng không hợp lệ');
+        //         return redirect()->route($this->routeIndex);
+        //     }
+        //     $datetime = array_map('convertDateToSql', $ngaythem);
+        //     $datetime[0] = $datetime[0] . ' 00:00:00';
+        //     $datetime[1] = $datetime[1] . ' 23:59:59';
+        //     $this->v['extParams']['search_ngay_khai_giang_array'] = $datetime;
+        // }
 
         $objCentralFacility = new CentralFacility();
         $this->v['centralFacility'] = $objCentralFacility->loadListIdAndName();
@@ -129,7 +131,12 @@ class ClassController extends  Controller
             $arrCa[$item->id] = $item->ca_hoc;
         }
         $this->v['arrCaHoc'] = $arrCa;
+        $objCourse = new  Course();
+        $this->v['course'] = $objCourse->loadListIdAndName(['status', 1]);
         // dd( $this->v['arrCaHoc']);
+
+
+
         return view('class.list-class', $this->v);
     }
 

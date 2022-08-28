@@ -34,6 +34,7 @@ Route::delete('logout','Api\ApiLoginController@deleteToken');
 Route::apiResource('user', 'Api\ApiUserController');
 Route::patch('user/update/{id}','Api\ApiUserController@update')->middleware('checkTokenUp');
 Route::post('change-password','Api\ApiUserController@changePassword');
+Route::post('hoc-vien-tim-kiem','Api\ApiUserController@searchHocVien');
 
 
 // Route::patch('user/update/{id}','App\Http\Controllers\Api\ApiUserController@update')->middleware('checkTokenUp');

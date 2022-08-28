@@ -49,7 +49,7 @@ class ClassRequest extends FormRequest
                         break;
                     case 'updateClass':
                         $rules = [
-                            // "name" => "required|min:5|max:199|unique:class",
+                            "name" => "required|min:5|max:199",
                             "slot" => "required|numeric",
                             "start_date" => "required",
                             "end_date" => "required",

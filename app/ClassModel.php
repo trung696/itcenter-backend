@@ -83,12 +83,10 @@ class ClassModel extends Model
     {
         $query = DB::table($this->table . ' as tb1')
             ->select($this->fillable);
-        if (isset($params['search_name_class']) && strlen($params['search_name_class']) > 0) {
-            $query->where('tb1.name', 'like', '%' . $params['search_name_class'] . '%');
+        if (isset($params['search_ca']) && strlen($params['search_ca']) > 0) {
+            $query->where('tb1.ca_hoc', 'like', '%' . $params['search_ca'] . '%');
         }
-        if (isset($params['search_danh_muc_khoa_hoc']) && $params['search_danh_muc_khoa_hoc']) {
-            $query->where('tb1.category_id', $params['search_danh_muc_khoa_hoc']);
-        }
+
         $list = $query->paginate(10, ['tb1.id']);
         return $list;
     }
@@ -114,7 +112,7 @@ class ClassModel extends Model
     public function loadListIdAndName($where = null)
     {
         // dd('đã vào đây');
-        $list = DB::table($this->table)->select('id', 'name');
+        $list = DB::table($this->table)->select('id', 'name', 'status');
         if ($where != null)
             $list->where([$where]);
         return $list->get();
@@ -136,6 +134,7 @@ class ClassModel extends Model
             'location_id' => $params['cols']['location_id'],
             'course_id' => $params['cols']['course_id'],
             'id_ca' => $params['cols']['id_ca'],
+            'slotBanDau' => $params['cols']['slot'],
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);

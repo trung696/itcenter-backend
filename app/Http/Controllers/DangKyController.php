@@ -132,6 +132,7 @@ class DangKyController extends Controller
                         } else {
                             $dung_khoa = 0;
                         }
+
                         $now = date('Y-m-d');
                         $startDate = date('Y-m-d', strtotime($checkGiam->ngay_bat_dau));
                         $endDate = date('Y-m-d', strtotime($checkGiam->ngay_ket_thuc));
@@ -380,11 +381,11 @@ class DangKyController extends Controller
                         $email->to($hocVien->email, $hocVien->ho_ten);
                     });
                     // return 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1';
-                    return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công (đã thanh toán) ']);
+                    return Redirect::back()->withErrors(['success' => 'Chuyển lớp thành công (đã thanh toán) ']);
                 } else {
-                    return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công (chưa thanh toán)']);
+                    return Redirect::back()->withErrors(['success' => 'Chuyển lớp thành công (chưa thanh toán)']);
                 }
-                return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công']);
+                return Redirect::back()->withErrors(['success' => 'Chuyển lớp thành công']);
             } else {
                 return Redirect::back()->withErrors(['msg' => 'Lớp đã đầy không thể chuyển lớp']);
             }
@@ -532,8 +533,8 @@ class DangKyController extends Controller
                 if ($checkClass->slot > 0) {
                     $getPayMentOfOldDangKy = DangKy::where('id', $dangKyOld->id)->first();
                     //Số tiền đã nộp
-                    $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
-                    //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
+                    $priceDaNop = ClassModel::where('id',$getPayMentOfOldDangKy->id_lop_hoc)->first()->course->price;
+                    //cập nhậ   p lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
                     //giá tiền của lớp muốn chuyển sang
                     $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;
                     //lưu thoong tin chuyển lớp mới
@@ -601,7 +602,7 @@ class DangKyController extends Controller
                 $email->subject("Hệ thống gửi thông báo bạn đã chuyển lớp");
                 $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
             });
-            return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công']);
+            return Redirect::back()->withErrors(['success' => 'Chuyển lớp thành công']);
 
 
             // $checkClassOld = ClassModel::where('id', $oldClass)->first();

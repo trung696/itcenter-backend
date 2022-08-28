@@ -95,7 +95,9 @@ class DoiLopController extends Controller
                     $getPayMentOfOldDangKy = DangKy::where('id', $oldDangKy->id)->first();
                     //Số tiền đã nộp
                     // dd($getPayMentOfOldDangKy);
-                    $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
+                    // $priceDaNop = $getPayMentOfOldDangKy->gia_tien;
+                    $priceDaNop = ClassModel::where('id',$getPayMentOfOldDangKy->id_lop_hoc)->first()->course->price;
+
                     //cập nhập lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
                     //giá tiền của lớp muốn chuyển sang
                     $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;
