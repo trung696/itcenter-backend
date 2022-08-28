@@ -76,6 +76,9 @@ class DangKyController extends Controller
             } elseif (!preg_match("/(84|0[3|5|7|8|9])+([0-9]{8})\b/", $request->so_dien_thoai)) {
                 Session::flash('success', 'Số điện thoại không chính xác');
                 return redirect()->route('route_BackEnd_DangKyAdmin_Add');
+            } elseif (!preg_match("/(1|0+([0-9]{8,11}))\b/", $request->cccd)) {
+                Session::flash('success', 'Căn cước công dân không chính xác');
+                return redirect()->route('route_BackEnd_DangKyAdmin_Add');
             } else {
                 unset($params['cols']['_token']);
                 if ($request->hasFile('hinh_anh') && $request->file('hinh_anh')->isValid()) {
@@ -153,7 +156,10 @@ class DangKyController extends Controller
                     $arrDangKy['id_hoc_vien'] = $resHocVien;
                     $arrDangKy['trang_thai'] = $request->trang_thai;
                     // dd((int)$request->hocphi, $arrDangKy['so_tien_da_dong'], $gia->price);
-                    if ($request->trang_thai == 1) {
+
+
+                    if ($request->trang_thai == 3) {
+
                         $random = Str::random(10);
                         // dd($random);
                         $arrDangKy['token'] = $random;
@@ -179,6 +185,7 @@ class DangKyController extends Controller
                         $arrDangKy['gia_tien'] = $gia->price;
                         $res = $objDangKy->saveNew($arrDangKy);
                     }
+
 
                     // dd($arrDangKy);
                     //gửi mail xác nhận
@@ -327,6 +334,7 @@ class DangKyController extends Controller
         //nếu nộp thêm tiền thì gọi function updateDongThemTien
         elseif (isset($request->dong_them)) {
 
+
             return $this->updateDongThemTien($request, $id, $email);
         }
         $hocVien = HocVien::where('email', '=', $email)->first();
@@ -337,6 +345,7 @@ class DangKyController extends Controller
         //lớp mới
         $checkCourseClassNew = ClassModel::where('id', $request->id_lop_hoc_moi)->first()->course;
         //kiểm tra xem lớp học cũ và lớp muốn chuyển có cùng 1 khóa học Không
+        //cùng khóa
         //cùng khóa
         if ($checkCourseClassOld->name === $checkCourseClassNew->name) {
             $checkClass = ClassModel::where('id', $request->id_lop_hoc_moi)->first();

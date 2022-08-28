@@ -36,12 +36,45 @@ class Payment extends Model
             ->sum('payment.price');
         return $query;
     }
+    public function sumAllPay()
+    {
+        $query = DB::table('payment as tb1')
+
+            ->leftJoin('dang_ky as tb2', 'tb1.id', '=', 'tb2.id_payment')
+            ->leftJoin('class as tb3', 'tb2.id_lop_hoc', '=', 'tb3.id')
+            ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
+            ->sum('tb4.price');
+        return $query;
+    }
     public function loadpayDay($time)
     {
+        // dd($time);
         $query = DB::table('payment')
-            ->sum('payment.price')
-            ->whereBetween('payment_date', $time);
+            ->whereBetween('payment_date', $time)
+            ->sum('payment.price');
         // $query = DB::table('payment')->select('payment_date');
         return $query;
+    }
+    public function loadAllPayDay($time)
+    {
+        $query = DB::table('payment as tb1')
+
+            ->leftJoin('dang_ky as tb2', 'tb1.id', '=', 'tb2.id_payment')
+            ->leftJoin('class as tb3', 'tb2.id_lop_hoc', '=', 'tb3.id')
+            ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
+            ->whereBetween('payment_date', $time)
+            ->sum('tb4.price');
+        // $query = DB::table('payment')->select('payment_date');
+        return $query;
+    }
+    public function loadstd($time)
+    {
+        $query = DB::table('payment as tb1')
+            ->select('tb3.ho_ten as hv_name', 'tb2.id as id đăng ký', 'tb1.id as id payment')
+            ->leftJoin('dang_ky as tb2', 'tb1.id', '=', 'tb2.id_payment')
+            ->leftJoin('hoc_vien as tb3', 'tb3.id', '=', 'tb2.id_hoc_vien')
+            ->whereBetween('tb1.payment_date', $time);
+        // $query = DB::table('payment')->select('payment_date');
+        return $query->get();
     }
 }

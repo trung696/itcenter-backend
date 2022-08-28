@@ -41,6 +41,7 @@ class DangKyRequest extends FormRequest
                             "ngay_sinh" => "required",
                             "so_dien_thoai" => "required|max:10",
                             "email" => "required",
+                            "cccd" => "required|max:12|min:9",
                         ];
                         break;
 
@@ -64,6 +65,9 @@ class DangKyRequest extends FormRequest
             "so_dien_thoai.required" =>  "Không được để trống số điện thoại",
             "so_dien_thoai.max" => "Số điện thoại không được vượt quá 10 kí tự",
             "email.required" =>  "Không được để trống email",
+            "cccd.required" =>  "Không được để trống Số căn cước công dân",
+            "cccd.max" => "Số căn cước không được vượt quá 12 kí tự",
+            "cccd.min" => "Số căn cước không được ít hơn 9 kí tự",
         ];
     }
 }
