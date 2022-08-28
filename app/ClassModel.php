@@ -136,6 +136,7 @@ class ClassModel extends Model
             'location_id' => $params['cols']['location_id'],
             'course_id' => $params['cols']['course_id'],
             'id_ca' => $params['cols']['id_ca'],
+            'slotBanDau' => $params['cols']['slot'],
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
