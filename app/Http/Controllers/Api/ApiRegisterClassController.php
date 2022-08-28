@@ -93,7 +93,7 @@ class ApiRegisterClassController extends Controller
                                 $dung_khoa = 0;
                             }
                         }
-                        dd($checkMa,$trang_thai,);
+                        dd($checkMa, $trang_thai,);
                         $payment = Payment::create([
                             'payment_method_id' => $request->payment_method_id,
                             'payment_date' => date("Y-m-d h:i:s"),
@@ -428,6 +428,7 @@ class ApiRegisterClassController extends Controller
         //     DB::beginTransaction();
         if (isset($request->payment_date) && isset($request->price) && isset($request->status) && isset($request->idDangKy)) {
             // dd('có pay men momo');
+            $sott = $request->price;
             $paymentUpdate = [
                 'payment_date' => date("Y-m-d h:i:s"),
                 'price' => $request->price,
@@ -436,6 +437,15 @@ class ApiRegisterClassController extends Controller
             ];
             // dd($paymentUpdate);
             $dangKy = DangKy::find($request->idDangKy);
+
+            if ($dangKy->du_no == 0) {
+                return response()->json([
+                    'status' => 400,
+                    'heading' => 'Giao dịch này đã hiện thực hiện vui lòng check lại Email',
+                    'data' => $dangKy->du_no,
+                ], 400);
+            }
+
             //cập nhập ở đăng kí
             $dangKy['trang_thai'] = 1;
             $dangKy['so_tien_da_dong'] = null;
@@ -457,7 +467,7 @@ class ApiRegisterClassController extends Controller
 
             $hoc_vien = HocVien::where('id', $dangKy->id_hoc_vien)->first();
             //gửi email là đóng thêm học phí thành công
-            Mail::send('emailThongBaoDongThemHocPhiFe', compact('payment','paymentUpdate','hoc_vien','class'), function ($email) use ($hoc_vien) {
+            Mail::send('emailThongBaoDongThemHocPhiFe', compact('payment', 'paymentUpdate', 'hoc_vien', 'class', 'sott'), function ($email) use ($hoc_vien) {
                 $email->subject("Hệ thống gửi thông báo bạn đã đóng đủ học phí");
                 $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
             });
@@ -503,8 +513,8 @@ class ApiRegisterClassController extends Controller
                 'id_don_hang' => $request->id_don_hang,
             ];
             $paymentAdd = Payment::create($paymenCreate);
-   
-            if($paymentAdd){
+
+            if ($paymentAdd) {
                 $dangKy = DangKy::find($request->idDangKy);
                 //cập nhập ở đăng kí
                 $dangKy['trang_thai'] = 1;
@@ -512,7 +522,7 @@ class ApiRegisterClassController extends Controller
                 $dangKy['du_no'] = 0;
                 $dangKy['id_payment'] = $paymentAdd->id;
                 $dangKy->update();
-    
+
                 //cập nhập slots
                 if ($dangKy->trang_thai == 1) {
                     $class =  ClassModel::find($dangKy->id_lop_hoc);
@@ -522,7 +532,7 @@ class ApiRegisterClassController extends Controller
 
                 $hoc_vien = HocVien::where('id', $dangKy->id_hoc_vien)->first();
                 //gửi email là đóng thêm học phí thành công
-                Mail::send('emailThongBaoDongHocPhiOnline', compact('paymentAdd','hoc_vien','class'), function ($email) use ($hoc_vien) {
+                Mail::send('emailThongBaoDongHocPhiOnline', compact('paymentAdd', 'hoc_vien', 'class'), function ($email) use ($hoc_vien) {
                     $email->subject("Hệ thống gửi thông báo bạn đã đóng đủ học phí");
                     $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
                 });
@@ -531,7 +541,6 @@ class ApiRegisterClassController extends Controller
                     'heading' => 'Thanh toán thành công, vui lòng kiểm tra email',
                 ], 200);
             }
-           
         }
         //     DB::commit();
         // } catch (\Exception $exception) {
@@ -541,5 +550,40 @@ class ApiRegisterClassController extends Controller
         //         'heading' => 'Lỗi'
         //     ],500);
         // }
+    }
+
+    public function checkGiaoDichDongThem($id)
+    {
+        if (!isset($id)) {
+            return response()->json([
+                'status' => 400,
+                'heading' => 'Không tìm thấy mã giao dịch!',
+                'data' => false,
+            ], 400);
+        }
+
+        $dangKy = DangKy::find($id);
+
+        if (!isset($dangKy)) {
+            return response()->json([
+                'status' => 400,
+                'heading' => 'Không tìm thấy giao dịch!',
+                'data' => false,
+            ], 400);
+        }
+
+        if ($dangKy->du_no == 0) {
+            return response()->json([
+                'status' => 400,
+                'heading' => 'Giao dịch này đã hiện thực hiện vui lòng check lại Email hoặc liên lạc với trung tâm đào tạo',
+                'data' => false,
+            ], 400);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'heading' => 'Giao dich chưa thực hiện.',
+            'data' => true,
+        ], 200);
     }
 }
