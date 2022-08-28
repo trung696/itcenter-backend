@@ -64,8 +64,8 @@ class ThongKeController extends Controller
         $teacher = $objTeacher->loadActive()->count();
         $this->v['tong_so_giang_vien'] = $teacher;
         //số giảng viên đang có lớp
-        $teacherInClass = $objTeacher->loadInClass();
-        dd($teacherInClass);
+        $teacherInClass = $objTeacher->loadInClass()->count();
+        // dd($teacherInClass);
         $this->v['so_giang_vien_dang_trong_lop'] = $teacherInClass;
         // dd($teacherInClass);
         //tổng học phí
