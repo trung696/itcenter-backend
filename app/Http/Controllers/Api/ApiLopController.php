@@ -10,6 +10,7 @@ use App\Course;
 use Illuminate\Http\Request;
 use App\SessionUser;
 use App\DangKy;
+use App\Teacher;
 use App\User;
 
 class ApiLopController extends Controller
@@ -61,7 +62,7 @@ class ApiLopController extends Controller
 
         $classDetail = ClassModel::find($id);
 
-        $classDetail->lecturer_name = User::where('id', $classDetail->lecturer_id)->first()->name;
+        $classDetail->lecturer_name = optional(Teacher::where('id', $classDetail->lecturer_id)->first())->name;
 
         $moi = [];
         $listDangKiOfClass = DangKy::where('id_lop_hoc', $id)->where('trang_thai', '=', 1)->get();
