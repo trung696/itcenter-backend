@@ -60,6 +60,7 @@ Route::get('checkPayMent','Api\ApiRegisterClassController@checkPayMent')->name('
 Route::post('dongThem','Api\ApiRegisterClassController@dongThem')->name('dongThem');
 Route::post('registerCheck','Api\ApiRegisterClassController@registerCheck');
 Route::post('dongHocPhiOnline','Api\ApiRegisterClassController@dongHocPhiOnline')->name('dongHocPhiOnline');
+Route::get('checkGiaoDichDongThem/{id}','Api\ApiRegisterClassController@checkGiaoDichDongThem');
 
 
 Route::apiResource('teacher','Api\ApiTeacherController');

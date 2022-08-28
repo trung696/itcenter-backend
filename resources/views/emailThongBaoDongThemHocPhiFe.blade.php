@@ -511,7 +511,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                      Số tiền đã đóng thêm : {{ number_format($paymentUpdate->price)}} VNĐ
+                                      Số tiền đã đóng thêm : {{ number_format($sott)}} VNĐ
                                     </p>
 
                                     <p style="
