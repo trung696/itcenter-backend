@@ -43,10 +43,7 @@ class ClassController extends  Controller
     {
         $this->v = [];
     }
-    public function export()
-    {
-        return Excel::download(new StudentExport, 'class.xlsx');
-    }
+
     public function classList(Request $request)
     {
         $this->v['routeIndexText'] = 'Danh sách lớp học';
