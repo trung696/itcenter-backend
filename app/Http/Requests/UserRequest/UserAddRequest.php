@@ -31,6 +31,7 @@ class UserAddRequest extends FormRequest
             'address' => 'bail|required|max:200|min:2',
             'phone' => 'bail|required|numeric|unique:users',
             'detail' => 'bail|required',
+            
         ];
     }
     //câu thông báo lỗi
@@ -38,9 +39,9 @@ class UserAddRequest extends FormRequest
     {
         return [
             //name
-            'name.required' => 'Email không được để trống',
-            'name.max' => 'Email không vượt quá 200 kí tự',
-            'name.min' => 'Email không dưới 2 kí tự',
+            'name.required' => 'Tên người dùng không được để trống',
+            'name.max' => 'Tên người dùng  không vượt quá 200 kí tự',
+            'name.min' => 'Tên người dùng không dưới 2 kí tự',
             //email
             'email.required' => 'Email không được để trống',
             'email.email' => 'Email không đúng định dạng',
@@ -57,8 +58,9 @@ class UserAddRequest extends FormRequest
             'phone.required' => 'Số điện thoại không được để trống',
             'phone.numeric' => 'Số điện thoại là dạng số',
             'phone.unique' => 'Số điện thoại tồn tại',
+            
              //detail
-            //  'detail.required' => 'Mô tả chi tiết không được để trống',
+             'detail.required' => 'Mô tả chi tiết không được để trống',
 
           
         ];

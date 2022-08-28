@@ -16,7 +16,7 @@
         học:
         <span style="color: red">{{ $emails->course_name }}</span>
     </p>
-    @if ($emails->trang_thai == 1)
+    @if ($emails->trang_thai == 3)
         <p>Cảm ơn bạn đã đăng ký và đóng học phí cho khóa học tại NextDev, hãy xác nhận học phí bạn đã đóng là chính xác
         </p>
         <a href="{{ route('route_accept', ['id' => $email->id, 'token' => $email->token]) }}"
@@ -52,7 +52,7 @@
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>
                 @if ($emails->trang_thai == 0)
                     Chưa Thanh Toán
-                @elseif($emails->trang_thai == 1)
+                @elseif($emails->trang_thai == 3)
                     Đã Thanh Toán
                 @endif
             </td>

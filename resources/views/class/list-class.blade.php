@@ -112,6 +112,32 @@
                                         autocomplete="off">
                                 </div>
                             </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    <select name="search_khoa_hoc" class="form-control select1" data-placeholder="Chọn khóa học">
+                                        <option value=""> == Chọn Khoá Học ==</option>
+                                        @if(count($course)>0)
+                                        @foreach($course as $key => $item)
+                                        <option value="{{ $item->id }}" @isset($extParams['search_khoa_hoc']) @if($extParams['search_khoa_hoc'] ) @endif @endisset>{{$item->name}}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    <select name="search_giang_vien" class="form-control select1" data-placeholder="Chọn giảng viên">
+                                        <option value=""> == Chọn Giảng viên ==</option>
+                                        @if(count($lecturer)>0)
+                                        @foreach($lecturer as $key => $item)
+                                        <option value="{{ $item->id }}" @isset($extParams['search_giang_vien']) @if($extParams['search_giang_vien'] ) @endif @endisset>{{$item->name}}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
                             {{-- <div class="col-md-4 col-sm-6">
                                 <div class="form-group" style="margin-top: 5px">
                                     <select name="trang_thai" id="trang_thai" class="form-control select2"
@@ -202,10 +228,12 @@
 
             </div>
             <br>
-            <div class="text-center">
-            </div>
+        
         </div>
-
+        <div class="text-center">
+            {{ $lists->appends($extParams)->links() }}
+        </div>
+        <index-cs ref="index_cs"></index-cs>
     </section>
 @endsection
 @section('script')

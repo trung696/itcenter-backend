@@ -219,8 +219,35 @@ class ApiUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function searchHocVien(Request $request)
     {
-        //
+        $rules = [
+            'email' => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'heading' => 'Chưa qua được validate',
+                'error' => $validator->errors()
+            ], 400);
+        }
+
+        $result = HocVien::where('email', 'LIKE', '%' . $request->email . '%')->first();
+
+        if (!isset($result)) {
+            return response()->json([
+                'status' => 404,
+                'heading' => 'Không tìm thấy sinh viên',
+                'error' => []
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'heading' => 'success',
+            'data' => $result
+        ], 200);
     }
 }

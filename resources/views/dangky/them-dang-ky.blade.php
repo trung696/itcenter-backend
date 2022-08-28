@@ -80,7 +80,7 @@
         @endif
 
         <!-- Phần nội dung riêng của action  -->
-        <form class="form-horizontal " action="" method="post" enctype="multipart/form-data">
+        <form id="form-them-dkyid" class="form-horizontal " action="" method="post" enctype="multipart/form-data">
             @csrf
             <div class="box-body">
                 <div class="row">
@@ -132,6 +132,7 @@
                                 <label for="html">Khác</label><br>
                             </div>
                         </div>
+                       
                         <div class="form-group">
                             <label for="so_dien_thoai" class="col-md-3 col-sm-4 control-label">Số điện thoại<span
                                     class="text-danger">(*)</span></label>
@@ -142,6 +143,7 @@
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="email" class="col-md-3 col-sm-4 control-label">Gmail<span
                                     class="text-danger">(*)</span></label>
@@ -182,15 +184,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="Mã giảm giá" class="col-md-3 col-sm-4 control-label">Mã khuyến mãi<span
-                                    class="text-danger">(*)</span></label>
-                            <div class="col-md-9 col-sm-8">
-                                <input type="text" name="ma_khuyen_mai" id="ma_khuyen_mai" class="form-control"
-                                    value="@isset($request['ma_khuyen_mai']) {{ $request['ma_khuyen_mai'] }} @endisset">
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
+                       
 
 
                         <div class="form-group">
@@ -204,7 +198,15 @@
     @endforeach -->
                                 </select>
                             </div>
-
+                        </div>      
+                        
+                        <div class="form-group">
+                            <label for="Mã giảm giá" class="col-md-3 col-sm-4 control-label">Mã khuyến mãi</label>
+                            <div class="col-md-9 col-sm-8">
+                                <input type="text" name="ma_khuyen_mai" id="ma_khuyen_mai" class="form-control"
+                                    value="@isset($request['ma_khuyen_mai']) {{ $request['ma_khuyen_mai'] }} @endisset">
+                                <span id="mes_sdt"></span>
+                            </div>
                         </div>
 
                         <div class="form-group">

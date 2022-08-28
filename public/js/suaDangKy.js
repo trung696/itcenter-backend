@@ -24,8 +24,10 @@ $(document).ready(function () {
         if (result?.data?.length > 0) {
           const today = new Date();
 
-          const validClasses = result.data.filter(
-            (item) => new Date(item.start_date).getTime() > today.getTime()
+          const validClasses = result?.data?.filter(
+            (item) =>
+              new Date(item.start_date).getTime() > today.getTime() &&
+              item?.slot > 0
           );
           $.each(validClasses, function (index, item) {
             if (item.id == listLopHocMoi) {
