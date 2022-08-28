@@ -316,8 +316,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/edit_role/{id}', 'RoleController@edit')->name('route_BackEnd_role_edit');
     Route::post('/edit_role/{id}', 'RoleController@update')->name('route_BackEnd_role_update');
     Route::get('/delete_role/{id}', 'RoleController@delete')->name('route_BackEnd_role_delete');
-
     //end role(doanh)
+    
+  //contac(doanh)   
+    Route::get('/list_contact', 'ContactController@index')->name('route_BackEnd_contact_list');
+    Route::get('/list_contact/{id}', 'ContactController@check')->name('route_BackEnd_contact_check');
+
 
     //user(doanh)
     Route::get('/user/add', 'UserController@formAdd')->name('route_BackEnd_user_add')->middleware(['can:user-add']);

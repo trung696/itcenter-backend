@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCollumTableFormContacts extends Migration
+class AddStatusContact extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddCollumTableFormContacts extends Migration
     public function up()
     {
         Schema::table('form_contacts', function (Blueprint $table) {
-            $table->string('note');
-
+            $table->string('status')->default(0);
         });
     }
 
@@ -27,7 +26,7 @@ class AddCollumTableFormContacts extends Migration
     public function down()
     {
         Schema::table('form_contacts', function (Blueprint $table) {
-            $table->dropColumn('note');
+            $table->dropColumn('status')->default(0);
         });
     }
 }

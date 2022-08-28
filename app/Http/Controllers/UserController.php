@@ -105,7 +105,7 @@ class UserController extends Controller
             }
             // end check
             DB::commit();
-            session()->flash('success', 'Thêm thành công user ');
+            session()->flash('successs', 'Thêm thành công user ');
             return redirect()->route('route_BackEnd_NguoiDung_index');
         } catch (Exception $exception) {
             DB::rollBack();
