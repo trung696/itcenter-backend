@@ -45,18 +45,16 @@ class HoanTienController extends Controller
             //     DB::beginTransaction();
             $payMentEdit = Payment::where('id', $itemEdit->id_payment)->first();
             $payMentEdit['price'] = $payMentEdit->price - $itemEdit->du_no;
-            
-            // $payMentEdit->update();
+            $payMentEdit->update();
             //sau đó cập nhập bảng dki
             $itemEdit['so_tien_da_dong']  = null;
             $itemEdit['du_no']  = 0;
             //trạng thái = 1 là đăng kí 
-            $itemEdit['trang_thai']  = 0;
-            // $itemEdit->update();
+            $itemEdit['trang_thai']  = 1;
+            $itemEdit->update();
             // DB::commit();
             $hoc_vien = HocVien::where('id', $itemEdit->id_hoc_vien)->first();
-            dd($payMentEdit,$itemEdit,$hoc_vien );
-            Mail::send('emailHoanTienQuaHan', compact('hoc_vien', 'so_tien_thua'), function ($email) use ($hoc_vien) {
+            Mail::send('emailThongBaoHoanTien', compact('hoc_vien', 'so_tien_thua'), function ($email) use ($hoc_vien) {
                 $email->subject(" Hệ thống gửi thông báo đã hoàn tiền cho bạn ");
                 $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
             });

@@ -305,7 +305,7 @@
                                           font-size: 14px;
                                           text-align: center;
                                         ">
-                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã chuyểm lớp học thành công  </span></strong></span>
+                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã chuyển lớp học thành công  </span></strong></span>
                                     </p>
                                   </div>
                                 </div>

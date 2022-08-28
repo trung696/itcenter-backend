@@ -435,7 +435,7 @@
                                           margin-left: 10px;
                                         ">
                                                                             Giá tiền :
-                                                                            {{ number_format($dangKyOld->gia_tien) }}
+                                                                            {{ number_format($classOld->course->price) }}
                                                                             VNĐ
                                                                         </p>
 
@@ -461,7 +461,7 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
-                                                                           Giá tiền lớp mới : {{ number_format($dangKyOld->gia_tien) }} VNĐ
+                                                                           Giá tiền lớp mới : {{ number_format($classNew->course->price) }} VNĐ
                                                                         </p>
                                                                         
                                                                         
