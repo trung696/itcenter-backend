@@ -249,7 +249,7 @@
                             <th>Giới tính</th>
                             <th>Địa chỉ</th>
                             <th>Trạng thái</th>
-                            <th>Số tiền thừa</th>
+                            <th>Số tiền hoàn trả</th>
                             <th>Công cụ</th>
                         </tr>
                         @foreach($listDangKyThuaTien as $listDangKyThuaTienItem)
@@ -332,9 +332,13 @@
                                 }
                                 @endphp</td>
                             <td> Chưa hoàn trả </td>
-                            <td>{{number_format($listDangKyThuaTienItem->du_no)}} VNĐ </td>
+                            <td>{{number_format($listDangKyThuaTienItem->so_tien_da_dong)}} VNĐ </td>
                             <td>
-                                <div class="dropdown">
+                            <!-- <td>  -->
+                                <a href="{{route('route_BackEnd_edit_hoan_tien',['id'=>$listDangKyThuaTienItem->id])}}"  onclick="return confirm('Bạn chắc chắn thực hiện giao dịch?');"> <button>Hoàn tiền</button>
+                            <!-- </td> -->
+
+                                <!-- <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle"   type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Hoàn tiền
                                     </button>
@@ -346,7 +350,7 @@
                                             Hoàn tiền tự động
                                         </button>
                                     </div>
-                                </div>
+                                </div> -->
 
                             </td>
 

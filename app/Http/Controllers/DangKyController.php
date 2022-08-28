@@ -319,9 +319,10 @@ class DangKyController extends Controller
         $listClass = ClassModel::all();
         $listCourse = Course::all();
         $getDuNo = DangKy::whereId($id)->first()->du_no;
-        $id_course = ClassModel::whereId($this->v['itemDK'])->first();
+        $id_course = ClassModel::whereId($this->v['itemDK'])->first()->course;
         // $getCourseOfClass = Course::whereId($id_course)->first();
-        // dd($id_course->course);
+        // dd($this->v, $id_course);
+
         return view('dangky.sua-thong-tin', $this->v, compact('listClass', 'getDuNo', 'listCourse', 'id_course'));
     }
 
@@ -334,8 +335,6 @@ class DangKyController extends Controller
         }
         //nếu nộp thêm tiền thì gọi function updateDongThemTien
         elseif (isset($request->dong_them)) {
-
-
             return $this->updateDongThemTien($request, $id, $email);
         }
         $hocVien = HocVien::where('email', '=', $email)->first();
@@ -398,39 +397,42 @@ class DangKyController extends Controller
     {
         // dd($request, $id,$email);
         $dkiEdit = DangKy::where('id', $id)->first();
-        if (abs($dkiEdit->du_no) == $request->dong_them) {
-            // try {
-            //     DB::beginTransaction();
-            $soTienDaDongThem = $request->dong_them;
-            $dkiEdit['trang_thai'] = 1;
-            $dkiEdit['so_tien_da_dong'] = null;
-            $dkiEdit['du_no'] = 0;
-            $dkiEdit->update();
-
-            $payMentUpdate = Payment::where('id', $dkiEdit->id_payment)->first();
-            $payMentUpdate['payment_date'] = date("Y-m-d H:i:s");
-            $payMentUpdate['price'] = $payMentUpdate->price + $request->dong_them;
-            $payMentUpdate['description'] =  "$payMentUpdate->description (đóng thêm ) ";
-            $payMentUpdate->update();
-
-            $classOld = ClassModel::whereId($dkiEdit->id_lop_hoc)->first();
-            $classOld['slot'] = $classOld->slot - 1;
-            $classOld->update();
-
-            DB::commit();
-
-            $hoc_vien = HocVien::where('id', $dkiEdit->id_hoc_vien)->first();
-            Mail::send('emailThongBaoUpdateTien', compact('soTienDaDongThem', 'classOld', 'hoc_vien', 'payMentUpdate'), function ($email) use ($hoc_vien) {
-                $email->subject("Hệ thống gửi thông báo bạn đã đóng số tiền còn thiếu");
-                $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
-            });
-            return Redirect::back()->withErrors(['msg' => 'Nộp tiền thành công']);
-            // } catch (\Exception $exception) {
-            //     DB::rollback();
-            //     Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
-            // }
+        $checkClass = ClassModel::where('id', $dkiEdit->id_lop_hoc)->first();
+        if ($checkClass->start_date <= date('Y-m-d')) {
+            return Redirect::back()->withErrors(['msg' => 'Đã qua ngày khai giảng của lớp này. Vui lòng hoàn tiền cho sinh viên !']);
         } else {
-            return Redirect::back()->withErrors(['msg' => 'Nộp tiền thừa hoặc thiếu so với số tiền phải đóng']);
+            if (abs($dkiEdit->du_no) == $request->dong_them) {
+                $soTienDaDongThem = $request->dong_them;
+                $dkiEdit['trang_thai'] = 1;
+                $dkiEdit['so_tien_da_dong'] = null;
+                $dkiEdit['du_no'] = 0;
+                $dkiEdit->update();
+
+                $payMentUpdate = Payment::where('id', $dkiEdit->id_payment)->first();
+                $payMentUpdate['payment_date'] = date("Y-m-d H:i:s");
+                $payMentUpdate['price'] = $payMentUpdate->price + $request->dong_them;
+                $payMentUpdate['description'] =  "$payMentUpdate->description (đóng thêm ) ";
+                $payMentUpdate->update();
+
+                $classOld = ClassModel::whereId($dkiEdit->id_lop_hoc)->first();
+                $classOld['slot'] = $classOld->slot - 1;
+                $classOld->update();
+
+                DB::commit();
+
+                $hoc_vien = HocVien::where('id', $dkiEdit->id_hoc_vien)->first();
+                Mail::send('emailThongBaoUpdateTien', compact('soTienDaDongThem', 'classOld', 'hoc_vien', 'payMentUpdate'), function ($email) use ($hoc_vien) {
+                    $email->subject("Hệ thống gửi thông báo bạn đã đóng số tiền còn thiếu");
+                    $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
+                });
+                return Redirect::back()->withErrors(['msg' => 'Nộp tiền thành công']);
+                // } catch (\Exception $exception) {
+                //     DB::rollback();
+                //     Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
+                // }
+            } else {
+                return Redirect::back()->withErrors(['msg' => 'Nộp tiền thừa hoặc thiếu so với số tiền phải đóng']);
+            }
         }
     }
 
@@ -533,7 +535,7 @@ class DangKyController extends Controller
                 if ($checkClass->slot > 0) {
                     $getPayMentOfOldDangKy = DangKy::where('id', $dangKyOld->id)->first();
                     //Số tiền đã nộp
-                    $priceDaNop = ClassModel::where('id',$getPayMentOfOldDangKy->id_lop_hoc)->first()->course->price;
+                    $priceDaNop = ClassModel::where('id', $getPayMentOfOldDangKy->id_lop_hoc)->first()->course->price;
                     //cập nhậ   p lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
                     //giá tiền của lớp muốn chuyển sang
                     $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;

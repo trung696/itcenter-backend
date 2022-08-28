@@ -30,6 +30,7 @@ class HoanTienController extends Controller
                 }
             }
         }
+        // dd($listDangKyThuaTien);
         return view('hoanTien.index', compact('listDangKyThuaTienKhiChuyenLop', 'listHocVien', 'listDangKyThuaTien'));
     }
 
@@ -44,17 +45,19 @@ class HoanTienController extends Controller
             //     DB::beginTransaction();
             $payMentEdit = Payment::where('id', $itemEdit->id_payment)->first();
             $payMentEdit['price'] = $payMentEdit->price - $itemEdit->du_no;
-            $payMentEdit->update();
+            
+            // $payMentEdit->update();
             //sau đó cập nhập bảng dki
             $itemEdit['so_tien_da_dong']  = null;
             $itemEdit['du_no']  = 0;
             //trạng thái = 1 là đăng kí 
-            $itemEdit['trang_thai']  = 1;
-            $itemEdit->update();
+            $itemEdit['trang_thai']  = 0;
+            // $itemEdit->update();
             // DB::commit();
             $hoc_vien = HocVien::where('id', $itemEdit->id_hoc_vien)->first();
-            Mail::send('emailThongBaoHoanTien', compact('hoc_vien','so_tien_thua'), function ($email) use ($hoc_vien) {
-                $email->subject("Hệ thống gửi thông báo đã hoàn tiền thừa đến bạn");
+            dd($payMentEdit,$itemEdit,$hoc_vien );
+            Mail::send('emailHoanTienQuaHan', compact('hoc_vien', 'so_tien_thua'), function ($email) use ($hoc_vien) {
+                $email->subject(" Hệ thống gửi thông báo đã hoàn tiền cho bạn ");
                 $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
             });
             return redirect()->back()->with('msg', 'Đã hoàn trả cho sinh viên số tiền thừa');
@@ -71,28 +74,32 @@ class HoanTienController extends Controller
     {
         $itemEdit = DangKy::where('id', $id)->first();
         if ($itemEdit->trang_thai == 0) {
-            try {
-                DB::beginTransaction();
-                $payMentEdit = Payment::where('id', $itemEdit->id_payment)->first();
-                // treạng thái = 2 là đã hoàn tiền
-                $payMentEdit['status'] = 2;
-                $payMentEdit['description']  = "Hoàn tiền cho sinh viên do không nộp đủ tiền cho khóa học mới ";
-                $payMentEdit->update();
+            // try {
+            //     DB::beginTransaction();
+            $payMentEdit = Payment::where('id', $itemEdit->id_payment)->first();
+            // treạng thái = 2 là đã hoàn tiền
+            $payMentEdit['status'] = 2;
+            $payMentEdit['description']  = "Hoàn tiền cho sinh viên do không nộp đủ tiền cho khóa học mới ";
+            $payMentEdit->update();
 
-                //sau đó cập nhập bảng dki
-                $itemEdit['so_tien_da_dong']  = null;
-                $itemEdit['du_no']  = 0;
-                //trạng thái = 2 là hoàn trả tiền khi khóa học đã bắt dầu
-                $itemEdit['trang_thai']  = 2;
-                $itemEdit->update();
-                //lưu thông tin vào 1 bảng mới (suy nghĩ thêm)
-                DB::commit();
+            //sau đó cập nhập bảng dki
+            $itemEdit['so_tien_da_dong']  = null;
+            $itemEdit['du_no']  = 0;
+            //trạng thái = 2 là hoàn trả tiền khi khóa học đã bắt dầu
+            $itemEdit['trang_thai']  = 0;
+            $itemEdit->update();
+            // DB::commit();
 
-                return Redirect::back()->withErrors(['msgs' => 'Đã hoàn trả tiền cho sinh viên (chuyển khóa nhưng không nộp đủ học phí)']);
-            } catch (\Exception $exception) {
-                DB::rollback();
-                Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
-            }
+            $hoc_vien = HocVien::where('id', $itemEdit->id_hoc_vien)->first();
+            Mail::send('emailHoanTienQuaHan', compact('payMentEdit'), function ($email) use ($hoc_vien) {
+                $email->subject("Hệ thống gửi thông báo đã hoàn tiền thừa đến bạn");
+                $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
+            });
+            return Redirect::back()->withErrors(['msgs' => 'Đã hoàn trả tiền cho sinh viên (chuyển khóa nhưng không nộp đủ học phí)']);
+            // } catch (\Exception $exception) {
+            //     DB::rollback();
+            //     Log::error('message: ' . $exception->getMessage() . 'line:' . $exception->getLine());
+            // }
         }
     }
 

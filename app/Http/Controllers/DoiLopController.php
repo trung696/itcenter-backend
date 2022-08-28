@@ -66,6 +66,13 @@ class DoiLopController extends Controller
                         'slot' =>  $classOfChuyenLop->slot - 1
                     ]);
                     // return 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1';
+                    $oldClass = ClassModel::where('id', $oldClass)->first();
+                    $classNew = ClassModel::where('id', $newClass)->first();
+                    Mail::send('emailThongBao', compact('checkCourseClassOld', 'checkCourseClassNew', 'oldClass', 'classNew'), function ($email) use ($hocVien) {
+                        $email->subject("Hệ thống gửi thông tin chuyển lớp đến bạn");
+                        $email->to($hocVien->email, $hocVien->name, $hocVien);
+                    });
+
                     return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công số chỗ của lớp mới đã trừ đi 1']);
                 } else {
                     return Redirect::back()->withErrors(['msg' => 'Chuyển lớp thành công chờ trường check thanh toán']);

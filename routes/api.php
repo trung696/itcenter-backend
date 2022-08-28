@@ -51,6 +51,7 @@ Route::get('searchCourse/{name}','Api\ApiCourceController@searchCourse');
 Route::get('detail-course/{id}','Api\ApiCourceController@courseDetail');
 
 
+Route::apiResource('checkGiamGia','Api\ApiCheckGiamGia');
 
 //xem danh muc khoa hoc ma user da dang ki
 // danhMucOfUser ( get :    /api/danhMucOfUser -- lấy danh mục khóa học mà user đã đăng kí

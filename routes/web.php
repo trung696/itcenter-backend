@@ -96,7 +96,7 @@ Route::get('/doiLopEr/{id}/{email}/{oldClass}/{newClass}', 'DoiLopController@doi
 //list những đăng ký thừa tiền
 Route::get('/hoanTien','HoanTienController@index')->name('route_BackEnd_list_hoan_tien')->middleware(['can:hoan-tien-list']);
 Route::get('/hoanTienDu/{id}', 'HoanTienController@hoanTienDu')->name('route_BackEnd_edit_thua_tien_hoan_tien')->middleware(['can:hoan-tien-edit']);
-Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien')->middleware(['hoan-tien-edit']);
+Route::get('/hoanTien/{id}', 'HoanTienController@edit')->name('route_BackEnd_edit_hoan_tien');
 Route::post('/hoanTien', 'HoanTienController@search')->name('route_BackEnd_edit_search')->middleware(['can:hoan-tien-list']);
 
 
