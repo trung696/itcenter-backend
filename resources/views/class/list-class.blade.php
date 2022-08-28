@@ -115,12 +115,15 @@
 
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-group">
-                                    <select name="search_khoa_hoc" class="form-control select1" data-placeholder="Chọn khóa học">
+                                    <select name="search_khoa_hoc" class="form-control select1"
+                                        data-placeholder="Chọn khóa học">
                                         <option value=""> == Chọn Khoá Học ==</option>
-                                        @if(count($course)>0)
-                                        @foreach($course as $key => $item)
-                                        <option value="{{ $item->id }}" @isset($extParams['search_khoa_hoc']) @if($extParams['search_khoa_hoc'] ) @endif @endisset>{{$item->name}}</option>
-                                        @endforeach
+                                        @if (count($course) > 0)
+                                            @foreach ($course as $key => $item)
+                                                <option value="{{ $item->id }}"
+                                                    @isset($extParams['search_khoa_hoc']) @if ($extParams['search_khoa_hoc']) @endif @endisset>
+                                                    {{ $item->name }}</option>
+                                            @endforeach
                                         @endif
                                     </select>
                                 </div>
@@ -128,12 +131,15 @@
 
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-group">
-                                    <select name="search_giang_vien" class="form-control select1" data-placeholder="Chọn giảng viên">
+                                    <select name="search_giang_vien" class="form-control select1"
+                                        data-placeholder="Chọn giảng viên">
                                         <option value=""> == Chọn Giảng viên ==</option>
-                                        @if(count($lecturer)>0)
-                                        @foreach($lecturer as $key => $item)
-                                        <option value="{{ $item->id }}" @isset($extParams['search_giang_vien']) @if($extParams['search_giang_vien'] ) @endif @endisset>{{$item->name}}</option>
-                                        @endforeach
+                                        @if (count($lecturer) > 0)
+                                            @foreach ($lecturer as $key => $item)
+                                                <option value="{{ $item->id }}"
+                                                    @isset($extParams['search_giang_vien']) @if ($extParams['search_giang_vien']) @endif @endisset>
+                                                    {{ $item->name }}</option>
+                                            @endforeach
                                         @endif
                                     </select>
                                 </div>
@@ -199,15 +205,15 @@
                                     <td>{{ $item->slot }}</td>
                                     <td>{{ $item->start_date }}</td>
                                     <td>{{ $item->end_date }}</td>
-                                    <td>Lỗi err</td>
+                                    <td>{{ $arrUser[$item->lecturer_id]}}</td>
                                     <td>{{ $arrFacility[$item->location_id] }}</td>
                                     <td>{{ $arrCourse[$item->course_id] }}</td>
                                     <td>{{ $arrCaHoc[$item->id_ca] }}</td>
                                     <td>
                                         @php
-                                            if( $item->end_date < date('Y-m-d')  ){
-                                                    echo "<p style='color:red;'> Đã kết thúc </p>"  ;
-                                            }else{
+                                            if ($item->end_date < date('Y-m-d')) {
+                                                echo "<p style='color:red;'> Đã kết thúc </p>";
+                                            } else {
                                                 echo "<p style='color:green;'> Đang hoạt động </p> ";
                                             }
                                         @endphp
@@ -228,7 +234,7 @@
 
             </div>
             <br>
-        
+
         </div>
         <div class="text-center">
             {{ $lists->appends($extParams)->links() }}

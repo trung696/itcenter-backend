@@ -146,12 +146,10 @@
                         </th>
                         <th class="text-center">Tên Giảng Viên</th>
                         <th class="text-center">Email giảng viên</th>
-                        <th class="text-center">Mật khẩu</th>
                         <th class="text-center">SĐT</th>
                         <th class="text-center">Địa chỉ</th>
                         <th class="text-center">Giới tính</th>
                         <th class="text-center">Hình ảnh giảng viên</th>
-                        <th class="text-center">Chi tiết giảng viên</th>
                         <th width="50px" class="text-center">Trạng thái</th>
                         <th width="50px" class="text-center">Hành động</th>
                     </tr>
@@ -161,7 +159,6 @@
                         <td><input type="checkbox" name="chk_hv[]" class="chk_hv" id="" value=""> </td>
                         <td class="text-center">{{$teacher->name}}</td>
                         <td class="text-center">{{$teacher->email}}</td>
-                        <td class="text-center">{{$teacher->password}}</td>
                         <td class="text-center">{{$teacher->phone}}</td>
                         <td class="text-center">{{$teacher->address}}</td>
                         <td class="text-center">
@@ -177,8 +174,6 @@
                             Update di
                             @endif
                         </td>
-                        <td class="text-center">{{$teacher->detail}}</td>
-
                         <td class="text-center" style="background-color:
                                 @if($teacher->status == config('trang_thai.status.0'))
                                     red

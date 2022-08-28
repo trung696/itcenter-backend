@@ -85,6 +85,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
+                        
                         <div class="form-group">
                             <label for="ho_ten" class="col-md-3 col-sm-4 control-label">Họ tên học viên <span
                                     class="text-danger">(*)</span></label>
@@ -94,6 +95,30 @@
                                 <span id="mes_sdt"></span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="email" class="col-md-3 col-sm-4 control-label">Gmail<span
+                                    class="text-danger">(*)</span></label>
+                            <div class="col-md-9 col-sm-8">
+                                <input type="text" name="email" id="email" class="form-control"
+                                    value="@isset($request['email']) {{ $request['email'] }} @endisset">
+                                <span id="mes_sdt"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="so_dien_thoai" class="col-md-3 col-sm-4 control-label">Số điện thoại<span
+                                    class="text-danger">(*)</span></label>
+                            <div class="col-md-9 col-sm-8">
+                                <input type="text" name="so_dien_thoai" id="so_dien_thoai" maxlength="10"
+                                    class="form-control"
+                                    value="@isset($request['so_dien_thoai']) {{ $request['so_dien_thoai'] }} @endisset">
+                                <span id="mes_sdt"></span>
+                            </div>
+                        </div>
+
+                
+                        
                         <div class="form-group">
                             <label for="cccd" class="col-md-3 col-sm-4 control-label">Căn cước công dân<span
                                     class="text-danger">(*)</span></label>
@@ -133,26 +158,6 @@
                             </div>
                         </div>
                        
-                        <div class="form-group">
-                            <label for="so_dien_thoai" class="col-md-3 col-sm-4 control-label">Số điện thoại<span
-                                    class="text-danger">(*)</span></label>
-                            <div class="col-md-9 col-sm-8">
-                                <input type="text" name="so_dien_thoai" id="so_dien_thoai" maxlength="10"
-                                    class="form-control"
-                                    value="@isset($request['so_dien_thoai']) {{ $request['so_dien_thoai'] }} @endisset">
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email" class="col-md-3 col-sm-4 control-label">Gmail<span
-                                    class="text-danger">(*)</span></label>
-                            <div class="col-md-9 col-sm-8">
-                                <input type="text" name="email" id="email" class="form-control"
-                                    value="@isset($request['email']) {{ $request['email'] }} @endisset">
-                                <span id="mes_sdt"></span>
-                            </div>
-                        </div>
 
 
                         {{-- <div class="form-group">

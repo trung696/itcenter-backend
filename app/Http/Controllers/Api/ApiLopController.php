@@ -67,15 +67,12 @@ class ApiLopController extends Controller
 
         $classDetail = ClassModel::find($id);
 
-        $classDetail->lecturer_name = optional(Teacher::where('id', $classDetail->lecturer_id)->first())->name;
+        $classDetail->lecturer_info = optional(Teacher::where('id', $classDetail->lecturer_id))->first();
 
         $moi = [];
         $listDangKiOfClass = DangKy::where('id_lop_hoc', $id)->where('trang_thai', '=', 1)->get();
-        // dd($listDangKiOfClass);
         foreach ($listDangKiOfClass as $listDangKiOfClassItem) {
-            $listDangKiOfClassItem['hoc_vien'] = $listDangKiOfClassItem->hocVien;
-            // echo "<pre>";
-            // printf($listDangKiOfClassItem);
+            $listDangKiOfClassItem['hoc_vien'] = optional($listDangKiOfClassItem)->hocVien;
         }
         $moi = $listDangKiOfClass;
         return response()->json([
