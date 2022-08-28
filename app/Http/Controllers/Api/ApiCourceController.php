@@ -86,7 +86,7 @@ class ApiCourceController extends Controller
         return response()->json([
             'status' => true,
             'heading' => 'Course này chưa có class nào',
-            'data' => $listClass = Course::find($id),
+            'data' => [],
         ], 200);
     }
 
