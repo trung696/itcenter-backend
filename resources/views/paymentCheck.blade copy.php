@@ -11,19 +11,12 @@
 
 <body>
     <p>Xin chào học viên, {{ $email->ho_ten }}<b></b></p>
-    <p>Trung tâm NextDev </p>
-    <p>Xin thông báo, bạn đã đăng ký thành công lớp học: <span style="color: red">{{ $emails->name }}</span> thuộc khoá
+    <p>Thay mặt trung tâm NextDev </p>
+    <p>Cảm ơn bạn đã hoàn tất thủ tục đăng kí lớp học: <span style="color: red">{{ $emails->name }}</span> thuộc khoá
         học:
         <span style="color: red">{{ $emails->course_name }}</span>
     </p>
-    @if ($emails->trang_thai == 3)
-        <p>Cảm ơn bạn đã đăng ký và đóng học phí cho khóa học tại NextDev, hãy xác nhận học phí bạn đã đóng là chính xác
-        </p>
-        <a href="{{ route('route_accept', ['id' => $email->id, 'token' => $email->token]) }}"
-            style="display: inline-block; background: rgb(185, 185, 12); color: white; padding: 7px 25px; font-weight: bold">Xác
-            nhận thanh
-            toán</a>
-    @endif
+
     <table style="width: 100%; border-collapse: collapse">
         <tr style="background-color: #0f81bb;">
             <th style="border: 1px solid #dddddd; text-align: left;padding: 8px">Học phí gốc</th>
@@ -50,22 +43,11 @@
                 @endif
             </td>
             <td style='border: 1px solid #dddddd; text-align: left; padding: 8px'>
-                @if ($emails->trang_thai == 0)
-                    Chưa Thanh Toán
-                @elseif($emails->trang_thai == 3)
-                    Đã Thanh Toán
-                @endif
+                Đã hoàn tất thủ tục thanh toán
             </td>
         </tr>
     </table>
-    @if ($emails->trang_thai == 0)
-        <p>Xin vui lòng kiểm tra và xác nhận lại thông tin học phí của bạn trước khi khai giảng để đảm bảo thông tin học
-            phí của bạn đóng là chính xác </p>
-        <p>Vui lòng thanh toán trước khi khai giảng </p>
-    @endif
-
-    <p><strong>Nếu có vấn đề về thông tin học phí, khoá học, lịch học vui lòng bạn liên hệ Mr. Bùi Văn Trung -Số
-            điện thoại: 0973001430</strong></p>
+    <p><strong>Dưới đây là hóa đơn của bạn</strong></p>
     <p><strong>Chúc bạn có một khoá học thật tốt</strong></p>
     <p><strong>Bộ phận kế toán Trung tâm NextDev xin trân trọng cảm ơn!</strong></p>
     </table>

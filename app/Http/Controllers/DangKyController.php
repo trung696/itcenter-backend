@@ -250,7 +250,7 @@ class DangKyController extends Controller
 
                 $email = $objHV->email;
                 $objGuiGmail = DB::table('dang_ky', 'tb1')
-                    ->select('tb1.id', 'tb1.du_no', 'tb1.gia_tien', 'tb2.ho_ten', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai', 'tb1.token', 'tb1.so_tien_da_dong')
+                    ->select('tb1.id', 'tb3.start_date', 'tb1.du_no', 'tb1.gia_tien', 'tb2.cccd', 'tb2.email', 'tb2.ho_ten', 'tb2.ngay_sinh', 'tb2.gioi_tinh', 'tb2.so_dien_thoai', 'tb3.name', 'tb4.price', 'tb4.name as course_name', 'tb2.so_dien_thoai', 'tb1.trang_thai', 'tb1.token', 'tb1.so_tien_da_dong')
                     ->leftJoin('hoc_vien as tb2', 'tb2.id', '=', 'tb1.id_hoc_vien')
                     ->leftJoin('class as tb3', 'tb3.id', '=', 'tb1.id_lop_hoc')
                     ->leftJoin('course as tb4', 'tb3.course_id', '=', 'tb4.id')
@@ -533,7 +533,7 @@ class DangKyController extends Controller
                 if ($checkClass->slot > 0) {
                     $getPayMentOfOldDangKy = DangKy::where('id', $dangKyOld->id)->first();
                     //Số tiền đã nộp
-                    $priceDaNop = ClassModel::where('id',$getPayMentOfOldDangKy->id_lop_hoc)->first()->course->price;
+                    $priceDaNop = ClassModel::where('id', $getPayMentOfOldDangKy->id_lop_hoc)->first()->course->price;
                     //cập nhậ   p lại giá cho cái đang kí đấy nếu dư nợ = 0 thì trạng thái = 1 còn có dư nợ thì trạng thái = 0
                     //giá tiền của lớp muốn chuyển sang
                     $priceClassNew = ClassModel::where('id', $idNewClass)->first()->course->price;
