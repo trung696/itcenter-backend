@@ -24,7 +24,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="error-bottom">
                         <h2>Bạn đã đăng ký lớp học này.</h2>
-                        <p>Vui lòng không đăng ký lại. Mọi thắc mắc xin liên hệ anh Nguyễn Thành Trung - 0898555917</p>
+                        <p>Vui lòng không đăng ký lại. Mọi thắc mắc xin liên hệ anh Lê hoàng Hải - 0898555917</p>
                         <a href="{{ url('/home') }}" class="default-white-btn">Trở lại trang chủ</a>
                     </div>
                 </div>
