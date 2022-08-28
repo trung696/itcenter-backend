@@ -484,6 +484,33 @@
                                           text-align: left;
                                           margin-left: 10px;
                                         ">
+                                      Email : {{$infoHocVien->email}}
+                                    </p>
+
+                                    <p style="
+                                          margin: 0;
+                                          font-size: 14px;
+                                          text-align: left;
+                                          margin-left: 10px;
+                                        ">
+                                      Số điện thoại : {{$infoHocVien->so_dien_thoai}}
+                                    </p>
+
+                                    <p style="
+                                          margin: 0;
+                                          font-size: 14px;
+                                          text-align: left;
+                                          margin-left: 10px;
+                                        ">
+                                      Số cccd/cmt : {{$infoHocVien->cccd}}
+                                    </p>
+
+                                    <p style="
+                                          margin: 0;
+                                          font-size: 14px;
+                                          text-align: left;
+                                          margin-left: 10px;
+                                        ">
                                       Số tiền đã đóng : {{ number_format($payment->price)}} VNĐ
                                     </p>
 
