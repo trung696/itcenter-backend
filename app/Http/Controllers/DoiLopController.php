@@ -14,8 +14,7 @@ class DoiLopController extends Controller
 {
     public function index()
     {
-        $lists = ThongTinChuyenLop::all();
-        // dd($lists);
+        $lists = ThongTinChuyenLop::latest()->paginate(10);
         $listClass = ClassModel::all();
         return view('chuyenLop.list', compact('lists', 'listClass'));
     }
@@ -23,7 +22,7 @@ class DoiLopController extends Controller
     {
         //update trạng thái thành 1 (đã check)
         $updateThongTinDoiLop = ThongTinChuyenLop::where('id', $id)->first();
-        $updateThongTinDoiLop['trang_thai'] = 0;
+        $updateThongTinDoiLop['trang_thai'] = 1;
         $updateThongTinDoiLop->update();
 
         $hocVien = HocVien::where('email', '=', $email)->first();
@@ -103,7 +102,7 @@ class DoiLopController extends Controller
                     if ($dangKyOld->du_no != 0) {
                         //nếu dư nợ nhỏ hơn 0 thì trạng thái  là 0, cộng slot ở lớp cũ ,gửi mail báo thiếu học phí và link đóng tiền
                         if ($dangKyOld->du_no  < 0) {
-                            $dangKyOld['trang_thai'] =  0;
+                            $dangKyOld['trang_thai'] =  1;
                             $dangKyOld->update();
                             // dd($dangKyOld->class->slot);
                             $classOld = ClassModel::whereId($idClassOld)->first();

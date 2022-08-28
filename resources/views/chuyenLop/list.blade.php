@@ -118,6 +118,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $lists->links() !!}
+
             </div>
             <!-- </form>     -->
         </div>

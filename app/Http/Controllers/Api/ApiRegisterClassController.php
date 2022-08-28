@@ -120,7 +120,7 @@ class ApiRegisterClassController extends Controller
 
                     ]);
                     $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk','infoHocVien'), function ($email) use ($infoHocVien) {
+                    Mail::send('emailThongBaoDangKyLopHocChuaNop', compact('classDk', 'infoHocVien'), function ($email) use ($infoHocVien) {
                         $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                         $email->to($infoHocVien->email, $infoHocVien->name, $infoHocVien);
                     });
@@ -222,7 +222,7 @@ class ApiRegisterClassController extends Controller
                 'token' => Str::random(10),
             ]);
             $classDk = ClassModel::whereId($addDangKiIssetStudent->id_lop_hoc)->first();
-            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk','addNewStudent'), function ($email) use ($addNewStudent) {
+            Mail::send('emailThongBaoDangKyLopHocChuaNopTwo', compact('classDk', 'addNewStudent'), function ($email) use ($addNewStudent) {
                 $email->subject("Hệ thống thông báo bạn đã đăng kí lớp học");
                 $email->to($addNewStudent->email, $addNewStudent->name, $addNewStudent);
             });
@@ -429,7 +429,7 @@ class ApiRegisterClassController extends Controller
 
             $hoc_vien = HocVien::where('id', $dangKy->id_hoc_vien)->first();
             //gửi email là đóng thêm học phí thành công
-            Mail::send('emailThongBaoDongThemThanhCong', compact('paymentUpdate', 'class'), function ($email) use ($hoc_vien) {
+            Mail::send('emailThongBaoDongThemHocPhiFe', compact('payment','paymentUpdate','hoc_vien','class'), function ($email) use ($hoc_vien) {
                 $email->subject("Hệ thống gửi thông báo bạn đã đóng đủ học phí");
                 $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
             });
@@ -439,6 +439,71 @@ class ApiRegisterClassController extends Controller
                 'data' => $dangKy,
                 'data_2' => $payment,
             ], 200);
+        }
+    }
+
+    // khi đăng kí mà không đóng tiền sau đó có thể đóng tiền online
+    public function dongHocPhiOnline(Request $request)
+    {
+        // dd(123);
+        $validated = Validator::make($request->all(), [
+            'payment_date' => 'required',
+            'price' => 'required',
+            'id_giao_dich' => 'required',
+            'id_don_hang' => 'required',
+            'idDangKy' => 'required'
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json([
+                'heading' => 'lỗi validate',
+                'log' => $validated->errors(),
+            ], 400);
+        }
+
+        // try {
+        //     DB::beginTransaction();
+        if (isset($request->payment_date) && isset($request->price)  && isset($request->idDangKy) && isset($request->id_giao_dich) && isset($request->id_don_hang)) {
+            // dd('có pay men momo');
+            $paymenCreate = [
+                'payment_method_id' => 2,
+                'payment_date' => date("Y-m-d h:i:s"),
+                'price' => $request->price,
+                'description' => "Đóng tiền online",
+                'status' => 1,
+                'id_giao_dich' => $request->id_giao_dich,
+                'id_don_hang' => $request->id_don_hang,
+            ];
+            $paymentAdd = Payment::create($paymenCreate);
+   
+            if($paymentAdd){
+                $dangKy = DangKy::find($request->idDangKy);
+                //cập nhập ở đăng kí
+                $dangKy['trang_thai'] = 1;
+                $dangKy['so_tien_da_dong'] = null;
+                $dangKy['du_no'] = 0;
+                $dangKy['id_payment'] = $paymentAdd->id;
+                $dangKy->update();
+    
+                //cập nhập slots
+                if ($dangKy->trang_thai == 1) {
+                    $class =  ClassModel::find($dangKy->id_lop_hoc);
+                    $class['slot'] = $class['slot'] - 1;
+                    $class->update();
+                }
+
+                $hoc_vien = HocVien::where('id', $dangKy->id_hoc_vien)->first();
+                //gửi email là đóng thêm học phí thành công
+                Mail::send('emailThongBaoDongHocPhiOnline', compact('paymentAdd','hoc_vien','class'), function ($email) use ($hoc_vien) {
+                    $email->subject("Hệ thống gửi thông báo bạn đã đóng đủ học phí");
+                    $email->to($hoc_vien->email, $hoc_vien->name, $hoc_vien);
+                });
+                return response()->json([
+                    'status' => true,
+                    'heading' => 'Thanh toán thành công, vui lòng kiểm tra email',
+                ], 200);
+            }
+           
         }
         //     DB::commit();
         // } catch (\Exception $exception) {

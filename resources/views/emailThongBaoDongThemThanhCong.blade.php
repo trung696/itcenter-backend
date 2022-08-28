@@ -295,7 +295,7 @@
                                           font-size: 14px;
                                           text-align: center;
                                         ">
-                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đóng tiền vào lớp học đã đăng kí </span></strong></span>
+                                      <span style="font-size: 28px"><strong><span style="font-size: 28px">Bạn đã đóng thêm tiền vào lớp học đã đăng kí </span></strong></span>
                                     </p>
                                   </div>
                                 </div>
