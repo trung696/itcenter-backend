@@ -240,9 +240,9 @@ class DangKyController extends Controller
             if ($now > $lopHoc->start_date) {
                 dd("đã hết hạn xác nhận");
             } else {
-                $ttDangKy->trang_thai = 3;
+                $ttDangKy->trang_thai = 1;
                 $arrDangKy['id'] = $id;
-                $arrDangKy['trang_thai'] = 3;
+                $arrDangKy['trang_thai'] = 1;
                 $res = $objDangKy->updateHocPhi($arrDangKy);
 
                 $objHV = $objHocVien->loadOne($ttDangKy->id_hoc_vien);
